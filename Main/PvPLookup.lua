@@ -6,7 +6,7 @@ local GUTIL = PvPLookup.GUTIL
 local GGUI = PvPLookup.GGUI
 
 ---@class PvPLookup.Main : Frame
-PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents("ADDON_LOADED")
+PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({"ADDON_LOADED"})
 
 PvPLookup.MAIN.FRAMES = {}
 
