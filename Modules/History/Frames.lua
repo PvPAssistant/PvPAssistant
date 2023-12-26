@@ -187,4 +187,6 @@ function PvPLookup.HISTORY.FRAMES:Init()
     end
 
     frame.content.pvpList:UpdateDisplay()
+
+    frame:Hide()
 end
