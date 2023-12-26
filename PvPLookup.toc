@@ -1,0 +1,24 @@
+## Interface: 102000
+## DefaultState: enabled
+
+## Title: PvPLookup
+## Notes: TBD
+## Author: genju
+## X-Curse-Project-ID: 
+## X-Wago-ID: 
+## X-WoWI-ID: 
+## SavedVariables: PvPLookupDB, PvPLookupGGUIConfig, PvPLookupOptions
+## Version: 0.0.1
+
+embeds.xml
+Libs/Libs.lua
+Util/Const.lua
+Util/Util.lua
+Util/DB.lua
+
+Main/PvPLookup.lua
+
+Modules/News/News.lua
+Modules/Options/Options.lua
+Modules/History/History.lua
+Modules/History/Frames.lua
