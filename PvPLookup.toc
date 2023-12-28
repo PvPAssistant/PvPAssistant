@@ -4,7 +4,7 @@
 ## Title: PvPLookup
 ## Notes: TBD
 ## Author: genju
-## X-Curse-Project-ID: 
+## X-Curse-Project-ID: 955365
 ## X-Wago-ID: 
 ## X-WoWI-ID: 
 ## SavedVariables: PvPLookupDB, PvPLookupGGUIConfig, PvPLookupOptions
