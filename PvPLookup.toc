@@ -7,14 +7,17 @@
 ## X-Curse-Project-ID: 955365
 ## X-Wago-ID: 
 ## X-WoWI-ID: 
-## SavedVariables: PvPLookupDB, PvPLookupGGUIConfig, PvPLookupOptions
-## Version: 0.0.1
+## IconTexture: Interface\Addons\PvPLookup\Media\Images\logo1024
+## SavedVariables: PvPLookupDB, PvPLookupGGUIConfig, PvPLookupOptions, PvPLookupLibIconDB
+## Version: 0.0.2
 
 embeds.xml
 Libs/Libs.lua
 Util/Const.lua
 Util/Util.lua
 Util/DB.lua
+
+Media/Media.lua
 
 Main/PvPLookup.lua
 

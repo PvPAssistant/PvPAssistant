@@ -10,11 +10,34 @@ PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({"ADDON_LOADED"})
 
 PvPLookup.MAIN.FRAMES = {}
 
+function PvPLookup:InitializeMinimapButton()
+	local LibIcon = LibStub("LibDBIcon-1.0")
+	local ldb = LibStub("LibDataBroker-1.1"):NewDataObject("Bunnies!", {
+		type = "data source",
+		--tooltip = "PvPLookup",
+		label = "PvPLookup",
+		tocname = "PvPLookup",
+		icon = "Interface\\Addons\\PvPLookup\\Media\\Images\\logo1024",
+		OnClick = function() 
+			local historyFrame = GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.HISTORY_FRAME)
+			if historyFrame then
+				historyFrame:SetVisible(not historyFrame:IsVisible())
+			end
+		end,
+		})
+
+		PvPLookupLibIconDB = PvPLookupLibIconDB or {}
+	
+		LibIcon:Register("PvPLookup", ldb, PvPLookupLibIconDB)
+end
+
 function PvPLookup.MAIN:Init()
 	PvPLookup.NEWS:Init()
 	PvPLookup.MAIN:InitializeSlashCommands()
 	PvPLookup.OPTIONS:Init()
 	PvPLookup.HISTORY.FRAMES:Init()	
+	PvPLookup:InitializeMinimapButton()
+	
 
 	-- restore frame positions
 	---@type GGUI.Frame

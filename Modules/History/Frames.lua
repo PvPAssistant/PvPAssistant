@@ -15,42 +15,63 @@ function PvPLookup.HISTORY.FRAMES:Init()
     local sizeY = 600
     ---@class PVPTestFrame : GGUI.Frame
     local frame = GGUI.Frame{
-        title="PVP-Lookup", moveable=true, closeable=true, collapseable=true, frameID=PvPLookup.CONST.FRAMES.HISTORY_FRAME,
-        sizeX=sizeX, sizeY=sizeY, frameConfigTable=PvPLookupGGUIConfig, frameTable=PvPLookup.MAIN.FRAMES
+        moveable=true, closeable=true, collapseable=true, frameID=PvPLookup.CONST.FRAMES.HISTORY_FRAME,
+        sizeX=sizeX, sizeY=sizeY, frameConfigTable=PvPLookupGGUIConfig, frameTable=PvPLookup.MAIN.FRAMES,
+        backdropOptions=PvPLookup.CONST.HISTORY_BACKDROP
     }
 
-    frame.backgroundTexture = frame.frame:CreateTexture(nil, "BACKGROUND")
-    frame.backgroundTexture:SetAllPoints(true)
-    frame.backgroundTexture:SetAtlas('pvpscoreboard-background')
+    local titleFrame = GGUI.Frame{
+        parent=frame.content, anchorParent=frame.content,anchorA="BOTTOM", anchorB="TOP", offsetY=-40,
+        sizeX=200, sizeY=60,
+        backdropOptions=PvPLookup.CONST.HISTORY_BACKDROP
+    }
+
+    titleFrame.frame:SetFrameLevel(frame.frame:GetFrameLevel()+10)
+
+    titleFrame.content.title = GGUI.Text{
+        parent=titleFrame.content, anchorParent=titleFrame.content,
+        text=GUTIL:ColorizeText("PVP-LOOKUP", GUTIL.COLORS.LEGENDARY), scale=2,
+    }
+
+    -- frame.backgroundTexture = frame.frame:CreateTexture(nil, "BACKGROUND")
+    -- frame.backgroundTexture:SetAllPoints(true)
+    -- frame.backgroundTexture:SetAtlas('pvpscoreboard-background')
+
+    frame.content.logo = GGUI.Text{
+        parent=frame.content, anchorParent=titleFrame.content.title.frame, anchorA="BOTTOM", anchorB="TOP", offsetY=7,
+        text=PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.LOGO_1024, 0.07)
+    }
+    
+    PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.LOGO_1024, 0.5)
 
     ---@class PVPTestFrame.Content
     frame.content = frame.content
 
-    frame.content.modeDropdown = GGUI.Dropdown{
-        parent=frame.content, anchorParent=frame.content, anchorA="TOPRIGHT", anchorB="TOPRIGHT", offsetX=-50, offsetY=-30, width=100,
-        initialLabel="Select..", initialData={
-            {
-                label="Solo Shuffle",
-                value = PvPLookup.CONST.PVP_MODES.SOLO,
-            },
-            {
-                label="2v2",
-                value = PvPLookup.CONST.PVP_MODES.TWOS,
-            },
-            {
-                label="3v3",
-                value = PvPLookup.CONST.PVP_MODES.THREES,
-            },
-            {
-                label="RBG",
-                value = PvPLookup.CONST.PVP_MODES.RGB,
-            },
-        }
-    }
+    -- frame.content.modeDropdown = GGUI.Dropdown{
+    --     parent=frame.content, anchorParent=frame.content, anchorA="TOPRIGHT", anchorB="TOPRIGHT", offsetX=-50, offsetY=-30, width=100,
+    --     initialLabel="Select..", initialData={
+    --         {
+    --             label="Solo Shuffle",
+    --             value = PvPLookup.CONST.PVP_MODES.SOLO,
+    --         },
+    --         {
+    --             label="2v2",
+    --             value = PvPLookup.CONST.PVP_MODES.TWOS,
+    --         },
+    --         {
+    --             label="3v3",
+    --             value = PvPLookup.CONST.PVP_MODES.THREES,
+    --         },
+    --         {
+    --             label="RBG",
+    --             value = PvPLookup.CONST.PVP_MODES.RGB,
+    --         },
+    --     }
+    -- }
 
     frame.content.score = GGUI.Text{
         parent=frame.content, anchorParent=frame.title.frame, anchorA="TOP", anchorB="BOTTOM", offsetY=-10,
-        text = GUTIL:ColorizeText("27", GUTIL.COLORS.GREEN) .. " / " .. GUTIL:ColorizeText("19", GUTIL.COLORS.RED), scale = 2.5,
+        text = GUTIL:ColorizeText("27", GUTIL.COLORS.GREEN) .. " - " .. GUTIL:ColorizeText("19", GUTIL.COLORS.RED), scale = 4,
     }
 
     ---@type GGUI.FrameList.ColumnOption[]
@@ -108,7 +129,7 @@ function PvPLookup.HISTORY.FRAMES:Init()
     }
 
     frame.content.pvpList = GGUI.FrameList{
-        parent=frame.content, anchorParent=frame.title.frame, offsetY=-100, anchorA="TOP", anchorB="TOP", showBorder=true,
+        parent=frame.content, anchorParent=frame.title.frame, offsetY=-150, anchorA="TOP", anchorB="TOP", showBorder=true,
         sizeY=300,columnOptions=columnOptions, rowConstructor = function (columns)
             local dateColumn = columns[1]
             local mapColumn = columns[2]
@@ -188,5 +209,5 @@ function PvPLookup.HISTORY.FRAMES:Init()
 
     frame.content.pvpList:UpdateDisplay()
 
-    frame:Hide()
+    --frame:Hide()
 end
