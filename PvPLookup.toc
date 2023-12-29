@@ -9,7 +9,7 @@
 ## X-WoWI-ID: 
 ## IconTexture: Interface\Addons\PvPLookup\Media\Images\logo1024
 ## SavedVariables: PvPLookupDB, PvPLookupGGUIConfig, PvPLookupOptions, PvPLookupLibIconDB
-## Version: 0.0.2
+## Version: 0.0.3
 
 embeds.xml
 Libs/Libs.lua
