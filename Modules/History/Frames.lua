@@ -224,15 +224,12 @@ function PvPLookup.HISTORY:UpdateHistory()
 
             dateColumn.text:SetText("29.12.2023 15:00")
             mapColumn.text:SetText(GUTIL:ColorizeText("RoL", GUTIL.COLORS.RED))
-            --teamColumn.icon3:SetClass(GGUI.CONST.CLASSES.BREWMASTER)
-            --teamColumn.text:SetText(GUTIL:IconToText(mageTexture, classIconSize, classIconSize) .. " " .. GUTIL:IconToText(warriorTexture, classIconSize, classIconSize))
             teamRatingColumn.text:SetText(1234)
-            --enemyColumn.text:SetText(GUTIL:IconToText(mageTexture, classIconSize, classIconSize) .. " " .. GUTIL:IconToText(warriorTexture, classIconSize, classIconSize))
             enemyRatingColumn.text:SetText(20000)
             durationColumn.text:SetText("5:34")
             teamDamageColumn.text:SetText("1.4M")
             enemyDamageColumn.text:SetText("576K")
-            ratingChangeColumn.text:SetText(GUTIL:ColorizeText("+42", GUTIL.COLORS.GREEN))
+            ratingChangeColumn.text:SetText("+42")
         end)
     end
 
