@@ -47,6 +47,12 @@ function PvPLookup.HISTORY.FRAMES:Init()
         text = GUTIL:ColorizeText("27", GUTIL.COLORS.GREEN) .. " - " .. GUTIL:ColorizeText("19", GUTIL.COLORS.RED), scale = 5,
     }
 
+    frame.content.ratingTitle = GGUI.Text{
+        parent=frame.content, anchorParent=frame.content.score.frame, anchorA="TOP", anchorB="BOTTOM",
+        text= "RATING " .. GUTIL:ColorizeText("1496", GUTIL.COLORS.GOLD) .. " - " .. GUTIL:ColorizeText("2456", GUTIL.COLORS.LEGENDARY), 
+        scale = 2, 
+    }
+
     local statHeadersOffsetX = 50
     frame.content.damageHeader = GGUI.Text{
         parent=frame.content,anchorParent=frame.content.score.frame, anchorA="RIGHT", anchorB="LEFT", 
@@ -54,10 +60,44 @@ function PvPLookup.HISTORY.FRAMES:Init()
         text=GUTIL:ColorizeText("DAMAGE", GUTIL.COLORS.LEGENDARY), scale = 3,
     }
 
+    frame.content.damageBestTitle = GGUI.Text{
+        parent=frame.content, anchorParent=frame.content.damageHeader.frame, anchorA="TOPLEFT", anchorB="BOTTOMLEFT",
+        scale = 1.3, text = "ARENA BEST: ", justifyOptions={type="H", align="LEFT"}, offsetX=0,
+    }
+    frame.content.damageBestValue = GGUI.Text{
+        parent=frame.content, anchorParent=frame.content.damageBestTitle.frame, anchorA="LEFT", anchorB="RIGHT", offsetX=1,
+        scale = 1.3, text = "40.7M", justifyOptions={type="H", align="LEFT"}
+    }
+    frame.content.damageTotalTitle = GGUI.Text{
+        parent=frame.content, anchorParent=frame.content.damageBestTitle.frame, anchorA="TOPLEFT", anchorB="BOTTOMLEFT",
+        scale = 1.3, text = "TOTAL: ", justifyOptions={type="H", align="RIGHT"}, offsetY=-5,
+    }
+    frame.content.damageTotalValue = GGUI.Text{
+        parent=frame.content, anchorParent=frame.content.damageTotalTitle.frame, anchorA="LEFT", anchorB="RIGHT", offsetX=1,
+        scale = 1.3, text = "1.38B", justifyOptions={type="H", align="LEFT"}
+    }
+
     frame.content.healingHeader = GGUI.Text{
         parent=frame.content,anchorParent=frame.content.score.frame, anchorA="LEFT", anchorB="RIGHT", 
         offsetX = statHeadersOffsetX,
         text=GUTIL:ColorizeText("HEALING", GUTIL.COLORS.GOLD), scale = 3,
+    }
+
+    frame.content.healingBestTitle = GGUI.Text{
+        parent=frame.content, anchorParent=frame.content.healingHeader.frame, anchorA="TOPLEFT", anchorB="BOTTOMLEFT",
+        scale = 1.3, text = "ARENA BEST: ", justifyOptions={type="H", align="LEFT"}, offsetX=0,
+    }
+    frame.content.healingBestValue = GGUI.Text{
+        parent=frame.content, anchorParent=frame.content.healingBestTitle.frame, anchorA="LEFT", anchorB="RIGHT", offsetX=1,
+        scale = 1.3, text = "40.7M", justifyOptions={type="H", align="LEFT"}
+    }
+    frame.content.healingTotalTitle = GGUI.Text{
+        parent=frame.content, anchorParent=frame.content.healingBestTitle.frame, anchorA="TOPLEFT", anchorB="BOTTOMLEFT",
+        scale = 1.3, text = "TOTAL: ", justifyOptions={type="H", align="RIGHT"}, offsetY=-5,
+    }
+    frame.content.healingTotalValue = GGUI.Text{
+        parent=frame.content, anchorParent=frame.content.healingTotalTitle.frame, anchorA="LEFT", anchorB="RIGHT", offsetX=1,
+        scale = 1.3, text = "1.38B", justifyOptions={type="H", align="LEFT"}
     }
     
     ---@class PVPTestFrame.Content
