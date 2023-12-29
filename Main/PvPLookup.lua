@@ -6,7 +6,7 @@ local GUTIL = PvPLookup.GUTIL
 local GGUI = PvPLookup.GGUI
 
 ---@class PvPLookup.Main : Frame
-PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({"ADDON_LOADED"})
+PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({"ADDON_LOADED", "PLAYER_ENTERING_WORLD"})
 
 PvPLookup.MAIN.FRAMES = {}
 
@@ -51,12 +51,6 @@ function PvPLookup.MAIN:Init()
 	--PvPLookup.NEWS:ShowNews() -- TODO: necessary or scrap?
 end
 
-function PvPLookup.MAIN:ADDON_LOADED(addon_name)
-	if addon_name ~= PvPLookupName then
-		return
-	end
-	PvPLookup.MAIN:Init()
-end
 function PvPLookup.MAIN:InitializeSlashCommands()
 	SLASH_PVPLOOKUP1 = "/pvplookup"
 	SLASH_PVPLOOKUP2 = "/plu"
@@ -85,4 +79,16 @@ function PvPLookup.MAIN:InitializeSlashCommands()
 			end
 		end
 	end
+end
+
+function PvPLookup.MAIN:ADDON_LOADED(addon_name)
+	if addon_name ~= PvPLookupName then
+		
+		return
+	end
+	PvPLookup.MAIN:Init()
+end
+
+function PvPLookup.MAIN:PLAYER_ENTERING_WORLD()
+	PvPLookup.HISTORY:UpdateHistory()
 end
