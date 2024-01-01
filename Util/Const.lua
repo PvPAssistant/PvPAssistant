@@ -10,6 +10,12 @@ PvPLookup.CONST.FRAMES = {
     NEWS = "NEWS",
 }
 
+---@enum PvPLookup.Const.DisplayTeams
+PvPLookup.CONST.DISPLAY_TEAMS = {
+    PLAYER_TEAM = "PLAYER_TEAM",
+    ENEMY_TEAM = "ENEMY_TEAM",
+}
+
 ---@enum PvPLookup.Const.PVPModes
 PvPLookup.CONST.PVP_MODES = {
     SOLO = "SOLO",

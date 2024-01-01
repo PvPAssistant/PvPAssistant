@@ -174,18 +174,50 @@ function PvPLookup.HISTORY.FRAMES:Init()
                 parent=mapColumn, anchorParent=mapColumn,justifyOptions={type="H", align="CENTER"}
             }
             local iconSize = 23
-            teamColumn.icon1 = GGUI.ClassIcon{
+            teamColumn.icon31 = GGUI.ClassIcon{
                 parent=teamColumn, anchorParent=teamColumn, anchorA="LEFT", anchorB="LEFT", offsetX=16,
                 initialClass=GGUI.CONST.CLASSES.WARLOCK, sizeX=iconSize, sizeY=iconSize, enableMouse=false,
             }
-            teamColumn.icon2 = GGUI.ClassIcon{
-                parent=teamColumn, anchorParent=teamColumn.icon1.frame, anchorA="LEFT", anchorB= "RIGHT",
+            teamColumn.icon32 = GGUI.ClassIcon{
+                parent=teamColumn, anchorParent=teamColumn.icon31.frame, anchorA="LEFT", anchorB= "RIGHT",
                 initialClass=GGUI.CONST.CLASSES.WARRIOR, sizeX=iconSize, sizeY=iconSize, enableMouse=false,
             }
-            teamColumn.icon3 = GGUI.ClassIcon{
-                parent=teamColumn, anchorParent=teamColumn.icon2.frame, anchorA="LEFT", anchorB= "RIGHT",
+            teamColumn.icon33 = GGUI.ClassIcon{
+                parent=teamColumn, anchorParent=teamColumn.icon32.frame, anchorA="LEFT", anchorB= "RIGHT",
                 initialClass=GGUI.CONST.CLASSES.WINDWALKER, sizeX=iconSize, sizeY=iconSize, enableMouse=false,
             }
+            teamColumn.icon21 = GGUI.ClassIcon{
+                parent=teamColumn, anchorParent=teamColumn, anchorA="LEFT", anchorB="LEFT", offsetX=16 + iconSize/2,
+                initialClass=GGUI.CONST.CLASSES.WARLOCK, sizeX=iconSize, sizeY=iconSize, enableMouse=false,
+            }
+            teamColumn.icon22 = GGUI.ClassIcon{
+                parent=teamColumn, anchorParent=teamColumn.icon21.frame, anchorA="LEFT", anchorB= "RIGHT",
+                initialClass=GGUI.CONST.CLASSES.WARRIOR, sizeX=iconSize, sizeY=iconSize, enableMouse=false,
+            }
+
+            teamColumn.iconsTwo = {teamColumn.icon21, teamColumn.icon22}
+            teamColumn.iconsThree = {teamColumn.icon31, teamColumn.icon32, teamColumn.icon33}
+
+            ---@param team PvPLookup.Team
+            teamColumn.SetTeam = function (self, team)
+                if #team.players == 3 then
+                    for index, icon in pairs(teamColumn.iconsThree) do
+                        icon:Show()
+                        icon:SetClass(team.players[index].spec)
+                    end
+                    for _, icon in pairs(teamColumn.iconsTwo) do
+                        icon:Hide()
+                    end
+                elseif #team.players == 2 then
+                    for _, icon in pairs(teamColumn.iconsThree) do
+                        icon:Hide()
+                    end
+                    for index, icon in pairs(teamColumn.iconsTwo) do
+                        icon:Show()
+                        icon:SetClass(team.players[index].spec)
+                    end
+                end
+            end
             mmrColumn.text = GGUI.Text{
                 parent=mmrColumn, anchorParent=mmrColumn,justifyOptions={type="H", align="CENTER"}
             }
@@ -204,6 +236,52 @@ function PvPLookup.HISTORY.FRAMES:Init()
         end
     }
 
+    frame.content.teamDisplayDropdown = GGUI.Dropdown{
+        parent=frame.content, anchorParent = frame.content.pvpList.frame, anchorA="TOPLEFT", anchorB="BOTTOMLEFT", offsetX=-17, width = 100,
+        initialData={
+            {
+                label="Enemy Team",
+                value = "ENEMY_TEAM"
+            },
+            {
+                label="My Team",
+                value = "PLAYER_TEAM"
+            },
+        },
+        initialLabel = "My Team",
+        initialValue = "PLAYER_TEAM",
+        clickCallback=function (self, label, value)
+            PvPLookup.HISTORY:UpdateHistory()
+        end
+    }
+
+    frame.content.pvpModeDropdown = GGUI.Dropdown{
+        parent=frame.content, anchorParent = frame.content.teamDisplayDropdown.frame, anchorA="LEFT", anchorB="RIGHT", width=50, offsetX=-30,
+        initialData={
+            {
+                label="Solo",
+                value = PvPLookup.CONST.PVP_MODES.SOLO,
+            },
+            {
+                label="2v2",
+                value = PvPLookup.CONST.PVP_MODES.TWOS,
+            },
+            {
+                label="3v3",
+                value = PvPLookup.CONST.PVP_MODES.THREES,
+            },
+            {
+                label="RGB",
+                value = PvPLookup.CONST.PVP_MODES.RGB,
+            },
+        },
+        initialLabel = "2v2",
+        initialValue = PvPLookup.CONST.PVP_MODES.TWOS,
+        clickCallback=function (self, label, value)
+            PvPLookup.HISTORY:UpdateHistory()
+        end
+    }
+
     --frame:Hide()
 
     PvPLookup.HISTORY.frame = frame
@@ -211,8 +289,19 @@ end
 
 
 function PvPLookup.HISTORY:UpdateHistory()
-    --- DUMMY DATA
-    for _ = 1, 100 do
+
+    PvPLookup.HISTORY.frame.content.pvpList:Remove()
+
+    local pvpModeFilter = PvPLookup.HISTORY:GetSelectedModeFilter()
+
+    ---@type PvPLookup.MatchHistory[]
+    local filteredHistory = GUTIL:Filter(PvPLookupHistoryDB or {}, 
+    ---@param matchHistory PvPLookup.MatchHistory
+    function (matchHistory)
+        return matchHistory.pvpMode == pvpModeFilter
+    end)
+
+    for _, matchHistory in pairs(filteredHistory) do
         PvPLookup.HISTORY.frame.content.pvpList:Add(function (row)
             local columns = row.columns
             local dateColumn = columns[1]
@@ -224,14 +313,33 @@ function PvPLookup.HISTORY:UpdateHistory()
             local healingColumn = columns[7]
             local ratingColumn = columns[8]
 
-            dateColumn.text:SetText("29.12.2023 15:00")
-            mapColumn.text:SetText(GUTIL:ColorizeText("RoL", GUTIL.COLORS.RED))
-            ---teamColumn
-            mmrColumn.text:SetText("1234")
-            durationColumn.text:SetText("5:34")
-            damageColumn.text:SetText("1.4M")
-            healingColumn.text:SetText("576K")
-            ratingColumn.text:SetText("+42")
+            local date = date("*t", matchHistory.timestamp)
+            local formattedDate = string.format("%d.%d.%d %d:%d", date.day, date.month, date.year, date.hour, date.min)
+            dateColumn.text:SetText(formattedDate)
+            mapColumn.text:SetText(GUTIL:ColorizeText(matchHistory.map, GUTIL.COLORS.RED))
+
+            local displayedTeam = PvPLookup.HISTORY:GetDisplayTeam()
+
+            if displayedTeam == PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
+                teamColumn:SetTeam(matchHistory.playerTeam)
+                mmrColumn.text:SetText(matchHistory.playerMMR)
+                damageColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.playerDamage))
+                healingColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.playerHealing))
+            else
+                teamColumn:SetTeam(matchHistory.enemyTeam)
+                mmrColumn.text:SetText(matchHistory.enemyMMR)
+                damageColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.enemyDamage))
+                healingColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.enemyHealing))
+            end
+
+            -- Convert milliseconds to seconds
+            local totalSeconds = matchHistory.duration / 1000
+            -- Calculate minutes and remaining seconds
+            local minutes = math.floor(totalSeconds / 60)
+            local seconds = totalSeconds % 60
+
+            durationColumn.text:SetText(minutes .. ":" .. seconds)
+            ratingColumn.text:SetText(matchHistory.rating)            
         end)
     end
 

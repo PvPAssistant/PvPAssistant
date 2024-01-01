@@ -8,7 +8,7 @@
 ## X-Wago-ID: 
 ## X-WoWI-ID: 
 ## IconTexture: Interface\Addons\PvPLookup\Media\Images\logo1024
-## SavedVariables: PvPLookupDB, PvPLookupGGUIConfig, PvPLookupOptions, PvPLookupLibIconDB
+## SavedVariables: PvPLookupHistoryDB, PvPLookupGGUIConfig, PvPLookupOptions, PvPLookupLibIconDB
 ## Version: 0.0.5
 
 embeds.xml
@@ -16,6 +16,9 @@ Libs/Libs.lua
 Util/Const.lua
 Util/Util.lua
 Util/DB.lua
+Util/Debug.lua
+
+Classes/MatchHistory.lua
 
 Media/Media.lua
 

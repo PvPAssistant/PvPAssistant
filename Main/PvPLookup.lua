@@ -37,6 +37,9 @@ function PvPLookup.MAIN:Init()
 	PvPLookup.OPTIONS:Init()
 	PvPLookup.HISTORY.FRAMES:Init()	
 	PvPLookup:InitializeMinimapButton()
+
+	--- DEBUG
+	PvPLookup.DEBUG:CreateHistoryDummyData()
 	
 
 	-- restore frame positions
