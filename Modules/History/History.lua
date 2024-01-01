@@ -15,7 +15,7 @@ function PvPLookup.HISTORY:GetSelectedModeFilter()
         error("PVPLookup Error: HistoryFrame not found")
     end
 
-    return historyFrame.content.pvpModeDropdown.selectedValue
+    return historyFrame.content.matchHistoryTab.content.pvpModeDropdown.selectedValue
 end
 ---@return PvPLookup.Const.DisplayTeams displayTeams
 function PvPLookup.HISTORY:GetDisplayTeam()
@@ -24,5 +24,5 @@ function PvPLookup.HISTORY:GetDisplayTeam()
         error("PVPLookup Error: HistoryFrame not found")
     end
 
-    return historyFrame.content.teamDisplayDropdown.selectedValue
+    return historyFrame.content.matchHistoryTab.content.teamDisplayDropdown.selectedValue
 end
