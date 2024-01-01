@@ -7,6 +7,9 @@ local GUTIL = PvPLookup.GUTIL
 ---@class PvPLookup.History
 PvPLookup.HISTORY = {}
 
+---@type PvPLookup.HistoryFrame
+PvPLookup.HISTORY.frame = nil
+
 
 ---@return PvPLookup.Const.PVPModes? pvpMode
 function PvPLookup.HISTORY:GetSelectedModeFilter()

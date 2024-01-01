@@ -7,9 +7,6 @@ local GUTIL = PvPLookup.GUTIL
 ---@class PvPLookup.History
 PvPLookup.HISTORY = PvPLookup.HISTORY
 
----@type PvPLookup.HistoryFrame
-PvPLookup.HISTORY.frame = nil
-
 ---@class PvPLookup.History.Frames
 PvPLookup.HISTORY.FRAMES = {}
 
@@ -32,6 +29,8 @@ function PvPLookup.HISTORY.FRAMES:Init()
         sizeX=sizeX, sizeY=sizeY, initialTab = true,
         buttonOptions={
             label="Match History",
+            offsetY = 4,
+            offsetX = 4
         }
     }
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
@@ -40,22 +39,22 @@ function PvPLookup.HISTORY.FRAMES:Init()
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
     matchHistoryTab.content = matchHistoryTab.content
 
-    ---@class PvPLookup.HistoryFrame.CCOverviewTab : GGUI.BlizzardTab
-    frame.content.ccOverviewTab = GGUI.BlizzardTab{
+    ---@class PvPLookup.HistoryFrame.CCCatalogueTab : GGUI.BlizzardTab
+    frame.content.ccCatalogueTab = GGUI.BlizzardTab{
         parent=frame.content, anchorParent=frame.content, anchorA="CENTER", anchorB="CENTER",
         sizeX=sizeX, sizeY=sizeY, 
         buttonOptions={
-            label="CC Overview",
+            label="CC Catalogue",
             anchorParent=frame.content.matchHistoryTab.button,
             anchorA="LEFT",
             anchorB="RIGHT",
         }
     }
-    ---@class PvPLookup.HistoryFrame.CCOverviewTab.Content
-    frame.content.ccOverviewTab.content = frame.content.ccOverviewTab.content
-    local ccOverviewTab = frame.content.ccOverviewTab
-    ---@class PvPLookup.HistoryFrame.CCOverviewTab.Content
-    ccOverviewTab.content = ccOverviewTab.content
+    ---@class PvPLookup.HistoryFrame.CCCatalogueTab.Content
+    frame.content.ccCatalogueTab.content = frame.content.ccCatalogueTab.content
+    local ccCatalogueTab = frame.content.ccCatalogueTab
+    ---@class PvPLookup.HistoryFrame.CCCatalogueTab.Content
+    ccCatalogueTab.content = ccCatalogueTab.content
 
     ---@class PvPLookup.HistoryFrame.DROverviewTab : GGUI.BlizzardTab
     frame.content.drOverviewTab = GGUI.BlizzardTab{
@@ -63,7 +62,7 @@ function PvPLookup.HISTORY.FRAMES:Init()
         sizeX=sizeX, sizeY=sizeY, 
         buttonOptions={
             label="DR Overview",
-            anchorParent=frame.content.ccOverviewTab.button,
+            anchorParent=frame.content.ccCatalogueTab.button,
             anchorA="LEFT",
             anchorB="RIGHT",
         }
@@ -74,7 +73,7 @@ function PvPLookup.HISTORY.FRAMES:Init()
     ---@class PvPLookup.HistoryFrame.DROverviewTab.Content
     drOverviewTab.content = drOverviewTab.content
 
-    GGUI.BlizzardTabSystem{matchHistoryTab, ccOverviewTab, drOverviewTab}
+    GGUI.BlizzardTabSystem{matchHistoryTab, ccCatalogueTab, drOverviewTab}
 
     local titleFrame = GGUI.Frame{
         parent=frame.content, anchorParent=frame.content,anchorA="BOTTOM", anchorB="TOP", offsetY=-40,
@@ -97,10 +96,10 @@ function PvPLookup.HISTORY.FRAMES:Init()
     PvPLookup.HISTORY.frame = frame
 
     PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
-    PvPLookup.HISTORY.FRAMES:InitCCOverviewTab()
+    PvPLookup.HISTORY.FRAMES:InitCCCatalogueTab()
     PvPLookup.HISTORY.FRAMES:InitDROverviewTab()
 
-    --frame:Hide()
+    frame:Hide()
 end
 
 function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
@@ -347,15 +346,64 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     }
 end
 
-function PvPLookup.HISTORY.FRAMES:InitCCOverviewTab()
-    local ccOverviewTab = PvPLookup.HISTORY.frame.content.ccOverviewTab
-    ---@class PvPLookup.HistoryFrame.CCOverviewTab.Content
-    ccOverviewTab.content = ccOverviewTab.content
+function PvPLookup.HISTORY.FRAMES:InitCCCatalogueTab()
+    local ccCatalogueTab = PvPLookup.HISTORY.frame.content.ccCatalogueTab
+    ---@class PvPLookup.HistoryFrame.CCCatalogueTab.Content
+    ccCatalogueTab.content = ccCatalogueTab.content
 end
 function PvPLookup.HISTORY.FRAMES:InitDROverviewTab()
     local drOverviewTab = PvPLookup.HISTORY.frame.content.drOverviewTab
     ---@class PvPLookup.HistoryFrame.DROverviewTab.Content
     drOverviewTab.content = drOverviewTab.content
+
+    ---@type GGUI.FrameList.ColumnOption[]
+    local columnOptions = {
+        {
+            label = "Spec",
+            width = 40,
+            justifyOptions = {type="H", align="CENTER"},
+            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A,
+        },
+        {
+            label = "Spell",
+            width = 40,
+            justifyOptions = {type="H", align="CENTER"},
+            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B,
+        },
+        {
+            label = "DR",
+            width = 70,
+            justifyOptions = {type="H", align="CENTER"},
+            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A,
+        },
+    }
+
+    drOverviewTab.content.drList = GGUI.FrameList{
+        parent=drOverviewTab.content, anchorParent=drOverviewTab.content, anchorA="TOP", anchorB="TOP",
+        sizeY = 300, showBorder = true, offsetY = -150,
+        columnOptions = columnOptions,
+        rowConstructor = function (columns)
+            local specColumn = columns[1]
+            local spellColumn = columns[2]
+            local drColumn = columns[3]
+
+            local iconSize = 23
+            specColumn.icon = GGUI.ClassIcon{
+                parent=specColumn, anchorParent=specColumn, enableMouse=false, sizeX=iconSize, sizeY=iconSize,
+            }
+
+            spellColumn.icon = GGUI.Icon{ -- TODO: SpellIcon?
+                parent=spellColumn, anchorParent=spellColumn, sizeX=iconSize, sizeY=iconSize,
+            }
+
+            drColumn.text = GGUI.Text{ -- TODO: SpellIcon?
+                parent=drColumn, anchorParent=drColumn, text="Some DR", justifyOptions={type="H", align="CENTER"},
+            }
+
+        end
+    }
+
+    PvPLookup.HISTORY:FillDRData()
 end
 
 
@@ -418,4 +466,24 @@ function PvPLookup.HISTORY:UpdateHistory()
     end
 
     pvpList:UpdateDisplay()
+end
+
+function PvPLookup.HISTORY:FillDRData()
+    local drOverviewTab = PvPLookup.HISTORY.frame.content.drOverviewTab
+    local drList = drOverviewTab.content.drList
+
+    for i=1, 30 do
+        drList:Add(function (row)
+            local columns = row.columns
+            local specColumn = columns[1]
+            local spellColumn = columns[2]
+            local drColumn = columns[3]
+
+            specColumn.icon:SetClass(GGUI.CONST.CLASSES.WARRIOR)
+            -- spellColumn.icon
+            drColumn.text:SetText("DR Info")
+        end)
+    end
+
+    drList:UpdateDisplay()
 end

@@ -36,6 +36,7 @@ function PvPLookup.MAIN:Init()
 	PvPLookup.MAIN:InitializeSlashCommands()
 	PvPLookup.OPTIONS:Init()
 	PvPLookup.HISTORY.FRAMES:Init()	
+	PvPLookup.PVPINFO.FRAMES:Init()
 	PvPLookup:InitializeMinimapButton()
 
 	--- DEBUG

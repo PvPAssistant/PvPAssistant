@@ -6,8 +6,9 @@ PvPLookup.CONST = {}
 
 ---@enum PvPLookup.Const.Frames
 PvPLookup.CONST.FRAMES = {
-    HISTORY_FRAME = "HISTORY_FRAME",
     NEWS = "NEWS",
+    HISTORY_FRAME = "HISTORY_FRAME",
+    PVPINFO = "PVPINFO",
 }
 
 ---@enum PvPLookup.Const.DisplayTeams
@@ -22,6 +23,21 @@ PvPLookup.CONST.PVP_MODES = {
     TWOS = "TWOS",
     THREES = "THREES",
     RGB = "RGB",
+}
+---@type GGUI.BackdropOptions
+PvPLookup.CONST.PVPINFO_BACKDROP = {
+    borderOptions = {
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 16,
+        insets = { left = 5, right = 5, top = 5, bottom = 5 },
+    },
+    bgFile = "Interface\\Buttons\\WHITE8X8",
+    tile = true,
+    tileSize = 32,
+    colorR = 0,
+    colorG = 0,
+    colorB = 0.1,
+    colorA = 0.5,
 }
 ---@type GGUI.BackdropOptions
 PvPLookup.CONST.HISTORY_BACKDROP = {
