@@ -18,9 +18,9 @@ function PvPLookup.HISTORY.FRAMES:Init()
     local sizeY = 630
     ---@class PvPLookup.HistoryFrame : GGUI.Frame
     local frame = GGUI.Frame{
-        moveable=true, closeable=true, collapseable=true, frameID=PvPLookup.CONST.FRAMES.HISTORY_FRAME,
+        moveable=true, closeable=true, frameID=PvPLookup.CONST.FRAMES.HISTORY_FRAME,
         sizeX=sizeX, sizeY=sizeY, frameConfigTable=PvPLookupGGUIConfig, frameTable=PvPLookup.MAIN.FRAMES,
-        backdropOptions=PvPLookup.CONST.HISTORY_BACKDROP, globalName="PvPLookupHistoryFrame"
+        backdropOptions=PvPLookup.CONST.HISTORY_BACKDROP,
     }
 
     ---@class PvPLookup.HistoryFrame.Content
@@ -57,7 +57,24 @@ function PvPLookup.HISTORY.FRAMES:Init()
     ---@class PvPLookup.HistoryFrame.CCOverviewTab.Content
     ccOverviewTab.content = ccOverviewTab.content
 
-    GGUI.BlizzardTabSystem{matchHistoryTab, ccOverviewTab}
+    ---@class PvPLookup.HistoryFrame.DROverviewTab : GGUI.BlizzardTab
+    frame.content.drOverviewTab = GGUI.BlizzardTab{
+        parent=frame.content, anchorParent=frame.content, anchorA="CENTER", anchorB="CENTER",
+        sizeX=sizeX, sizeY=sizeY, 
+        buttonOptions={
+            label="DR Overview",
+            anchorParent=frame.content.ccOverviewTab.button,
+            anchorA="LEFT",
+            anchorB="RIGHT",
+        }
+    }
+    ---@class PvPLookup.HistoryFrame.DROverviewTab.Content
+    frame.content.drOverviewTab.content = frame.content.drOverviewTab.content
+    local drOverviewTab = frame.content.drOverviewTab
+    ---@class PvPLookup.HistoryFrame.DROverviewTab.Content
+    drOverviewTab.content = drOverviewTab.content
+
+    GGUI.BlizzardTabSystem{matchHistoryTab, ccOverviewTab, drOverviewTab}
 
     local titleFrame = GGUI.Frame{
         parent=frame.content, anchorParent=frame.content,anchorA="BOTTOM", anchorB="TOP", offsetY=-40,
@@ -77,6 +94,19 @@ function PvPLookup.HISTORY.FRAMES:Init()
         text=PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.LOGO_1024, 0.07)
     }
 
+    PvPLookup.HISTORY.frame = frame
+
+    PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
+    PvPLookup.HISTORY.FRAMES:InitCCOverviewTab()
+    PvPLookup.HISTORY.FRAMES:InitDROverviewTab()
+
+    --frame:Hide()
+end
+
+function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
+    local matchHistoryTab = PvPLookup.HISTORY.frame.content.matchHistoryTab
+    ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
+    matchHistoryTab.content = matchHistoryTab.content
     
     matchHistoryTab.content.score = GGUI.Text{
         parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content, anchorA="TOP", anchorB="TOP", offsetY=-10,
@@ -315,10 +345,17 @@ function PvPLookup.HISTORY.FRAMES:Init()
             PvPLookup.HISTORY:UpdateHistory()
         end
     }
+end
 
-    --frame:Hide()
-
-    PvPLookup.HISTORY.frame = frame
+function PvPLookup.HISTORY.FRAMES:InitCCOverviewTab()
+    local ccOverviewTab = PvPLookup.HISTORY.frame.content.ccOverviewTab
+    ---@class PvPLookup.HistoryFrame.CCOverviewTab.Content
+    ccOverviewTab.content = ccOverviewTab.content
+end
+function PvPLookup.HISTORY.FRAMES:InitDROverviewTab()
+    local drOverviewTab = PvPLookup.HISTORY.frame.content.drOverviewTab
+    ---@class PvPLookup.HistoryFrame.DROverviewTab.Content
+    drOverviewTab.content = drOverviewTab.content
 end
 
 
