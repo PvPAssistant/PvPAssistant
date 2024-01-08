@@ -104,6 +104,7 @@ function PvPLookup.HISTORY.FRAMES:Init()
 end
 
 function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
+    ---@class PvPLookup.HistoryFrame.MatchHistoryTab
     local matchHistoryTab = PvPLookup.HISTORY.frame.content.matchHistoryTab
     local borderFrame = PvPLookup.HISTORY.frame.content.borderFrame
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
@@ -167,13 +168,62 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
         scale = 1, text = "1.38B", justifyOptions={type="H", align="LEFT"}
     }
 
+    ---@class PvPLookup.History.ClassFilterFrame : GGUI.Frame
     matchHistoryTab.content.classFilterFrame = GGUI.Frame{
         parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.score.frame, 
         anchorA="BOTTOM", anchorB="TOP", backdropOptions=PvPLookup.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP,
-        sizeX=580, sizeY=40, offsetY=5,
+        sizeX=580, sizeY=50, offsetY=3,
+    }
+
+    matchHistoryTab.content.classFilterFrame.title = GGUI.Text{
+        parent=matchHistoryTab.content.classFilterFrame.frame, anchorParent=matchHistoryTab.content.classFilterFrame.content,
+        anchorA="BOTTOMLEFT", anchorB="TOPLEFT", text="Class Filters", offsetX=25,
     }
 
     matchHistoryTab.content.classFilterFrame.frame:SetFrameLevel(matchHistoryTab.content:GetFrameLevel()+10)
+
+    ---@type GGUI.ClassIcon[]
+    matchHistoryTab.content.classFilterFrame.classFilterButtons = {}
+
+    -- init class filter
+    matchHistoryTab.activeClassFilters = {}
+    local classFilterIconSize=30
+    local function CreateClassFilterIcon(class, anchorParent, offX, offY, anchorA, anchorB)
+        local classFilterIcon = GGUI.ClassIcon{
+            sizeX=classFilterIconSize, sizeY=classFilterIconSize,
+            parent=matchHistoryTab.content.classFilterFrame.content, anchorParent=anchorParent,
+            initialClass=class, offsetX=offX, offsetY=offY, anchorA=anchorA, anchorB=anchorB, showBorder=true,
+        }
+
+        classFilterIcon.frame:SetScript("OnClick", function ()
+            if not matchHistoryTab.activeClassFilters[class] then
+                matchHistoryTab.activeClassFilters[class] = true
+                classFilterIcon:Desaturate()
+                -- reload list with new filters
+                PvPLookup.HISTORY:UpdateHistory()
+            else
+                matchHistoryTab.activeClassFilters[class] = nil
+                classFilterIcon:Saturate()
+                -- reload list with new filters
+                PvPLookup.HISTORY:UpdateHistory()
+            end
+        end)
+
+        return classFilterIcon
+    end
+
+    local currentAnchor = matchHistoryTab.content.classFilterFrame.frame
+    for i, class in pairs(PvPLookup.CONST.CLASSES) do
+        local anchorB = "RIGHT"
+        local offX = 15
+        if i == 1 then
+            anchorB="LEFT"
+            offX=27
+        end
+        local classFilterIcon = CreateClassFilterIcon(class, currentAnchor, offX, 0, "LEFT", anchorB)
+        currentAnchor = classFilterIcon.frame
+    end
+
 
     ---@type GGUI.FrameList.ColumnOption[]
     local columnOptions = {
@@ -425,12 +475,27 @@ function PvPLookup.HISTORY:UpdateHistory()
     matchHistoryTab.content.pvpList:Remove()
 
     local pvpModeFilter = PvPLookup.HISTORY:GetSelectedModeFilter()
+    local displayedTeam = PvPLookup.HISTORY:GetDisplayTeam()
 
     ---@type PvPLookup.MatchHistory[]
     local filteredHistory = GUTIL:Filter(PvPLookupHistoryDB or {}, 
     ---@param matchHistory PvPLookup.MatchHistory
     function (matchHistory)
-        return matchHistory.pvpMode == pvpModeFilter
+        local classFiltered = false
+        ---@type PvPLookup.Player[]
+        local players = {}
+        if displayedTeam == PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
+            players = matchHistory.playerTeam.players
+        else
+            players = matchHistory.enemyTeam.players
+        end
+
+        for _, player in pairs(players) do
+            if matchHistoryTab.activeClassFilters[player.class] then
+                classFiltered = true
+            end
+        end
+        return matchHistory.pvpMode == pvpModeFilter and not classFiltered
     end)
 
     for _, matchHistory in pairs(filteredHistory) do
@@ -449,8 +514,6 @@ function PvPLookup.HISTORY:UpdateHistory()
             local formattedDate = string.format("%d.%d.%d %d:%d", date.day, date.month, date.year, date.hour, date.min)
             dateColumn.text:SetText(formattedDate)
             mapColumn.text:SetText(GUTIL:ColorizeText(matchHistory.map, GUTIL.COLORS.RED))
-
-            local displayedTeam = PvPLookup.HISTORY:GetDisplayTeam()
 
             if displayedTeam == PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
                 teamColumn:SetTeam(matchHistory.playerTeam)

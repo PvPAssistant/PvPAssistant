@@ -112,6 +112,17 @@ PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B = {
     colorA = 1,
 }
 
-PvPLookup.CONST.SPEC_ICONS = {
-    
+PvPLookup.CONST.CLASSES = {
+    "WARRIOR",
+    "PALADIN",
+    "HUNTER",
+    "ROGUE",
+    "PRIEST",
+    "DEATHKNIGHT",
+    "SHAMAN",
+    "MAGE",
+    "WARLOCK",
+    "MONK",
+    "DRUID",
+    "DEMONHUNTER",
 }

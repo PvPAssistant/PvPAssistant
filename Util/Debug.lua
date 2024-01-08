@@ -31,7 +31,7 @@ function PvPLookup.DEBUG:CreateHistoryDummyData()
                 players = {
                     {
                         class="MAGE",
-                        spec="FROST",
+                        spec="FROST_MAGE",
                         name="Enemy1",
                         server=GetRealmName(),
                     },
@@ -86,7 +86,7 @@ function PvPLookup.DEBUG:CreateHistoryDummyData()
                 players = {
                     {
                         class="MAGE",
-                        spec="FROST",
+                        spec="FROST_MAGE",
                         name="Enemy1",
                         server=GetRealmName(),
                     },

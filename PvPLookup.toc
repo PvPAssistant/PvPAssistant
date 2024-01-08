@@ -10,7 +10,7 @@
 ## IconTexture: Interface\Addons\PvPLookup\Media\Images\logo1024
 ## SavedVariables: PvPLookupHistoryDB, PvPLookupGGUIConfig, PvPLookupOptions, PvPLookupLibIconDB
 ## Dependencies: Blizzard_PVPUI
-## Version: 0.0.6
+## Version: 0.0.7
 
 embeds.xml
 Libs/Libs.lua
