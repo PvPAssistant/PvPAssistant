@@ -71,6 +71,13 @@ PvPLookup.CONST.HISTORY_LIST_EDGE_BACKDROP = {
     },
 }
 ---@type GGUI.BackdropOptions
+PvPLookup.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP = {
+    borderOptions = {
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 16,
+    },
+}
+---@type GGUI.BackdropOptions
 PvPLookup.CONST.HISTORY_TITLE_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",

@@ -12,7 +12,7 @@ PvPLookup.HISTORY.FRAMES = {}
 
 function PvPLookup.HISTORY.FRAMES:Init()
     local sizeX = 700
-    local sizeY = 630
+    local sizeY = 670
     ---@class PvPLookup.HistoryFrame : GGUI.Frame
     local frame = GGUI.Frame{
         moveable=true, closeable=true, frameID=PvPLookup.CONST.FRAMES.HISTORY_FRAME,
@@ -20,17 +20,25 @@ function PvPLookup.HISTORY.FRAMES:Init()
         backdropOptions=PvPLookup.CONST.HISTORY_BACKDROP,
     }
 
+    frame.content.borderFrame = GGUI.Frame{
+        parent=frame.content, anchorParent=frame.content, sizeX=sizeX-30, sizeY=sizeY-90, offsetY=-28,
+        backdropOptions=PvPLookup.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP,
+    }
+
+    frame.content.borderFrame.frame:SetFrameLevel(frame.content:GetFrameLevel()+10)
+
     ---@class PvPLookup.HistoryFrame.Content
     frame.content = frame.content
 
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab : GGUI.BlizzardTab
     frame.content.matchHistoryTab = GGUI.BlizzardTab{
         parent=frame.content, anchorParent=frame.content, anchorA="CENTER", anchorB="CENTER",
-        sizeX=sizeX, sizeY=sizeY, initialTab = true,
+        sizeX=sizeX, sizeY=sizeY, initialTab = true, top=true,
         buttonOptions={
             label="Match History",
-            offsetY = 4,
-            offsetX = 4
+            anchorParent=frame.content.borderFrame.content,
+            offsetY = -2,
+            offsetX = 3,
         }
     }
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
@@ -39,30 +47,14 @@ function PvPLookup.HISTORY.FRAMES:Init()
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
     matchHistoryTab.content = matchHistoryTab.content
 
-    ---@class PvPLookup.HistoryFrame.CCCatalogueTab : GGUI.BlizzardTab
-    frame.content.ccCatalogueTab = GGUI.BlizzardTab{
-        parent=frame.content, anchorParent=frame.content, anchorA="CENTER", anchorB="CENTER",
-        sizeX=sizeX, sizeY=sizeY, 
-        buttonOptions={
-            label="CC Catalogue",
-            anchorParent=frame.content.matchHistoryTab.button,
-            anchorA="LEFT",
-            anchorB="RIGHT",
-        }
-    }
-    ---@class PvPLookup.HistoryFrame.CCCatalogueTab.Content
-    frame.content.ccCatalogueTab.content = frame.content.ccCatalogueTab.content
-    local ccCatalogueTab = frame.content.ccCatalogueTab
-    ---@class PvPLookup.HistoryFrame.CCCatalogueTab.Content
-    ccCatalogueTab.content = ccCatalogueTab.content
-
+    
     ---@class PvPLookup.HistoryFrame.DROverviewTab : GGUI.BlizzardTab
     frame.content.drOverviewTab = GGUI.BlizzardTab{
         parent=frame.content, anchorParent=frame.content, anchorA="CENTER", anchorB="CENTER",
-        sizeX=sizeX, sizeY=sizeY, 
+        sizeX=sizeX, sizeY=sizeY, top=true,
         buttonOptions={
             label="DR Overview",
-            anchorParent=frame.content.ccCatalogueTab.button,
+            anchorParent=frame.content.matchHistoryTab.button,
             anchorA="LEFT",
             anchorB="RIGHT",
         }
@@ -73,24 +65,33 @@ function PvPLookup.HISTORY.FRAMES:Init()
     ---@class PvPLookup.HistoryFrame.DROverviewTab.Content
     drOverviewTab.content = drOverviewTab.content
 
+    ---@class PvPLookup.HistoryFrame.CCCatalogueTab : GGUI.BlizzardTab
+    frame.content.ccCatalogueTab = GGUI.BlizzardTab{
+        parent=frame.content, anchorParent=frame.content, anchorA="CENTER", anchorB="CENTER",
+        sizeX=sizeX, sizeY=sizeY,  top=true,
+        buttonOptions={
+            label="CC Catalogue",
+            anchorParent=frame.content.drOverviewTab.button,
+            anchorA="LEFT",
+            anchorB="RIGHT",
+        }
+    }
+    ---@class PvPLookup.HistoryFrame.CCCatalogueTab.Content
+    frame.content.ccCatalogueTab.content = frame.content.ccCatalogueTab.content
+    local ccCatalogueTab = frame.content.ccCatalogueTab
+    ---@class PvPLookup.HistoryFrame.CCCatalogueTab.Content
+    ccCatalogueTab.content = ccCatalogueTab.content
+
     GGUI.BlizzardTabSystem{matchHistoryTab, ccCatalogueTab, drOverviewTab}
 
-    local titleFrame = GGUI.Frame{
-        parent=frame.content, anchorParent=frame.content,anchorA="BOTTOM", anchorB="TOP", offsetY=-40,
-        sizeX=200, sizeY=60,
-        backdropOptions=PvPLookup.CONST.HISTORY_TITLE_BACKDROP
-    }
-
-    titleFrame.frame:SetFrameLevel(frame.frame:GetFrameLevel()+10)
-
-    titleFrame.content.title = GGUI.Text{
-        parent=titleFrame.content, anchorParent=titleFrame.content,
+    frame.content.title = GGUI.Text{
+        parent=frame.content, anchorParent=frame.content, anchorA="TOP", anchorB="TOP", offsetY=-10, offsetX=7,
         text=GUTIL:ColorizeText("PVP-LOOKUP", GUTIL.COLORS.LEGENDARY), scale=2,
     }
 
     frame.content.logo = GGUI.Text{
-        parent=frame.content, anchorParent=titleFrame.content.title.frame, anchorA="BOTTOM", anchorB="TOP", offsetY=7,
-        text=PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.LOGO_1024, 0.07)
+        parent=frame.content, anchorParent=frame.content.title.frame, anchorA="RIGHT", anchorB="LEFT", offsetX=0, offsetY=2,
+        text=PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.LOGO_1024, 0.028)
     }
 
     PvPLookup.HISTORY.frame = frame
@@ -104,11 +105,12 @@ end
 
 function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     local matchHistoryTab = PvPLookup.HISTORY.frame.content.matchHistoryTab
+    local borderFrame = PvPLookup.HISTORY.frame.content.borderFrame
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
     matchHistoryTab.content = matchHistoryTab.content
     
     matchHistoryTab.content.score = GGUI.Text{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content, anchorA="TOP", anchorB="TOP", offsetY=-10,
+        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content, anchorA="TOP", anchorB="TOP", offsetY=-39,
         text = GUTIL:ColorizeText("27", GUTIL.COLORS.GREEN) .. " - " .. GUTIL:ColorizeText("19", GUTIL.COLORS.RED), scale = 4,
     }
 
@@ -165,12 +167,19 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
         scale = 1, text = "1.38B", justifyOptions={type="H", align="LEFT"}
     }
 
+    matchHistoryTab.content.classFilterFrame = GGUI.Frame{
+        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.score.frame, 
+        anchorA="BOTTOM", anchorB="TOP", backdropOptions=PvPLookup.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP,
+        sizeX=580, sizeY=40, offsetY=5,
+    }
+
+    matchHistoryTab.content.classFilterFrame.frame:SetFrameLevel(matchHistoryTab.content:GetFrameLevel()+10)
 
     ---@type GGUI.FrameList.ColumnOption[]
     local columnOptions = {
         {
             label="Date",
-            width=150,
+            width=140,
             justifyOptions={type="H", align="CENTER"},
             backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A,
         },
@@ -219,8 +228,9 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     }
 
     matchHistoryTab.content.pvpList = GGUI.FrameList{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content, offsetY=-170, anchorA="TOP", anchorB="TOP", scale = 0.85, showBorder = true,
-        sizeY=500,columnOptions=columnOptions, rowConstructor = function (columns)
+        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content, offsetY=-300, offsetX=-10,
+        anchorA="TOP", anchorB="TOP", scale = 0.85, showBorder = true,
+        sizeY=450,columnOptions=columnOptions, rowConstructor = function (columns)
             local dateColumn = columns[1]
             local mapColumn = columns[2]
             local teamColumn = columns[3]
@@ -300,7 +310,7 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     }
 
     matchHistoryTab.content.teamDisplayDropdown = GGUI.Dropdown{
-        parent=matchHistoryTab.content, anchorParent = matchHistoryTab.content.pvpList.frame, anchorA="TOPLEFT", anchorB="BOTTOMLEFT", offsetX=-17, width = 100,
+        parent=matchHistoryTab.content, anchorParent = borderFrame.frame, anchorA="TOPRIGHT", anchorB="TOPRIGHT", width = 100, offsetX=-100, offsetY=-5,
         initialData={
             {
                 label="Enemy Team",
