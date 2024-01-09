@@ -173,7 +173,7 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     matchHistoryTab.content.classFilterFrame = GGUI.Frame{
         parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.score.frame, 
         anchorA="BOTTOM", anchorB="TOP", backdropOptions=PvPLookup.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP,
-        sizeX=580, sizeY=50, offsetY=3,
+        sizeX=580, sizeY=50, offsetY=10,
     }
 
     matchHistoryTab.content.classFilterFrame.title = GGUI.Text{
