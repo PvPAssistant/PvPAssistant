@@ -115,11 +115,19 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
         text = GUTIL:ColorizeText("27", GUTIL.COLORS.GREEN) .. " - " .. GUTIL:ColorizeText("19", GUTIL.COLORS.RED), scale = 4,
     }
 
+    matchHistoryTab.SetScore = function (self, wins, losses)
+        matchHistoryTab.content.score:SetText(GUTIL:ColorizeText(wins, GUTIL.COLORS.GREEN) .. " - " .. GUTIL:ColorizeText(losses, GUTIL.COLORS.RED))
+    end
+
     matchHistoryTab.content.ratingTitle = GGUI.Text{
         parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.score.frame, anchorA="TOP", anchorB="BOTTOM",
         text= "RATING " .. GUTIL:ColorizeText("1496", GUTIL.COLORS.GOLD) .. " - " .. GUTIL:ColorizeText("2456", GUTIL.COLORS.LEGENDARY), 
         scale = 1, 
     }
+
+    matchHistoryTab.SetRating = function (self, rating1, rating2)
+        matchHistoryTab.content.score:SetText("RATING " .. GUTIL:ColorizeText(rating1, GUTIL.COLORS.GOLD) .. " - " .. GUTIL:ColorizeText(rating2, GUTIL.COLORS.LEGENDARY))
+    end
 
     local statHeadersOffsetX = 30
     local statHeadersOffsetY = 4
