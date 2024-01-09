@@ -126,3 +126,11 @@ PvPLookup.CONST.CLASSES = {
     "DRUID",
     "DEMONHUNTER",
 }
+
+PvPLookup.CONST.RATING_ATLAS_ICON_MAP = {
+    [0] = "honorsystem-icon-prestige-1",
+    [1000] = "honorsystem-icon-prestige-2",
+    [2000] = "honorsystem-icon-prestige-3",
+    [3000] = "honorsystem-icon-prestige-4",
+    [4000] = "honorsystem-icon-prestige-5",
+}

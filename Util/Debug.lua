@@ -50,7 +50,7 @@ function PvPLookup.DEBUG:CreateHistoryDummyData()
             3000000,
             2000000,
             100000,
-            10,
+            1478,
             PvPLookup.CONST.PVP_MODES.TWOS,
             true
         ))
@@ -111,7 +111,7 @@ function PvPLookup.DEBUG:CreateHistoryDummyData()
             4000000,
             3000000,
             200000,
-            20,
+            3456,
             PvPLookup.CONST.PVP_MODES.THREES,
             true
         ))

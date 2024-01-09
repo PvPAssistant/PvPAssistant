@@ -265,7 +265,7 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
         },
         {
             label="Rating",
-            width=70,
+            width=80,
             justifyOptions={type="H", align="CENTER"},
         },
     }
@@ -348,8 +348,26 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
                 parent=healingColumn, anchorParent=healingColumn,justifyOptions={type="H", align="CENTER"}
             }
             ratingColumn.text = GGUI.Text{
-                parent=ratingColumn, anchorParent=ratingColumn,justifyOptions={type="H", align="CENTER"}
+                parent=ratingColumn, anchorParent=ratingColumn,justifyOptions={type="H", align="CENTER"},
+                offsetX=10,
             }
+            local ratingIconSize = 20
+            ratingColumn.texture = GGUI.Texture{
+                parent=ratingColumn, anchorParent=ratingColumn.text.frame, anchorA="RIGHT", anchorB="LEFT",
+                sizeX=ratingIconSize, sizeY=ratingIconSize,
+            }
+
+            ratingColumn.SetIconByRating = function (self, rating)
+                local rankingAtlas
+                for atlasRating, atlas in pairs(PvPLookup.CONST.RATING_ATLAS_ICON_MAP) do
+                    if rating >= atlasRating then
+                        rankingAtlas = atlas
+                    end
+                end
+                if rankingAtlas then
+                    ratingColumn.texture:SetAtlas(rankingAtlas)
+                end
+            end
         end
     }
 
@@ -529,6 +547,7 @@ function PvPLookup.HISTORY:UpdateHistory()
 
             durationColumn.text:SetText(minutes .. ":" .. seconds)
             ratingColumn.text:SetText(matchHistory.rating)            
+            ratingColumn:SetIconByRating(matchHistory.rating)
         end)
     end
 
