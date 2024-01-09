@@ -196,7 +196,7 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
 
     -- init class filter
     matchHistoryTab.activeClassFilters = {}
-    local classFilterIconSize=30
+    local classFilterIconSize=28
     local function CreateClassFilterIcon(class, anchorParent, offX, offY, anchorA, anchorB)
         local classFilterIcon = GGUI.ClassIcon{
             sizeX=classFilterIconSize, sizeY=classFilterIconSize,
@@ -224,10 +224,10 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     local currentAnchor = matchHistoryTab.content.classFilterFrame.frame
     for i, class in pairs(PvPLookup.CONST.CLASSES) do
         local anchorB = "RIGHT"
-        local offX = 15
+        local offX = 14
         if i == 1 then
             anchorB="LEFT"
-            offX=27
+            offX=23
         end
         local classFilterIcon = CreateClassFilterIcon(class, currentAnchor, offX, 0, "LEFT", anchorB)
         currentAnchor = classFilterIcon.frame
@@ -430,6 +430,97 @@ function PvPLookup.HISTORY.FRAMES:InitCCCatalogueTab()
     local ccCatalogueTab = PvPLookup.HISTORY.frame.content.ccCatalogueTab
     ---@class PvPLookup.HistoryFrame.CCCatalogueTab.Content
     ccCatalogueTab.content = ccCatalogueTab.content
+
+    ---@type GGUI.FrameList.ColumnOption[]
+    local columnOptions = {
+        {
+            label = "Class",
+            width = 150,
+            justifyOptions = {type="H", align="LEFT"},
+        },
+        {
+            label = "Spec",
+            width = 150,
+            justifyOptions = {type="H", align="LEFT"},
+        },
+        {
+            label = "Spell",
+            width = 150,
+            justifyOptions = {type="H", align="LEFT"},
+        },
+        {
+            label = "Duration",
+            width = 100,
+            justifyOptions = {type="H", align="CENTER"},
+        },
+    }
+
+    ccCatalogueTab.content.ccList = GGUI.FrameList{
+        parent=ccCatalogueTab.content, anchorParent=ccCatalogueTab.content, anchorA="TOP", anchorB="TOP",
+        sizeY = 500, showBorder = true, offsetY = -120,
+        columnOptions = columnOptions, rowBackdrops = {PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B},
+        rowConstructor = function (columns)
+            local classColumn = columns[1]
+            local specColumn = columns[2]
+            local spellColumn = columns[3]
+            local durationColumn = columns[4]
+
+            local iconSize = 23
+            classColumn.icon = GGUI.ClassIcon{
+                parent=classColumn, anchorParent=classColumn, enableMouse=false, sizeX=iconSize, sizeY=iconSize, anchorA="LEFT", anchorB="LEFT",
+            }
+
+            classColumn.className = GGUI.Text{
+                parent=classColumn, anchorParent=classColumn.icon.frame, justifyOptions={type="H", align="LEFT"}, text="?",
+                anchorA="LEFT", anchorB="RIGHT", offsetX=3,
+            }
+
+            classColumn.SetClass = function (self, class)
+                classColumn.icon:SetClass(class)
+                classColumn.className:SetText(GUTIL:ColorizeText(PvPLookup.CONST.CLASS_NAMES[class], GUTIL.CLASS_COLORS[class]))
+            end
+
+            specColumn.icon = GGUI.ClassIcon{
+                parent=specColumn, anchorParent=specColumn, enableMouse=false, sizeX=iconSize, sizeY=iconSize, anchorA="LEFT", anchorB="LEFT",
+            }
+
+            specColumn.className = GGUI.Text{
+                parent=specColumn, anchorParent=specColumn.icon.frame, justifyOptions={type="H", align="LEFT"}, text="?",
+                anchorA="LEFT", anchorB="RIGHT", offsetX=3,
+            }
+
+            specColumn.SetClass = function (self, class)
+                specColumn.icon:SetClass(class)
+                specColumn.className:SetText(GUTIL:ColorizeText(PvPLookup.CONST.CLASS_NAMES[class], GUTIL.CLASS_COLORS[class]))
+            end
+
+            spellColumn.icon = GGUI.SpellIcon{ 
+                parent=spellColumn, anchorParent=spellColumn, sizeX=iconSize, sizeY=iconSize, anchorA="LEFT", anchorB="LEFT",
+                initialSpellID=179057 -- debug: chaos nova
+            }
+
+            spellColumn.spellName = GGUI.Text{
+                parent=spellColumn, anchorParent=spellColumn.icon.frame, justifyOptions={type="H", align="LEFT"}, text="?",
+                anchorA="LEFT", anchorB="RIGHT", offsetX=3,
+            }
+
+            spellColumn.SetSpell = function (self, spellID)
+                spellColumn.icon:SetSpell(spellID)
+                spellColumn.spellName:SetText(select(1, GetSpellInfo(spellID)))
+            end
+
+            durationColumn.text = GGUI.Text{
+                parent=durationColumn, anchorParent=durationColumn, text="5 Seconds", justifyOptions={type="H", align="CENTER"},
+            }
+
+            durationColumn.SetDuration = function (self, seconds)
+                durationColumn.text:SetText(tostring(seconds) .. " Seconds")
+            end
+
+        end
+    }
+
+    PvPLookup.HISTORY:FillCCData()
 end
 function PvPLookup.HISTORY.FRAMES:InitDROverviewTab()
     local drOverviewTab = PvPLookup.HISTORY.frame.content.drOverviewTab
@@ -439,29 +530,31 @@ function PvPLookup.HISTORY.FRAMES:InitDROverviewTab()
     ---@type GGUI.FrameList.ColumnOption[]
     local columnOptions = {
         {
+            label = "Class",
+            width = 40,
+            justifyOptions = {type="H", align="CENTER"},
+        },
+        {
             label = "Spec",
             width = 40,
             justifyOptions = {type="H", align="CENTER"},
-            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A,
         },
         {
             label = "Spell",
-            width = 40,
-            justifyOptions = {type="H", align="CENTER"},
-            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B,
-        },
-        {
-            label = "DR",
             width = 70,
             justifyOptions = {type="H", align="CENTER"},
-            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A,
+        },
+        {
+            label = "Duration",
+            width = 50,
+            justifyOptions = {type="H", align="CENTER"},
         },
     }
 
     drOverviewTab.content.drList = GGUI.FrameList{
         parent=drOverviewTab.content, anchorParent=drOverviewTab.content, anchorA="TOP", anchorB="TOP",
         sizeY = 300, showBorder = true, offsetY = -150,
-        columnOptions = columnOptions,
+        columnOptions = columnOptions, rowBackdrops = {PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B},
         rowConstructor = function (columns)
             local specColumn = columns[1]
             local spellColumn = columns[2]
@@ -560,6 +653,29 @@ function PvPLookup.HISTORY:UpdateHistory()
     end
 
     pvpList:UpdateDisplay()
+end
+
+function PvPLookup.HISTORY:FillCCData()
+    local ccCatalogueTab = PvPLookup.HISTORY.frame.content.ccCatalogueTab
+    local ccList = ccCatalogueTab.content.ccList
+
+    for i=1, 30 do
+        ccList:Add(function (row)
+            local columns = row.columns
+            local classColumn = columns[1]
+            local specColumn = columns[2]
+            local spellColumn = columns[3]
+            local durationColumn = columns[4]
+
+            classColumn:SetClass(GGUI.CONST.CLASSES.WARRIOR)
+            specColumn:SetClass(GGUI.CONST.CLASSES.FURY)
+
+            spellColumn:SetSpell(853) -- hammer of justice
+            durationColumn:SetDuration(6)
+        end)
+    end
+
+    ccList:UpdateDisplay()
 end
 
 function PvPLookup.HISTORY:FillDRData()
