@@ -111,7 +111,7 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     matchHistoryTab.content = matchHistoryTab.content
     
     matchHistoryTab.content.score = GGUI.Text{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content, anchorA="TOP", anchorB="TOP", offsetY=-39,
+        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content, anchorA="TOP", anchorB="TOP", offsetY=-43,
         text = GUTIL:ColorizeText("27", GUTIL.COLORS.GREEN) .. " - " .. GUTIL:ColorizeText("19", GUTIL.COLORS.RED), scale = 4,
     }
 
@@ -122,9 +122,10 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     }
 
     local statHeadersOffsetX = 30
+    local statHeadersOffsetY = 4
     matchHistoryTab.content.damageHeader = GGUI.Text{
         parent=matchHistoryTab.content,anchorParent=matchHistoryTab.content.score.frame, anchorA="RIGHT", anchorB="LEFT", 
-        offsetX = -statHeadersOffsetX,
+        offsetX = -statHeadersOffsetX, offsetY=statHeadersOffsetY,
         text=GUTIL:ColorizeText("DAMAGE", GUTIL.COLORS.LEGENDARY), scale = 2,
     }
 
@@ -147,7 +148,7 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
 
     matchHistoryTab.content.healingHeader = GGUI.Text{
         parent=matchHistoryTab.content,anchorParent=matchHistoryTab.content.score.frame, anchorA="LEFT", anchorB="RIGHT", 
-        offsetX = statHeadersOffsetX,
+        offsetX = statHeadersOffsetX, offsetY=statHeadersOffsetY,
         text=GUTIL:ColorizeText("HEALING", GUTIL.COLORS.GOLD), scale = 2,
     }
 
@@ -231,55 +232,48 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
             label="Date",
             width=140,
             justifyOptions={type="H", align="CENTER"},
-            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A,
         },
         {
             label="Map",
             width=60,
             justifyOptions={type="H", align="CENTER"},
-            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B,
         },
         {
             label="Team",
             width=100,
             justifyOptions={type="H", align="CENTER"},
-            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A,
         },
         {
             label="MMR",
             width=70,
             justifyOptions={type="H", align="CENTER"},
-            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B,
         },
         {
             label="Duration",
             width=70,
             justifyOptions={type="H", align="CENTER"},
-            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A,
         },
         {
             label="Damage",
             width=70,
             justifyOptions={type="H", align="CENTER"},
-            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B,
         },
         {
             label="Healing",
             width=70,
             justifyOptions={type="H", align="CENTER"},
-            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A,
         },
         {
             label="Rating",
             width=70,
             justifyOptions={type="H", align="CENTER"},
-            backdropOptions = PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B,
         },
     }
 
     matchHistoryTab.content.pvpList = GGUI.FrameList{
         parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content, offsetY=-300, offsetX=-10,
         anchorA="TOP", anchorB="TOP", scale = 0.85, showBorder = true,
+        rowBackdrops={PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B},
         sizeY=450,columnOptions=columnOptions, rowConstructor = function (columns)
             local dateColumn = columns[1]
             local mapColumn = columns[2]

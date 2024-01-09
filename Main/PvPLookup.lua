@@ -32,7 +32,6 @@ function PvPLookup:InitializeMinimapButton()
 end
 
 function PvPLookup.MAIN:Init()
-	PvPLookup.NEWS:Init()
 	PvPLookup.MAIN:InitializeSlashCommands()
 	PvPLookup.OPTIONS:Init()
 	PvPLookup.HISTORY.FRAMES:Init()	
@@ -47,12 +46,6 @@ function PvPLookup.MAIN:Init()
 	---@type GGUI.Frame
 	local historyFrame = PvPLookup.GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.HISTORY_FRAME)
 	historyFrame:RestoreSavedConfig(UIParent)
-	---@type GGUI.Frame
-	local newsFrame = PvPLookup.GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.NEWS)
-	newsFrame:RestoreSavedConfig(UIParent)
-
-	-- show news
-	--PvPLookup.NEWS:ShowNews() -- TODO: necessary or scrap?
 end
 
 function PvPLookup.MAIN:InitializeSlashCommands()
