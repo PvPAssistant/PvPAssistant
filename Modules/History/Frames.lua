@@ -365,15 +365,15 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
                 sizeX=ratingIconSize, sizeY=ratingIconSize,
             }
 
-            ratingColumn.SetIconByRating = function (self, rating)
-                local rankingAtlas
-                for atlasRating, atlas in pairs(PvPLookup.CONST.RATING_ATLAS_ICON_MAP) do
-                    if rating >= atlasRating then
-                        rankingAtlas = atlas
+            ratingColumn.SetIconByRating = function (self, playerRating)
+                local rankingTexture
+                for _, ratingData in ipairs(PvPLookup.CONST.RATING_ICON_MAP) do
+                    if playerRating >= ratingData.rating then
+                        rankingTexture = ratingData.icon
                     end
                 end
-                if rankingAtlas then
-                    ratingColumn.texture:SetAtlas(rankingAtlas)
+                if rankingTexture then
+                    ratingColumn.texture:SetTexture(rankingTexture)
                 end
             end
         end

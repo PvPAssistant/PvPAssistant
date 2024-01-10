@@ -195,10 +195,33 @@ PvPLookup.CONST.CLASS_NAMES = {
     PRESERVATION = "Preservation",
 }
 
-PvPLookup.CONST.RATING_ATLAS_ICON_MAP = {
-    [0] = "honorsystem-icon-prestige-1",
-    [1000] = "honorsystem-icon-prestige-2",
-    [2000] = "honorsystem-icon-prestige-3",
-    [3000] = "honorsystem-icon-prestige-4",
-    [4000] = "honorsystem-icon-prestige-5",
+PvPLookup.CONST.RATING_ICON_MAP = {
+    {
+        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank1",
+        rating=0
+    },
+    {
+        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank2",
+        rating=1000
+    },
+    {
+        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank3",
+        rating=1400
+    },
+    {
+        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank4",
+        rating=1600
+    },
+    {
+        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank5",
+        rating=1800
+    },
+    {
+        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank6",
+        rating=2100
+    },
+    {
+        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank7",
+        rating=2400
+    },
 }
