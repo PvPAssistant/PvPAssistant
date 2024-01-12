@@ -11,21 +11,20 @@ PvPLookup.HISTORY = PvPLookup.HISTORY
 PvPLookup.HISTORY.FRAMES = {}
 
 function PvPLookup.HISTORY.FRAMES:Init()
-    local sizeX = 700
-    local sizeY = 670
+    local sizeX = 710
+    local sizeY = 635
     ---@class PvPLookup.HistoryFrame : GGUI.Frame
     local frame = GGUI.Frame{
-        moveable=true, closeable=true, frameID=PvPLookup.CONST.FRAMES.HISTORY_FRAME,
+        moveable=true, frameID=PvPLookup.CONST.FRAMES.HISTORY_FRAME,
         sizeX=sizeX, sizeY=sizeY, frameConfigTable=PvPLookupGGUIConfig, frameTable=PvPLookup.MAIN.FRAMES,
         backdropOptions=PvPLookup.CONST.HISTORY_BACKDROP,
     }
 
-    frame.content.borderFrame = GGUI.Frame{
-        parent=frame.content, anchorParent=frame.content, sizeX=sizeX-30, sizeY=sizeY-90, offsetY=-28,
-        backdropOptions=PvPLookup.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP,
+    local titleFrame = GGUI.Frame{
+        parent=frame.content, anchorParent=frame.frame, anchorA="BOTTOM", anchorB="TOP",
+        backdropOptions=PvPLookup.CONST.INNER_DARK_BACKDROP,
+        sizeX=sizeX, sizeY=40, offsetY=-2.5,
     }
-
-    frame.content.borderFrame.frame:SetFrameLevel(frame.content:GetFrameLevel()+10)
 
     ---@class PvPLookup.HistoryFrame.Content
     frame.content = frame.content
@@ -36,9 +35,9 @@ function PvPLookup.HISTORY.FRAMES:Init()
         sizeX=sizeX, sizeY=sizeY, initialTab = true, top=true,
         buttonOptions={
             label="Match History",
-            anchorParent=frame.content.borderFrame.content,
-            offsetY = -2,
-            offsetX = 3,
+            anchorParent=frame.content,
+            offsetY = -40,
+            offsetX = 15
         }
     }
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
@@ -84,13 +83,13 @@ function PvPLookup.HISTORY.FRAMES:Init()
 
     GGUI.BlizzardTabSystem{matchHistoryTab, ccCatalogueTab, drOverviewTab}
 
-    frame.content.title = GGUI.Text{
-        parent=frame.content, anchorParent=frame.content, anchorA="TOP", anchorB="TOP", offsetY=-10, offsetX=7,
+    titleFrame.content.title = GGUI.Text{
+        parent=titleFrame.content, anchorParent=titleFrame.content, offsetY=-1, offsetX=0,
         text=GUTIL:ColorizeText("PVP-LOOKUP", GUTIL.COLORS.LEGENDARY), scale=2,
     }
 
     frame.content.logo = GGUI.Text{
-        parent=frame.content, anchorParent=frame.content.title.frame, anchorA="RIGHT", anchorB="LEFT", offsetX=0, offsetY=2,
+        parent=frame.content, anchorParent=titleFrame.content.title.frame, anchorA="RIGHT", anchorB="LEFT", offsetX=0, offsetY=2,
         text=PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.LOGO_1024, 0.028)
     }
 
@@ -106,87 +105,19 @@ end
 function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab
     local matchHistoryTab = PvPLookup.HISTORY.frame.content.matchHistoryTab
-    local borderFrame = PvPLookup.HISTORY.frame.content.borderFrame
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
     matchHistoryTab.content = matchHistoryTab.content
-    
-    matchHistoryTab.content.score = GGUI.Text{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content, anchorA="TOP", anchorB="TOP", offsetY=-43,
-        text = GUTIL:ColorizeText("27", GUTIL.COLORS.GREEN) .. " - " .. GUTIL:ColorizeText("19", GUTIL.COLORS.RED), scale = 4,
-    }
-
-    matchHistoryTab.SetScore = function (self, wins, losses)
-        matchHistoryTab.content.score:SetText(GUTIL:ColorizeText(wins, GUTIL.COLORS.GREEN) .. " - " .. GUTIL:ColorizeText(losses, GUTIL.COLORS.RED))
-    end
-
-    matchHistoryTab.content.ratingTitle = GGUI.Text{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.score.frame, anchorA="TOP", anchorB="BOTTOM",
-        text= "RATING " .. GUTIL:ColorizeText("1496", GUTIL.COLORS.GOLD) .. " - " .. GUTIL:ColorizeText("2456", GUTIL.COLORS.LEGENDARY), 
-        scale = 1, 
-    }
-
-    matchHistoryTab.SetRating = function (self, rating1, rating2)
-        matchHistoryTab.content.score:SetText("RATING " .. GUTIL:ColorizeText(rating1, GUTIL.COLORS.GOLD) .. " - " .. GUTIL:ColorizeText(rating2, GUTIL.COLORS.LEGENDARY))
-    end
-
-    local statHeadersOffsetX = 30
-    local statHeadersOffsetY = 4
-    matchHistoryTab.content.damageHeader = GGUI.Text{
-        parent=matchHistoryTab.content,anchorParent=matchHistoryTab.content.score.frame, anchorA="RIGHT", anchorB="LEFT", 
-        offsetX = -statHeadersOffsetX, offsetY=statHeadersOffsetY,
-        text=GUTIL:ColorizeText("DAMAGE", GUTIL.COLORS.LEGENDARY), scale = 2,
-    }
-
-    matchHistoryTab.content.damageBestTitle = GGUI.Text{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.damageHeader.frame, anchorA="TOPLEFT", anchorB="BOTTOMLEFT",
-        scale = 1, text = "ARENA BEST: ", justifyOptions={type="H", align="LEFT"}, offsetX=0,
-    }
-    matchHistoryTab.content.damageBestValue = GGUI.Text{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.damageBestTitle.frame, anchorA="LEFT", anchorB="RIGHT", offsetX=1,
-        scale = 1, text = "40.7M", justifyOptions={type="H", align="LEFT"}
-    }
-    matchHistoryTab.content.damageTotalTitle = GGUI.Text{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.damageBestTitle.frame, anchorA="TOPLEFT", anchorB="BOTTOMLEFT",
-        scale = 1, text = "TOTAL: ", justifyOptions={type="H", align="RIGHT"}, offsetY=-5,
-    }
-    matchHistoryTab.content.damageTotalValue = GGUI.Text{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.damageTotalTitle.frame, anchorA="LEFT", anchorB="RIGHT", offsetX=1,
-        scale = 1, text = "1.38B", justifyOptions={type="H", align="LEFT"}
-    }
-
-    matchHistoryTab.content.healingHeader = GGUI.Text{
-        parent=matchHistoryTab.content,anchorParent=matchHistoryTab.content.score.frame, anchorA="LEFT", anchorB="RIGHT", 
-        offsetX = statHeadersOffsetX, offsetY=statHeadersOffsetY,
-        text=GUTIL:ColorizeText("HEALING", GUTIL.COLORS.GOLD), scale = 2,
-    }
-
-    matchHistoryTab.content.healingBestTitle = GGUI.Text{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.healingHeader.frame, anchorA="TOPLEFT", anchorB="BOTTOMLEFT",
-        scale = 1, text = "ARENA BEST: ", justifyOptions={type="H", align="LEFT"}, offsetX=0,
-    }
-    matchHistoryTab.content.healingBestValue = GGUI.Text{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.healingBestTitle.frame, anchorA="LEFT", anchorB="RIGHT", offsetX=1,
-        scale = 1, text = "40.7M", justifyOptions={type="H", align="LEFT"}
-    }
-    matchHistoryTab.content.healingTotalTitle = GGUI.Text{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.healingBestTitle.frame, anchorA="TOPLEFT", anchorB="BOTTOMLEFT",
-        scale = 1, text = "TOTAL: ", justifyOptions={type="H", align="RIGHT"}, offsetY=-5,
-    }
-    matchHistoryTab.content.healingTotalValue = GGUI.Text{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.healingTotalTitle.frame, anchorA="LEFT", anchorB="RIGHT", offsetX=1,
-        scale = 1, text = "1.38B", justifyOptions={type="H", align="LEFT"}
-    }
 
     ---@class PvPLookup.History.ClassFilterFrame : GGUI.Frame
     matchHistoryTab.content.classFilterFrame = GGUI.Frame{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.score.frame, 
-        anchorA="BOTTOM", anchorB="TOP", backdropOptions=PvPLookup.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP,
-        sizeX=580, sizeY=50, offsetY=10,
+        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.button, 
+        anchorA="TOPLEFT", anchorB="BOTTOMLEFT", backdropOptions=PvPLookup.CONST.INNER_DARK_BACKDROP,
+        sizeX=677, sizeY=80, offsetY=3,
     }
 
     matchHistoryTab.content.classFilterFrame.title = GGUI.Text{
         parent=matchHistoryTab.content.classFilterFrame.frame, anchorParent=matchHistoryTab.content.classFilterFrame.content,
-        anchorA="BOTTOMLEFT", anchorB="TOPLEFT", text="Class Filters", offsetX=25,
+        anchorA="TOP", anchorB="TOP", text="FILTERS", offsetY=-11, scale=1.2,
     }
 
     matchHistoryTab.content.classFilterFrame.frame:SetFrameLevel(matchHistoryTab.content:GetFrameLevel()+10)
@@ -225,11 +156,13 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     for i, class in pairs(PvPLookup.CONST.CLASSES) do
         local anchorB = "RIGHT"
         local offX = 14
+        local offY = 0
         if i == 1 then
             anchorB="LEFT"
-            offX=23
+            offX=70
+            offY=-15
         end
-        local classFilterIcon = CreateClassFilterIcon(class, currentAnchor, offX, 0, "LEFT", anchorB)
+        local classFilterIcon = CreateClassFilterIcon(class, currentAnchor, offX, offY, "LEFT", anchorB)
         currentAnchor = classFilterIcon.frame
     end
 
@@ -277,12 +210,12 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
             justifyOptions={type="H", align="CENTER"},
         },
     }
-
+    local listScale = 0.997
     matchHistoryTab.content.pvpList = GGUI.FrameList{
-        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content, offsetY=-300, offsetX=-10,
-        anchorA="TOP", anchorB="TOP", scale = 0.85, showBorder = true,
+        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.classFilterFrame.frame, offsetX=0, hideScrollbar=true,
+        anchorA="TOP", anchorB="BOTTOM", scale = listScale, offsetY = -40,
         rowBackdrops={PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B},
-        sizeY=450,columnOptions=columnOptions, rowConstructor = function (columns)
+        sizeY=460,columnOptions=columnOptions, rowConstructor = function (columns)
             local dateColumn = columns[1]
             local mapColumn = columns[2]
             local teamColumn = columns[3]
@@ -378,9 +311,17 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
             end
         end
     }
+    local listBackground = GGUI.Frame{
+        parent=matchHistoryTab.content, anchorParent=matchHistoryTab.content.pvpList.frame,
+        sizeX=matchHistoryTab.content.pvpList:GetWidth()+10, sizeY=matchHistoryTab.content.pvpList:GetHeight()+40,
+        backdropOptions=PvPLookup.CONST.INNER_DARK_BACKDROP, offsetY=12, scale=listScale
+    }
+    listBackground:SetFrameLevel(matchHistoryTab.button:GetParent():GetFrameLevel()+1)
+    matchHistoryTab.content.pvpList:SetFrameLevel(listBackground.frame:GetFrameLevel()+1)
 
     matchHistoryTab.content.teamDisplayDropdown = GGUI.Dropdown{
-        parent=matchHistoryTab.content, anchorParent = borderFrame.frame, anchorA="TOPRIGHT", anchorB="TOPRIGHT", width = 100, offsetX=-100, offsetY=-5,
+        parent=matchHistoryTab.content.classFilterFrame.content, anchorParent = matchHistoryTab.content.classFilterFrame.frame, 
+        anchorA="TOPRIGHT", anchorB="TOPRIGHT", width = 100, offsetX=-125, offsetY=-5,
         initialData={
             {
                 label="Enemy Team",
@@ -399,7 +340,7 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     }
 
     matchHistoryTab.content.pvpModeDropdown = GGUI.Dropdown{
-        parent=matchHistoryTab.content, anchorParent = matchHistoryTab.content.teamDisplayDropdown.frame, anchorA="LEFT", anchorB="RIGHT", width=50, offsetX=-30,
+        parent=matchHistoryTab.content.classFilterFrame.content, anchorParent = matchHistoryTab.content.teamDisplayDropdown.frame, anchorA="LEFT", anchorB="RIGHT", width=50, offsetX=-30,
         initialData={
             {
                 label="Solo",

@@ -42,9 +42,10 @@ PvPLookup.CONST.PVPINFO_BACKDROP = {
 ---@type GGUI.BackdropOptions
 PvPLookup.CONST.HISTORY_BACKDROP = {
     borderOptions = {
-        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-        edgeSize = 32,
-        insets = { left = 5, right = 5, top = 5, bottom = 5 },
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        -- edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+        edgeSize = 13,
+        insets = { left = 3, right = 5, top = 0, bottom = 0 },
         colorR = 1,
         colorG = 1,
         colorB = 1,
@@ -56,27 +57,41 @@ PvPLookup.CONST.HISTORY_BACKDROP = {
     colorR = 0,
     colorG = 0,
     colorB = 0,
-    colorA = 0.5,
+    colorA = 0.7,
 }
----@type GGUI.BackdropOptions
-PvPLookup.CONST.HISTORY_LIST_EDGE_BACKDROP = {
-    borderOptions = {
-        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-        edgeSize = 32,
-        insets = { left = 5, right = 5, top = 5, bottom = 5 },
-        colorR = 1,
-        colorG = 1,
-        colorB = 1,
-        colorA = 1,
-    },
-}
+
 ---@type GGUI.BackdropOptions
 PvPLookup.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
     },
+    colorR=0,
+    colorG=0,
+    colorB=0,
+    colorA=0,
 }
+
+---@type GGUI.BackdropOptions
+PvPLookup.CONST.INNER_DARK_BACKDROP = {
+    borderOptions = {
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 16,
+        colorR = 0.314,
+        colorG = 0.306,
+        colorB = 0.306,
+        colorA = 1,
+        insets={top=2, bottom = 2, left=2, right=2},
+    },
+    bgFile = "Interface\\Buttons\\WHITE8X8",
+    tile = true,
+    tileSize = 32,
+    colorR = 0.114,
+    colorG = 0.106,
+    colorB = 0.106,
+    colorA = 1,
+}
+
 ---@type GGUI.BackdropOptions
 PvPLookup.CONST.HISTORY_TITLE_BACKDROP = {
     borderOptions = {
@@ -97,18 +112,18 @@ PvPLookup.CONST.HISTORY_TITLE_BACKDROP = {
     colorA = 0.8,
 }
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A = {
-    bgFile = "Interface\\Buttons\\WHITE8X8",
-    colorR = 0.149,
-    colorG = 0.149,
-    colorB = 0.149,
-    colorA = 1,
-}
 PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B = {
     bgFile = "Interface\\Buttons\\WHITE8X8",
-    colorR = 0.098,
-    colorG = 0.098,
-    colorB = 0.098,
+    colorR = 0.443,
+    colorG = 0.435,
+    colorB = 0.447,
+    colorA = 1,
+}
+PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A = {
+    bgFile = "Interface\\Buttons\\WHITE8X8",
+    colorR = 0.157,
+    colorG = 0.157,
+    colorB = 0.157,
     colorA = 1,
 }
 
