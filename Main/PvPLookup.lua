@@ -6,9 +6,10 @@ local GUTIL = PvPLookup.GUTIL
 local GGUI = PvPLookup.GGUI
 
 ---@class PvPLookup.Main : Frame
-PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({"ADDON_LOADED", "PLAYER_ENTERING_WORLD"})
+PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD" })
 
 PvPLookup.MAIN.FRAMES = {}
+-- test
 
 function PvPLookup:InitializeMinimapButton()
 	local LibIcon = LibStub("LibDBIcon-1.0")
@@ -18,29 +19,29 @@ function PvPLookup:InitializeMinimapButton()
 		label = "PvPLookup",
 		tocname = "PvPLookup",
 		icon = "Interface\\Addons\\PvPLookup\\Media\\Images\\logo1024",
-		OnClick = function() 
+		OnClick = function()
 			local historyFrame = GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.HISTORY_FRAME)
 			if historyFrame then
 				historyFrame:SetVisible(not historyFrame:IsVisible())
 			end
 		end,
-		})
+	})
 
-		PvPLookupLibIconDB = PvPLookupLibIconDB or {}
-	
-		LibIcon:Register("PvPLookup", ldb, PvPLookupLibIconDB)
+	PvPLookupLibIconDB = PvPLookupLibIconDB or {}
+
+	LibIcon:Register("PvPLookup", ldb, PvPLookupLibIconDB)
 end
 
 function PvPLookup.MAIN:Init()
 	PvPLookup.MAIN:InitializeSlashCommands()
 	PvPLookup.OPTIONS:Init()
-	PvPLookup.HISTORY.FRAMES:Init()	
+	PvPLookup.HISTORY.FRAMES:Init()
 	PvPLookup.PVPINFO.FRAMES:Init()
 	PvPLookup:InitializeMinimapButton()
 
 	--- DEBUG
 	PvPLookup.DEBUG:CreateHistoryDummyData()
-	
+
 
 	-- restore frame positions
 	---@type GGUI.Frame
@@ -52,7 +53,6 @@ function PvPLookup.MAIN:InitializeSlashCommands()
 	SLASH_PVPLOOKUP1 = "/pvplookup"
 	SLASH_PVPLOOKUP2 = "/plu"
 	SlashCmdList["PVPLOOKUP"] = function(input)
-
 		input = SecureCmdOptionParse(input)
 		if not input then return end
 
@@ -80,7 +80,6 @@ end
 
 function PvPLookup.MAIN:ADDON_LOADED(addon_name)
 	if addon_name ~= PvPLookupName then
-		
 		return
 	end
 	PvPLookup.MAIN:Init()
