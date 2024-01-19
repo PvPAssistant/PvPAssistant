@@ -9,7 +9,6 @@ local GGUI = PvPLookup.GGUI
 PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD" })
 
 PvPLookup.MAIN.FRAMES = {}
--- test
 
 function PvPLookup:InitializeMinimapButton()
 	local LibIcon = LibStub("LibDBIcon-1.0")
