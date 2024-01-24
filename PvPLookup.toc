@@ -3,7 +3,7 @@
 
 ## Title: PvPLookup
 ## Notes: TBD
-## Author: genju
+## Author: genjuwow
 ## X-Curse-Project-ID: 955365
 ## X-Wago-ID: 
 ## X-WoWI-ID: 
