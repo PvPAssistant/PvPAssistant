@@ -11,25 +11,28 @@ PvPLookup.HISTORY = PvPLookup.HISTORY
 PvPLookup.HISTORY.FRAMES = {}
 
 function PvPLookup.HISTORY.FRAMES:Init()
-    local sizeX = 710
+    local sizeX = 740
     local sizeY = 650
     ---@class PvPLookup.HistoryFrame : GGUI.Frame
     local frame = GGUI.Frame {
         moveable = true, frameID = PvPLookup.CONST.FRAMES.HISTORY_FRAME,
         sizeX = sizeX, sizeY = sizeY, frameConfigTable = PvPLookupGGUIConfig, frameTable = PvPLookup.MAIN.FRAMES,
-        backdropOptions = PvPLookup.CONST.HISTORY_BACKDROP,
+        backdropOptions = PvPLookup.CONST.HISTORY_BACKDROP, globalName = PvPLookup.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME
     }
+
+    -- makes it closeable on Esc
+    tinsert(UISpecialFrames, PvPLookup.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME)
 
     frame.content.titleLogo = GGUI.Text {
         parent = frame.content, anchorParent = frame.content, offsetY = -15, offsetX = 30,
-        text = GUTIL:ColorizeText("PVP-LOOKUP", GUTIL.COLORS.LEGENDARY), scale = 1.7,
+        text = GUTIL:ColorizeText(" PVP-LOOKUP", GUTIL.COLORS.LEGENDARY), scale = 1.7,
         anchorA = "TOPLEFT", anchorB = "TOPLEFT",
     }
 
     ---@class PvPLookup.HistoryFrame.Content : Frame
     frame.content = frame.content
     local tabContentOffsetY = -50
-    local tabButtonScale = 1.1
+    local tabButtonScale = 1
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab : GGUI.Tab
     frame.content.matchHistoryTab = GGUI.Tab {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
@@ -39,7 +42,7 @@ function PvPLookup.HISTORY.FRAMES:Init()
             parent = frame.content,
             anchorParent = frame.content.titleLogo.frame,
             offsetY = 1,
-            offsetX = 30,
+            offsetX = 24,
             anchorA = "LEFT",
             anchorB = "RIGHT",
             adjustWidth = true,
@@ -130,6 +133,8 @@ end
 function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab
     local matchHistoryTab = PvPLookup.HISTORY.frame.content.matchHistoryTab
+    ---@type PvPLookup.HistoryFrame.CCCatalogueTab
+    local ccCatalogueTab = PvPLookup.HISTORY.frame.content.ccCatalogueTab
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
     matchHistoryTab.content = matchHistoryTab.content
 
@@ -137,12 +142,16 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     matchHistoryTab.content.classFilterFrame = GGUI.Frame {
         parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content,
         anchorA = "TOP", anchorB = "TOP", backdropOptions = PvPLookup.CONST.CLASS_FILTER_FRAME_BACKDROP,
-        sizeX = 677, sizeY = 80, offsetY = 0,
+        sizeX = 715, sizeY = 100, offsetY = 0,
     }
 
     matchHistoryTab.content.classFilterFrame.title = GGUI.Text {
         parent = matchHistoryTab.content.classFilterFrame.frame, anchorParent = matchHistoryTab.content.classFilterFrame.content,
-        anchorA = "TOP", anchorB = "TOP", text = "FILTERS", offsetY = -11, scale = 1.2,
+        anchorA = "TOP", anchorB = "TOP", text = "Class Filtering", offsetY = -15,
+        fontOptions = {
+            fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+            height = 15,
+        },
     }
 
     matchHistoryTab.content.classFilterFrame.frame:SetFrameLevel(matchHistoryTab.content:GetFrameLevel() + 10)
@@ -152,7 +161,10 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
 
     -- init class filter
     matchHistoryTab.activeClassFilters = {}
-    local classFilterIconSize = 32
+    local classFilterIconSize = 35
+    local classFilterIconOffsetX = 45
+    local classFilterIconOffsetY = -10
+    local classFilterIconSpacingX = 14
     local function CreateClassFilterIcon(class, anchorParent, offX, offY, anchorA, anchorB)
         local classFilterIcon = GGUI.ClassIcon {
             sizeX = classFilterIconSize, sizeY = classFilterIconSize,
@@ -180,12 +192,12 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     local currentAnchor = matchHistoryTab.content.classFilterFrame.frame
     for i, class in pairs(PvPLookup.CONST.CLASSES) do
         local anchorB = "RIGHT"
-        local offX = 14
+        local offX = classFilterIconSpacingX
         local offY = 0
         if i == 1 then
             anchorB = "LEFT"
-            offX = 70
-            offY = -15
+            offX = classFilterIconOffsetX
+            offY = classFilterIconOffsetY
         end
         local classFilterIcon = CreateClassFilterIcon(class, currentAnchor, offX, offY, "LEFT", anchorB)
         currentAnchor = classFilterIcon.frame
@@ -195,59 +207,59 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     ---@type GGUI.FrameList.ColumnOption[]
     local columnOptions = {
         {
-            label = "Date",
-            width = 140,
+            label = GUTIL:ColorizeText("Date", GUTIL.COLORS.GREY),
+            width = 145,
             justifyOptions = { type = "H", align = "CENTER" },
         },
         {
-            label = "Map",
-            width = 60,
+            label = GUTIL:ColorizeText("Map", GUTIL.COLORS.GREY),
+            width = 65,
             justifyOptions = { type = "H", align = "CENTER" },
         },
         {
-            label = "Team",
+            label = GUTIL:ColorizeText("Team", GUTIL.COLORS.GREY),
             width = 100,
             justifyOptions = { type = "H", align = "CENTER" },
         },
         {
-            label = "MMR",
+            label = GUTIL:ColorizeText("Mmr", GUTIL.COLORS.GREY),
             width = 70,
             justifyOptions = { type = "H", align = "CENTER" },
         },
         {
-            label = "Duration",
+            label = GUTIL:ColorizeText("Damage", GUTIL.COLORS.GREY),
+            width = 75,
+            justifyOptions = { type = "H", align = "CENTER" },
+        },
+        {
+            label = GUTIL:ColorizeText("Healing", GUTIL.COLORS.GREY),
+            width = 75,
+            justifyOptions = { type = "H", align = "CENTER" },
+        },
+        {
+            label = GUTIL:ColorizeText("Change", GUTIL.COLORS.GREY),
             width = 70,
             justifyOptions = { type = "H", align = "CENTER" },
         },
         {
-            label = "Damage",
-            width = 70,
-            justifyOptions = { type = "H", align = "CENTER" },
-        },
-        {
-            label = "Healing",
-            width = 70,
-            justifyOptions = { type = "H", align = "CENTER" },
-        },
-        {
-            label = "Rating",
-            width = 80,
+            label = GUTIL:ColorizeText("Rating", GUTIL.COLORS.GREY),
+            width = 100,
             justifyOptions = { type = "H", align = "CENTER" },
         },
     }
     local listScale = 0.997
-    matchHistoryTab.content.pvpList = GGUI.FrameList {
+    matchHistoryTab.content.matchHistoryList = GGUI.FrameList {
         parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.classFilterFrame.frame, offsetX = 0, hideScrollbar = true,
-        anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -40,
+        anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -25,
         rowBackdrops = { PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B },
         sizeY = 460, columnOptions = columnOptions, rowConstructor = function(columns)
         local dateColumn = columns[1]
         local mapColumn = columns[2]
         local teamColumn = columns[3]
         local mmrColumn = columns[4]
-        local durationColumn = columns[5]
-        local damageColumn = columns[6]
-        local healingColumn = columns[7]
+        local damageColumn = columns[5]
+        local healingColumn = columns[6]
+        local changeColumn = columns[7]
         local ratingColumn = columns[8]
 
         dateColumn.text = GGUI.Text {
@@ -304,8 +316,8 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
         mmrColumn.text = GGUI.Text {
             parent = mmrColumn, anchorParent = mmrColumn, justifyOptions = { type = "H", align = "CENTER" }
         }
-        durationColumn.text = GGUI.Text {
-            parent = durationColumn, anchorParent = durationColumn, justifyOptions = { type = "H", align = "CENTER" }
+        changeColumn.text = GGUI.Text {
+            parent = changeColumn, anchorParent = changeColumn, justifyOptions = { type = "H", align = "CENTER" }
         }
         damageColumn.text = GGUI.Text {
             parent = damageColumn, anchorParent = damageColumn, justifyOptions = { type = "H", align = "CENTER" }
@@ -337,82 +349,82 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     end
     }
 
-    matchHistoryTab.content.teamDisplayDropdown = GGUI.Dropdown {
-        parent = matchHistoryTab.content.classFilterFrame.content, anchorParent = matchHistoryTab.content.classFilterFrame.frame,
-        anchorA = "TOPRIGHT", anchorB = "TOPRIGHT", width = 100, offsetX = -125, offsetY = -5,
+    local dropdownSizeY = 25
+    local dropdownScale = 1
+
+    matchHistoryTab.content.teamDisplayDropdown = GGUI.CustomDropdown {
+        parent = matchHistoryTab.content.classFilterFrame.content, anchorParent = ccCatalogueTab.button.frame,
+        anchorA = "LEFT", anchorB = "RIGHT", width = 110, offsetX = 10,
         initialData = {
             {
-                label = "Enemy Team",
-                value = "ENEMY_TEAM"
+                label = GUTIL:ColorizeText("Enemy Team", GUTIL.COLORS.WHITE),
+                value = PvPLookup.CONST.DISPLAY_TEAMS.ENEMY_TEAM,
             },
             {
-                label = "My Team",
-                value = "PLAYER_TEAM"
+                label = GUTIL:ColorizeText("My Team", GUTIL.COLORS.WHITE),
+                value = PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM
             },
         },
-        initialLabel = "My Team",
-        initialValue = "PLAYER_TEAM",
+        initialLabel = GUTIL:ColorizeText("My Team", GUTIL.COLORS.WHITE),
+        initialValue = PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM,
         clickCallback = function(self, label, value)
             PvPLookup.HISTORY:UpdateHistory()
-        end
+        end,
+        buttonOptions = {
+            buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.DROPDOWN,
+            fontOptions = {
+                fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+            },
+            sizeY = dropdownSizeY,
+            scale = dropdownScale
+        },
+        arrowOptions = PvPLookup.CONST.ASSETS.BUTTONS.DROPDOWN_ARROW_OPTIONS,
+        selectionFrameOptions = {
+            backdropOptions = PvPLookup.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP,
+            scale = dropdownScale,
+        }
     }
 
-    matchHistoryTab.content.pvpModeDropdown = GGUI.Dropdown {
-        parent = matchHistoryTab.content.classFilterFrame.content, anchorParent = matchHistoryTab.content.teamDisplayDropdown.frame, anchorA = "LEFT", anchorB = "RIGHT", width = 50, offsetX = -30,
+    matchHistoryTab.content.pvpModeDropdown = GGUI.CustomDropdown {
+        parent = matchHistoryTab.content.classFilterFrame.content, anchorParent = matchHistoryTab.content.teamDisplayDropdown.frame.frame,
+        anchorA = "LEFT", anchorB = "RIGHT", width = 70, offsetX = 10,
         initialData = {
             {
-                label = "Solo",
+                label = GUTIL:ColorizeText("Solo", GUTIL.COLORS.WHITE),
                 value = PvPLookup.CONST.PVP_MODES.SOLO,
             },
             {
-                label = "2v2",
+                label = GUTIL:ColorizeText("2v2", GUTIL.COLORS.WHITE),
                 value = PvPLookup.CONST.PVP_MODES.TWOS,
             },
             {
-                label = "3v3",
+                label = GUTIL:ColorizeText("3v3", GUTIL.COLORS.WHITE),
                 value = PvPLookup.CONST.PVP_MODES.THREES,
             },
             {
-                label = "RGB",
+                label = GUTIL:ColorizeText("RGB", GUTIL.COLORS.WHITE),
                 value = PvPLookup.CONST.PVP_MODES.RGB,
             },
         },
-        initialLabel = "2v2",
+        initialLabel = GUTIL:ColorizeText("2v2", GUTIL.COLORS.WHITE),
         initialValue = PvPLookup.CONST.PVP_MODES.TWOS,
         clickCallback = function(self, label, value)
             PvPLookup.HISTORY:UpdateHistory()
-        end
+        end,
+        buttonOptions = {
+            buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.DROPDOWN,
+            fontOptions = {
+                fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+            },
+            sizeY = dropdownSizeY,
+            scale = dropdownScale,
+        },
+        arrowOptions = PvPLookup.CONST.ASSETS.BUTTONS.DROPDOWN_ARROW_OPTIONS,
+        selectionFrameOptions = {
+            backdropOptions = PvPLookup.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP,
+            scale = dropdownScale,
+        }
     }
-
-    -- matchHistoryTab.content.teamDisplayDropdownCustom = GGUI.CustomDropdown {
-    --     parent = matchHistoryTab.content.classFilterFrame.content, anchorParent = matchHistoryTab.content.classFilterFrame.content,
-    --     anchorA = "BOTTOMRIGHT", anchorB = "TOPRIGHT",
-    --     initialLabel = "SelectedValue1",
-    --     initialValue = 1,
-    --     initialData = {
-    --         {
-    --             label = "SelectedValue1",
-    --             value = 1,
-    --         },
-    --         {
-    --             label = "SelectedValue2",
-    --             value = 2,
-    --         },
-    --         {
-    --             label = "SelectedValue3",
-    --             value = 3,
-    --         },
-    --         {
-    --             label = "SelectedValue4",
-    --             value = 4,
-    --         },
-    --         {
-    --             label = "SelectedValue5",
-    --             value = 5,
-    --         },
-    --     },
-    -- }
-    --matchHistoryTab.content.teamDisplayDropdownCustom:Hide() -- temporary
 end
 
 function PvPLookup.HISTORY.FRAMES:InitCCCatalogueTab()
@@ -509,6 +521,7 @@ function PvPLookup.HISTORY.FRAMES:InitCCCatalogueTab()
             end
         end
     }
+    ccCatalogueTab.content.ccList:Hide() -- Temp
 
     PvPLookup.HISTORY:FillCCData()
 end
@@ -566,14 +579,16 @@ function PvPLookup.HISTORY.FRAMES:InitDROverviewTab()
         end
     }
 
+    drOverviewTab.content.drList:Hide() -- Temp
+
     PvPLookup.HISTORY:FillDRData()
 end
 
 function PvPLookup.HISTORY:UpdateHistory()
     local matchHistoryTab = PvPLookup.HISTORY.frame.content.matchHistoryTab
-    local pvpList = matchHistoryTab.content.pvpList
+    local matchHistoryList = matchHistoryTab.content.matchHistoryList
 
-    matchHistoryTab.content.pvpList:Remove()
+    matchHistoryTab.content.matchHistoryList:Remove()
 
     local pvpModeFilter = PvPLookup.HISTORY:GetSelectedModeFilter()
     local displayedTeam = PvPLookup.HISTORY:GetDisplayTeam()
@@ -600,15 +615,15 @@ function PvPLookup.HISTORY:UpdateHistory()
         end)
 
     for _, matchHistory in pairs(filteredHistory) do
-        pvpList:Add(function(row)
+        matchHistoryList:Add(function(row)
             local columns = row.columns
             local dateColumn = columns[1]
             local mapColumn = columns[2]
             local teamColumn = columns[3]
             local mmrColumn = columns[4]
-            local durationColumn = columns[5]
-            local damageColumn = columns[6]
-            local healingColumn = columns[7]
+            local damageColumn = columns[5]
+            local healingColumn = columns[6]
+            local changeColumn = columns[7]
             local ratingColumn = columns[8]
 
             local date = date("*t", matchHistory.timestamp)
@@ -629,18 +644,18 @@ function PvPLookup.HISTORY:UpdateHistory()
             end
 
             -- Convert milliseconds to seconds
-            local totalSeconds = matchHistory.duration / 1000
-            -- Calculate minutes and remaining seconds
-            local minutes = math.floor(totalSeconds / 60)
-            local seconds = totalSeconds % 60
+            -- local totalSeconds = matchHistory.duration / 1000
+            -- -- Calculate minutes and remaining seconds
+            -- local minutes = math.floor(totalSeconds / 60)
+            -- local seconds = totalSeconds % 60
 
-            durationColumn.text:SetText(minutes .. ":" .. seconds)
+            changeColumn.text:SetText(FormatValueWithSign(matchHistory.ratingChange))
             ratingColumn.text:SetText(matchHistory.rating)
             ratingColumn:SetIconByRating(matchHistory.rating)
         end)
     end
 
-    pvpList:UpdateDisplay()
+    matchHistoryList:UpdateDisplay()
 end
 
 function PvPLookup.HISTORY:FillCCData()
