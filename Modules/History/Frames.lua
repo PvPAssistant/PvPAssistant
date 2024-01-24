@@ -12,7 +12,7 @@ PvPLookup.HISTORY.FRAMES = {}
 
 function PvPLookup.HISTORY.FRAMES:Init()
     local sizeX = 710
-    local sizeY = 635
+    local sizeY = 650
     ---@class PvPLookup.HistoryFrame : GGUI.Frame
     local frame = GGUI.Frame {
         moveable = true, frameID = PvPLookup.CONST.FRAMES.HISTORY_FRAME,
@@ -20,26 +20,38 @@ function PvPLookup.HISTORY.FRAMES:Init()
         backdropOptions = PvPLookup.CONST.HISTORY_BACKDROP,
     }
 
-    local titleFrame = GGUI.Frame {
-        parent = frame.content, anchorParent = frame.frame, anchorA = "BOTTOM", anchorB = "TOP",
-        backdropOptions = PvPLookup.CONST.INNER_DARK_BACKDROP,
-        sizeX = sizeX, sizeY = 40, offsetY = -2.5,
+    frame.content.titleLogo = GGUI.Text {
+        parent = frame.content, anchorParent = frame.content, offsetY = -15, offsetX = 30,
+        text = GUTIL:ColorizeText("PVP-LOOKUP", GUTIL.COLORS.LEGENDARY), scale = 1.7,
+        anchorA = "TOPLEFT", anchorB = "TOPLEFT",
     }
 
-    ---@class PvPLookup.HistoryFrame.Content
+    ---@class PvPLookup.HistoryFrame.Content : Frame
     frame.content = frame.content
-
-    ---@class PvPLookup.HistoryFrame.MatchHistoryTab : GGUI.BlizzardTab
-    frame.content.matchHistoryTab = GGUI.BlizzardTab {
-        parent = frame.content, anchorParent = frame.content, anchorA = "CENTER", anchorB = "CENTER",
-        sizeX = sizeX, sizeY = sizeY, initialTab = true, top = true,
+    local tabContentOffsetY = -50
+    local tabButtonScale = 1.1
+    ---@class PvPLookup.HistoryFrame.MatchHistoryTab : GGUI.Tab
+    frame.content.matchHistoryTab = GGUI.Tab {
+        parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
+        sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
         buttonOptions = {
-            label = "Match History",
-            anchorParent = frame.content,
-            offsetY = -40,
-            offsetX = 15
+            label = GUTIL:ColorizeText("Match History", GUTIL.COLORS.WHITE),
+            parent = frame.content,
+            anchorParent = frame.content.titleLogo.frame,
+            offsetY = 1,
+            offsetX = 30,
+            anchorA = "LEFT",
+            anchorB = "RIGHT",
+            adjustWidth = true,
+            sizeX = 15,
+            buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            fontOptions = {
+                fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+            },
+            scale = tabButtonScale,
         }
     }
+
     ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
     frame.content.matchHistoryTab.content = frame.content.matchHistoryTab.content
     local matchHistoryTab = frame.content.matchHistoryTab
@@ -47,16 +59,25 @@ function PvPLookup.HISTORY.FRAMES:Init()
     matchHistoryTab.content = matchHistoryTab.content
 
 
-    ---@class PvPLookup.HistoryFrame.DROverviewTab : GGUI.BlizzardTab
-    frame.content.drOverviewTab = GGUI.BlizzardTab {
-        parent = frame.content, anchorParent = frame.content, anchorA = "CENTER", anchorB = "CENTER",
-        sizeX = sizeX, sizeY = sizeY, top = true,
+    ---@class PvPLookup.HistoryFrame.DROverviewTab : GGUI.Tab
+    frame.content.drOverviewTab = GGUI.Tab {
+        parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
+        sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
         buttonOptions = {
-            label = "DR Overview",
-            anchorParent = frame.content.matchHistoryTab.button,
+            label = GUTIL:ColorizeText("DR Overview", GUTIL.COLORS.WHITE),
+            parent = frame.content,
+            anchorParent = frame.content.matchHistoryTab.button.frame,
             anchorA = "LEFT",
             anchorB = "RIGHT",
-        }
+            adjustWidth = true,
+            sizeX = 15,
+            offsetX = 10,
+            buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            fontOptions = {
+                fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+            },
+            scale = tabButtonScale,
+        },
     }
     ---@class PvPLookup.HistoryFrame.DROverviewTab.Content
     frame.content.drOverviewTab.content = frame.content.drOverviewTab.content
@@ -64,15 +85,24 @@ function PvPLookup.HISTORY.FRAMES:Init()
     ---@class PvPLookup.HistoryFrame.DROverviewTab.Content
     drOverviewTab.content = drOverviewTab.content
 
-    ---@class PvPLookup.HistoryFrame.CCCatalogueTab : GGUI.BlizzardTab
-    frame.content.ccCatalogueTab = GGUI.BlizzardTab {
-        parent = frame.content, anchorParent = frame.content, anchorA = "CENTER", anchorB = "CENTER",
-        sizeX = sizeX, sizeY = sizeY, top = true,
+    ---@class PvPLookup.HistoryFrame.CCCatalogueTab : GGUI.Tab
+    frame.content.ccCatalogueTab = GGUI.Tab {
+        parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
+        sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
         buttonOptions = {
-            label = "CC Catalogue",
-            anchorParent = frame.content.drOverviewTab.button,
+            label = GUTIL:ColorizeText("CC Catalogue", GUTIL.COLORS.WHITE),
+            parent = frame.content,
+            anchorParent = frame.content.drOverviewTab.button.frame,
             anchorA = "LEFT",
             anchorB = "RIGHT",
+            adjustWidth = true,
+            sizeX = 15,
+            offsetX = 10,
+            buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            fontOptions = {
+                fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+            },
+            scale = tabButtonScale,
         }
     }
     ---@class PvPLookup.HistoryFrame.CCCatalogueTab.Content
@@ -81,15 +111,10 @@ function PvPLookup.HISTORY.FRAMES:Init()
     ---@class PvPLookup.HistoryFrame.CCCatalogueTab.Content
     ccCatalogueTab.content = ccCatalogueTab.content
 
-    GGUI.BlizzardTabSystem { matchHistoryTab, ccCatalogueTab, drOverviewTab }
-
-    titleFrame.content.title = GGUI.Text {
-        parent = titleFrame.content, anchorParent = titleFrame.content, offsetY = -1, offsetX = 0,
-        text = GUTIL:ColorizeText("PVP-LOOKUP", GUTIL.COLORS.LEGENDARY), scale = 2,
-    }
+    GGUI.TabSystem { matchHistoryTab, ccCatalogueTab, drOverviewTab }
 
     frame.content.logo = GGUI.Text {
-        parent = frame.content, anchorParent = titleFrame.content.title.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = 0, offsetY = 2,
+        parent = frame.content, anchorParent = frame.content.titleLogo.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = 0, offsetY = 2,
         text = PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.LOGO_1024, 0.028)
     }
 
@@ -110,9 +135,9 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
 
     ---@class PvPLookup.History.ClassFilterFrame : GGUI.Frame
     matchHistoryTab.content.classFilterFrame = GGUI.Frame {
-        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.button,
-        anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT", backdropOptions = PvPLookup.CONST.INNER_DARK_BACKDROP,
-        sizeX = 677, sizeY = 80, offsetY = 3,
+        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content,
+        anchorA = "TOP", anchorB = "TOP", backdropOptions = PvPLookup.CONST.CLASS_FILTER_FRAME_BACKDROP,
+        sizeX = 677, sizeY = 80, offsetY = 0,
     }
 
     matchHistoryTab.content.classFilterFrame.title = GGUI.Text {
@@ -127,12 +152,12 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
 
     -- init class filter
     matchHistoryTab.activeClassFilters = {}
-    local classFilterIconSize = 28
+    local classFilterIconSize = 32
     local function CreateClassFilterIcon(class, anchorParent, offX, offY, anchorA, anchorB)
         local classFilterIcon = GGUI.ClassIcon {
             sizeX = classFilterIconSize, sizeY = classFilterIconSize,
             parent = matchHistoryTab.content.classFilterFrame.content, anchorParent = anchorParent,
-            initialClass = class, offsetX = offX, offsetY = offY, anchorA = anchorA, anchorB = anchorB, showBorder = true,
+            initialClass = class, offsetX = offX, offsetY = offY, anchorA = anchorA, anchorB = anchorB,
         }
 
         classFilterIcon.frame:SetScript("OnClick", function()
@@ -311,13 +336,6 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
         end
     end
     }
-    local listBackground = GGUI.Frame {
-        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.pvpList.frame,
-        sizeX = matchHistoryTab.content.pvpList:GetWidth() + 10, sizeY = matchHistoryTab.content.pvpList:GetHeight() + 40,
-        backdropOptions = PvPLookup.CONST.INNER_DARK_BACKDROP, offsetY = 12, scale = listScale,
-    }
-    listBackground:SetFrameLevel(matchHistoryTab.button:GetParent():GetFrameLevel() + 1)
-    matchHistoryTab.content.pvpList:SetFrameLevel(listBackground.frame:GetFrameLevel() + 1)
 
     matchHistoryTab.content.teamDisplayDropdown = GGUI.Dropdown {
         parent = matchHistoryTab.content.classFilterFrame.content, anchorParent = matchHistoryTab.content.classFilterFrame.frame,
@@ -366,34 +384,35 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
         end
     }
 
-    matchHistoryTab.content.teamDisplayDropdownCustom = GGUI.CustomDropdown {
-        parent = matchHistoryTab.content.classFilterFrame.content, anchorParent = matchHistoryTab.content.classFilterFrame.content,
-        anchorA = "BOTTOMRIGHT", anchorB = "TOPRIGHT",
-        initialLabel = "SelectedValue1",
-        initialValue = 1,
-        initialData = {
-            {
-                label = "SelectedValue1",
-                value = 1,
-            },
-            {
-                label = "SelectedValue2",
-                value = 2,
-            },
-            {
-                label = "SelectedValue3",
-                value = 3,
-            },
-            {
-                label = "SelectedValue4",
-                value = 4,
-            },
-            {
-                label = "SelectedValue5",
-                value = 5,
-            },
-        },
-    }
+    -- matchHistoryTab.content.teamDisplayDropdownCustom = GGUI.CustomDropdown {
+    --     parent = matchHistoryTab.content.classFilterFrame.content, anchorParent = matchHistoryTab.content.classFilterFrame.content,
+    --     anchorA = "BOTTOMRIGHT", anchorB = "TOPRIGHT",
+    --     initialLabel = "SelectedValue1",
+    --     initialValue = 1,
+    --     initialData = {
+    --         {
+    --             label = "SelectedValue1",
+    --             value = 1,
+    --         },
+    --         {
+    --             label = "SelectedValue2",
+    --             value = 2,
+    --         },
+    --         {
+    --             label = "SelectedValue3",
+    --             value = 3,
+    --         },
+    --         {
+    --             label = "SelectedValue4",
+    --             value = 4,
+    --         },
+    --         {
+    --             label = "SelectedValue5",
+    --             value = 5,
+    --         },
+    --     },
+    -- }
+    --matchHistoryTab.content.teamDisplayDropdownCustom:Hide() -- temporary
 end
 
 function PvPLookup.HISTORY.FRAMES:InitCCCatalogueTab()
