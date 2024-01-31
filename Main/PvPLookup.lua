@@ -19,7 +19,7 @@ function PvPLookup:InitializeMinimapButton()
 		tocname = "PvPLookup",
 		icon = "Interface\\Addons\\PvPLookup\\Media\\Images\\logo1024",
 		OnClick = function()
-			local historyFrame = GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.HISTORY_FRAME)
+			local historyFrame = GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.MAIN_FRAME)
 			if historyFrame then
 				historyFrame:SetVisible(not historyFrame:IsVisible())
 			end
@@ -34,7 +34,7 @@ end
 function PvPLookup.MAIN:Init()
 	PvPLookup.MAIN:InitializeSlashCommands()
 	PvPLookup.OPTIONS:Init()
-	PvPLookup.HISTORY.FRAMES:Init()
+	PvPLookup.MAIN_FRAME.FRAMES:Init()
 	PvPLookup.PVPINFO.FRAMES:Init()
 	PvPLookup:InitializeMinimapButton()
 
@@ -44,7 +44,7 @@ function PvPLookup.MAIN:Init()
 
 	-- restore frame positions
 	---@type GGUI.Frame
-	local historyFrame = PvPLookup.GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.HISTORY_FRAME)
+	local historyFrame = PvPLookup.GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.MAIN_FRAME)
 	historyFrame:RestoreSavedConfig(UIParent)
 end
 
@@ -68,7 +68,7 @@ function PvPLookup.MAIN:InitializeSlashCommands()
 		end
 
 		if command == "" then
-			local historyFrame = GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.HISTORY_FRAME)
+			local historyFrame = GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.MAIN_FRAME)
 
 			if historyFrame then
 				historyFrame:Show()
@@ -85,5 +85,5 @@ function PvPLookup.MAIN:ADDON_LOADED(addon_name)
 end
 
 function PvPLookup.MAIN:PLAYER_ENTERING_WORLD()
-	PvPLookup.HISTORY:UpdateHistory()
+	PvPLookup.MAIN_FRAME:UpdateHistory()
 end

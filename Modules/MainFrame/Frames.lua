@@ -4,18 +4,18 @@ local PvPLookup = select(2, ...)
 local GGUI = PvPLookup.GGUI
 local GUTIL = PvPLookup.GUTIL
 
----@class PvPLookup.History
-PvPLookup.HISTORY = PvPLookup.HISTORY
+---@class MAIN_FRAME
+PvPLookup.MAIN_FRAME = PvPLookup.MAIN_FRAME
 
----@class PvPLookup.History.Frames
-PvPLookup.HISTORY.FRAMES = {}
+---@class PvPLookup.MAIN_FRAME.FRAMES
+PvPLookup.MAIN_FRAME.FRAMES = {}
 
-function PvPLookup.HISTORY.FRAMES:Init()
+function PvPLookup.MAIN_FRAME.FRAMES:Init()
     local sizeX = 740
     local sizeY = 650
-    ---@class PvPLookup.HistoryFrame : GGUI.Frame
+    ---@class PvPLookup.MAIN_FRAME.FRAME : GGUI.Frame
     local frame = GGUI.Frame {
-        moveable = true, frameID = PvPLookup.CONST.FRAMES.HISTORY_FRAME,
+        moveable = true, frameID = PvPLookup.CONST.FRAMES.MAIN_FRAME,
         sizeX = sizeX, sizeY = sizeY, frameConfigTable = PvPLookupGGUIConfig, frameTable = PvPLookup.MAIN.FRAMES,
         backdropOptions = PvPLookup.CONST.HISTORY_BACKDROP, globalName = PvPLookup.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME
     }
@@ -29,11 +29,11 @@ function PvPLookup.HISTORY.FRAMES:Init()
         anchorA = "TOPLEFT", anchorB = "TOPLEFT",
     }
 
-    ---@class PvPLookup.HistoryFrame.Content : Frame
+    ---@class PvPLookup.MAIN_FRAME.CONTENT : Frame
     frame.content = frame.content
     local tabContentOffsetY = -50
     local tabButtonScale = 1
-    ---@class PvPLookup.HistoryFrame.MatchHistoryTab : GGUI.Tab
+    ---@class PvPLookup.MAIN_FRAME.MATCH_HISTORY_TAB : GGUI.Tab
     frame.content.matchHistoryTab = GGUI.Tab {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
@@ -55,14 +55,14 @@ function PvPLookup.HISTORY.FRAMES:Init()
         }
     }
 
-    ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
+    ---@class PvPLookup.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
     frame.content.matchHistoryTab.content = frame.content.matchHistoryTab.content
     local matchHistoryTab = frame.content.matchHistoryTab
-    ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
+    ---@class PvPLookup.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
     matchHistoryTab.content = matchHistoryTab.content
 
 
-    ---@class PvPLookup.HistoryFrame.DROverviewTab : GGUI.Tab
+    ---@class PvPLookup.MAIN_FRAME.DR_OVERVIEW_TAB : GGUI.Tab
     frame.content.drOverviewTab = GGUI.Tab {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
@@ -82,13 +82,13 @@ function PvPLookup.HISTORY.FRAMES:Init()
             scale = tabButtonScale,
         },
     }
-    ---@class PvPLookup.HistoryFrame.DROverviewTab.Content
+    ---@class PvPLookup.MAIN_FRAME.DR_OVERVIEW_TAB.CONTENT
     frame.content.drOverviewTab.content = frame.content.drOverviewTab.content
     local drOverviewTab = frame.content.drOverviewTab
-    ---@class PvPLookup.HistoryFrame.DROverviewTab.Content
+    ---@class PvPLookup.MAIN_FRAME.DR_OVERVIEW_TAB.CONTENT
     drOverviewTab.content = drOverviewTab.content
 
-    ---@class PvPLookup.HistoryFrame.CCCatalogueTab : GGUI.Tab
+    ---@class PvPLookup.MAIN_FRAME.CC_CATALOGUE_TAB : GGUI.Tab
     frame.content.ccCatalogueTab = GGUI.Tab {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
@@ -108,10 +108,10 @@ function PvPLookup.HISTORY.FRAMES:Init()
             scale = tabButtonScale,
         }
     }
-    ---@class PvPLookup.HistoryFrame.CCCatalogueTab.Content
+    ---@class PvPLookup.MAIN_FRAME.CC_CATALOGUE_TAB.CONTENT
     frame.content.ccCatalogueTab.content = frame.content.ccCatalogueTab.content
     local ccCatalogueTab = frame.content.ccCatalogueTab
-    ---@class PvPLookup.HistoryFrame.CCCatalogueTab.Content
+    ---@class PvPLookup.MAIN_FRAME.CC_CATALOGUE_TAB.CONTENT
     ccCatalogueTab.content = ccCatalogueTab.content
 
     GGUI.TabSystem { matchHistoryTab, ccCatalogueTab, drOverviewTab }
@@ -121,21 +121,21 @@ function PvPLookup.HISTORY.FRAMES:Init()
         text = PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.LOGO_1024, 0.028)
     }
 
-    PvPLookup.HISTORY.frame = frame
+    PvPLookup.MAIN_FRAME.frame = frame
 
-    PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
-    PvPLookup.HISTORY.FRAMES:InitCCCatalogueTab()
-    PvPLookup.HISTORY.FRAMES:InitDROverviewTab()
+    PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
+    PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
+    PvPLookup.MAIN_FRAME.FRAMES:InitDR_OVERVIEW_TAB()
 
     frame:Hide()
 end
 
-function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
-    ---@class PvPLookup.HistoryFrame.MatchHistoryTab
-    local matchHistoryTab = PvPLookup.HISTORY.frame.content.matchHistoryTab
-    ---@type PvPLookup.HistoryFrame.CCCatalogueTab
-    local ccCatalogueTab = PvPLookup.HISTORY.frame.content.ccCatalogueTab
-    ---@class PvPLookup.HistoryFrame.MatchHistoryTab.Content
+function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
+    ---@class PvPLookup.MAIN_FRAME.MATCH_HISTORY_TAB
+    local matchHistoryTab = PvPLookup.MAIN_FRAME.frame.content.matchHistoryTab
+    ---@type PvPLookup.MAIN_FRAME.CC_CATALOGUE_TAB
+    local ccCatalogueTab = PvPLookup.MAIN_FRAME.frame.content.ccCatalogueTab
+    ---@class PvPLookup.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
     matchHistoryTab.content = matchHistoryTab.content
 
     ---@class PvPLookup.History.ClassFilterFrame : GGUI.Frame
@@ -177,12 +177,12 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
                 matchHistoryTab.activeClassFilters[class] = true
                 classFilterIcon:Desaturate()
                 -- reload list with new filters
-                PvPLookup.HISTORY:UpdateHistory()
+                PvPLookup.MAIN_FRAME:UpdateHistory()
             else
                 matchHistoryTab.activeClassFilters[class] = nil
                 classFilterIcon:Saturate()
                 -- reload list with new filters
-                PvPLookup.HISTORY:UpdateHistory()
+                PvPLookup.MAIN_FRAME:UpdateHistory()
             end
         end)
 
@@ -368,7 +368,7 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
         initialLabel = GUTIL:ColorizeText("My Team", GUTIL.COLORS.WHITE),
         initialValue = PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM,
         clickCallback = function(self, label, value)
-            PvPLookup.HISTORY:UpdateHistory()
+            PvPLookup.MAIN_FRAME:UpdateHistory()
         end,
         buttonOptions = {
             buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.DROPDOWN,
@@ -409,7 +409,7 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
         initialLabel = GUTIL:ColorizeText("2v2", GUTIL.COLORS.WHITE),
         initialValue = PvPLookup.CONST.PVP_MODES.TWOS,
         clickCallback = function(self, label, value)
-            PvPLookup.HISTORY:UpdateHistory()
+            PvPLookup.MAIN_FRAME:UpdateHistory()
         end,
         buttonOptions = {
             buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.DROPDOWN,
@@ -427,9 +427,9 @@ function PvPLookup.HISTORY.FRAMES:InitMatchHistoryTab()
     }
 end
 
-function PvPLookup.HISTORY.FRAMES:InitCCCatalogueTab()
-    local ccCatalogueTab = PvPLookup.HISTORY.frame.content.ccCatalogueTab
-    ---@class PvPLookup.HistoryFrame.CCCatalogueTab.Content
+function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
+    local ccCatalogueTab = PvPLookup.MAIN_FRAME.frame.content.ccCatalogueTab
+    ---@class PvPLookup.MAIN_FRAME.CC_CATALOGUE_TAB.CONTENT
     ccCatalogueTab.content = ccCatalogueTab.content
 
     ---@type GGUI.FrameList.ColumnOption[]
@@ -523,12 +523,12 @@ function PvPLookup.HISTORY.FRAMES:InitCCCatalogueTab()
     }
     ccCatalogueTab.content.ccList:Hide() -- Temp
 
-    PvPLookup.HISTORY:FillCCData()
+    PvPLookup.MAIN_FRAME:FillCCData()
 end
 
-function PvPLookup.HISTORY.FRAMES:InitDROverviewTab()
-    local drOverviewTab = PvPLookup.HISTORY.frame.content.drOverviewTab
-    ---@class PvPLookup.HistoryFrame.DROverviewTab.Content
+function PvPLookup.MAIN_FRAME.FRAMES:InitDR_OVERVIEW_TAB()
+    local drOverviewTab = PvPLookup.MAIN_FRAME.frame.content.drOverviewTab
+    ---@class PvPLookup.MAIN_FRAME.DR_OVERVIEW_TAB.CONTENT
     drOverviewTab.content = drOverviewTab.content
 
     ---@type GGUI.FrameList.ColumnOption[]
@@ -581,17 +581,17 @@ function PvPLookup.HISTORY.FRAMES:InitDROverviewTab()
 
     drOverviewTab.content.drList:Hide() -- Temp
 
-    PvPLookup.HISTORY:FillDRData()
+    PvPLookup.MAIN_FRAME:FillDRData()
 end
 
-function PvPLookup.HISTORY:UpdateHistory()
-    local matchHistoryTab = PvPLookup.HISTORY.frame.content.matchHistoryTab
+function PvPLookup.MAIN_FRAME:UpdateHistory()
+    local matchHistoryTab = PvPLookup.MAIN_FRAME.frame.content.matchHistoryTab
     local matchHistoryList = matchHistoryTab.content.matchHistoryList
 
     matchHistoryTab.content.matchHistoryList:Remove()
 
-    local pvpModeFilter = PvPLookup.HISTORY:GetSelectedModeFilter()
-    local displayedTeam = PvPLookup.HISTORY:GetDisplayTeam()
+    local pvpModeFilter = PvPLookup.MAIN_FRAME:GetSelectedModeFilter()
+    local displayedTeam = PvPLookup.MAIN_FRAME:GetDisplayTeam()
 
     ---@type PvPLookup.MatchHistory[]
     local filteredHistory = GUTIL:Filter(PvPLookupHistoryDB or {},
@@ -658,8 +658,8 @@ function PvPLookup.HISTORY:UpdateHistory()
     matchHistoryList:UpdateDisplay()
 end
 
-function PvPLookup.HISTORY:FillCCData()
-    local ccCatalogueTab = PvPLookup.HISTORY.frame.content.ccCatalogueTab
+function PvPLookup.MAIN_FRAME:FillCCData()
+    local ccCatalogueTab = PvPLookup.MAIN_FRAME.frame.content.ccCatalogueTab
     local ccList = ccCatalogueTab.content.ccList
 
     for i = 1, 30 do
@@ -681,8 +681,8 @@ function PvPLookup.HISTORY:FillCCData()
     ccList:UpdateDisplay()
 end
 
-function PvPLookup.HISTORY:FillDRData()
-    local drOverviewTab = PvPLookup.HISTORY.frame.content.drOverviewTab
+function PvPLookup.MAIN_FRAME:FillDRData()
+    local drOverviewTab = PvPLookup.MAIN_FRAME.frame.content.drOverviewTab
     local drList = drOverviewTab.content.drList
 
     for i = 1, 30 do

@@ -11,10 +11,10 @@
 ## SavedVariables: PvPLookupHistoryDB, PvPLookupGGUIConfig, PvPLookupOptions, PvPLookupLibIconDB
 ## Dependencies: Blizzard_PVPUI
 ## OptionalDeps: DevTool
-## Version: 0.0.10
+## Version: 0.0.12
 
 embeds.xml
-Libs/Libs.lua
+Libs/Libs.lua   
 Util/Const.lua
 Util/Util.lua
 Util/DB.lua
@@ -27,7 +27,7 @@ Media/Media.lua
 Main/PvPLookup.lua
 
 Modules/Options/Options.lua
-Modules/History/History.lua
-Modules/History/Frames.lua
+Modules/MainFrame/MainFrame.lua
+Modules/MainFrame/Frames.lua
 Modules/PvPInfo/PvPInfo.lua
 Modules/PvPInfo/Frames.lua

@@ -7,7 +7,7 @@ PvPLookup.CONST = {}
 ---@enum PvPLookup.Const.Frames
 PvPLookup.CONST.FRAMES = {
     NEWS = "NEWS",
-    HISTORY_FRAME = "HISTORY_FRAME",
+    MAIN_FRAME = "MAIN_FRAME",
     PVPINFO = "PVPINFO",
 }
 
