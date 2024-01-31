@@ -11,7 +11,7 @@ PvPLookup.MAIN_FRAME = PvPLookup.MAIN_FRAME
 PvPLookup.MAIN_FRAME.FRAMES = {}
 
 function PvPLookup.MAIN_FRAME.FRAMES:Init()
-    local sizeX = 740
+    local sizeX = 750
     local sizeY = 650
     ---@class PvPLookup.MAIN_FRAME.FRAME : GGUI.Frame
     local frame = GGUI.Frame {
