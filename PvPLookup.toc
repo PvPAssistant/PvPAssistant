@@ -31,3 +31,4 @@ Modules/MainFrame/MainFrame.lua
 Modules/MainFrame/Frames.lua
 Modules/PvPInfo/PvPInfo.lua
 Modules/PvPInfo/Frames.lua
+Modules/PlayerTooltip/PlayerTooltip.lua

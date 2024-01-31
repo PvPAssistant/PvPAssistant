@@ -152,7 +152,7 @@ function PvPLookup.DEBUG:CreatePlayerDummyData()
                 exp = 3145,
             },
             [PvPLookup.CONST.PVP_MODES.SOLO] = {
-                rating = 268,
+                rating = 2168,
                 win = 567,
                 loss = 109,
                 exp = 2345,

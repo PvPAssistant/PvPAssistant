@@ -17,7 +17,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
     local frame = GGUI.Frame {
         moveable = true, frameID = PvPLookup.CONST.FRAMES.MAIN_FRAME,
         sizeX = sizeX, sizeY = sizeY, frameConfigTable = PvPLookupGGUIConfig, frameTable = PvPLookup.MAIN.FRAMES,
-        backdropOptions = PvPLookup.CONST.HISTORY_BACKDROP, globalName = PvPLookup.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME
+        backdropOptions = PvPLookup.CONST.MAIN_FRAME_BACKDROP, globalName = PvPLookup.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME
     }
 
     -- makes it closeable on Esc

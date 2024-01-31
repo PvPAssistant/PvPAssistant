@@ -41,10 +41,7 @@ function PvPLookup.MAIN:Init()
 	PvPLookup.MAIN_FRAME.FRAMES:Init()
 	PvPLookup.PVPINFO.FRAMES:Init()
 	PvPLookup:InitializeMinimapButton()
-
-	--- DEBUG Dummy Data
-	PvPLookup.DEBUG:CreateHistoryDummyData()
-	PvPLookup.DEBUG:CreatePlayerDummyData()
+	PvPLookup.PLAYER_TOOLTIP:Init()
 
 	-- restore frame positions
 	PvPLookup.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
@@ -79,5 +76,9 @@ function PvPLookup.MAIN:ADDON_LOADED(addon_name)
 end
 
 function PvPLookup.MAIN:PLAYER_ENTERING_WORLD()
+	--- DEBUG Dummy Data
+	PvPLookup.DEBUG:CreateHistoryDummyData()
+	PvPLookup.DEBUG:CreatePlayerDummyData()
+
 	PvPLookup.MAIN_FRAME:UpdateHistory()
 end

@@ -21,10 +21,10 @@ PvPLookup.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME = "PvPLookupFrame"
 
 ---@enum PvPLookup.Const.PVPModes
 PvPLookup.CONST.PVP_MODES = {
-    SOLO = "SOLO",
     TWOS = "TWOS",
     THREES = "THREES",
     RBG = "RBG",
+    SOLO = "SOLO",
 }
 ---@type table<PvPLookup.Const.PVPModes, string>
 PvPLookup.CONST.PVP_MODES_NAMES = {
@@ -49,13 +49,30 @@ PvPLookup.CONST.PVPINFO_BACKDROP = {
     colorA = 0.5,
 }
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.HISTORY_BACKDROP = {
+PvPLookup.CONST.MAIN_FRAME_BACKDROP = {
     bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024",
     colorR = 0.2,
     colorG = 0.2,
     colorB = 0.2,
     colorA = 1,
 }
+---@type GGUI.BackdropOptions
+PvPLookup.CONST.TOOLTIP_FRAME_BACKDROP = {
+    bgFile = "Interface\\Buttons\\WHITE8X8",
+    colorR = 0.816,
+    colorG = 0.863,
+    colorB = 0.961,
+    colorA = 0.08,
+}
+---@type GGUI.BackdropOptions
+PvPLookup.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A = {
+    bgFile = "Interface\\Buttons\\WHITE8X8",
+    colorR = 0.816,
+    colorG = 0.863,
+    colorB = 0.961,
+    colorA = 0.08,
+}
+
 ---@type GGUI.BackdropOptions
 PvPLookup.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP = {
     bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024",
@@ -272,7 +289,8 @@ PvPLookup.CONST.ASSETS = {
 }
 
 PvPLookup.CONST.FONT_FILES = {
-    ROBOTO = 'Interface/addons/PvPLookup/Media/Fonts/Roboto-Regular.ttf'
+    ROBOTO = 'Interface/addons/PvPLookup/Media/Fonts/Roboto-Regular.ttf',
+    MONOSPACE = 'Interface/addons/PvPLookup/Media/Fonts/SpaceMono-Regular.ttf',
 }
 
 PvPLookup.CONST.ATLAS = {
