@@ -7,11 +7,11 @@ local PvPLookup = select(2, ...)
 ---@field name string
 ---@field server string
 
----@class PvPLookup.Team 
+---@class PvPLookup.Team
 ---@field players PvPLookup.Player[]
 
 ---@class PvPLookup.MatchHistory
----@overload fun(timestamp:number, map:string, playerTeam: PvPLookup.Team , enemyTeam: PvPLookup.Team , playerMMR: number, enemyMMR: number, duration: number, playerDamage: number, enemyDamage: number, playerHealing: number, enemyHealing: number, rating: number, pvpMode: PvPLookup.Const.PVPModes ,win:boolean): PvPLookup.MatchHistory
+---@overload fun(timestamp:number, map:string, playerTeam: PvPLookup.Team , enemyTeam: PvPLookup.Team , playerMMR: number, enemyMMR: number, duration: number, playerDamage: number, enemyDamage: number, playerHealing: number, enemyHealing: number, rating: number, ratingChange: number, pvpMode: PvPLookup.Const.PVPModes, win:boolean): PvPLookup.MatchHistory
 PvPLookup.MatchHistory = PvPLookup.Object:extend()
 
 ---@param timestamp number
@@ -26,9 +26,11 @@ PvPLookup.MatchHistory = PvPLookup.Object:extend()
 ---@param playerHealing number
 ---@param enemyHealing number
 ---@param rating number
+---@param ratingChange number
 ---@param pvpMode PvPLookup.Const.PVPModes
 ---@param win boolean
-function PvPLookup.MatchHistory:new(timestamp, map, playerTeam, enemyTeam, playerMMR, enemyMMR, duration, playerDamage, enemyDamage, playerHealing, enemyHealing, rating, pvpMode, win)
+function PvPLookup.MatchHistory:new(timestamp, map, playerTeam, enemyTeam, playerMMR, enemyMMR, duration, playerDamage,
+                                    enemyDamage, playerHealing, enemyHealing, rating, ratingChange, pvpMode, win)
     self.timestamp = timestamp
     self.map = map
     self.playerTeam = playerTeam
@@ -41,6 +43,7 @@ function PvPLookup.MatchHistory:new(timestamp, map, playerTeam, enemyTeam, playe
     self.playerHealing = playerHealing
     self.enemyHealing = enemyHealing
     self.rating = rating
+    self.ratingChange = ratingChange
     self.pvpMode = pvpMode
     self.win = win
 end

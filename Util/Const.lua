@@ -17,6 +17,8 @@ PvPLookup.CONST.DISPLAY_TEAMS = {
     ENEMY_TEAM = "ENEMY_TEAM",
 }
 
+PvPLookup.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME = "PvPLookupFrame"
+
 ---@enum PvPLookup.Const.PVPModes
 PvPLookup.CONST.PVP_MODES = {
     SOLO = "SOLO",
@@ -41,23 +43,27 @@ PvPLookup.CONST.PVPINFO_BACKDROP = {
 }
 ---@type GGUI.BackdropOptions
 PvPLookup.CONST.HISTORY_BACKDROP = {
+    bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024",
+    colorR = 0.2,
+    colorG = 0.2,
+    colorB = 0.2,
+    colorA = 1,
+}
+---@type GGUI.BackdropOptions
+PvPLookup.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP = {
+    bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024",
     borderOptions = {
-        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-        -- edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-        edgeSize = 13,
-        insets = { left = 3, right = 5, top = 0, bottom = 0 },
-        colorR = 1,
-        colorG = 1,
-        colorB = 1,
-        colorA = 1,
+        insets = {
+            top = 0,
+            bottom = 0,
+            left = 0,
+            right = 0,
+        },
     },
-    bgFile = "Interface\\Buttons\\WHITE8X8",
-    tile = true,
-    tileSize = 32,
-    colorR = 0,
-    colorG = 0,
-    colorB = 0,
-    colorA = 0.7,
+    colorR = 0.3,
+    colorG = 0.3,
+    colorB = 0.32,
+    colorA = 1,
 }
 
 ---@type GGUI.BackdropOptions
@@ -66,29 +72,18 @@ PvPLookup.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
     },
-    colorR=0,
-    colorG=0,
-    colorB=0,
-    colorA=0,
+    colorR = 0,
+    colorG = 0,
+    colorB = 0,
+    colorA = 0,
 }
 
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.INNER_DARK_BACKDROP = {
-    borderOptions = {
-        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-        edgeSize = 16,
-        colorR = 0.314,
-        colorG = 0.306,
-        colorB = 0.306,
-        colorA = 1,
-        insets={top=2, bottom = 2, left=2, right=2},
-    },
-    bgFile = "Interface\\Buttons\\WHITE8X8",
-    tile = true,
-    tileSize = 32,
-    colorR = 0.114,
-    colorG = 0.106,
-    colorB = 0.106,
+PvPLookup.CONST.CLASS_FILTER_FRAME_BACKDROP = {
+    bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024x128",
+    colorR = 0.176,
+    colorG = 0.176,
+    colorB = 0.184,
     colorA = 1,
 }
 
@@ -114,16 +109,16 @@ PvPLookup.CONST.HISTORY_TITLE_BACKDROP = {
 ---@type GGUI.BackdropOptions
 PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B = {
     bgFile = "Interface\\Buttons\\WHITE8X8",
-    colorR = 0.443,
-    colorG = 0.435,
-    colorB = 0.447,
-    colorA = 1,
+    colorR = 0.816,
+    colorG = 0.863,
+    colorB = 0.961,
+    colorA = 0.08,
 }
 PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A = {
     bgFile = "Interface\\Buttons\\WHITE8X8",
-    colorR = 0.157,
-    colorG = 0.157,
-    colorB = 0.157,
+    colorR = 0.2,
+    colorG = 0.2,
+    colorB = 0.2,
     colorA = 1,
 }
 
@@ -212,31 +207,67 @@ PvPLookup.CONST.CLASS_NAMES = {
 
 PvPLookup.CONST.RATING_ICON_MAP = {
     {
-        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank1",
-        rating=0
+        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank1",
+        rating = 0
     },
     {
-        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank2",
-        rating=1000
+        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank2",
+        rating = 1000
     },
     {
-        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank3",
-        rating=1400
+        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank3",
+        rating = 1400
     },
     {
-        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank4",
-        rating=1600
+        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank4",
+        rating = 1600
     },
     {
-        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank5",
-        rating=1800
+        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank5",
+        rating = 1800
     },
     {
-        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank6",
-        rating=2100
+        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank6",
+        rating = 2100
     },
     {
-        icon="Interface\\addons\\PvPLookup\\Media\\Images\\rank7",
-        rating=2400
+        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank7",
+        rating = 2400
     },
+}
+
+---@class PvPLookup.Assets
+PvPLookup.CONST.ASSETS = {
+
+    BUTTONS = {
+        ---@type GGUI.ButtonTextureOptions
+        TAB_BUTTON = {
+            normal = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonNormal',
+            disabled = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonDisabled',
+            highlight = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonHighlighted',
+            pushed = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonDisabled',
+        },
+        ---@type GGUI.ButtonTextureOptions
+        DROPDOWN = {
+            normal = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonNormal',
+            disabled = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonDisabled',
+            highlight = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonHighlighted',
+            pushed = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonDisabled',
+            isAtlas = false,
+        },
+        ---@type GGUI.CustomDropdown.ArrowOptions
+        DROPDOWN_ARROW_OPTIONS = {
+            isAtlas = false,
+            normal = "Interface/addons/PvPLookup/Media/Buttons/Dropdown/DropdownArrowPushed",
+            pushed = "Interface/addons/PvPLookup/Media/Buttons/Dropdown/DropdownArrowPushed",
+            sizeX = 15,
+            sizeY = 15,
+            offsetX = -5,
+            offsetY = 0,
+        }
+    },
+}
+
+PvPLookup.CONST.FONT_FILES = {
+    ROBOTO = 'Interface/addons/PvPLookup/Media/Fonts/Roboto-Regular.ttf'
 }
