@@ -8,7 +8,7 @@
 ## X-Wago-ID: 
 ## X-WoWI-ID: 
 ## IconTexture: Interface\Addons\PvPLookup\Media\Images\logo1024
-## SavedVariables: PvPLookupHistoryDB, PvPLookupGGUIConfig, PvPLookupOptions, PvPLookupLibIconDB
+## SavedVariables: PvPLookupHistoryDB, PvPLookupGGUIConfig, PvPLookupOptions, PvPLookupLibIconDB, PvPLookupPlayerDB
 ## Dependencies: Blizzard_PVPUI
 ## OptionalDeps: DevTool
 ## Version: 0.0.12

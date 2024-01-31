@@ -12,19 +12,23 @@ PvPLookup.MAIN.FRAMES = {}
 
 function PvPLookup:InitializeMinimapButton()
 	local LibIcon = LibStub("LibDBIcon-1.0")
-	local ldb = LibStub("LibDataBroker-1.1"):NewDataObject("Bunnies!", {
+	local ldb = LibStub("LibDataBroker-1.1"):NewDataObject("PVPLOOKUP", {
 		type = "data source",
-		--tooltip = "PvPLookup",
 		label = "PvPLookup",
 		tocname = "PvPLookup",
 		icon = "Interface\\Addons\\PvPLookup\\Media\\Images\\logo1024",
 		OnClick = function()
-			local historyFrame = GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.MAIN_FRAME)
-			if historyFrame then
-				historyFrame:SetVisible(not historyFrame:IsVisible())
+			local mainFrame = GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.MAIN_FRAME)
+			if mainFrame then
+				mainFrame:SetVisible(not mainFrame:IsVisible())
 			end
 		end,
 	})
+
+	function ldb.OnTooltipShow(tt)
+		tt:AddLine(GUTIL:ColorizeText("PvPLookup\n", GUTIL.COLORS.LEGENDARY))
+		tt:AddLine(GUTIL:ColorizeText("Click to Open!", GUTIL.COLORS.WHITE))
+	end
 
 	PvPLookupLibIconDB = PvPLookupLibIconDB or {}
 
@@ -38,14 +42,12 @@ function PvPLookup.MAIN:Init()
 	PvPLookup.PVPINFO.FRAMES:Init()
 	PvPLookup:InitializeMinimapButton()
 
-	--- DEBUG
+	--- DEBUG Dummy Data
 	PvPLookup.DEBUG:CreateHistoryDummyData()
-
+	PvPLookup.DEBUG:CreatePlayerDummyData()
 
 	-- restore frame positions
-	---@type GGUI.Frame
-	local historyFrame = PvPLookup.GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.MAIN_FRAME)
-	historyFrame:RestoreSavedConfig(UIParent)
+	PvPLookup.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
 end
 
 function PvPLookup.MAIN:InitializeSlashCommands()
@@ -63,16 +65,8 @@ function PvPLookup.MAIN:InitializeSlashCommands()
 			InterfaceOptionsFrame_OpenToCategory(PvPLookup.OPTIONS.optionsPanel)
 		end
 
-		if command == "news" then
-			PvPLookup.NEWS:ShowNews(true)
-		end
-
 		if command == "" then
-			local historyFrame = GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.MAIN_FRAME)
-
-			if historyFrame then
-				historyFrame:Show()
-			end
+			PvPLookup.MAIN_FRAME.frame:Show()
 		end
 	end
 end

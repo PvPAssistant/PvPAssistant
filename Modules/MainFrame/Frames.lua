@@ -403,7 +403,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             },
             {
                 label = GUTIL:ColorizeText("RGB", GUTIL.COLORS.WHITE),
-                value = PvPLookup.CONST.PVP_MODES.RGB,
+                value = PvPLookup.CONST.PVP_MODES.RBG,
             },
         },
         initialLabel = GUTIL:ColorizeText("2v2", GUTIL.COLORS.WHITE),

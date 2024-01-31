@@ -9,7 +9,7 @@ PvPLookup_DEBUG = PvPLookup.DEBUG
 local DevTool = DevTool
 
 function PvPLookup.DEBUG:CreateHistoryDummyData()
-    PvPLookupHistoryDB = {}
+    wipe(PvPLookupHistoryDB)
     --- 2v2s
     for _ = 1, 150 do
         table.insert(PvPLookupHistoryDB, PvPLookup.MatchHistory(
@@ -122,6 +122,44 @@ function PvPLookup.DEBUG:CreateHistoryDummyData()
             false
         ))
     end
+end
+
+function PvPLookup.DEBUG:CreatePlayerDummyData()
+    PvPLookupPlayerDB = PvPLookupPlayerDB or {}
+    wipe(PvPLookupPlayerDB)
+
+    local playerUID = PvPLookup.UTIL:GetPlayerUIDByUnit("player")
+
+    ---@type PvPLookup.PlayerTooltipData
+    local playerTooltipData = {
+        ratingData = {
+            [PvPLookup.CONST.PVP_MODES.TWOS] = {
+                rating = 2168,
+                win = 190,
+                loss = 95,
+                exp = 2657,
+            },
+            [PvPLookup.CONST.PVP_MODES.THREES] = {
+                rating = 2568,
+                win = 601,
+                loss = 95,
+                exp = 2895,
+            },
+            [PvPLookup.CONST.PVP_MODES.RBG] = {
+                rating = 2168,
+                win = 69,
+                loss = 16,
+                exp = 3145,
+            },
+            [PvPLookup.CONST.PVP_MODES.SOLO] = {
+                rating = 268,
+                win = 567,
+                loss = 109,
+                exp = 2345,
+            },
+        },
+    }
+    PvPLookupPlayerDB[playerUID] = playerTooltipData
 end
 
 ---@return PvPLookup

@@ -24,7 +24,14 @@ PvPLookup.CONST.PVP_MODES = {
     SOLO = "SOLO",
     TWOS = "TWOS",
     THREES = "THREES",
-    RGB = "RGB",
+    RBG = "RBG",
+}
+---@type table<PvPLookup.Const.PVPModes, string>
+PvPLookup.CONST.PVP_MODES_NAMES = {
+    SOLO = "Shuffle",
+    TWOS = "2v2",
+    THREES = "3v3",
+    RBG = "RBG",
 }
 ---@type GGUI.BackdropOptions
 PvPLookup.CONST.PVPINFO_BACKDROP = {
@@ -230,10 +237,6 @@ PvPLookup.CONST.RATING_ICON_MAP = {
         icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank6",
         rating = 2100
     },
-    {
-        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank7",
-        rating = 2400
-    },
 }
 
 ---@class PvPLookup.Assets
@@ -270,4 +273,8 @@ PvPLookup.CONST.ASSETS = {
 
 PvPLookup.CONST.FONT_FILES = {
     ROBOTO = 'Interface/addons/PvPLookup/Media/Fonts/Roboto-Regular.ttf'
+}
+
+PvPLookup.CONST.ATLAS = {
+    TOOLTIP_SWORD = "pvptalents-warmode-swords",
 }
