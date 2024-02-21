@@ -11,55 +11,71 @@ local PvPLookup = select(2, ...)
 ---@field players PvPLookup.Player[]
 
 ---@class PvPLookup.MatchHistory
----@overload fun(timestamp:number, map:string, playerTeam: PvPLookup.Team , enemyTeam: PvPLookup.Team , playerMMR: number, enemyMMR: number, duration: number, playerDamage: number, enemyDamage: number, playerHealing: number, enemyHealing: number, rating: number, ratingChange: number, pvpMode: PvPLookup.Const.PVPModes, win:boolean): PvPLookup.MatchHistory
+---@overload fun(): PvPLookup.MatchHistory
 PvPLookup.MatchHistory = PvPLookup.Object:extend()
 
----@param timestamp number
----@param map string
----@param playerTeam PvPLookup.Team
----@param enemyTeam PvPLookup.Team
----@param playerMMR number
----@param enemyMMR number
----@param duration number
----@param playerDamage number
----@param enemyDamage number
----@param playerHealing number
----@param enemyHealing number
----@param rating number
----@param ratingChange number
----@param pvpMode PvPLookup.Const.PVPModes
----@param win boolean
-function PvPLookup.MatchHistory:new(timestamp, map, playerTeam, enemyTeam, playerMMR, enemyMMR, duration, playerDamage,
-                                    enemyDamage, playerHealing, enemyHealing, rating, ratingChange, pvpMode, win)
-    self.timestamp = timestamp
-    self.map = map
-    self.playerTeam = playerTeam
-    self.enemyTeam = enemyTeam
-    self.playerMMR = playerMMR
-    self.enemyMMR = enemyMMR
-    self.duration = duration
-    self.playerDamage = playerDamage
-    self.enemyDamage = enemyDamage
-    self.playerHealing = playerHealing
-    self.enemyHealing = enemyHealing
-    self.rating = rating
-    self.ratingChange = ratingChange
-    self.pvpMode = pvpMode
-    self.win = win
+function PvPLookup.MatchHistory:new()
+    ---@type number
+    self.timestamp = nil
+    ---@type string
+    self.map = nil
+    ---@type boolean
+    self.isArena = false
+    ---@type boolean
+    self.isBattleground = false
+    ---@type PvPLookup.Team
+    self.playerTeam = nil
+    ---@type PvPLookup.Team
+    self.enemyTeam = nil
+    ---@type number
+    self.playerMMR = nil
+    ---@type number
+    self.enemyMMR = nil
+    ---@type number
+    self.duration = nil
+    ---@type number
+    self.playerDamage = nil
+    ---@type number
+    self.enemyDamage = nil
+    ---@type number
+    self.playerHealing = nil
+    ---@type number
+    self.enemyHealing = nil
+    ---@type boolean
+    self.isRated = false
+    ---@type number
+    self.rating = nil
+    ---@type number
+    self.ratingChange = nil
+    ---@type PvPLookup.Const.PVPModes
+    self.pvpMode = nil
+    ---@type boolean
+    self.win = nil
+    ---@type number
+    self.season = nil
 end
 
 --- STATIC create a match history instance based on current match ending screen
 ---@return PvPLookup.MatchHistory?
 function PvPLookup.MatchHistory:CreateFromEndScreen()
-    -- GetInspectSpecialization
+    -- force showing all players
+    SetBattlefieldScoreFaction(-1)
 
     local arenaOpponentSpecIDs = {}
     for opponentID = 1, GetNumArenaOpponentSpecs() do
         arenaOpponentSpecIDs[opponentID] = GetArenaOpponentSpec(opponentID)
     end
 
+    local numPlayers = GetNumBattlefieldScores()
+
+    local playerData = {}
+    for playerIndex = 1, numPlayers do
+        table.insert(playerData, GetBattlefieldScore(playerIndex))
+    end
+
     local playerSpecializationID = GetSpecialization()
     local apiData = {
+        playerData = playerData,
         IsRatedArena = C_PvP.IsRatedArena(),
         IsMatchConsideredArena = C_PvP.IsMatchConsideredArena(),
         arenaOpponentSpecIDs = arenaOpponentSpecIDs,
@@ -89,36 +105,15 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
         GetSeasonBestInfo = { C_PvP.GetSeasonBestInfo() or "nil" },
         GetTeamInfo_0 = C_PvP.GetTeamInfo(0) or "nil",
         GetTeamInfo_1 = C_PvP.GetTeamInfo(1) or "nil",
-        GetTeamInfo_2 = C_PvP.GetTeamInfo(2) or "nil",
         IsActiveMatchRegistered = C_PvP.IsActiveMatchRegistered(),
         IsMatchFactional = C_PvP.IsMatchFactional(),
         IsPVPMap = C_PvP.IsPVPMap(),
         IsRatedMap = C_PvP.IsRatedMap(),
     }
 
+
+
     PvPLookup.DEBUG:DebugTable(apiData, "GatheredAPIData " .. GetTimePreciseSec() * 1000)
 
     table.insert(PvPLookupDebugDB, apiData)
-
-    -- local timestamp = nil
-    -- local map = nil
-    -- local playerTeam = nil
-    -- local enemyTeam = nil
-    -- local playerMMR = nil
-    -- local enemyMMR = nil
-    -- local duration = nil
-    -- local playerDamage = nil
-    -- local enemyDamage = nil
-    -- local playerHealing = nil
-    -- local enemyHealing = nil
-    -- local rating = nil
-    -- local ratingChange = nil
-    -- local pvpMode = nil
-    -- local win = nil
-
-
-
-    -- local matchHistory = PvPLookup.MatchHistory(timestamp, map, playerTeam, enemyTeam, playerMMR, enemyMMR, duration,
-    --     playerDamage,
-    --     enemyDamage, playerHealing, enemyHealing, rating, ratingChange, pvpMode, win)
 end

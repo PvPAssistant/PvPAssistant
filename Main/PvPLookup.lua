@@ -83,8 +83,17 @@ function PvPLookup.MAIN:PLAYER_ENTERING_WORLD()
 	PvPLookup.MAIN_FRAME:UpdateHistory()
 end
 
+local frameProcessed = false
 function PvPLookup.MAIN:UPDATE_BATTLEFIELD_SCORE()
 	print("PVPLOOKUP: UPDATE_BATTLEFIELD_SCORE")
+
+	if not frameProcessed then
+		RunNextFrame(function()
+			print("PVPLOOKUP: PROCESS MATCH DATA")
+			PvPLookup.DEBUG:RetrieveMatchData()
+			frameProcessed = false
+		end)
+	end
 
 	PvPLookup.DEBUG:RetrieveMatchData()
 end

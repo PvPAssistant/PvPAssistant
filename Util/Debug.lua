@@ -14,115 +14,121 @@ function PvPLookup.DEBUG:CreateHistoryDummyData()
     wipe(PvPLookupHistoryDB)
     --- 2v2s
     for _ = 1, 150 do
-        table.insert(PvPLookupHistoryDB, PvPLookup.MatchHistory(
-            C_DateAndTime.GetServerTimeLocal(),
-            "TTP",
-            {
-                players = {
-                    {
-                        class = "WARRIOR",
-                        spec = "FURY",
-                        name = "Player1",
-                        server = GetRealmName(),
-                    },
-                    {
-                        class = "ROGUE",
-                        spec = "SUBTLETY",
-                        name = "Player2",
-                        server = GetRealmName(),
-                    },
-                }
-            },
-            {
-                players = {
-                    {
-                        class = "MAGE",
-                        spec = "FROST_MAGE",
-                        name = "Enemy1",
-                        server = GetRealmName(),
-                    },
-                    {
-                        class = "DEMONHUNTER",
-                        spec = "HAVOC",
-                        name = "Enemy2",
-                        server = GetRealmName(),
-                    },
-                }
-            },
-            1134,
-            1133,
-            200000,
-            4000000,
-            3000000,
-            2000000,
-            100000,
-            1478,
-            17,
-            PvPLookup.CONST.PVP_MODES.TWOS,
-            true
-        ))
+        local matchHistory = PvPLookup.MatchHistory()
+        matchHistory.timestamp = GetServerTime()
+        matchHistory.map = "TTP"
+        matchHistory.playerTeam = {
+            players = {
+                {
+                    class = "WARRIOR",
+                    spec = "FURY",
+                    name = "Player1",
+                    server = GetRealmName(),
+                },
+                {
+                    class = "ROGUE",
+                    spec = "SUBTLETY",
+                    name = "Player2",
+                    server = GetRealmName(),
+                },
+            }
+        }
+        matchHistory.enemyTeam = {
+            players = {
+                {
+                    class = "MAGE",
+                    spec = "FROST_MAGE",
+                    name = "Enemy1",
+                    server = GetRealmName(),
+                },
+                {
+                    class = "DEMONHUNTER",
+                    spec = "HAVOC",
+                    name = "Enemy2",
+                    server = GetRealmName(),
+                },
+            }
+        }
+        matchHistory.playerMMR = 1134
+        matchHistory.enemyMMR = 1133
+        matchHistory.duration = 200000
+        matchHistory.playerDamage = 4000000
+        matchHistory.enemyDamage = 3000000
+        matchHistory.playerHealing = 2000000
+        matchHistory.enemyHealing = 100000
+        matchHistory.isRated = true
+        matchHistory.isArena = true
+        matchHistory.rating = 1478
+        matchHistory.ratingChange = 17
+        matchHistory.pvpMode = PvPLookup.CONST.PVP_MODES.TWOS
+        matchHistory.win = true
+        matchHistory.season = GetCurrentArenaSeason() or 0
+        table.insert(PvPLookupHistoryDB, matchHistory)
     end
     --- 3v3s
     for _ = 1, 150 do
-        table.insert(PvPLookupHistoryDB, PvPLookup.MatchHistory(
-            C_DateAndTime.GetServerTimeLocal(),
-            "RoL",
-            {
-                players = {
-                    {
-                        class = "WARRIOR",
-                        spec = "FURY",
-                        name = "Player1",
-                        server = GetRealmName(),
-                    },
-                    {
-                        class = "WARLOCK",
-                        spec = "DESTRUCTION",
-                        name = "Player2",
-                        server = GetRealmName(),
-                    },
-                    {
-                        class = "ROGUE",
-                        spec = "SUBTLETY",
-                        name = "Player3",
-                        server = GetRealmName(),
-                    },
-                }
-            },
-            {
-                players = {
-                    {
-                        class = "MAGE",
-                        spec = "FROST_MAGE",
-                        name = "Enemy1",
-                        server = GetRealmName(),
-                    },
-                    {
-                        class = "PALADIN",
-                        spec = "HOLY",
-                        name = "Enemy2",
-                        server = GetRealmName(),
-                    },
-                    {
-                        class = "DEMONHUNTER",
-                        spec = "HAVOC",
-                        name = "Enemy3",
-                        server = GetRealmName(),
-                    },
-                }
-            },
-            1234,
-            1233,
-            300000,
-            5000000,
-            4000000,
-            3000000,
-            200000,
-            3456,
-            -12,
-            PvPLookup.CONST.PVP_MODES.THREES,
-            false
-        ))
+        local matchHistory = PvPLookup.MatchHistory()
+        matchHistory.timestamp = GetServerTime()
+        matchHistory.map = "RoL"
+        matchHistory.playerTeam = {
+            players = {
+                {
+                    class = "WARRIOR",
+                    spec = "FURY",
+                    name = "Player1",
+                    server = GetRealmName(),
+                },
+                {
+                    class = "WARLOCK",
+                    spec = "DESTRUCTION",
+                    name = "Player2",
+                    server = GetRealmName(),
+                },
+                {
+                    class = "ROGUE",
+                    spec = "SUBTLETY",
+                    name = "Player3",
+                    server = GetRealmName(),
+                },
+            }
+        }
+        matchHistory.enemyTeam = {
+            players = {
+                {
+                    class = "MAGE",
+                    spec = "FROST_MAGE",
+                    name = "Enemy1",
+                    server = GetRealmName(),
+                },
+                {
+                    class = "PALADIN",
+                    spec = "HOLY",
+                    name = "Enemy2",
+                    server = GetRealmName(),
+                },
+                {
+                    class = "DEMONHUNTER",
+                    spec = "HAVOC",
+                    name = "Enemy3",
+                    server = GetRealmName(),
+                },
+            }
+        }
+        matchHistory.playerMMR = 1234
+        matchHistory.enemyMMR = 1233
+        matchHistory.duration = 200000
+        matchHistory.playerDamage = 4000000
+        matchHistory.enemyDamage = 3000000
+        matchHistory.playerHealing = 2000000
+        matchHistory.enemyHealing = 100000
+        matchHistory.isRated = true
+        matchHistory.isArena = true
+        matchHistory.rating = 1478
+        matchHistory.ratingChange = -17
+        matchHistory.pvpMode = PvPLookup.CONST.PVP_MODES.THREES
+        matchHistory.win = false
+        matchHistory.season = GetCurrentArenaSeason() or 0
+        table.insert(PvPLookupHistoryDB, matchHistory)
     end
 end
 
