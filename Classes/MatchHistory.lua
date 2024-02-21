@@ -47,3 +47,29 @@ function PvPLookup.MatchHistory:new(timestamp, map, playerTeam, enemyTeam, playe
     self.pvpMode = pvpMode
     self.win = win
 end
+
+--- STATIC create a match history instance based on current match ending screen
+---@return PvPLookup.MatchHistory
+function PvPLookup.MatchHistory:CreateFromEndScreen()
+    local timestamp = nil
+    local map = nil
+    local playerTeam = nil
+    local enemyTeam = nil
+    local playerMMR = nil
+    local enemyMMR = nil
+    local duration = nil
+    local playerDamage = nil
+    local enemyDamage = nil
+    local playerHealing = nil
+    local enemyHealing = nil
+    local rating = nil
+    local ratingChange = nil
+    local pvpMode = nil
+    local win = nil
+
+
+
+    local matchHistory = PvPLookup.MatchHistory(timestamp, map, playerTeam, enemyTeam, playerMMR, enemyMMR, duration,
+        playerDamage,
+        enemyDamage, playerHealing, enemyHealing, rating, ratingChange, pvpMode, win)
+end
