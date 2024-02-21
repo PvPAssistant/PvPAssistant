@@ -6,7 +6,7 @@ local GUTIL = PvPLookup.GUTIL
 local GGUI = PvPLookup.GGUI
 
 ---@class PvPLookup.Main : Frame
-PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD" })
+PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD", "UPDATE_BATTLEFIELD_SCORE" })
 
 PvPLookup.MAIN.FRAMES = {}
 
@@ -81,4 +81,10 @@ function PvPLookup.MAIN:PLAYER_ENTERING_WORLD()
 	PvPLookup.DEBUG:CreatePlayerDummyData()
 
 	PvPLookup.MAIN_FRAME:UpdateHistory()
+end
+
+function PvPLookup.MAIN:UPDATE_BATTLEFIELD_SCORE()
+	print("PVPLOOKUP: UPDATE_BATTLEFIELD_SCORE")
+
+	PvPLookup.DEBUG:RetrieveMatchData()
 end

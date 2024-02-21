@@ -6,6 +6,8 @@ PvPLookup.DEBUG = {}
 
 PvPLookup_DEBUG = PvPLookup.DEBUG
 
+PvPLookupDebugDB = PvPLookupDebugDB or {}
+
 local DevTool = DevTool
 
 function PvPLookup.DEBUG:CreateHistoryDummyData()
@@ -174,4 +176,8 @@ function PvPLookup.DEBUG:DebugTable(t, label)
         print("devtool add data: " .. tostring(t))
         DevTool:AddData(t, label)
     end
+end
+
+function PvPLookup.DEBUG:RetrieveMatchData()
+    local matchHistory = PvPLookup.MatchHistory:CreateFromEndScreen()
 end
