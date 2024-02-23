@@ -11,6 +11,9 @@ PvPLookup.DB = {}
 ---@class PvPLookup.DB.MATCH_HISTORY
 PvPLookup.DB.MATCH_HISTORY = {}
 
+---@class PvPLookup.DB.DEBUG
+PvPLookup.DB.DEBUG = {}
+
 ---@alias PlayerUID string -- PlayerName-NormalizedServerName
 
 ---@class PvPLookup.PlayerTooltipData.ModeData
@@ -28,6 +31,7 @@ PvPLookup.DB.PLAYER_DATA = {}
 ---@class PvPLookupDB
 ---@field matchHistory PvPLookupDB.Database
 ---@field playerData PvPLookupDB.Database
+---@field debugData PvPLookupDB.Database
 PvPLookupDB = PvPLookupDB or {}
 
 function PvPLookup.DB:Init()
@@ -43,6 +47,14 @@ function PvPLookup.DB:Init()
         PvPLookupDB.playerData = {
             version = 1,
             ---@type table<PlayerUID, PvPLookup.PlayerTooltipData>
+            data = {}
+        }
+    end
+
+    if not PvPLookupDB.debugData then
+        PvPLookupDB.debugData = {
+            version = 1,
+            ---@type any
             data = {}
         }
     end
@@ -84,4 +96,14 @@ end
 
 function PvPLookup.DB.PLAYER_DATA:Clear()
     wipe(PvPLookupDB.playerData.data)
+end
+
+---@param data table
+function PvPLookup.DB.DEBUG:Add(data)
+    tinsert(PvPLookupDB.debugData.data, data)
+end
+
+---@return table[]
+function PvPLookup.DB.DEBUG:Get()
+    return PvPLookupDB.debugData.data
 end

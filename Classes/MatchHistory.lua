@@ -163,8 +163,7 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
     }
 
     PvPLookup.DEBUG:DebugTable(apiData, "GatheredAPIData " .. (GetTimePreciseSec() * 1000))
-
-    table.insert(PvPLookupDebugDB, apiData)
+    PvPLookup.DB.DEBUG:Add(apiData)
 
     -- DEBUG END
 
@@ -265,7 +264,7 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
     matchHistory.isSoloShuffle = C_PvP.IsSoloShuffle()
     matchHistory.enemyTeam = enemyTeam
     matchHistory.playerTeam = playerTeam
-    matchHistory.win = C_PvP.GetActiveMatchWinner() == playerTeam
+    matchHistory.win = C_PvP.GetActiveMatchWinner() == playerTeamID
     matchHistory.season = GetCurrentArenaSeason() or 0
     matchHistory.mapInfo = {
         name = instanceInfo[1],
