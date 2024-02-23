@@ -302,13 +302,16 @@ function PvPLookup.MatchHistory:GetTooltipTextForTeam(team)
                 "  - MMR: " .. player.scoreData.preMatchMMR .. "\n"
         end
         tooltipText = tooltipText ..
-            "  - Damage: " .. PvPLookup.UTIL:FormatDamageNumber(player.scoreData.damageDone) .. "\n"
-        tooltipText = tooltipText ..
-            "  - Healing: " .. PvPLookup.UTIL:FormatDamageNumber(player.scoreData.healingDone) .. "\n"
-        tooltipText = tooltipText ..
-            "  - Kills: " .. player.scoreData.killingBlows .. "\n"
-        tooltipText = tooltipText ..
-            "  - Deaths: " .. player.scoreData.deaths .. "\n"
+            "  - Damage / Heal: " ..
+            PvPLookup.UTIL:FormatDamageNumber(player.scoreData.damageDone) ..
+            " / " .. PvPLookup.UTIL:FormatDamageNumber(player.scoreData.healingDone) .. "\n"
+        if self.isArena then
+            tooltipText = tooltipText ..
+                "  - Kills: " .. player.scoreData.killingBlows .. "\n"
+        else
+            tooltipText = tooltipText ..
+                "  - Kills / Deaths: " .. player.scoreData.killingBlows .. " / " .. player.scoreData.deaths .. "\n"
+        end
     end
 
     return tooltipText

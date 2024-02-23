@@ -88,7 +88,7 @@ function PvPLookup.MAIN:PLAYER_ENTERING_WORLD()
 	-- PvPLookup.DEBUG:CreateHistoryDummyData()
 	PvPLookup.DEBUG:CreatePlayerDummyData()
 
-	PvPLookup.MAIN_FRAME:UpdateHistory()
+	PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
 
 	PvPLookup.MAIN.enableCombatLog = false
 end
@@ -145,4 +145,6 @@ function PvPLookup.MAIN:PVP_MATCH_COMPLETE()
 	print("PvPLookup: Saving Match Data...")
 	local matchHistory = PvPLookup.MatchHistory:CreateFromEndScreen()
 	PvPLookup.DB.MATCH_HISTORY:Save(matchHistory)
+
+	PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
 end

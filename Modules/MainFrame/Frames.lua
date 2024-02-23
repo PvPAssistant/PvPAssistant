@@ -179,12 +179,12 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
                 matchHistoryTab.activeClassFilters[classFile] = true
                 classFilterIcon:Desaturate()
                 -- reload list with new filters
-                PvPLookup.MAIN_FRAME:UpdateHistory()
+                PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
             else
                 matchHistoryTab.activeClassFilters[classFile] = nil
                 classFilterIcon:Saturate()
                 -- reload list with new filters
-                PvPLookup.MAIN_FRAME:UpdateHistory()
+                PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
             end
         end)
 
@@ -407,7 +407,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         initialLabel = GUTIL:ColorizeText("My Team", GUTIL.COLORS.WHITE),
         initialValue = PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM,
         clickCallback = function(self, label, value)
-            PvPLookup.MAIN_FRAME:UpdateHistory()
+            PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
         end,
         buttonOptions = {
             buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.DROPDOWN,
@@ -429,6 +429,10 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         anchorA = "LEFT", anchorB = "RIGHT", width = 70, offsetX = 10,
         initialData = {
             {
+                label = GUTIL:ColorizeText("All", GUTIL.COLORS.WHITE),
+                value = nil,
+            },
+            {
                 label = GUTIL:ColorizeText("Solo", GUTIL.COLORS.WHITE),
                 value = PvPLookup.CONST.PVP_MODES.SOLO,
             },
@@ -448,7 +452,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         initialLabel = GUTIL:ColorizeText("2v2", GUTIL.COLORS.WHITE),
         initialValue = PvPLookup.CONST.PVP_MODES.TWOS,
         clickCallback = function(self, label, value)
-            PvPLookup.MAIN_FRAME:UpdateHistory()
+            PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
         end,
         buttonOptions = {
             buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.DROPDOWN,
@@ -622,7 +626,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitDR_OVERVIEW_TAB()
     PvPLookup.MAIN_FRAME:FillDRData()
 end
 
-function PvPLookup.MAIN_FRAME:UpdateHistory()
+function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
     local matchHistoryTab = PvPLookup.MAIN_FRAME.frame.content.matchHistoryTab
     local matchHistoryList = matchHistoryTab.content.matchHistoryList
 
@@ -649,7 +653,11 @@ function PvPLookup.MAIN_FRAME:UpdateHistory()
                     classFiltered = true
                 end
             end
-            return matchHistory.pvpMode == pvpModeFilter and not classFiltered
+            if not pvpModeFilter then
+                return not classFiltered
+            else
+                return matchHistory.pvpMode == pvpModeFilter and not classFiltered
+            end
         end)
 
     for _, matchHistory in pairs(filteredHistory) do
