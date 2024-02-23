@@ -501,8 +501,10 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
 
     ccCatalogueTab.content.ccList = GGUI.FrameList {
         parent = ccCatalogueTab.content, anchorParent = ccCatalogueTab.content, anchorA = "TOP", anchorB = "TOP",
-        sizeY = 500, showBorder = true, offsetY = -120,
-        columnOptions = columnOptions, rowBackdrops = { PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B },
+        sizeY = 500, showBorder = true, offsetY = -40,
+        columnOptions = columnOptions,
+        rowBackdrops = { PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B },
+        selectionOptions = { noSelectionColor = true, hoverRGBA = { 1, 1, 1, 0.1 } },
         rowConstructor = function(columns)
             local classColumn = columns[1]
             local specColumn = columns[2]
@@ -563,7 +565,6 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
             end
         end
     }
-    ccCatalogueTab.content.ccList:Hide() -- Temp
 
     PvPLookup.MAIN_FRAME:FillCCData()
 end
@@ -710,9 +711,9 @@ function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
             end
 
             if matchHistory.isRated then
-                changeColumn.text:SetText(FormatValueWithSign(team.ratingInfo.ratingNew))
-                ratingColumn.text:SetText(team.ratingInfo.ratingMMR)
-                ratingColumn:SetIconByRating(team.ratingInfo.ratingMMR)
+                changeColumn.text:SetText(FormatValueWithSign(matchHistory.player.scoreData.ratingChange))
+                ratingColumn.text:SetText(matchHistory.player.scoreData.bgRating)
+                ratingColumn:SetIconByRating(matchHistory.player.scoreData.bgRating)
             else
                 changeColumn.text:SetText(f.grey("-"))
                 ratingColumn.text:SetText(f.grey("-"))
@@ -737,8 +738,7 @@ function PvPLookup.MAIN_FRAME:FillCCData()
     local ccList = ccCatalogueTab.content.ccList
 
     for i = 1, 30 do
-        ccList:Add(function(row)
-            local columns = row.columns
+        ccList:Add(function(row, columns)
             local classColumn = columns[1]
             local specColumn = columns[2]
             local spellColumn = columns[3]
@@ -749,6 +749,12 @@ function PvPLookup.MAIN_FRAME:FillCCData()
 
             spellColumn:SetSpell(853) -- hammer of justice
             durationColumn:SetDuration(6)
+
+            row.tooltipOptions = {
+                anchor = "ANCHOR_RIGHT",
+                owner = row.frame,
+                spellID = 853
+            }
         end)
     end
 
