@@ -660,6 +660,8 @@ function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
             end
         end)
 
+
+    print("filtered History count: " .. tostring(#filteredHistory))
     for _, matchHistory in pairs(filteredHistory) do
         matchHistoryList:Add(function(row)
             local columns = row.columns

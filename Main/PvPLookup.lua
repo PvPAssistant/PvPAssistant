@@ -86,6 +86,7 @@ function PvPLookup.MAIN:ADDON_LOADED(addon_name)
 		return
 	end
 	PvPLookup.MAIN:Init()
+	PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
 end
 
 function PvPLookup.MAIN:PLAYER_ENTERING_WORLD()
@@ -94,8 +95,6 @@ function PvPLookup.MAIN:PLAYER_ENTERING_WORLD()
 	--- DEBUG Dummy Data
 	-- PvPLookup.DEBUG:CreateHistoryDummyData()
 	PvPLookup.DEBUG:CreatePlayerDummyData()
-
-	PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
 
 	PvPLookup.MAIN.enableCombatLog = false
 end
