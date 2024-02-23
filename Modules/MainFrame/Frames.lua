@@ -166,21 +166,22 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     local classFilterIconOffsetX = 45
     local classFilterIconOffsetY = -10
     local classFilterIconSpacingX = 14
-    local function CreateClassFilterIcon(class, anchorParent, offX, offY, anchorA, anchorB)
+    local function CreateClassFilterIcon(classFile, anchorParent, offX, offY, anchorA, anchorB)
         local classFilterIcon = GGUI.ClassIcon {
             sizeX = classFilterIconSize, sizeY = classFilterIconSize,
             parent = matchHistoryTab.content.classFilterFrame.content, anchorParent = anchorParent,
-            initialClass = class, offsetX = offX, offsetY = offY, anchorA = anchorA, anchorB = anchorB,
+            initialClass = classFile, offsetX = offX, offsetY = offY, anchorA = anchorA, anchorB = anchorB,
+            showTooltip = true,
         }
 
         classFilterIcon.frame:SetScript("OnClick", function()
-            if not matchHistoryTab.activeClassFilters[class] then
-                matchHistoryTab.activeClassFilters[class] = true
+            if not matchHistoryTab.activeClassFilters[classFile] then
+                matchHistoryTab.activeClassFilters[classFile] = true
                 classFilterIcon:Desaturate()
                 -- reload list with new filters
                 PvPLookup.MAIN_FRAME:UpdateHistory()
             else
-                matchHistoryTab.activeClassFilters[class] = nil
+                matchHistoryTab.activeClassFilters[classFile] = nil
                 classFilterIcon:Saturate()
                 -- reload list with new filters
                 PvPLookup.MAIN_FRAME:UpdateHistory()
@@ -189,9 +190,17 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
 
         return classFilterIcon
     end
-
+    local t = {}
+    FillLocalizedClassList(t)
+    local classFiles = GUTIL:Map(t, function(_, classFile)
+        -- ignore hidden test class or whatever this is
+        if classFile == "Adventurer" then
+            return nil
+        end
+        return classFile
+    end)
     local currentAnchor = matchHistoryTab.content.classFilterFrame.frame
-    for i, class in pairs(PvPLookup.CONST.CLASSES) do
+    for i, classFile in pairs(classFiles) do
         local anchorB = "RIGHT"
         local offX = classFilterIconSpacingX
         local offY = 0
@@ -200,7 +209,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             offX = classFilterIconOffsetX
             offY = classFilterIconOffsetY
         end
-        local classFilterIcon = CreateClassFilterIcon(class, currentAnchor, offX, offY, "LEFT", anchorB)
+        local classFilterIcon = CreateClassFilterIcon(classFile, currentAnchor, offX, offY, "LEFT", anchorB)
         currentAnchor = classFilterIcon.frame
     end
 
@@ -273,23 +282,28 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         local iconSize = 23
         teamColumn.icon31 = GGUI.ClassIcon {
             parent = teamColumn, anchorParent = teamColumn, anchorA = "LEFT", anchorB = "LEFT", offsetX = 16,
-            initialClass = GGUI.CONST.CLASSES.WARLOCK, sizeX = iconSize, sizeY = iconSize, enableMouse = false,
+            initialClass = "WARLOCK", sizeX = iconSize, sizeY = iconSize,
+            showTooltip = true,
         }
         teamColumn.icon32 = GGUI.ClassIcon {
             parent = teamColumn, anchorParent = teamColumn.icon31.frame, anchorA = "LEFT", anchorB = "RIGHT",
-            initialClass = GGUI.CONST.CLASSES.WARRIOR, sizeX = iconSize, sizeY = iconSize, enableMouse = false,
+            initialClass = "WARRIOR", sizeX = iconSize, sizeY = iconSize,
+            showTooltip = true,
         }
         teamColumn.icon33 = GGUI.ClassIcon {
             parent = teamColumn, anchorParent = teamColumn.icon32.frame, anchorA = "LEFT", anchorB = "RIGHT",
-            initialClass = GGUI.CONST.CLASSES.WINDWALKER, sizeX = iconSize, sizeY = iconSize, enableMouse = false,
+            initialClass = "MONK", sizeX = iconSize, sizeY = iconSize,
+            showTooltip = true,
         }
         teamColumn.icon21 = GGUI.ClassIcon {
             parent = teamColumn, anchorParent = teamColumn, anchorA = "LEFT", anchorB = "LEFT", offsetX = 16 + iconSize / 2,
-            initialClass = GGUI.CONST.CLASSES.WARLOCK, sizeX = iconSize, sizeY = iconSize, enableMouse = false,
+            initialClass = "WARLOCK", sizeX = iconSize, sizeY = iconSize,
+            showTooltip = true,
         }
         teamColumn.icon22 = GGUI.ClassIcon {
             parent = teamColumn, anchorParent = teamColumn.icon21.frame, anchorA = "LEFT", anchorB = "RIGHT",
-            initialClass = GGUI.CONST.CLASSES.WARRIOR, sizeX = iconSize, sizeY = iconSize, enableMouse = false,
+            initialClass = "WARRIOR", sizeX = iconSize, sizeY = iconSize,
+            showTooltip = true,
         }
 
         teamColumn.iconsTwo = { teamColumn.icon21, teamColumn.icon22 }
@@ -427,7 +441,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
                 value = PvPLookup.CONST.PVP_MODES.THREES,
             },
             {
-                label = GUTIL:ColorizeText("RGB", GUTIL.COLORS.WHITE),
+                label = GUTIL:ColorizeText("BG", GUTIL.COLORS.WHITE),
                 value = PvPLookup.CONST.PVP_MODES.BATTLEGROUND,
             },
         },
@@ -503,8 +517,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
 
             classColumn.SetClass = function(self, class)
                 classColumn.icon:SetClass(class)
-                classColumn.className:SetText(GUTIL:ColorizeText(PvPLookup.CONST.CLASS_NAMES[class],
-                    GUTIL.CLASS_COLORS[class]))
+                classColumn.className:SetText(f.class(LOCALIZED_CLASS_NAMES_MALE[class], class))
             end
 
             specColumn.icon = GGUI.ClassIcon {
@@ -516,10 +529,10 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
                 anchorA = "LEFT", anchorB = "RIGHT", offsetX = 3,
             }
 
-            specColumn.SetClass = function(self, class)
-                specColumn.icon:SetClass(class)
-                specColumn.className:SetText(GUTIL:ColorizeText(PvPLookup.CONST.CLASS_NAMES[class],
-                    GUTIL.CLASS_COLORS[class]))
+            specColumn.SetSpec = function(self, specID)
+                specColumn.icon:SetClass(specID)
+                local specName = select(2, GetSpecializationInfoByID(specID))
+                classColumn.className:SetText(f.class(specName, specColumn.icon.class))
             end
 
             spellColumn.icon = GGUI.SpellIcon {
@@ -722,8 +735,8 @@ function PvPLookup.MAIN_FRAME:FillCCData()
             local spellColumn = columns[3]
             local durationColumn = columns[4]
 
-            classColumn:SetClass(GGUI.CONST.CLASSES.WARRIOR)
-            specColumn:SetClass(GGUI.CONST.CLASSES.FURY)
+            classColumn:SetClass("WARRIOR")
+            specColumn:SetSpec(72)    -- Fury
 
             spellColumn:SetSpell(853) -- hammer of justice
             durationColumn:SetDuration(6)
@@ -744,7 +757,7 @@ function PvPLookup.MAIN_FRAME:FillDRData()
             local spellColumn = columns[2]
             local drColumn = columns[3]
 
-            specColumn.icon:SetClass(GGUI.CONST.CLASSES.WARRIOR)
+            specColumn.icon:SetClass("WARRIOR")
             -- spellColumn.icon
             drColumn.text:SetText("DR Info")
         end)
