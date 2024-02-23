@@ -23,7 +23,7 @@ PvPLookup.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME = "PvPLookupFrame"
 PvPLookup.CONST.PVP_MODES = {
     TWOS = "TWOS",
     THREES = "THREES",
-    RBG = "RBG",
+    BATTLEGROUND = "BATTLEGROUND",
     SOLO = "SOLO",
 }
 ---@type table<PvPLookup.Const.PVPModes, string>
@@ -146,6 +146,7 @@ PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A = {
     colorA = 1,
 }
 
+---@enum PvPLookup.CLASSES
 PvPLookup.CONST.CLASSES = {
     "WARRIOR",
     "PALADIN",
@@ -295,4 +296,46 @@ PvPLookup.CONST.FONT_FILES = {
 
 PvPLookup.CONST.ATLAS = {
     TOOLTIP_SWORD = "pvptalents-warmode-swords",
+}
+
+PvPLookup.CONST.SPEC_IDS = {
+    250,
+    251,
+    252,
+    577,
+    581,
+    102,
+    103,
+    104,
+    105,
+    1467,
+    1468,
+    1473,
+    253,
+    254,
+    255,
+    62,
+    63,
+    64,
+    268,
+    270,
+    269,
+    65,
+    66,
+    70,
+    256,
+    257,
+    258,
+    259,
+    260,
+    261,
+    262,
+    263,
+    264,
+    265,
+    266,
+    267,
+    71,
+    72,
+    73,
 }

@@ -133,8 +133,7 @@ function PvPLookup.DEBUG:CreateHistoryDummyData()
 end
 
 function PvPLookup.DEBUG:CreatePlayerDummyData()
-    PvPLookupPlayerDB = PvPLookupPlayerDB or {}
-    wipe(PvPLookupPlayerDB)
+    PvPLookup.DB.PLAYER_DATA:Clear()
 
     local playerUID = PvPLookup.UTIL:GetPlayerUIDByUnit("player")
 
@@ -153,7 +152,7 @@ function PvPLookup.DEBUG:CreatePlayerDummyData()
                 loss = 95,
                 exp = 2895,
             },
-            [PvPLookup.CONST.PVP_MODES.RBG] = {
+            [PvPLookup.CONST.PVP_MODES.BATTLEGROUND] = {
                 rating = 2168,
                 win = 69,
                 loss = 16,
@@ -167,7 +166,7 @@ function PvPLookup.DEBUG:CreatePlayerDummyData()
             },
         },
     }
-    PvPLookupPlayerDB[playerUID] = playerTooltipData
+    PvPLookup.DB.PLAYER_DATA:Save(playerUID, playerTooltipData)
 end
 
 ---@return PvPLookup
@@ -186,4 +185,12 @@ end
 
 function PvPLookup.DEBUG:RetrieveMatchData()
     local matchHistory = PvPLookup.MatchHistory:CreateFromEndScreen()
+end
+
+function PvPLookup.DEBUG:GetSpecializationIDByUnit(unit)
+    return PvPLookup.UTIL:GetSpecializationIDByUnit(unit)
+end
+
+function PvPLookup.DEBUG:InspectSpecLookup()
+    self:DebugTable(PvPLookup.SPEC_LOOKUP.lookupTable, "SpecLookup")
 end

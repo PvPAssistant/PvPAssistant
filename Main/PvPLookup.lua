@@ -6,9 +6,12 @@ local GUTIL = PvPLookup.GUTIL
 local GGUI = PvPLookup.GGUI
 
 ---@class PvPLookup.Main : Frame
-PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD", "UPDATE_BATTLEFIELD_SCORE" })
+PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD", "UPDATE_BATTLEFIELD_SCORE",
+	"PLAYER_JOINED_PVP_MATCH", "PVP_MATCH_COMPLETE" })
 
 PvPLookup.MAIN.FRAMES = {}
+
+PvPLookup.MAIN.enableCombatLog = false
 
 function PvPLookup:InitializeMinimapButton()
 	local LibIcon = LibStub("LibDBIcon-1.0")
@@ -36,6 +39,8 @@ function PvPLookup:InitializeMinimapButton()
 end
 
 function PvPLookup.MAIN:Init()
+	PvPLookup.DB:Init()
+
 	PvPLookup.MAIN:InitializeSlashCommands()
 	PvPLookup.OPTIONS:Init()
 	PvPLookup.MAIN_FRAME.FRAMES:Init()
@@ -76,24 +81,36 @@ function PvPLookup.MAIN:ADDON_LOADED(addon_name)
 end
 
 function PvPLookup.MAIN:PLAYER_ENTERING_WORLD()
+	PvPLookup.SPEC_LOOKUP:Init()
+
 	--- DEBUG Dummy Data
-	PvPLookup.DEBUG:CreateHistoryDummyData()
+	-- PvPLookup.DEBUG:CreateHistoryDummyData()
 	PvPLookup.DEBUG:CreatePlayerDummyData()
 
 	PvPLookup.MAIN_FRAME:UpdateHistory()
+
+	PvPLookup.MAIN.enableCombatLog = false
 end
 
-local frameProcessed = false
 function PvPLookup.MAIN:UPDATE_BATTLEFIELD_SCORE()
-	print("PVPLOOKUP: UPDATE_BATTLEFIELD_SCORE")
+	-- print("PVPLOOKUP: UPDATE_BATTLEFIELD_SCORE")
+end
 
-	if not frameProcessed then
-		RunNextFrame(function()
-			print("PVPLOOKUP: PROCESS MATCH DATA")
-			PvPLookup.DEBUG:RetrieveMatchData()
-			frameProcessed = false
-		end)
+--- works!
+function PvPLookup.MAIN:PLAYER_JOINED_PVP_MATCH()
+	if not PvPLookup.MAIN.enableCombatLog then
+		print("PvPLookup: Joined PvP Match")
+		print("LoggingCombat: " .. tostring(LoggingCombat(true)))
+
+		PvPLookup.MAIN.enableCombatLog = true
 	end
+end
 
-	PvPLookup.DEBUG:RetrieveMatchData()
+function PvPLookup.MAIN:PVP_MATCH_COMPLETE()
+	print("PvPLookup: PvP Match Completed")
+	print("LoggingCombat: " .. tostring(LoggingCombat(false)))
+
+	print("PvPLookup: Saving Match Data...")
+	local matchHistory = PvPLookup.MatchHistory:CreateFromEndScreen()
+	PvPLookup.DB.MATCH_HISTORY:Save(matchHistory)
 end

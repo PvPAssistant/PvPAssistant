@@ -27,3 +27,19 @@ function PvPLookup.UTIL:GetPlayerUIDByUnit(unit)
 
     return playerName .. "-" .. playerRealm
 end
+
+---@param unit UnitId
+---@return number? specializationID
+function PvPLookup.UTIL:GetSpecializationIDByUnit(unit)
+    local info = C_TooltipInfo.GetUnit(unit)
+
+    for _, line in ipairs(info.lines) do
+        local specText = line.leftText
+        local specID = PvPLookup.SPEC_LOOKUP:LookUp(specText)
+        if specID then
+            return specID
+        end
+    end
+
+    return nil
+end

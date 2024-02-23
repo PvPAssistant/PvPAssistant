@@ -3,6 +3,7 @@ local PvPLookup = select(2, ...)
 
 local GGUI = PvPLookup.GGUI
 local GUTIL = PvPLookup.GUTIL
+local f = GUTIL:GetFormatter()
 
 ---@class MAIN_FRAME
 PvPLookup.MAIN_FRAME = PvPLookup.MAIN_FRAME
@@ -403,7 +404,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             },
             {
                 label = GUTIL:ColorizeText("RGB", GUTIL.COLORS.WHITE),
-                value = PvPLookup.CONST.PVP_MODES.RBG,
+                value = PvPLookup.CONST.PVP_MODES.BATTLEGROUND,
             },
         },
         initialLabel = GUTIL:ColorizeText("2v2", GUTIL.COLORS.WHITE),
@@ -593,9 +594,10 @@ function PvPLookup.MAIN_FRAME:UpdateHistory()
     local pvpModeFilter = PvPLookup.MAIN_FRAME:GetSelectedModeFilter()
     local displayedTeam = PvPLookup.MAIN_FRAME:GetDisplayTeam()
 
+    local matchHistories = PvPLookup.DB.MATCH_HISTORY:Get()
+
     ---@type PvPLookup.MatchHistory[]
-    local filteredHistory = GUTIL:Filter(PvPLookupHistoryDB or {},
-        ---@param matchHistory PvPLookup.MatchHistory
+    local filteredHistory = GUTIL:Filter(matchHistories or {},
         function(matchHistory)
             local classFiltered = false
             ---@type PvPLookup.Player[]
@@ -629,29 +631,39 @@ function PvPLookup.MAIN_FRAME:UpdateHistory()
             local date = date("*t", matchHistory.timestamp)
             local formattedDate = string.format("%d.%d.%d %d:%d", date.day, date.month, date.year, date.hour, date.min)
             dateColumn.text:SetText(formattedDate)
-            mapColumn.text:SetText(GUTIL:ColorizeText(matchHistory.map, GUTIL.COLORS.RED))
+            mapColumn.text:SetText(f.r(matchHistory.mapInfo.name))
 
             if displayedTeam == PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
                 teamColumn:SetTeam(matchHistory.playerTeam)
-                mmrColumn.text:SetText(matchHistory.playerMMR)
-                damageColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.playerDamage))
-                healingColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.playerHealing))
+                if matchHistory.isRated then
+                    mmrColumn.text:SetText(matchHistory.playerTeam.ratingInfo.ratingMMR)
+                else
+                    mmrColumn.text:SetText(f.grey("-"))
+                end
+                damageColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.playerTeam.damage))
+                healingColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.playerTeam.healing))
             else
                 teamColumn:SetTeam(matchHistory.enemyTeam)
-                mmrColumn.text:SetText(matchHistory.enemyMMR)
-                damageColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.enemyDamage))
-                healingColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.enemyHealing))
+                if matchHistory.isRated then
+                    mmrColumn.text:SetText(matchHistory.enemyTeam.ratingInfo.ratingMMR)
+                else
+                    mmrColumn.text:SetText(f.grey("-"))
+                end
+                damageColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.enemyTeam.damage))
+                healingColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.enemyTeam.healing))
             end
 
-            -- Convert milliseconds to seconds
-            -- local totalSeconds = matchHistory.duration / 1000
-            -- -- Calculate minutes and remaining seconds
-            -- local minutes = math.floor(totalSeconds / 60)
-            -- local seconds = totalSeconds % 60
+            local team
+            if displayedTeam == PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
+                team = matchHistory.playerTeam
+            else
+                team = matchHistory.enemyTeam
+            end
 
-            changeColumn.text:SetText(FormatValueWithSign(matchHistory.ratingChange))
-            ratingColumn.text:SetText(matchHistory.rating)
-            ratingColumn:SetIconByRating(matchHistory.rating)
+            changeColumn.text:SetText(FormatValueWithSign(team.ratingInfo.ratingNew -
+                team.ratingInfo.ratingMMR))
+            ratingColumn.text:SetText(team.ratingInfo.ratingMMR)
+            ratingColumn:SetIconByRating(team.ratingInfo.ratingMMR)
         end)
     end
 

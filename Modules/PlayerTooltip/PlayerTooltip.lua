@@ -8,11 +8,6 @@ local GGUI = PvPLookup.GGUI
 PvPLookup.PLAYER_TOOLTIP = {}
 PvPLookup.PLAYER_TOOLTIP.tooltipFrame = nil
 
----@alias PlayerUID string -- PlayerName-NormalizedServerName
-
----@type table<PlayerUID, PvPLookup.PlayerTooltipData>
-PvPLookupPlayerDB = PvPLookupPlayerDB or {}
-
 function PvPLookup.PLAYER_TOOLTIP:Init()
     PvPLookup.PLAYER_TOOLTIP:InitTooltipFrame()
 
@@ -137,23 +132,10 @@ function PvPLookup.PLAYER_TOOLTIP:UpdatePlayerTooltipByData(playerTooltipData)
     GameTooltip:Show()
 end
 
----@class PvPLookup.PlayerTooltipData.ModeData
----@field rating number
----@field win number
----@field loss number
----@field exp number
-
-
----@class PvPLookup.PlayerTooltipData
----@field ratingData table<PvPLookup.Const.PVPModes, PvPLookup.PlayerTooltipData.ModeData>
-
 ---@param unit UnitId
 ---@return PvPLookup.PlayerTooltipData?
 function PvPLookup.PLAYER_TOOLTIP:GetUnitTooltipData(unit)
     local playerUID = PvPLookup.UTIL:GetPlayerUIDByUnit(unit)
 
-    PvPLookupPlayerDB[playerUID] = PvPLookupPlayerDB[playerUID] or {}
-    PvPLookupPlayerDB[playerUID].ratingData = PvPLookupPlayerDB[playerUID].ratingData or {}
-
-    return PvPLookupPlayerDB[playerUID]
+    return PvPLookup.DB.PLAYER_DATA:Get(playerUID)
 end
