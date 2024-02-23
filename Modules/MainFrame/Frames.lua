@@ -253,6 +253,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.classFilterFrame.frame, offsetX = 0, hideScrollbar = true,
         anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -25,
         rowBackdrops = { PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B },
+        selectionOptions = { noSelectionColor = true, hoverRGBA = { 1, 1, 1, 0.1 } },
         sizeY = 460, columnOptions = columnOptions, rowConstructor = function(columns)
         local dateColumn = columns[1]
         local mapColumn = columns[2]
@@ -297,12 +298,12 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         ---@param team PvPLookup.Team
         teamColumn.SetTeam = function(self, team)
             if #team.players == 3 then
-                for index, icon in pairs(teamColumn.iconsThree) do
-                    icon:Show()
-                    icon:SetClass(team.players[index].spec)
-                end
                 for _, icon in pairs(teamColumn.iconsTwo) do
                     icon:Hide()
+                end
+                for index, icon in pairs(teamColumn.iconsThree) do
+                    icon:Show()
+                    icon:SetClass(team.players[index].specID)
                 end
             elseif #team.players == 2 then
                 for _, icon in pairs(teamColumn.iconsThree) do
@@ -310,7 +311,24 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
                 end
                 for index, icon in pairs(teamColumn.iconsTwo) do
                     icon:Show()
-                    icon:SetClass(team.players[index].spec)
+                    icon:SetClass(team.players[index].specID)
+                end
+            elseif #team.players == 1 then
+                for _, icon in pairs(teamColumn.iconsTwo) do
+                    icon:Hide()
+                end
+
+                teamColumn.iconsThree[1]:Hide()
+                teamColumn.iconsThree[3]:Hide()
+
+                teamColumn.iconsThree[2]:Show()
+                teamColumn.iconsThree[2]:SetClass(team.players[1].specID)
+            else
+                for _, icon in pairs(teamColumn.iconsThree) do
+                    icon:Hide()
+                end
+                for _, icon in pairs(teamColumn.iconsTwo) do
+                    icon:Hide()
                 end
             end
         end
@@ -337,6 +355,12 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         }
 
         ratingColumn.SetIconByRating = function(self, playerRating)
+            if not playerRating then
+                ratingColumn.texture:Hide()
+                return
+            else
+                ratingColumn.texture:Show()
+            end
             local rankingTexture
             for _, ratingData in ipairs(PvPLookup.CONST.RATING_ICON_MAP) do
                 if playerRating >= ratingData.rating then
@@ -596,7 +620,6 @@ function PvPLookup.MAIN_FRAME:UpdateHistory()
 
     local matchHistories = PvPLookup.DB.MATCH_HISTORY:Get()
 
-    ---@type PvPLookup.MatchHistory[]
     local filteredHistory = GUTIL:Filter(matchHistories or {},
         function(matchHistory)
             local classFiltered = false
@@ -628,10 +651,13 @@ function PvPLookup.MAIN_FRAME:UpdateHistory()
             local changeColumn = columns[7]
             local ratingColumn = columns[8]
 
-            local date = date("*t", matchHistory.timestamp)
+            local matchHistory = PvPLookup.MatchHistory:Deserialize(matchHistory)
+
+            local date = date("!*t", matchHistory.timestamp / 1000) -- use ! because it is already localized time and divide by 1000 because date constructor needs seconds
             local formattedDate = string.format("%d.%d.%d %d:%d", date.day, date.month, date.year, date.hour, date.min)
             dateColumn.text:SetText(formattedDate)
-            mapColumn.text:SetText(f.r(matchHistory.mapInfo.name))
+            local mapAbbreviation = PvPLookup.UTIL:GetMapAbbreviation(matchHistory.mapInfo.name)
+            mapColumn.text:SetText(f.r(mapAbbreviation))
 
             if displayedTeam == PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
                 teamColumn:SetTeam(matchHistory.playerTeam)
@@ -660,10 +686,24 @@ function PvPLookup.MAIN_FRAME:UpdateHistory()
                 team = matchHistory.enemyTeam
             end
 
-            changeColumn.text:SetText(FormatValueWithSign(team.ratingInfo.ratingNew -
-                team.ratingInfo.ratingMMR))
-            ratingColumn.text:SetText(team.ratingInfo.ratingMMR)
-            ratingColumn:SetIconByRating(team.ratingInfo.ratingMMR)
+            if matchHistory.isRated then
+                changeColumn.text:SetText(FormatValueWithSign(team.ratingInfo.ratingNew -
+                    team.ratingInfo.ratingMMR))
+                ratingColumn.text:SetText(team.ratingInfo.ratingMMR)
+                ratingColumn:SetIconByRating(team.ratingInfo.ratingMMR)
+            else
+                changeColumn.text:SetText(f.grey("-"))
+                ratingColumn.text:SetText(f.grey("-"))
+                ratingColumn:SetIconByRating(nil)
+            end
+
+            local tooltipText = matchHistory:GetTooltipText()
+
+            row.tooltipOptions = {
+                anchor = "ANCHOR_CURSOR",
+                owner = row.frame,
+                text = f.white(tooltipText),
+            }
         end)
     end
 

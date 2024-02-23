@@ -1,19 +1,21 @@
 ---@class PvPLookup
 local PvPLookup = select(2, ...)
 
+local GUTIL = PvPLookup.GUTIL
+
 ---@class PvPLookup.Util
 PvPLookup.UTIL = {}
 
 --- also for healing
 function PvPLookup.UTIL:FormatDamageNumber(number)
     if number >= 1000000000 then
-        return number / 1000000000 .. "B"
+        return GUTIL:Round(number / 1000000000, 2) .. "B"
     end
     if number >= 1000000 then
-        return number / 1000000 .. "M"
+        return GUTIL:Round(number / 1000000, 2) .. "M"
     end
     if number >= 1000 then
-        return number / 1000 .. "K"
+        return GUTIL:Round(number / 1000, 2) .. "K"
     end
 
     return tostring(number)
@@ -42,4 +44,18 @@ function PvPLookup.UTIL:GetSpecializationIDByUnit(unit)
     end
 
     return nil
+end
+
+function PvPLookup.UTIL:GetMapAbbreviation(mapName)
+    local custom = PvPLookup.CONST.MAP_ABBREVIATIONS[mapName]
+
+    if custom then return custom end
+
+    local words = strsplittable(" ", mapName)
+
+    local firstLetters = GUTIL:Map(words, function(word)
+        return word:sub(1, 1):upper()
+    end)
+
+    return table.concat(firstLetters, "")
 end

@@ -31,7 +31,7 @@ PvPLookup.CONST.PVP_MODES_NAMES = {
     SOLO = "Shuffle",
     TWOS = "2v2",
     THREES = "3v3",
-    RBG = "RBG",
+    BATTLEGROUND = "Battleground",
 }
 ---@type GGUI.BackdropOptions
 PvPLookup.CONST.PVPINFO_BACKDROP = {
@@ -338,4 +338,8 @@ PvPLookup.CONST.SPEC_IDS = {
     71,
     72,
     73,
+}
+
+PvPLookup.CONST.MAP_ABBREVIATIONS = {
+
 }

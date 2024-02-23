@@ -117,7 +117,7 @@ function PvPLookup.PLAYER_TOOLTIP:UpdatePlayerTooltipByData(playerTooltipData)
             local expColumn = columns[4]
 
             typeColumn.text:SetText(CreateAtlasMarkup(PvPLookup.CONST.ATLAS.TOOLTIP_SWORD) .. "  " ..
-                GUTIL:ColorizeText(PvPLookup.CONST.PVP_MODES_NAMES[mode], GUTIL.COLORS.WHITE))
+                GUTIL:ColorizeText(tostring(PvPLookup.CONST.PVP_MODES_NAMES[mode]), GUTIL.COLORS.WHITE))
 
             ratingColumn.text:SetText(GUTIL:ColorizeText(tostring(data.rating), GUTIL.COLORS.LEGENDARY))
             scoreColumn.text:SetText(GUTIL:ColorizeText(tostring(data.win), GUTIL.COLORS.GREEN) ..

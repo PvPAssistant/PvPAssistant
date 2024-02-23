@@ -34,7 +34,7 @@ function PvPLookup.DB:Init()
     if not PvPLookupDB.matchHistory then
         PvPLookupDB.matchHistory = {
             version = 1,
-            ---@type PvPLookup.MatchHistory[]
+            ---@type PvPLookup.MatchHistory.Serialized[]
             data = {}
         }
     end
@@ -55,13 +55,14 @@ function PvPLookup.DB:HandleMigrations()
 
 end
 
+---@return PvPLookup.MatchHistory.Serialized[]
 function PvPLookup.DB.MATCH_HISTORY:Get()
     return PvPLookupDB.matchHistory.data
 end
 
 ---@param matchHistory PvPLookup.MatchHistory
 function PvPLookup.DB.MATCH_HISTORY:Save(matchHistory)
-    tinsert(PvPLookupDB.matchHistory.data, matchHistory)
+    tinsert(PvPLookupDB.matchHistory.data, matchHistory:Serialize())
 end
 
 function PvPLookup.DB.MATCH_HISTORY:Clear()
