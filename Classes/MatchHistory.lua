@@ -185,7 +185,7 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
         return
     end
 
-    local isRated = playerTeamRatingInfo.ratingNew > 0 or enemyTeamRatingInfo.ratingNew > 0
+    local isRated = playerTeamRatingInfo.ratingMMR > 0 or enemyTeamRatingInfo.ratingMMR > 0
 
     ---@type PvPLookup.Player[]
     local playerTeam = {}

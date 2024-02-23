@@ -449,8 +449,8 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
                 value = PvPLookup.CONST.PVP_MODES.BATTLEGROUND,
             },
         },
-        initialLabel = GUTIL:ColorizeText("2v2", GUTIL.COLORS.WHITE),
-        initialValue = PvPLookup.CONST.PVP_MODES.TWOS,
+        initialLabel = GUTIL:ColorizeText("All", GUTIL.COLORS.WHITE),
+        initialValue = nil,
         clickCallback = function(self, label, value)
             PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
         end,
@@ -708,8 +708,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
             end
 
             if matchHistory.isRated then
-                changeColumn.text:SetText(FormatValueWithSign(team.ratingInfo.ratingNew -
-                    team.ratingInfo.ratingMMR))
+                changeColumn.text:SetText(FormatValueWithSign(team.ratingInfo.ratingNew))
                 ratingColumn.text:SetText(team.ratingInfo.ratingMMR)
                 ratingColumn:SetIconByRating(team.ratingInfo.ratingMMR)
             else

@@ -4,6 +4,7 @@ local PvPLookup = select(2, ...)
 
 local GUTIL = PvPLookup.GUTIL
 local GGUI = PvPLookup.GGUI
+local f = GUTIL:GetFormatter()
 
 ---@class PvPLookup.Main : Frame
 PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD",
@@ -66,6 +67,12 @@ function PvPLookup.MAIN:InitializeSlashCommands()
 
 		if command == "config" then
 			InterfaceOptionsFrame_OpenToCategory(PvPLookup.OPTIONS.optionsPanel)
+		end
+
+		if command == "history clear" then
+			print(f.l("PvPLookup ") .. ": Match History Cleared")
+			PvPLookup.DB.MATCH_HISTORY:Clear()
+			PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
 		end
 
 		if command == "" then
