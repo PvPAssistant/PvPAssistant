@@ -11,7 +11,7 @@
 ## SavedVariables: PvPLookupDB, PvPLookupGGUIConfig, PvPLookupOptions, PvPLookupLibIconDB
 ## Dependencies: Blizzard_PVPUI
 ## OptionalDeps: DevTool
-## Version: 0.0.15
+## Version: 0.0.16
 
 embeds.xml
 Libs/Libs.lua   
