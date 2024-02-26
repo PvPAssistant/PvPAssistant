@@ -46,7 +46,7 @@ function PvPLookup.DB:Init()
     if not PvPLookupDB.playerData then
         PvPLookupDB.playerData = {
             version = 1,
-            ---@type table<PlayerUID, PvPLookup.PlayerTooltipData>
+            ---@type table<PlayerUID, table<PvPLookup.Const.PVPModes, InspectArenaData | InspectPVPData>>
             data = {}
         }
     end
@@ -82,16 +82,15 @@ function PvPLookup.DB.MATCH_HISTORY:Clear()
 end
 
 ---@param playerUID PlayerUID
+---@return table<PvPLookup.Const.PVPModes, InspectArenaData | InspectPVPData>?
 function PvPLookup.DB.PLAYER_DATA:Get(playerUID)
-    PvPLookupDB.playerData.data[playerUID] = PvPLookupDB.playerData.data[playerUID] or {}
-    PvPLookupDB.playerData.data[playerUID].ratingData = PvPLookupDB.playerData.data[playerUID].ratingData or {}
     return PvPLookupDB.playerData.data[playerUID]
 end
 
 ---@param playerUID PlayerUID
----@param playerTooltipData PvPLookup.PlayerTooltipData
-function PvPLookup.DB.PLAYER_DATA:Save(playerUID, playerTooltipData)
-    PvPLookupDB.playerData.data[playerUID] = playerTooltipData
+---@param playerPvPData table<PvPLookup.Const.PVPModes, InspectArenaData | InspectPVPData>
+function PvPLookup.DB.PLAYER_DATA:Save(playerUID, playerPvPData)
+    PvPLookupDB.playerData.data[playerUID] = playerPvPData
 end
 
 function PvPLookup.DB.PLAYER_DATA:Clear()

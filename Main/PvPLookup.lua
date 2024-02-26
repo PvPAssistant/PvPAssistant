@@ -69,10 +69,15 @@ function PvPLookup.MAIN:InitializeSlashCommands()
 			InterfaceOptionsFrame_OpenToCategory(PvPLookup.OPTIONS.optionsPanel)
 		end
 
-		if command == "history clear" then
-			print(f.l("PvPLookup ") .. ": Match History Cleared")
+		if command == "history" and rest == "clear" then
+			print(f.l("PvPLookup") .. ": Match History Cleared")
 			PvPLookup.DB.MATCH_HISTORY:Clear()
 			PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
+		end
+
+		if command == "tooltips" and rest == "clear" then
+			print(f.l("PvPLookup ") .. ": Player Tooltip Data Cleared")
+			PvPLookup.DB.PLAYER_DATA:Clear()
 		end
 
 		if command == "" then

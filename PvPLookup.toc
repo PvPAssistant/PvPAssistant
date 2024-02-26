@@ -9,7 +9,7 @@
 ## X-WoWI-ID: 
 ## IconTexture: Interface\Addons\PvPLookup\Media\Images\logo1024
 ## SavedVariables: PvPLookupDB, PvPLookupGGUIConfig, PvPLookupOptions, PvPLookupLibIconDB
-## Dependencies: Blizzard_PVPUI
+## Dependencies: Blizzard_PVPUI, Blizzard_InspectUI
 ## OptionalDeps: DevTool
 ## Version: 0.0.17
 

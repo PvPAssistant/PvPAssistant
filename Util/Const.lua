@@ -24,11 +24,11 @@ PvPLookup.CONST.PVP_MODES = {
     TWOS = "TWOS",
     THREES = "THREES",
     BATTLEGROUND = "BATTLEGROUND",
-    SOLO = "SOLO",
+    SOLO_SHUFFLE = "SOLO_SHUFFLE",
 }
 ---@type table<PvPLookup.Const.PVPModes, string>
 PvPLookup.CONST.PVP_MODES_NAMES = {
-    SOLO = "Shuffle",
+    SOLO_SHUFFLE = "Shuffle",
     TWOS = "2v2",
     THREES = "3v3",
     BATTLEGROUND = "BG",

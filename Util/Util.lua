@@ -71,3 +71,19 @@ function PvPLookup.UTIL:GetIconByRating(rating)
     end
     return rankingIcon
 end
+
+---@param pvpMode PvPLookup.Const.PVPModes
+---@param data table
+---@return InspectArenaData inspectArenaData
+function PvPLookup.UTIL:ConvertInspectArenaData(pvpMode, data)
+    ---@type InspectArenaData
+    local inspectArenaData = {
+        pvpMode = pvpMode,
+        rating = data[1],
+        seasonPlayed = data[2],
+        seasonWon = data[3],
+        weeklyPlayed = data[4],
+        weeklyWon = data[5],
+    }
+    return inspectArenaData
+end

@@ -294,7 +294,7 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
         LfgDungeonID = instanceInfo[10],
     }
     matchHistory.pvpMode = (matchHistory.isBattleground and PvPLookup.CONST.PVP_MODES.BATTLEGROUND) or
-        (matchHistory.isSoloShuffle and PvPLookup.CONST.PVP_MODES.SOLO) or
+        (matchHistory.isSoloShuffle and PvPLookup.CONST.PVP_MODES.SOLO_SHUFFLE) or
         (matchHistory.isArena and highestTeamSize <= 2 and PvPLookup.CONST.PVP_MODES.TWOS) or
         (matchHistory.isArena and highestTeamSize <= 3 and PvPLookup.CONST.PVP_MODES.THREES)
     matchHistory.player = player

@@ -483,7 +483,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             },
             {
                 label = GUTIL:ColorizeText("Solo", GUTIL.COLORS.WHITE),
-                value = PvPLookup.CONST.PVP_MODES.SOLO,
+                value = PvPLookup.CONST.PVP_MODES.SOLO_SHUFFLE,
             },
             {
                 label = GUTIL:ColorizeText("2v2", GUTIL.COLORS.WHITE),
