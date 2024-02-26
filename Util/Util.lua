@@ -59,3 +59,15 @@ function PvPLookup.UTIL:GetMapAbbreviation(mapName)
 
     return table.concat(firstLetters, "")
 end
+
+---@param rating number
+---@return string?
+function PvPLookup.UTIL:GetIconByRating(rating)
+    local rankingIcon
+    for _, ratingData in ipairs(PvPLookup.CONST.RATING_ICON_MAP) do
+        if rating >= ratingData.rating then
+            rankingIcon = ratingData.icon
+        end
+    end
+    return rankingIcon
+end

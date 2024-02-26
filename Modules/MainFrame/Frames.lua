@@ -43,7 +43,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
             parent = frame.content,
             anchorParent = frame.content.titleLogo.frame,
             offsetY = 1,
-            offsetX = 24,
+            offsetX = 27,
             anchorA = "LEFT",
             anchorB = "RIGHT",
             adjustWidth = true,
@@ -120,6 +120,21 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
     frame.content.logo = GGUI.Text {
         parent = frame.content, anchorParent = frame.content.titleLogo.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = 0, offsetY = 2,
         text = PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.LOGO_1024, 0.028)
+    }
+
+    frame.content.closeButton = GGUI.Button {
+        parent = frame.content, anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
+        offsetX = 0, offsetY = 0,
+        label = f.white("X"),
+        buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+        fontOptions = {
+            fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+        },
+        sizeX = 17,
+        sizeY = 15,
+        clickCallback = function()
+            frame:Hide()
+        end
     }
 
     PvPLookup.MAIN_FRAME.frame = frame
@@ -260,7 +275,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     local listScale = 0.997
     matchHistoryTab.content.matchHistoryList = GGUI.FrameList {
         parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.classFilterFrame.frame, offsetX = 0, hideScrollbar = true,
-        anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -25,
+        anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -25, rowHeight = 30,
         rowBackdrops = { PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = { 1, 1, 1, 0.1 } },
         sizeY = 460, columnOptions = columnOptions, rowConstructor = function(columns)
@@ -306,44 +321,83 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             showTooltip = true,
         }
 
+        local iconSizeSS = 13
+
+        teamColumn.iconSS1 = GGUI.ClassIcon {
+            parent = teamColumn, anchorParent = teamColumn, anchorA = "LEFT", anchorB = "LEFT", offsetX = 28, offsetY = 7,
+            initialClass = "WARLOCK", sizeX = iconSizeSS, sizeY = iconSizeSS,
+            showTooltip = true,
+        }
+        teamColumn.iconSS2 = GGUI.ClassIcon {
+            parent = teamColumn, anchorParent = teamColumn.iconSS1.frame, anchorA = "LEFT", anchorB = "RIGHT",
+            initialClass = "WARRIOR", sizeX = iconSizeSS, sizeY = iconSizeSS,
+            showTooltip = true,
+        }
+        teamColumn.iconSS3 = GGUI.ClassIcon {
+            parent = teamColumn, anchorParent = teamColumn.iconSS2.frame, anchorA = "LEFT", anchorB = "RIGHT",
+            initialClass = "MONK", sizeX = iconSizeSS, sizeY = iconSizeSS,
+            showTooltip = true,
+        }
+
+        teamColumn.iconSS4 = GGUI.ClassIcon {
+            parent = teamColumn, anchorParent = teamColumn.iconSS1.frame, anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT", offsetX = 0, offsetY = -1,
+            initialClass = "WARLOCK", sizeX = iconSizeSS, sizeY = iconSizeSS,
+            showTooltip = true,
+        }
+        teamColumn.iconSS5 = GGUI.ClassIcon {
+            parent = teamColumn, anchorParent = teamColumn.iconSS4.frame, anchorA = "LEFT", anchorB = "RIGHT",
+            initialClass = "WARRIOR", sizeX = iconSizeSS, sizeY = iconSizeSS,
+            showTooltip = true,
+        }
+        teamColumn.iconSS6 = GGUI.ClassIcon {
+            parent = teamColumn, anchorParent = teamColumn.iconSS5.frame, anchorA = "LEFT", anchorB = "RIGHT",
+            initialClass = "MONK", sizeX = iconSizeSS, sizeY = iconSizeSS,
+            showTooltip = true,
+        }
+
+        teamColumn.iconsSoloShuffle = { teamColumn.iconSS1, teamColumn.iconSS2, teamColumn.iconSS3, teamColumn.iconSS4,
+            teamColumn.iconSS5, teamColumn.iconSS6 }
         teamColumn.iconsTwo = { teamColumn.icon21, teamColumn.icon22 }
         teamColumn.iconsThree = { teamColumn.icon31, teamColumn.icon32, teamColumn.icon33 }
 
         ---@param team PvPLookup.Team
-        teamColumn.SetTeam = function(self, team)
-            if #team.players == 3 then
-                for _, icon in pairs(teamColumn.iconsTwo) do
-                    icon:Hide()
+        teamColumn.SetTeam = function(self, team, isSoloShuffle)
+            for _, icon in pairs(teamColumn.iconsTwo) do
+                icon:Hide()
+            end
+            for _, icon in pairs(teamColumn.iconsThree) do
+                icon:Hide()
+            end
+            for _, icon in pairs(teamColumn.iconsSoloShuffle) do
+                icon:Hide()
+            end
+            if isSoloShuffle then
+                for index, icon in pairs(teamColumn.iconsSoloShuffle) do
+                    icon:Show()
+                    local player = team.players[index]
+                    if player then
+                        icon:SetClass(team.players[index].specID)
+                    else
+                        icon:SetClass(nil)
+                    end
                 end
+            end
+            if #team.players == 3 then
                 for index, icon in pairs(teamColumn.iconsThree) do
                     icon:Show()
                     icon:SetClass(team.players[index].specID)
                 end
             elseif #team.players == 2 then
-                for _, icon in pairs(teamColumn.iconsThree) do
-                    icon:Hide()
-                end
                 for index, icon in pairs(teamColumn.iconsTwo) do
                     icon:Show()
                     icon:SetClass(team.players[index].specID)
                 end
             elseif #team.players == 1 then
-                for _, icon in pairs(teamColumn.iconsTwo) do
-                    icon:Hide()
-                end
-
                 teamColumn.iconsThree[1]:Hide()
                 teamColumn.iconsThree[3]:Hide()
 
                 teamColumn.iconsThree[2]:Show()
                 teamColumn.iconsThree[2]:SetClass(team.players[1].specID)
-            else
-                for _, icon in pairs(teamColumn.iconsThree) do
-                    icon:Hide()
-                end
-                for _, icon in pairs(teamColumn.iconsTwo) do
-                    icon:Hide()
-                end
             end
         end
         mmrColumn.text = GGUI.Text {
@@ -375,14 +429,9 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             else
                 ratingColumn.texture:Show()
             end
-            local rankingTexture
-            for _, ratingData in ipairs(PvPLookup.CONST.RATING_ICON_MAP) do
-                if playerRating >= ratingData.rating then
-                    rankingTexture = ratingData.icon
-                end
-            end
-            if rankingTexture then
-                ratingColumn.texture:SetTexture(rankingTexture)
+            local rankingIcon = PvPLookup.UTIL:GetIconByRating(playerRating)
+            if rankingIcon then
+                ratingColumn.texture:SetTexture(rankingIcon)
             end
         end
     end
@@ -662,7 +711,6 @@ function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
         end)
 
 
-    print("filtered History count: " .. tostring(#filteredHistory))
     for _, matchHistory in pairs(filteredHistory) do
         matchHistoryList:Add(function(row)
             local columns = row.columns
@@ -703,7 +751,6 @@ function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
                 healingColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.enemyTeam.healing))
             end
 
-            local team
             if displayedTeam == PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
                 team = matchHistory.playerTeam
             else

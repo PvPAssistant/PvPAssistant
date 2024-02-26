@@ -62,6 +62,12 @@ function PvPLookup.MatchHistory:new()
     self.isArena = false
     ---@type boolean
     self.isBattleground = false
+    ---@type boolean
+    self.isSoloShuffle = false
+    ---@type PVPScoreInfo
+    self.playerScoreInfo = nil
+    ---@type PVPScoreInfo[]
+    self.playerScoreInfos = nil
     ---@type PvPLookup.Team
     self.playerTeam = nil
     ---@type PvPLookup.Team
@@ -167,6 +173,8 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
 
     -- DEBUG END
 
+    local isSoloShuffle = C_PvP.IsSoloShuffle()
+
     local playerTeamID = GetBattlefieldArenaFaction()
 
     if not playerTeamID then
@@ -185,8 +193,6 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
         return
     end
 
-    local isRated = playerTeamRatingInfo.ratingMMR > 0 or enemyTeamRatingInfo.ratingMMR > 0
-
     ---@type PvPLookup.Player[]
     local playerTeam = {}
     local enemyTeam = {}
@@ -204,7 +210,7 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
             specID = PvPLookup.SPEC_LOOKUP:LookUp(specDescriptor),
             scoreData = battlefieldScore,
         }
-        if battlefieldScore.faction == playerTeamID then
+        if battlefieldScore.faction == playerTeamID or isSoloShuffle then
             tinsert(playerTeam, arenaPlayer)
 
             if arenaPlayer.name == playerName and arenaPlayer.realm == playerRealm then
@@ -256,12 +262,21 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
 
     local instanceInfo = { GetInstanceInfo() }
 
+    local playerScoreInfos = {}
+    for i = 1, #battlefieldScores do
+        local scoreInfo = C_PvP.GetScoreInfo(i)
+        if scoreInfo then
+            table.insert(playerScoreInfos, C_PvP.GetScoreInfo(i))
+        end
+    end
+
     local matchHistory = PvPLookup.MatchHistory()
     matchHistory.duration = C_PvP.GetActiveMatchDuration() * 1000 -- seconds -> ms
     matchHistory.isArena = C_PvP.IsArena()
     matchHistory.isBattleground = C_PvP.IsBattleground()
-    matchHistory.isRated = isRated
-    matchHistory.isSoloShuffle = C_PvP.IsSoloShuffle()
+    matchHistory.isSoloShuffle = isSoloShuffle
+    matchHistory.isRated = isSoloShuffle or
+        (playerTeamRatingInfo.ratingMMR > 0 or enemyTeamRatingInfo.ratingMMR > 0)
     matchHistory.enemyTeam = enemyTeam
     matchHistory.playerTeam = playerTeam
     matchHistory.win = C_PvP.GetActiveMatchWinner() == playerTeamID
@@ -284,34 +299,45 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
         (matchHistory.isArena and highestTeamSize <= 3 and PvPLookup.CONST.PVP_MODES.THREES)
     matchHistory.player = player
     matchHistory.timestamp = (C_DateAndTime.GetServerTimeLocal() * 1000) - matchHistory.duration
-
+    matchHistory.playerScoreInfo = C_PvP.GetScoreInfoByPlayerGuid(UnitGUID("player"))
+    matchHistory.playerScoreInfos = playerScoreInfos
     return matchHistory
 end
 
+---@param player PvPLookup.Player
+---@return string
+function PvPLookup.MatchHistory:GetTooltipTextForPlayer(player)
+    local tooltipText =
+        f.class(player.name .. "-" .. player.realm, player.class)
+    if self.isRated then
+        local rating = player.scoreData.bgRating
+        local ratingIcon = PvPLookup.UTIL:GetIconByRating(rating)
+        local iconText = GUTIL:IconToText(ratingIcon, 20, 20)
+        tooltipText = tooltipText ..
+            " " .. iconText .. " " .. rating
+    end
+    tooltipText = tooltipText ..
+        "\n - Damage / Heal: " ..
+        PvPLookup.UTIL:FormatDamageNumber(player.scoreData.damageDone) ..
+        " / " .. PvPLookup.UTIL:FormatDamageNumber(player.scoreData.healingDone) .. "\n"
+    if self.isArena then
+        tooltipText = tooltipText ..
+            " - Kills: " .. player.scoreData.killingBlows .. "\n"
+    else
+        tooltipText = tooltipText ..
+            " - Kills / Deaths: " .. player.scoreData.killingBlows .. " / " .. player.scoreData.deaths .. "\n"
+    end
+
+    return tooltipText
+end
+
 ---@param team PvPLookup.Team
+---@return string
 function PvPLookup.MatchHistory:GetTooltipTextForTeam(team)
     local tooltipText = ""
 
     for _, player in ipairs(team.players) do
-        tooltipText = tooltipText ..
-            "- " ..
-            f.class(player.name .. "-" .. player.realm, player.class) ..
-            "\n"
-        if self.isRated then
-            tooltipText = tooltipText ..
-                "  - MMR: " .. player.scoreData.preMatchMMR .. "\n"
-        end
-        tooltipText = tooltipText ..
-            "  - Damage / Heal: " ..
-            PvPLookup.UTIL:FormatDamageNumber(player.scoreData.damageDone) ..
-            " / " .. PvPLookup.UTIL:FormatDamageNumber(player.scoreData.healingDone) .. "\n"
-        if self.isArena then
-            tooltipText = tooltipText ..
-                "  - Kills: " .. player.scoreData.killingBlows .. "\n"
-        else
-            tooltipText = tooltipText ..
-                "  - Kills / Deaths: " .. player.scoreData.killingBlows .. " / " .. player.scoreData.deaths .. "\n"
-        end
+        tooltipText = tooltipText .. self:GetTooltipTextForPlayer(player)
     end
 
     return tooltipText
@@ -332,15 +358,29 @@ function PvPLookup.MatchHistory:GetTooltipText()
             tooltipText = tooltipText .. " - Rated"
         end
     end
-    if self.win then
-        tooltipText = tooltipText .. " (" .. f.g("Win") .. ")"
+    if self.isSoloShuffle then
+        local wins = self.playerScoreInfo.stats[1] and self.playerScoreInfo.stats[1].pvpStatValue
+        if wins and wins > 0 then
+            tooltipText = tooltipText .. " ( " .. f.g(wins .. " Wins") .. " )"
+        else
+            tooltipText = tooltipText .. " ( " .. f.r("0 Wins") .. " )"
+        end
     else
-        tooltipText = tooltipText .. " (" .. f.r("Lost") .. ")"
+        if self.win then
+            tooltipText = tooltipText .. " ( " .. f.g("Win") .. " )"
+        else
+            tooltipText = tooltipText .. " ( " .. f.r("Lost") .. " )"
+        end
     end
     tooltipText = tooltipText .. "\nMap: " .. self.mapInfo.name
     tooltipText = tooltipText .. "\n\n"
-    tooltipText = tooltipText .. f.g("Your Team:\n") .. self:GetTooltipTextForTeam(self.playerTeam)
-    tooltipText = tooltipText .. f.r("\nEnemy Team:\n") .. self:GetTooltipTextForTeam(self.enemyTeam)
+
+    if self.isSoloShuffle then
+        tooltipText = tooltipText .. f.g("Players:\n") .. self:GetTooltipTextForTeam(self.playerTeam)
+    else
+        tooltipText = tooltipText .. f.g("Your Team:\n") .. self:GetTooltipTextForTeam(self.playerTeam)
+        tooltipText = tooltipText .. f.r("\nEnemy Team:\n") .. self:GetTooltipTextForTeam(self.enemyTeam)
+    end
 
     return tooltipText
 end
@@ -350,6 +390,7 @@ end
 ---@field mapInfo InstanceInfo
 ---@field isArena boolean
 ---@field isBattleground boolean
+---@field isSoloShuffle boolean
 ---@field playerTeam PvPLookup.Team
 ---@field enemyTeam PvPLookup.Team
 ---@field duration number
@@ -358,6 +399,8 @@ end
 ---@field win boolean
 ---@field season number
 ---@field player PvPLookup.Player
+---@field playerScoreInfo PVPScoreInfo
+---@field playerScoreInfos PVPScoreInfo[]
 
 ---@return PvPLookup.MatchHistory.Serialized
 function PvPLookup.MatchHistory:Serialize()
@@ -367,6 +410,7 @@ function PvPLookup.MatchHistory:Serialize()
         mapInfo = self.mapInfo,
         isArena = self.isArena,
         isBattleground = self.isBattleground,
+        isSoloShuffle = self.isSoloShuffle,
         playerTeam = self.playerTeam,
         enemyTeam = self.enemyTeam,
         duration = self.duration,
@@ -375,6 +419,8 @@ function PvPLookup.MatchHistory:Serialize()
         win = self.win,
         season = self.season,
         player = self.player,
+        playerScoreInfo = self.playerScoreInfo,
+        playerScoreInfos = self.playerScoreInfos,
     }
 
     return serialized
@@ -388,6 +434,7 @@ function PvPLookup.MatchHistory:Deserialize(serializedData)
     matchHistory.mapInfo = serializedData.mapInfo
     matchHistory.isArena = serializedData.isArena
     matchHistory.isBattleground = serializedData.isBattleground
+    matchHistory.isSoloShuffle = serializedData.isSoloShuffle
     matchHistory.playerTeam = serializedData.playerTeam
     matchHistory.enemyTeam = serializedData.enemyTeam
     matchHistory.duration = serializedData.duration
@@ -396,5 +443,7 @@ function PvPLookup.MatchHistory:Deserialize(serializedData)
     matchHistory.win = serializedData.win
     matchHistory.season = serializedData.season
     matchHistory.player = serializedData.player
+    matchHistory.playerScoreInfo = serializedData.playerScoreInfo
+    matchHistory.playerScoreInfos = serializedData.playerScoreInfos
     return matchHistory
 end
