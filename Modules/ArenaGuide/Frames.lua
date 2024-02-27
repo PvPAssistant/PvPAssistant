@@ -131,12 +131,19 @@ end
 
 function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
     local content = PvPLookup.ARENA_GUIDE.frame.content
-    local specIDs = PvPLookup.ARENA_GUIDE:GetArenaSpecIDs()
 
-    PvPLookup.DEBUG:DebugTable(specIDs, "Arena Spec IDs")
+    PvPLookup.ARENA_GUIDE:UpdateArenaSpecIDs()
+
+    local specIDsPlayerTeam = GUTIL:Map(PvPLookup.ARENA_GUIDE.specIDs.PLAYER_TEAM, function(specID)
+        return specID
+    end)
+    local specIDsEnemyTeam = GUTIL:Map(PvPLookup.ARENA_GUIDE.specIDs.ENEMY_TEAM, function(specID)
+        return specID
+    end)
+    PvPLookup.DEBUG:DebugTable(PvPLookup.ARENA_GUIDE.specIDs, "Arena Spec IDs")
 
     if debug then
-        specIDs = {
+        PvPLookup.ARENA_GUIDE.specIDs = {
             PLAYER_TEAM = {
                 PvPLookup.CONST.SPEC_IDS.FURY, PvPLookup.CONST.SPEC_IDS.RETRIBUTION
             },
@@ -153,33 +160,33 @@ function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
 
     local playerTeamIcons
     local enemyTeamIcons
-    if #specIDs.PLAYER_TEAM <= 2 then
+    if #specIDsPlayerTeam <= 2 then
         playerTeamIcons = content.playerTeamIcons2
     else
         playerTeamIcons = content.playerTeamIcons3
     end
-    if #specIDs.ENEMY_TEAM <= 2 then
+    if #PvPLookup.ARENA_GUIDE.specIDs.ENEMY_TEAM <= 2 then
         enemyTeamIcons = content.enemyTeamIcons2
     else
         enemyTeamIcons = content.enemyTeamIcons3
     end
 
     for i, icon in ipairs(playerTeamIcons) do
-        local specID = specIDs.PLAYER_TEAM[i]
+        local specID = specIDsPlayerTeam[i]
         if specID then
             icon:SetClass(specID)
             icon:Show()
         end
     end
     for i, icon in ipairs(enemyTeamIcons) do
-        local specID = specIDs.ENEMY_TEAM[i]
+        local specID = specIDsEnemyTeam[i]
         if specID then
             icon:SetClass(specID)
             icon:Show()
         end
     end
 
-    local compositionID = table.concat(specIDs.ENEMY_TEAM)
+    local compositionID = table.concat(specIDsEnemyTeam)
 
     -- fill strategyText
     local strategy = PvPLookup.ARENA_STRATEGIES[compositionID] or
