@@ -763,6 +763,10 @@ function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
             end
         end)
 
+    local filteredHistory = GUTIL:Sort(filteredHistory, function(a, b)
+        return a.timestamp > b.timestamp
+    end)
+
 
     for _, matchHistory in pairs(filteredHistory) do
         matchHistoryList:Add(function(row)
