@@ -214,7 +214,7 @@ PvPLookup.CONST.ATLAS = {
     TOOLTIP_SWORD = "pvptalents-warmode-swords",
 }
 
-PvPLookup.CONST.SPEC_IDS = {
+PvPLookup.CONST.SPEC_ID_LIST = {
     250,
     251,
     252,
@@ -254,6 +254,78 @@ PvPLookup.CONST.SPEC_IDS = {
     71,
     72,
     73,
+}
+
+---@enum PvPLookup.SpecIDs
+PvPLookup.CONST.SPEC_IDS = {
+    BLOOD = 250,
+    FROST_DK = 251,
+    UNHOLY = 252,
+    HAVOC = 577,
+    VENGEANCE = 581,
+    BALANCE = 102,
+    FERAL = 103,
+    GUARDIAN = 104,
+    RESTORATION_DRUID = 105,
+    DEVASTATION = 1467,
+    PRESERVATION = 1468,
+    AUGMENTATION = 1473,
+    BEAST_MASTERY = 253,
+    MARKSMANSHIP = 254,
+    SURVIVAL = 255,
+    ARCANE = 62,
+    FIRE = 63,
+    FROST = 64,
+    BREWMASTER = 268,
+    MISTWEAVER = 270,
+    WINDWALKER = 269,
+    HOLY_PALADIN = 65,
+    PROTECTION_PALADIN = 66,
+    RETRIBUTION = 70,
+    DISCIPLINE = 256,
+    HOLY = 257,
+    SHADOW = 258,
+    ASSASSINATION = 259,
+    OUTLAW = 260,
+    SUBTLETY = 261,
+    ELEMENTAL = 262,
+    ENHANCEMENT = 263,
+    RESTORATION = 264,
+    AFFLICTION = 265,
+    DEMONOLOGY = 266,
+    DESTRUCTION = 267,
+    ARMS = 71,
+    FURY = 72,
+    PROTECTION = 73,
+}
+
+---@enum PvPLookup.CCSpellTypes
+PvPLookup.CONST.CC_SPELL_TYPES = {
+    STUN = "STUN",
+    FEAR = "FEAR",
+    ROOT = "ROOT",
+    SLOW = "SLOW",
+    MIND_CONTROL = "MIND_CONTROL",
+    DISORIENT = "DISORIENT",
+    DISARM = "DISARM",
+    REFLECT = "REFLECT",
+    GRIP = "GRIP",
+    IMMUNITY = "IMMUNITY",
+    SILENCE = "SILENCE",
+    INTERRUPT = "INTERRUPT",
+    INVISIBILITY = "INVISIBILITY",
+    POLYMORPH = "POLYMORPH",
+    INCAPACITATE = "INCAPACITATE",
+    KNOCKBACK = "KNOCKBACK",
+    DISPEL = "DISPEL",
+    BUFF = "BUFF",
+}
+
+---@enum PvPLookup.PVPCCSeverity
+PvPLookup.CONST.PVP_CC_SEVERITY = {
+    LOW = "LOW",
+    MEDIUM = "MEDIUM",
+    HIGH = "HIGH",
 }
 
 PvPLookup.CONST.MAP_ABBREVIATIONS = {

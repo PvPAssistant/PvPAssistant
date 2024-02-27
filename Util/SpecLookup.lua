@@ -8,7 +8,7 @@ PvPLookup.SPEC_LOOKUP.lookupTable = {}
 function PvPLookup.SPEC_LOOKUP:Init()
     wipe(PvPLookup.SPEC_LOOKUP.lookupTable)
 
-    for _, specID in ipairs(PvPLookup.CONST.SPEC_IDS) do
+    for _, specID in ipairs(PvPLookup.CONST.SPEC_ID_LIST) do
         local specNameM = select(2, GetSpecializationInfoForSpecID(specID, 2)) -- 2 = Male
         local specNameF = select(2, GetSpecializationInfoForSpecID(specID, 3)) -- 3 = Female
         local className = select(7, GetSpecializationInfoByID(specID))

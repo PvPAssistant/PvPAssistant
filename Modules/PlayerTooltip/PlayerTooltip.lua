@@ -123,6 +123,7 @@ function PvPLookup.PLAYER_TOOLTIP:InitTooltipFrame()
                 text = "", justifyOptions = { type = "H", align = "CENTER" },
             }
         end,
+        disableScrolling = true,
         parent = content, anchorParent = content,
         hideScrollbar = true, autoAdjustHeight = true, anchorA = "TOPLEFT", anchorB = "TOPLEFT", offsetY = frameListOffsetY, offsetX = -7,
         autoAdjustHeightCallback = function(newHeight)

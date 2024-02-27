@@ -21,6 +21,8 @@ Util/DB.lua
 Util/SpecLookup.lua
 Util/Debug.lua
 
+Data/CCData.lua
+
 Classes/MatchHistory.lua
 
 Media/Media.lua

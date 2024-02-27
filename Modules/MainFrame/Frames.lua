@@ -527,68 +527,77 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
     ---@type GGUI.FrameList.ColumnOption[]
     local columnOptions = {
         {
-            label = "Class",
+            label = f.grey("Class - Specialization"),
+            width = 200,
+            justifyOptions = { type = "H", align = "LEFT" },
+        },
+        {
+            label = f.grey("Spell"),
             width = 150,
             justifyOptions = { type = "H", align = "LEFT" },
         },
         {
-            label = "Spec",
-            width = 150,
-            justifyOptions = { type = "H", align = "LEFT" },
-        },
-        {
-            label = "Spell",
-            width = 150,
-            justifyOptions = { type = "H", align = "LEFT" },
-        },
-        {
-            label = "Duration",
+            label = f.grey("Type"),
             width = 100,
+            justifyOptions = { type = "H", align = "CENTER" },
+        },
+        {
+            label = f.grey("Duration"),
+            width = 100,
+            justifyOptions = { type = "H", align = "CENTER" },
+        },
+        {
+            label = f.grey("Talent Upgrades"),
+            width = 130,
             justifyOptions = { type = "H", align = "CENTER" },
         },
     }
 
     ccCatalogueTab.content.ccList = GGUI.FrameList {
         parent = ccCatalogueTab.content, anchorParent = ccCatalogueTab.content, anchorA = "TOP", anchorB = "TOP",
-        sizeY = 500, showBorder = true, offsetY = -40,
+        sizeY = 500, showBorder = true, offsetY = -40, offsetX = -8,
         columnOptions = columnOptions,
         rowBackdrops = { PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = { 1, 1, 1, 0.1 } },
         rowConstructor = function(columns)
-            local classColumn = columns[1]
-            local specColumn = columns[2]
-            local spellColumn = columns[3]
+            local classSpecColumn = columns[1]
+            local spellColumn = columns[2]
+            local typeColumn = columns[3]
             local durationColumn = columns[4]
+            local upgradeColumn = columns[5]
 
             local iconSize = 23
-            classColumn.icon = GGUI.ClassIcon {
-                parent = classColumn, anchorParent = classColumn, enableMouse = false, sizeX = iconSize, sizeY = iconSize, anchorA = "LEFT", anchorB = "LEFT",
+            classSpecColumn.classIcon = GGUI.ClassIcon {
+                parent = classSpecColumn, anchorParent = classSpecColumn, enableMouse = false, sizeX = iconSize, sizeY = iconSize, anchorA = "LEFT", anchorB = "LEFT",
             }
 
-            classColumn.className = GGUI.Text {
-                parent = classColumn, anchorParent = classColumn.icon.frame, justifyOptions = { type = "H", align = "LEFT" }, text = "?",
+            classSpecColumn.specIcon = GGUI.ClassIcon {
+                parent = classSpecColumn, anchorParent = classSpecColumn.classIcon.frame, enableMouse = false, sizeX = iconSize, sizeY = iconSize, anchorA = "LEFT", anchorB = "RIGHT",
+            }
+
+            classSpecColumn.className = GGUI.Text {
+                parent = classSpecColumn, anchorParent = classSpecColumn.specIcon.frame, justifyOptions = { type = "H", align = "LEFT" }, text = "",
                 anchorA = "LEFT", anchorB = "RIGHT", offsetX = 3,
             }
 
-            classColumn.SetClass = function(self, class)
-                classColumn.icon:SetClass(class)
-                classColumn.className:SetText(f.class(LOCALIZED_CLASS_NAMES_MALE[class], class))
+            classSpecColumn.SetClass = function(self, class, specID)
+                classSpecColumn.classIcon:SetClass(class)
+                if specID then
+                    classSpecColumn.specIcon:Show()
+                    classSpecColumn.specIcon:SetClass(specID)
+                    local specName = select(2, GetSpecializationInfoByID(specID))
+                    classSpecColumn.className:SetText(f.class(
+                        tostring(LOCALIZED_CLASS_NAMES_MALE[class]) .. " - " .. tostring(specName),
+                        class))
+                else
+                    classSpecColumn.specIcon:Hide()
+                    classSpecColumn.className:SetText(f.class(LOCALIZED_CLASS_NAMES_MALE[class], class))
+                end
             end
 
-            specColumn.icon = GGUI.ClassIcon {
-                parent = specColumn, anchorParent = specColumn, enableMouse = false, sizeX = iconSize, sizeY = iconSize, anchorA = "LEFT", anchorB = "LEFT",
+            typeColumn.text = GGUI.Text {
+                parent = typeColumn, anchorParent = typeColumn, justifyOptions = { type = "H", align = "LEFT" },
             }
-
-            specColumn.className = GGUI.Text {
-                parent = specColumn, anchorParent = specColumn.icon.frame, justifyOptions = { type = "H", align = "LEFT" }, text = "?",
-                anchorA = "LEFT", anchorB = "RIGHT", offsetX = 3,
-            }
-
-            specColumn.SetSpec = function(self, specID)
-                specColumn.icon:SetClass(specID)
-                local specName = select(2, GetSpecializationInfoByID(specID))
-                classColumn.className:SetText(f.class(specName, specColumn.icon.class))
-            end
 
             spellColumn.icon = GGUI.SpellIcon {
                 parent = spellColumn, anchorParent = spellColumn, sizeX = iconSize, sizeY = iconSize, anchorA = "LEFT", anchorB = "LEFT",
@@ -597,12 +606,13 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
 
             spellColumn.spellName = GGUI.Text {
                 parent = spellColumn, anchorParent = spellColumn.icon.frame, justifyOptions = { type = "H", align = "LEFT" }, text = "?",
-                anchorA = "LEFT", anchorB = "RIGHT", offsetX = 3,
+                anchorA = "LEFT", anchorB = "RIGHT", offsetX = 3, wrap = true, fixedWidth = 150, scale = 0.9,
             }
 
             spellColumn.SetSpell = function(self, spellID)
                 spellColumn.icon:SetSpell(spellID)
-                spellColumn.spellName:SetText(select(1, GetSpellInfo(spellID)))
+                local spellname = select(1, GetSpellInfo(spellID))
+                spellColumn.spellName:SetText(spellname)
             end
 
             durationColumn.text = GGUI.Text {
@@ -610,7 +620,50 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
             }
 
             durationColumn.SetDuration = function(self, seconds)
-                durationColumn.text:SetText(tostring(seconds) .. " Seconds")
+                if seconds then
+                    durationColumn.text:SetText(tostring(seconds) .. " Seconds")
+                else
+                    durationColumn.text:SetText("")
+                end
+            end
+            local numIcons = 5
+            local spacingX = 5
+            local upgradeIconSize = 20
+
+            upgradeColumn.icons = {}
+            local lastAnchor
+            for i = 1, numIcons do
+                local offsetX = spacingX
+                local anchorParent = lastAnchor
+                local anchorB = "RIGHT"
+                if i == 1 then
+                    offsetX = 5
+                    anchorB = "LEFT"
+                    anchorParent = upgradeColumn
+                end
+                local spellIcon = GGUI.SpellIcon {
+                    parent = upgradeColumn, anchorParent = anchorParent,
+                    anchorA = "LEFT", anchorB = anchorB, offsetX = offsetX, sizeX = upgradeIconSize, sizeY = upgradeIconSize
+                }
+                lastAnchor = spellIcon.frame
+
+                tinsert(upgradeColumn.icons, spellIcon)
+            end
+
+            upgradeColumn.setIcons = function(self, spellUpgrades)
+                for i = 1, #spellUpgrades do
+                    local icon = upgradeColumn.icons[i]
+                    local spellUpgradeData = spellUpgrades and spellUpgrades[i]
+                    if not icon then
+                        return
+                    end
+                    if not spellUpgradeData then
+                        icon:Hide()
+                    else
+                        icon:SetSpell(spellUpgradeData.spellID)
+                        icon:Show()
+                    end
+                end
             end
         end
     }
@@ -784,25 +837,35 @@ function PvPLookup.MAIN_FRAME:FillCCData()
     local ccCatalogueTab = PvPLookup.MAIN_FRAME.frame.content.ccCatalogueTab
     local ccList = ccCatalogueTab.content.ccList
 
-    for i = 1, 30 do
-        ccList:Add(function(row, columns)
-            local classColumn = columns[1]
-            local specColumn = columns[2]
-            local spellColumn = columns[3]
-            local durationColumn = columns[4]
+    for classFile, specData in pairs(PvPLookup.CC_DATA) do
+        for specID, spells in pairs(specData) do
+            for _, spellCCData in ipairs(spells) do
+                ccList:Add(function(row, columns)
+                    local classOrSpecColumn = columns[1]
+                    local spellColumn = columns[2]
+                    local typeColumn = columns[3]
+                    local durationColumn = columns[4]
+                    local upgradeColumn = columns[5]
 
-            classColumn:SetClass("WARRIOR")
-            specColumn:SetSpec(72)    -- Fury
+                    if classFile ~= specID then
+                        classOrSpecColumn:SetClass(classFile, specID)
+                    else
+                        classOrSpecColumn:SetClass(classFile)
+                    end
+                    spellColumn:SetSpell(spellCCData.spellID) -- Hammer of justice
+                    typeColumn.text:SetText(f.l(spellCCData.type))
+                    durationColumn:SetDuration(spellCCData.duration)
 
-            spellColumn:SetSpell(853) -- hammer of justice
-            durationColumn:SetDuration(6)
+                    upgradeColumn:setIcons(spellCCData.talentUpgrades or {})
 
-            row.tooltipOptions = {
-                anchor = "ANCHOR_RIGHT",
-                owner = row.frame,
-                spellID = 853
-            }
-        end)
+                    row.tooltipOptions = {
+                        anchor = "ANCHOR_RIGHT",
+                        owner = row.frame,
+                        spellID = spellCCData.spellID
+                    }
+                end)
+            end
+        end
     end
 
     ccList:UpdateDisplay()
