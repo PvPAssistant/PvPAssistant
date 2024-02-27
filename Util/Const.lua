@@ -335,8 +335,8 @@ PvPLookup.CONST.SPEC_IDS = {
     PROTECTION = 73,
 }
 
----@enum PvPLookup.CCSpellTypes
-PvPLookup.CONST.CC_SPELL_TYPES = {
+---@enum PvPLookup.AbilitySubTypes
+PvPLookup.CONST.ABILITY_SUB_TYPES = {
     STUN = "STUN",
     FEAR = "FEAR",
     ROOT = "ROOT",
@@ -357,8 +357,14 @@ PvPLookup.CONST.CC_SPELL_TYPES = {
     BUFF = "BUFF",
 }
 
----@enum PvPLookup.PVPCCSeverity
-PvPLookup.CONST.PVP_CC_SEVERITY = {
+---@enum PvPLookup.AbilityTypes
+PvPLookup.CONST.ABILITY_TYPES = {
+    CC = "CC",
+    DEF = "DEF"
+}
+
+---@enum PvPLookup.PVPSeverity
+PvPLookup.CONST.PVP_SEVERITY = {
     LOW = "LOW",
     MEDIUM = "MEDIUM",
     HIGH = "HIGH",

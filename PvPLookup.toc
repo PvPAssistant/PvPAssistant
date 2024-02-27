@@ -21,7 +21,7 @@ Util/DB.lua
 Util/SpecLookup.lua
 Util/Debug.lua
 
-Data/CCData.lua
+Data/AbilityData.lua
 Data/ArenaStrategies.lua
 
 Classes/MatchHistory.lua

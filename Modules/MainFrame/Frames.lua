@@ -94,8 +94,8 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
     ---@class PvPLookup.MAIN_FRAME.DR_OVERVIEW_TAB.CONTENT
     drOverviewTab.content = drOverviewTab.content
 
-    ---@class PvPLookup.MAIN_FRAME.CC_CATALOGUE_TAB : GGUI.Tab
-    frame.content.ccCatalogueTab = GGUI.Tab {
+    ---@class PvPLookup.MAIN_FRAME.ABILITIES_TAB : GGUI.Tab
+    frame.content.abilitiesTab = GGUI.Tab {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
         buttonOptions = {
@@ -114,10 +114,10 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
             scale = tabButtonScale,
         }
     }
-    ---@class PvPLookup.MAIN_FRAME.CC_CATALOGUE_TAB.CONTENT
-    frame.content.ccCatalogueTab.content = frame.content.ccCatalogueTab.content
-    local ccCatalogueTab = frame.content.ccCatalogueTab
-    ---@class PvPLookup.MAIN_FRAME.CC_CATALOGUE_TAB.CONTENT
+    ---@class PvPLookup.MAIN_FRAME.ABILITIES_TAB.CONTENT
+    frame.content.abilitiesTab.content = frame.content.abilitiesTab.content
+    local ccCatalogueTab = frame.content.abilitiesTab
+    ---@class PvPLookup.MAIN_FRAME.ABILITIES_TAB.CONTENT
     ccCatalogueTab.content = ccCatalogueTab.content
 
     GGUI.TabSystem { matchHistoryTab, ccCatalogueTab, drOverviewTab }
@@ -140,7 +140,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
     PvPLookup.MAIN_FRAME.frame = frame
 
     PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
-    PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
+    PvPLookup.MAIN_FRAME.FRAMES:InitABILITIES_CATALOGUE_TAB()
     PvPLookup.MAIN_FRAME.FRAMES:InitDR_OVERVIEW_TAB()
 
     frame:Hide()
@@ -149,8 +149,8 @@ end
 function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     ---@class PvPLookup.MAIN_FRAME.MATCH_HISTORY_TAB
     local matchHistoryTab = PvPLookup.MAIN_FRAME.frame.content.matchHistoryTab
-    ---@type PvPLookup.MAIN_FRAME.CC_CATALOGUE_TAB
-    local ccCatalogueTab = PvPLookup.MAIN_FRAME.frame.content.ccCatalogueTab
+    ---@type PvPLookup.MAIN_FRAME.ABILITIES_TAB
+    local ccCatalogueTab = PvPLookup.MAIN_FRAME.frame.content.abilitiesTab
     ---@class PvPLookup.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
     matchHistoryTab.content = matchHistoryTab.content
 
@@ -519,16 +519,16 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     }
 end
 
-function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
-    local ccCatalogueTab = PvPLookup.MAIN_FRAME.frame.content.ccCatalogueTab
-    ---@class PvPLookup.MAIN_FRAME.CC_CATALOGUE_TAB.CONTENT
+function PvPLookup.MAIN_FRAME.FRAMES:InitABILITIES_CATALOGUE_TAB()
+    local ccCatalogueTab = PvPLookup.MAIN_FRAME.frame.content.abilitiesTab
+    ---@class PvPLookup.MAIN_FRAME.ABILITIES_TAB.CONTENT
     ccCatalogueTab.content = ccCatalogueTab.content
 
     ---@type GGUI.FrameList.ColumnOption[]
     local columnOptions = {
         {
             label = f.grey("Class - Specialization"),
-            width = 200,
+            width = 180,
             justifyOptions = { type = "H", align = "LEFT" },
         },
         {
@@ -538,7 +538,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
         },
         {
             label = f.grey("Type"),
-            width = 100,
+            width = 120,
             justifyOptions = { type = "H", align = "CENTER" },
         },
         {
@@ -553,7 +553,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
         },
     }
 
-    ccCatalogueTab.content.ccList = GGUI.FrameList {
+    ccCatalogueTab.content.abilityList = GGUI.FrameList {
         parent = ccCatalogueTab.content, anchorParent = ccCatalogueTab.content, anchorA = "TOP", anchorB = "TOP",
         sizeY = 500, showBorder = true, offsetY = -40, offsetX = -8,
         columnOptions = columnOptions,
@@ -577,7 +577,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
 
             classSpecColumn.className = GGUI.Text {
                 parent = classSpecColumn, anchorParent = classSpecColumn.specIcon.frame, justifyOptions = { type = "H", align = "LEFT" }, text = "",
-                anchorA = "LEFT", anchorB = "RIGHT", offsetX = 3,
+                anchorA = "LEFT", anchorB = "RIGHT", offsetX = 3, scale = 0.9
             }
 
             classSpecColumn.SetClass = function(self, class, specID)
@@ -668,7 +668,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
         end
     }
 
-    PvPLookup.MAIN_FRAME:FillCCData()
+    PvPLookup.MAIN_FRAME:FillAbilityData()
 end
 
 function PvPLookup.MAIN_FRAME.FRAMES:InitDR_OVERVIEW_TAB()
@@ -837,14 +837,14 @@ function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
     matchHistoryList:UpdateDisplay()
 end
 
-function PvPLookup.MAIN_FRAME:FillCCData()
-    local ccCatalogueTab = PvPLookup.MAIN_FRAME.frame.content.ccCatalogueTab
-    local ccList = ccCatalogueTab.content.ccList
+function PvPLookup.MAIN_FRAME:FillAbilityData()
+    local ccCatalogueTab = PvPLookup.MAIN_FRAME.frame.content.abilitiesTab
+    local abilityList = ccCatalogueTab.content.abilityList
 
-    for classFile, specData in pairs(PvPLookup.CC_DATA) do
+    for classFile, specData in pairs(PvPLookup.ABILITY_DATA) do
         for specID, spells in pairs(specData) do
-            for _, spellCCData in ipairs(spells) do
-                ccList:Add(function(row, columns)
+            for _, abilityData in ipairs(spells) do
+                abilityList:Add(function(row, columns)
                     local classOrSpecColumn = columns[1]
                     local spellColumn = columns[2]
                     local typeColumn = columns[3]
@@ -856,23 +856,23 @@ function PvPLookup.MAIN_FRAME:FillCCData()
                     else
                         classOrSpecColumn:SetClass(classFile)
                     end
-                    spellColumn:SetSpell(spellCCData.spellID) -- Hammer of justice
-                    typeColumn.text:SetText(f.l(spellCCData.type))
-                    durationColumn:SetDuration(spellCCData.duration)
+                    spellColumn:SetSpell(abilityData.spellID) -- Hammer of justice
+                    typeColumn.text:SetText(f.l(tostring(abilityData.abilityType) .. "-" .. tostring(abilityData.subType)))
+                    durationColumn:SetDuration(abilityData.duration)
 
-                    upgradeColumn:setIcons(spellCCData.talentUpgrades or {})
+                    upgradeColumn:setIcons(abilityData.talentUpgrades or {})
 
                     row.tooltipOptions = {
                         anchor = "ANCHOR_RIGHT",
                         owner = row.frame,
-                        spellID = spellCCData.spellID
+                        spellID = abilityData.spellID
                     }
                 end)
             end
         end
     end
 
-    ccList:UpdateDisplay()
+    abilityList:UpdateDisplay()
 end
 
 function PvPLookup.MAIN_FRAME:FillDRData()
