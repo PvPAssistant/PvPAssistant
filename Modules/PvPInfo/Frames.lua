@@ -40,7 +40,7 @@ function PvPLookup.PVPINFO.FRAMES:Init()
 
 
     content.honorValue = GGUI.Text {
-        parent = content, anchorPoints = { { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = -40, } },
+        parent = content, anchorPoints = { { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = -50, } },
         scale = 1.3,
     }
 
