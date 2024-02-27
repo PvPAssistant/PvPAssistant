@@ -24,11 +24,16 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
     -- makes it closeable on Esc
     tinsert(UISpecialFrames, PvPLookup.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME)
 
-    frame.content.titleLogo = GGUI.Text {
-        parent = frame.content, anchorParent = frame.content, offsetY = -15, offsetX = 30,
-        text = GUTIL:ColorizeText(" PVP-LOOKUP", GUTIL.COLORS.LEGENDARY), scale = 1.7,
-        anchorA = "TOPLEFT", anchorB = "TOPLEFT",
-    }
+    frame.content.titleLogo = PvPLookup.UTIL:CreateLogo(frame.content,
+        {
+            {
+                anchorParent = frame.content,
+                anchorA = "TOPLEFT",
+                anchorB = "TOPLEFT",
+                offsetX = 30,
+                offsetY = -15,
+            }
+        })
 
     ---@class PvPLookup.MAIN_FRAME.CONTENT : Frame
     frame.content = frame.content
@@ -117,20 +122,15 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
 
     GGUI.TabSystem { matchHistoryTab, ccCatalogueTab, drOverviewTab }
 
-    frame.content.logo = GGUI.Text {
-        parent = frame.content, anchorParent = frame.content.titleLogo.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = 0, offsetY = 2,
-        text = PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.LOGO_1024, 0.028)
-    }
-
     frame.content.closeButton = GGUI.Button {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
-        offsetX = 0, offsetY = 0,
-        label = f.white("X"),
+        offsetX = -5, offsetY = -5,
+        label = f.white("x"),
         buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.TAB_BUTTON,
         fontOptions = {
             fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
         },
-        sizeX = 17,
+        sizeX = 15,
         sizeY = 15,
         clickCallback = function()
             frame:Hide()
@@ -277,7 +277,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.classFilterFrame.frame, offsetX = 0, hideScrollbar = true,
         anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -25, rowHeight = 30,
         rowBackdrops = { PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B },
-        selectionOptions = { noSelectionColor = true, hoverRGBA = { 1, 1, 1, 0.1 } },
+        selectionOptions = { noSelectionColor = true, hoverRGBA = PvPLookup.CONST.FRAME_LIST_HOVER_RGBA },
         sizeY = 460, columnOptions = columnOptions, rowConstructor = function(columns)
         local dateColumn = columns[1]
         local mapColumn = columns[2]
@@ -558,7 +558,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitCC_CATALOGUE_TAB()
         sizeY = 500, showBorder = true, offsetY = -40, offsetX = -8,
         columnOptions = columnOptions,
         rowBackdrops = { PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B },
-        selectionOptions = { noSelectionColor = true, hoverRGBA = { 1, 1, 1, 0.1 } },
+        selectionOptions = { noSelectionColor = true, hoverRGBA = PvPLookup.CONST.FRAME_LIST_HOVER_RGBA },
         rowConstructor = function(columns)
             local classSpecColumn = columns[1]
             local spellColumn = columns[2]

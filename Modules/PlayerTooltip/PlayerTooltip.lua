@@ -172,22 +172,16 @@ function PvPLookup.PLAYER_TOOLTIP:UpdatePlayerTooltipByData(playerTooltipData)
 end
 
 ---@param unit UnitId
----@return table<PvPLookup.Const.PVPModes, InspectArenaData | InspectPVPData>?
+---@return table<PvPLookup.Const.PVPModes, InspectArenaData>?
 function PvPLookup.PLAYER_TOOLTIP:GetPlayerPVPDataFromInspect(unit)
     if not unit then return nil end
     ---@type table<PvPLookup.Const.PVPModes, InspectArenaData | InspectPVPData>
     local bracketPvPData = {}
 
-    bracketPvPData[PvPLookup.CONST.PVP_MODES.SOLO_SHUFFLE] = PvPLookup.UTIL:ConvertInspectArenaData(
-        PvPLookup.CONST.PVP_MODES.SOLO_SHUFFLE, C_PaperDollInfo.GetInspectRatedSoloShuffleData())
-    -- https://warcraft.wiki.gg/wiki/API_GetInspectArenaData
-    bracketPvPData[PvPLookup.CONST.PVP_MODES.TWOS] = PvPLookup.UTIL:ConvertInspectArenaData(
-        PvPLookup.CONST.PVP_MODES.TWOS, { GetInspectArenaData(1) })
-    bracketPvPData[PvPLookup.CONST.PVP_MODES.THREES] = PvPLookup.UTIL:ConvertInspectArenaData(
-        PvPLookup.CONST.PVP_MODES.THREES, { GetInspectArenaData(2) })
-    --bracketPvPData["5v5"] = GetInspectArenaData(4) -- ??? legacy?
-    bracketPvPData[PvPLookup.CONST.PVP_MODES.BATTLEGROUND] = PvPLookup.UTIL:ConvertInspectArenaData(
-        PvPLookup.CONST.PVP_MODES.BATTLEGROUND, { GetInspectArenaData(4) })
+    for mode, bracketID in pairs(PvPLookup.CONST.PVP_MODES_BRACKET_IDS) do
+        bracketPvPData[mode] = PvPLookup.UTIL:ConvertInspectArenaData(
+            mode, { GetInspectArenaData(bracketID) })
+    end
 
     -- cache
     PvPLookup.DB.PLAYER_DATA:Save(PvPLookup.UTIL:GetPlayerUIDByUnit(unit), bracketPvPData)
@@ -229,22 +223,9 @@ function PvPLookup.PLAYER_TOOLTIP:UpdatePlayerTooltipByInspectData(unit, pvpData
             typeColumn.text:SetText(CreateAtlasMarkup(PvPLookup.CONST.ATLAS.TOOLTIP_SWORD) .. "  " ..
                 GUTIL:ColorizeText(tostring(PvPLookup.CONST.PVP_MODES_NAMES[mode]), GUTIL.COLORS.WHITE))
 
-            local seasonWon = 0
-            local seasonLost = 0
-            local rating = 0
-            if mode ~= PvPLookup.CONST.PVP_MODES.SOLO_SHUFFLE then
-                ---@type InspectArenaData
-                local arenaData = bracketData
-                seasonWon = arenaData.seasonWon or 0
-                seasonLost = seasonWon - (arenaData.seasonWon or 0)
-                rating = arenaData.rating or 0
-            else
-                ---@type InspectPVPData
-                local soloShuffleData = bracketData
-                seasonWon = soloShuffleData.gamesWon or 0
-                seasonLost = seasonWon - (soloShuffleData.gamesPlayed or 0)
-                rating = soloShuffleData.rating or 0
-            end
+            local seasonWon = bracketData.seasonWon or 0
+            local seasonLost = (bracketData.seasonPlayed or 0) - seasonWon
+            local rating = bracketData.rating or 0
 
             ratingColumn.text:SetText(GUTIL:ColorizeText(tostring(rating), GUTIL.COLORS.LEGENDARY))
             scoreColumn.text:SetText(GUTIL:ColorizeText(tostring(seasonWon), GUTIL.COLORS.GREEN) ..

@@ -33,23 +33,36 @@ PvPLookup.CONST.PVP_MODES_NAMES = {
     THREES = "3v3",
     BATTLEGROUND = "BG",
 }
+
+PvPLookup.CONST.PVP_MODES_BRACKET_IDS = {
+    SOLO_SHUFFLE = 7,
+    TWOS = 1,
+    THREES = 2,
+    BATTLEGROUND = 4,
+}
+
+PvPLookup.CONST.FRAME_LIST_HOVER_RGBA = { 1, 1, 1, 0.1 }
+
 ---@type GGUI.BackdropOptions
 PvPLookup.CONST.PVPINFO_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
-        insets = { left = 5, right = 5, top = 5, bottom = 5 },
+        insets = { left = 0, right = 0, top = 0, bottom = 0 },
     },
-    bgFile = "Interface\\Buttons\\WHITE8X8",
-    tile = true,
-    tileSize = 32,
-    colorR = 0,
-    colorG = 0,
-    colorB = 0.1,
-    colorA = 0.5,
+    bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024",
+    colorR = 0.2,
+    colorG = 0.2,
+    colorB = 0.2,
+    colorA = 1,
 }
 ---@type GGUI.BackdropOptions
 PvPLookup.CONST.MAIN_FRAME_BACKDROP = {
+    borderOptions = {
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 16,
+        insets = { left = 0, right = 0, top = 0, bottom = 0 },
+    },
     bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024",
     colorR = 0.2,
     colorG = 0.2,

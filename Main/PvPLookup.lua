@@ -99,7 +99,9 @@ function PvPLookup.MAIN:PLAYER_ENTERING_WORLD()
 
 	--- DEBUG Dummy Data
 	-- PvPLookup.DEBUG:CreateHistoryDummyData()
-	PvPLookup.DEBUG:CreatePlayerDummyData()
+	--PvPLookup.DEBUG:CreatePlayerDummyData()
+
+	PvPLookup.PVPINFO.FRAMES:UpdateDisplay()
 
 	PvPLookup.MAIN.enableCombatLog = false
 end

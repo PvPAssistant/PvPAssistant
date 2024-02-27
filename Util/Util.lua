@@ -1,6 +1,7 @@
 ---@class PvPLookup
 local PvPLookup = select(2, ...)
 
+local GGUI = PvPLookup.GGUI
 local GUTIL = PvPLookup.GUTIL
 
 ---@class PvPLookup.Util
@@ -86,4 +87,26 @@ function PvPLookup.UTIL:ConvertInspectArenaData(pvpMode, data)
         weeklyWon = data[5],
     }
     return inspectArenaData
+end
+
+---@param parent Frame
+---@param anchorPoints GGUI.AnchorPoint[]
+---@param scale number?
+---@return GGUI.Text, GGUI.Text
+function PvPLookup.UTIL:CreateLogo(parent, anchorPoints, scale)
+    scale = scale or 1
+    parent.titleLogo = GGUI.Text {
+        parent = parent,
+        anchorPoints = anchorPoints,
+        text = GUTIL:ColorizeText(" PVP-LOOKUP", GUTIL.COLORS.LEGENDARY),
+        scale = 1.7 * scale,
+    }
+
+    parent.logoIcon = GGUI.Text {
+        parent = parent,
+        anchorPoints = { { anchorParent = parent.titleLogo.frame, anchorA = "RIGHT", anchorB = "LEFT" }, offsetY = 2 },
+        text = PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.LOGO_1024, 0.028 * scale)
+    }
+
+    return parent.titleLogo, parent.logoIcon
 end
