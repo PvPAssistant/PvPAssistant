@@ -26,6 +26,7 @@ function PvPLookup.PVPINFO.FRAMES:Init()
 
     local content = PvPLookup.PVPINFO.frame.content
 
+
     content.titleLogo = PvPLookup.UTIL:CreateLogo(content,
         {
             {
@@ -36,6 +37,17 @@ function PvPLookup.PVPINFO.FRAMES:Init()
                 offsetY = -10,
             }
         })
+
+
+    content.honorValue = GGUI.Text {
+        parent = content, anchorPoints = { { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = -40, } },
+        scale = 1.3,
+    }
+
+    content.ratedPvPHeader = GGUI.Text {
+        parent = content, anchorPoints = { { anchorParent = content.honorValue.frame, anchorA = "TOP", anchorB = "BOTTOM", offsetY = -20, } },
+        scale = 1.3, text = f.l("Rated PvP")
+    }
 
     content.ratingList = GGUI.FrameList {
         columnOptions = {
@@ -88,7 +100,7 @@ function PvPLookup.PVPINFO.FRAMES:Init()
         disableScrolling = true,
         parent = content,
         sizeY = 300,
-        anchorPoints = { { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = -70, offsetX = 0, } },
+        anchorPoints = { { anchorParent = content.ratedPvPHeader.frame, anchorA = "TOP", anchorB = "BOTTOM", offsetY = -30, offsetX = 0, } },
         hideScrollbar = true,
         rowBackdrops = { PvPLookup.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} },
         selectionOptions = { noSelectionColor = true, hoverRGBA = PvPLookup.CONST.FRAME_LIST_HOVER_RGBA },
@@ -97,7 +109,13 @@ end
 
 function PvPLookup.PVPINFO.FRAMES:UpdateDisplay()
     local ratingList = PvPLookup.PVPINFO.frame.content.ratingList --[[@as GGUI.FrameList]]
+    local honorValue = PvPLookup.PVPINFO.frame.content.honorValue --[[@as GGUI.Text]]
     local personalRatedInfo = PvPLookup.PVPINFO:GetPersonalRatingInfo()
+    local maxHonor = UnitHonorMax("player") or 0
+    local curHonor = UnitHonor("player") or 0
+    local honorLevel = UnitHonorLevel("player") or 0
+
+    honorValue:SetText(f.r("Honor Level " .. honorLevel .. "\n\n") .. f.r(curHonor .. " / " .. maxHonor))
     ratingList:Remove()
     for mode, ratedInfo in GUTIL:OrderedPairs(personalRatedInfo, function(a, b) return a > b end) do
         ratingList:Add(function(row, columns)
