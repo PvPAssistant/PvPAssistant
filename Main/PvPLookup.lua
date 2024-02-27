@@ -52,6 +52,7 @@ function PvPLookup.MAIN:Init()
 
 	-- restore frame positions
 	PvPLookup.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
+	PvPLookup.ARENA_GUIDE.frame:RestoreSavedConfig(UIParent)
 end
 
 function PvPLookup.MAIN:InitializeSlashCommands()

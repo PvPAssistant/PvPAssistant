@@ -133,6 +133,8 @@ function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
     local content = PvPLookup.ARENA_GUIDE.frame.content
     local specIDs = PvPLookup.ARENA_GUIDE:GetArenaSpecIDs()
 
+    PvPLookup.DEBUG:DebugTable(specIDs, "Arena Spec IDs")
+
     if debug then
         specIDs = {
             PLAYER_TEAM = {
