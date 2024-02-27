@@ -22,6 +22,7 @@ Util/SpecLookup.lua
 Util/Debug.lua
 
 Data/CCData.lua
+Data/ArenaStrategies.lua
 
 Classes/MatchHistory.lua
 
@@ -35,3 +36,5 @@ Modules/MainFrame/Frames.lua
 Modules/PvPInfo/PvPInfo.lua
 Modules/PvPInfo/Frames.lua
 Modules/PlayerTooltip/PlayerTooltip.lua
+Modules/ArenaGuide/ArenaGuide.lua
+Modules/ArenaGuide/Frames.lua

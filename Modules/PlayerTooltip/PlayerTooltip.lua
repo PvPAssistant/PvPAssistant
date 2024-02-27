@@ -70,31 +70,31 @@ function PvPLookup.PLAYER_TOOLTIP:InitTooltipFrame()
     PvPLookup.PLAYER_TOOLTIP.tooltipFrame.content = PvPLookup.PLAYER_TOOLTIP.tooltipFrame.contentFrame.content
     local content = PvPLookup.PLAYER_TOOLTIP.tooltipFrame.content
     content.title = GGUI.Text {
-        parent = content, anchorParent = content, anchorA = "TOPLEFT", anchorB = "TOPLEFT", offsetY = -12, offsetX = 0,
+        parent = content, anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = -12, offsetX = 0,
         text = PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.LOGO_1024, 0.017) .. " " ..
-            GUTIL:ColorizeText("PVP Score", GUTIL.COLORS.LEGENDARY)
+            GUTIL:ColorizeText("PVPLookup", GUTIL.COLORS.LEGENDARY)
     }
-    local frameListOffsetY = -30
+    local frameListOffsetY = -50
     content.ratingList = GGUI.FrameList {
         columnOptions = {
             {
-                label = "", -- type
+                label = f.grey("Mode"), -- type
                 width = 80,
                 justifyOptions = { type = "H", align = "LEFT" },
             },
             {
-                label = "", --rating
+                label = f.grey("Rating"), --rating
                 width = 60,
                 justifyOptions = { type = "H", align = "LEFT" },
             },
             {
-                label = "", --win/loss
-                width = 40,
+                label = f.grey("Season"),
+                width = 60,
                 justifyOptions = { type = "H", align = "CENTER" },
             },
             {
-                label = "", -- exp
-                width = 90,
+                label = f.grey("Week"),
+                width = 60,
                 justifyOptions = { type = "H", align = "CENTER" },
             }
         },
@@ -198,11 +198,11 @@ end
 ---@field weeklyWon number
 
 ---@param unit UnitId
----@param pvpData? table<PvPLookup.Const.PVPModes, InspectArenaData | InspectPVPData>
+---@param pvpData? table<PvPLookup.Const.PVPModes, InspectArenaData>
 function PvPLookup.PLAYER_TOOLTIP:UpdatePlayerTooltipByInspectData(unit, pvpData)
     if not unit then return end
     --- fetches the data and updates cache
-    ---@type table<PvPLookup.Const.PVPModes, InspectArenaData | InspectPVPData>
+    ---@type table<PvPLookup.Const.PVPModes, InspectArenaData>
     local bracketPvPData = pvpData or PvPLookup.PLAYER_TOOLTIP:GetPlayerPVPDataFromInspect(unit)
 
     -- only update if frame was already added as loading...
@@ -217,33 +217,28 @@ function PvPLookup.PLAYER_TOOLTIP:UpdatePlayerTooltipByInspectData(unit, pvpData
             local columns = row.columns
             local typeColumn = columns[1]
             local ratingColumn = columns[2]
-            local scoreColumn = columns[3]
-            local expColumn = columns[4]
+            local seasonColumn = columns[3]
+            local weeklyColumn = columns[4]
 
             typeColumn.text:SetText(CreateAtlasMarkup(PvPLookup.CONST.ATLAS.TOOLTIP_SWORD) .. "  " ..
                 GUTIL:ColorizeText(tostring(PvPLookup.CONST.PVP_MODES_NAMES[mode]), GUTIL.COLORS.WHITE))
 
             local seasonWon = bracketData.seasonWon or 0
             local seasonLost = (bracketData.seasonPlayed or 0) - seasonWon
+            local weeklyWon = bracketData.weeklyWon or 0
+            local weeklyLost = (bracketData.weeklyPlayed or 0) - weeklyWon
             local rating = bracketData.rating or 0
 
             ratingColumn.text:SetText(GUTIL:ColorizeText(tostring(rating), GUTIL.COLORS.LEGENDARY))
-            scoreColumn.text:SetText(GUTIL:ColorizeText(tostring(seasonWon), GUTIL.COLORS.GREEN) ..
+            seasonColumn.text:SetText(GUTIL:ColorizeText(tostring(seasonWon), GUTIL.COLORS.GREEN) ..
                 "-" .. GUTIL:ColorizeText(tostring(seasonLost), GUTIL.COLORS.RED))
-            expColumn.text:SetText(GUTIL:ColorizeText("EXP(" .. "???" .. ")", GUTIL.COLORS.EPIC))
+            weeklyColumn.text:SetText(GUTIL:ColorizeText(tostring(weeklyWon), GUTIL.COLORS.GREEN) ..
+                "-" .. GUTIL:ColorizeText(tostring(weeklyLost), GUTIL.COLORS.RED))
         end)
     end
     ratingList:UpdateDisplay()
 
     GameTooltip:Show()
-end
-
----@param unit UnitId
----@return PvPLookup.PlayerTooltipData?
-function PvPLookup.PLAYER_TOOLTIP:GetUnitTooltipData(unit)
-    local playerUID = PvPLookup.UTIL:GetPlayerUIDByUnit(unit)
-
-    return PvPLookup.DB.PLAYER_DATA:Get(playerUID)
 end
 
 function PvPLookup.PLAYER_TOOLTIP:INSPECT_HONOR_UPDATE()

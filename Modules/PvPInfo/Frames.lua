@@ -67,7 +67,7 @@ function PvPLookup.PVPINFO.FRAMES:Init()
                 justifyOptions = { type = "H", align = "CENTER" },
             },
             {
-                label = f.grey("Exp"), -- exp
+                label = f.grey("Season Best"), -- season best
                 width = 90,
                 justifyOptions = { type = "H", align = "CENTER" },
             }
@@ -76,7 +76,7 @@ function PvPLookup.PVPINFO.FRAMES:Init()
             local typeColumn = columns[1]
             local ratingColumn = columns[2]
             local scoreColumn = columns[3]
-            local expColumn = columns[4]
+            local seasonBestColumn = columns[4]
 
             typeColumn.text = GGUI.Text {
                 parent = typeColumn, anchorParent = typeColumn,
@@ -92,8 +92,8 @@ function PvPLookup.PVPINFO.FRAMES:Init()
                 parent = scoreColumn, anchorParent = scoreColumn,
                 text = "",
             }
-            expColumn.text = GGUI.Text {
-                parent = expColumn, anchorParent = expColumn, offsetX = 5,
+            seasonBestColumn.text = GGUI.Text {
+                parent = seasonBestColumn, anchorParent = seasonBestColumn, offsetX = 5,
                 text = "", justifyOptions = { type = "H", align = "CENTER" },
             }
         end,
@@ -115,14 +115,14 @@ function PvPLookup.PVPINFO.FRAMES:UpdateDisplay()
     local curHonor = UnitHonor("player") or 0
     local honorLevel = UnitHonorLevel("player") or 0
 
-    honorValue:SetText(f.r("Honor Level " .. honorLevel .. "\n\n") .. f.r(curHonor .. " / " .. maxHonor))
+    honorValue:SetText(f.patreon("Honor Level " .. honorLevel .. "\n\n") .. f.r(curHonor .. " / " .. maxHonor))
     ratingList:Remove()
     for mode, ratedInfo in GUTIL:OrderedPairs(personalRatedInfo, function(a, b) return a > b end) do
         ratingList:Add(function(row, columns)
             local typeColumn = columns[1]
             local ratingColumn = columns[2]
             local scoreColumn = columns[3]
-            local expColumn = columns[4]
+            local seasonBestColumn = columns[4]
 
             typeColumn.text:SetText(CreateAtlasMarkup(PvPLookup.CONST.ATLAS.TOOLTIP_SWORD) ..
                 "  " .. PvPLookup.CONST.PVP_MODES_NAMES[mode])
@@ -130,7 +130,7 @@ function PvPLookup.PVPINFO.FRAMES:UpdateDisplay()
             local seasonWon = ratedInfo.seasonWon or 0
             local seasonLost = (ratedInfo.seasonPlayed or 0) - seasonWon
             scoreColumn.text:SetText(f.g(seasonWon) .. " - " .. f.r(seasonLost))
-            expColumn.text:SetText(f.e("EXP ???"))
+            seasonBestColumn.text:SetText(f.e(ratedInfo.seasonBest))
 
             local tooltipText = ""
             tooltipText = tooltipText .. f.white(PvPLookup.CONST.PVP_MODES_NAMES[mode]) .. "\n"

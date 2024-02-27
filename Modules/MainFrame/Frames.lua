@@ -124,7 +124,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
 
     frame.content.closeButton = GGUI.Button {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
-        offsetX = -5, offsetY = -5,
+        offsetX = -8, offsetY = -8,
         label = f.white("x"),
         buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.TAB_BUTTON,
         fontOptions = {

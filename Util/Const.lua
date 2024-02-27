@@ -9,6 +9,7 @@ PvPLookup.CONST.FRAMES = {
     NEWS = "NEWS",
     MAIN_FRAME = "MAIN_FRAME",
     PVPINFO = "PVPINFO",
+    ARENA_GUIDE = "ARENA_GUIDE",
 }
 
 ---@enum PvPLookup.Const.DisplayTeams
@@ -45,6 +46,19 @@ PvPLookup.CONST.FRAME_LIST_HOVER_RGBA = { 1, 1, 1, 0.1 }
 
 ---@type GGUI.BackdropOptions
 PvPLookup.CONST.PVPINFO_BACKDROP = {
+    borderOptions = {
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 16,
+        insets = { left = 0, right = 0, top = 0, bottom = 0 },
+    },
+    bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024",
+    colorR = 0.2,
+    colorG = 0.2,
+    colorB = 0.2,
+    colorA = 0.7,
+}
+---@type GGUI.BackdropOptions
+PvPLookup.CONST.ARENA_GUIDE_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
@@ -117,6 +131,15 @@ PvPLookup.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP = {
 
 ---@type GGUI.BackdropOptions
 PvPLookup.CONST.CLASS_FILTER_FRAME_BACKDROP = {
+    bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024x128",
+    colorR = 0.176,
+    colorG = 0.176,
+    colorB = 0.184,
+    colorA = 1,
+}
+
+---@type GGUI.BackdropOptions
+PvPLookup.CONST.STRAGETY_TEXT_BACKDROP = {
     bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024x128",
     colorR = 0.176,
     colorG = 0.176,

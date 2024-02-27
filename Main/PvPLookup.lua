@@ -8,7 +8,6 @@ local f = GUTIL:GetFormatter()
 
 ---@class PvPLookup.Main : Frame
 PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD",
-	"ARENA_PREP_OPPONENT_SPECIALIZATIONS",
 	"PLAYER_JOINED_PVP_MATCH", "PVP_MATCH_COMPLETE" })
 
 PvPLookup.MAIN.FRAMES = {}
@@ -47,6 +46,7 @@ function PvPLookup.MAIN:Init()
 	PvPLookup.OPTIONS:Init()
 	PvPLookup.MAIN_FRAME.FRAMES:Init()
 	PvPLookup.PVPINFO.FRAMES:Init()
+	PvPLookup.ARENA_GUIDE.FRAMES:Init()
 	PvPLookup:InitializeMinimapButton()
 	PvPLookup.PLAYER_TOOLTIP:Init()
 
@@ -78,6 +78,15 @@ function PvPLookup.MAIN:InitializeSlashCommands()
 		if command == "tooltips" and rest == "clear" then
 			print(f.l("PvPLookup ") .. ": Player Tooltip Data Cleared")
 			PvPLookup.DB.PLAYER_DATA:Clear()
+		end
+
+		if command == "guide" then
+			if C_PvP.IsArena() or true then -- TODO: Remove debug
+				PvPLookup.ARENA_GUIDE.frame:Show()
+				PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
+			else
+				print(f.l("PvPLookup ") .. ": Arena Guide is only available in Arena Matches")
+			end
 		end
 
 		if command == "" then
@@ -113,33 +122,6 @@ end
 ---@field icon string
 ---@field role string
 ---@field class ClassFile
-
---- this is called each time an opponent player loads in until all are loaded
-function PvPLookup.MAIN:ARENA_PREP_OPPONENT_SPECIALIZATIONS()
-	print("PVPLOOKUP: ARENA_PREP_OPPONENT_SPECIALIZATIONS")
-
-	---@type SpecializationInfo[]
-	local opponentSpecInfos = {}
-
-	for i = 1, GetNumArenaOpponentSpecs() do
-		local specID = GetArenaOpponentSpec(i)
-		if specID and specID > 0 then
-			local specInfo = { GetSpecializationInfoByID(specID) }
-			---@type SpecializationInfo
-			local specializationInfo = {
-				id = specInfo[1],
-				name = specInfo[2],
-				description = specInfo[3],
-				icon = specInfo[4],
-				role = specInfo[5],
-				class = specInfo[6],
-			}
-			table.insert(opponentSpecInfos, specializationInfo)
-		end
-	end
-
-	PvPLookup.DEBUG:DebugTable(opponentSpecInfos, "OpponentSpecInfos")
-end
 
 --- works!
 function PvPLookup.MAIN:PLAYER_JOINED_PVP_MATCH()
