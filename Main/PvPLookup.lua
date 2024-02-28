@@ -6,6 +6,8 @@ local GUTIL = PvPLookup.GUTIL
 local GGUI = PvPLookup.GGUI
 local f = GUTIL:GetFormatter()
 
+PvPLookupGGUIConfig = PvPLookupGGUIConfig or {}
+
 ---@class PvPLookup.Main : Frame
 PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD",
 	"PLAYER_JOINED_PVP_MATCH", "PVP_MATCH_COMPLETE" })

@@ -178,7 +178,6 @@ end
 ---@param label string?
 function PvPLookup.DEBUG:DebugTable(t, label)
     if DevTool then
-        print("devtool add data: " .. tostring(t))
         DevTool:AddData(t, label)
     end
 end

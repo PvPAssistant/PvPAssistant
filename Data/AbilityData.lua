@@ -1,6 +1,25 @@
 ---@class PvPLookup
 local PvPLookup = select(2, ...)
 
+local GUTIL = PvPLookup.GUTIL
+
+---@class PvPLookup.Abilities
+PvPLookup.ABILITIES = {}
+
+---@param specIDs number[]
+---@return table<number, PvPLookup.AbilityData[]>
+function PvPLookup.ABILITIES:GetAbilitiesForSpecs(specIDs)
+    local abilities = {}
+    for classFile, specList in pairs(PvPLookup.ABILITY_DATA) do
+        for specID, spellList in pairs(specList) do
+            if tContains(specIDs, specID) then
+                abilities[specID] = GUTIL:Concat({ spellList, specList[classFile] })
+            end
+        end
+    end
+    return abilities
+end
+
 local SPECS = PvPLookup.CONST.SPEC_IDS
 local TYPES = PvPLookup.CONST.ABILITY_TYPES
 local SUB_TYPES = PvPLookup.CONST.ABILITY_SUB_TYPES
@@ -12,7 +31,6 @@ local SEVERITY = PvPLookup.CONST.PVP_SEVERITY
 ---@field subType? PvPLookup.AbilitySubTypes
 ---@field duration? number
 ---@field severity PvPLookup.PVPSeverity
-
 
 ---@class PvPLookup.AbilityData
 ---@field spellID number

@@ -14,8 +14,8 @@ PvPLookup.ARENA_GUIDE.FRAMES = {}
 local debug = false
 
 function PvPLookup.ARENA_GUIDE.FRAMES:Init()
-    local sizeX = 300
-    local sizeY = 400
+    local sizeX = 320
+    local sizeY = 445
     PvPLookup.ARENA_GUIDE.frame = GGUI.Frame {
         parent = UIParent, anchorParent = UIParent,
         sizeX = sizeX, sizeY = sizeY,
@@ -73,7 +73,6 @@ function PvPLookup.ARENA_GUIDE.FRAMES:Init()
                 anchorParent = anchorPoint.anchorParent
             end
             local classIcon = GGUI.ClassIcon {
-                debug = true,
                 parent = parent, anchorParent = anchorParent,
                 anchorA = anchorA, anchorB = anchorB, offsetX = offsetX, offsetY = offsetY, sizeX = iconSize, sizeY = iconSize,
                 initialSpecID = PvPLookup.CONST.SPEC_IDS.BEAST_MASTERY, showTooltip = true,
@@ -88,36 +87,37 @@ function PvPLookup.ARENA_GUIDE.FRAMES:Init()
         return iconList
     end
 
-    local offsetX_2 = -27
-    local offsetX_3 = -55
-    local offsetY_P = -70
-    local offsetY_E = offsetY_P - 80
-    local spacingX = 15
-    local iconSize = 40
+    local offsetX_P2 = -100
+    local offsetX_P3 = offsetX_P2 - 28
+    local offsetX_E2 = 60
+    local offsetX_E3 = offsetX_E2 - 12
+    local offsetY = -70
+    local spacingX = 10
+    local iconSize = 30
 
     content.playerTeamIcons2 = createClassIconRow(content,
-        { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetX = offsetX_2, offsetY = offsetY_P }, 2,
+        { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetX = offsetX_P2, offsetY = offsetY }, 2,
         iconSize,
         spacingX)
     content.playerTeamIcons3 = createClassIconRow(content,
-        { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetX = offsetX_3, offsetY = offsetY_P }, 3,
+        { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetX = offsetX_P3, offsetY = offsetY }, 3,
         iconSize, spacingX)
 
 
     content.vsHeader = GGUI.Text {
-        parent = content, anchorPoints = { { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = (offsetY_P - 52) / 1.5 } },
+        parent = content, anchorPoints = { { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = (offsetY - 7) / 1.5 } },
         text = f.r("VS"), scale = 1.5
     }
     content.enemyTeamIcons2 = createClassIconRow(content,
-        { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetX = offsetX_2, offsetY = offsetY_E }, 2,
+        { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetX = offsetX_E2, offsetY = offsetY }, 2,
         iconSize,
         spacingX)
     content.enemyTeamIcons3 = createClassIconRow(content,
-        { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetX = offsetX_3, offsetY = offsetY_E }, 3,
+        { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetX = offsetX_E3, offsetY = offsetY }, 3,
         iconSize, spacingX)
 
     content.strategyBackground = GGUI.Frame {
-        parent = content, anchorParent = content, anchorA = "TOP", anchorB = "TOP", sizeX = sizeX - 15, sizeY = 200, offsetY = -195,
+        parent = content, anchorParent = content, anchorA = "TOP", anchorB = "TOP", sizeX = sizeX - 10, sizeY = 130, offsetY = -105,
         backdropOptions = PvPLookup.CONST.STRAGETY_TEXT_BACKDROP,
     }
 
@@ -128,6 +128,75 @@ function PvPLookup.ARENA_GUIDE.FRAMES:Init()
         justifyOptions = { type = "H", align = "LEFT" }, fixedWidth = sizeX - 55,
         text = f.l("Here be Strategies"),
     }
+
+    content.enemyAbilityList = GGUI.FrameList {
+        columnOptions = {
+            {
+                -- specIcon
+                width = 30,
+                justifyOptions = { type = "H", align = "LEFT" },
+            },
+            {
+                -- spell
+                width = 120,
+                justifyOptions = { type = "H", align = "LEFT" },
+            },
+            {
+                -- type
+                width = 120,
+                justifyOptions = { type = "H", align = "CENTER" },
+            },
+        },
+        rowConstructor = function(columns, row)
+            local specColumn = columns[1]
+            local spellColumn = columns[2]
+            local typeColumn = columns[3]
+
+            local classIconSize = 24
+            local spellIconSize = 24
+
+            specColumn.icon = GGUI.ClassIcon {
+                parent = specColumn, anchorParent = specColumn, sizeX = classIconSize, sizeY = classIconSize,
+                showTooltip = true
+            }
+            spellColumn.icon = GGUI.SpellIcon {
+                parent = spellColumn, anchorParent = spellColumn, sizeX = spellIconSize, sizeY = spellIconSize, anchorA = "LEFT", anchorB = "LEFT",
+                enableMouse = false,
+            }
+            spellColumn.spellName = GGUI.Text {
+                parent = spellColumn, anchorParent = spellColumn.icon.frame, justifyOptions = { type = "H", align = "LEFT" }, text = "?",
+                anchorA = "LEFT", anchorB = "RIGHT", offsetX = 3, wrap = true, fixedWidth = 150, scale = 0.9,
+            }
+
+            ---@type PvPLookup.PVPSeverity
+            row.spellSeverity = nil
+
+            spellColumn.SetSpell = function(self, spellID, severity)
+                spellColumn.icon:SetSpell(spellID)
+                local spellname = select(1, GetSpellInfo(spellID))
+                if severity and severity == PvPLookup.CONST.PVP_SEVERITY.HIGH then
+                    spellname = spellname .. f.r(" (!)")
+                end
+                spellColumn.spellName:SetText(spellname)
+            end
+
+            typeColumn.text = GGUI.Text {
+                parent = typeColumn, anchorParent = typeColumn,
+                text = "",
+            }
+        end,
+        showBorder = true,
+        parent = content,
+        sizeY = 180,
+        anchorPoints = { { anchorParent = content.strategyBackground.frame, anchorA = "TOP", anchorB = "BOTTOM", offsetY = -25, offsetX = -10, } },
+        rowBackdrops = { PvPLookup.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} },
+        selectionOptions = { noSelectionColor = true, hoverRGBA = PvPLookup.CONST.FRAME_LIST_HOVER_RGBA },
+    }
+
+    content.listHeader = GGUI.Text {
+        parent = content, anchorPoints = { { anchorParent = content.enemyAbilityList.frame, anchorA = "BOTTOM", anchorB = "TOP", offsetY = 10, } },
+        text = f.grey("Important Enemy Abilites"),
+    }
 end
 
 function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
@@ -135,15 +204,17 @@ function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
 
     PvPLookup.ARENA_GUIDE:UpdateArenaSpecIDs()
 
-    PvPLookup.DEBUG:DebugTable(PvPLookup.ARENA_GUIDE.specIDs, "Arena Spec IDs")
-
     if debug then
         PvPLookup.ARENA_GUIDE.specIDs = {
             PLAYER_TEAM = {
-                PvPLookup.CONST.SPEC_IDS.FURY, PvPLookup.CONST.SPEC_IDS.RETRIBUTION
+                PvPLookup.CONST.SPEC_IDS.FURY,
+                PvPLookup.CONST.SPEC_IDS.RETRIBUTION,
+                PvPLookup.CONST.SPEC_IDS.ASSASSINATION
             },
             ENEMY_TEAM = {
-                PvPLookup.CONST.SPEC_IDS.HOLY_PALADIN, PvPLookup.CONST.SPEC_IDS.ARMS
+                PvPLookup.CONST.SPEC_IDS.HOLY_PALADIN,
+                PvPLookup.CONST.SPEC_IDS.BLOOD,
+                PvPLookup.CONST.SPEC_IDS.ASSASSINATION
             },
         }
     end
@@ -173,7 +244,6 @@ function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
         local specID = specIDsPlayerTeam[i]
         if specID then
             icon:SetClass(specID)
-            print("Show Icon P" .. i)
             icon:Show()
         end
     end
@@ -181,16 +251,58 @@ function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
         local specID = specIDsEnemyTeam[i]
         if specID then
             icon:SetClass(specID)
-            print("Show Icon E" .. i)
             icon:Show()
         end
     end
 
-    local compositionID = table.concat(specIDsEnemyTeam)
-
     -- fill strategyText
-    local strategy = PvPLookup.ARENA_STRATEGIES[compositionID] or
-        f.white("Strategy not existing yet for given enemy composition")
+    local strategy = PvPLookup.ARENA_STRATEGIES:Get(specIDsEnemyTeam) or
+        f.white("No Quick Guide was submitted yet for this enemy composition")
 
     content.strategyText:SetText(strategy)
+
+
+    -- fill enemy ability list
+    local specAbilities = PvPLookup.ABILITIES:GetAbilitiesForSpecs(specIDsEnemyTeam)
+    local abilityList = content.enemyAbilityList --[[@as GGUI.FrameList]]
+    abilityList:Remove()
+    for specID, abilityDataList in pairs(specAbilities) do
+        for _, abilityData in ipairs(abilityDataList) do
+            abilityList:Add(function(row, columns)
+                local specColumn = columns[1]
+                local spellColumn = columns[2]
+                local typeColumn = columns[3]
+
+                specColumn.icon:SetClass(specID)
+                spellColumn:SetSpell(abilityData.spellID, abilityData.severity)
+                typeColumn.text:SetText(f.l(abilityData.subType))
+
+                row.spellSeverity = abilityData.severity
+                local specInfo = { GetSpecializationInfoByID(specID) }
+                if specInfo[6] then
+                    row.classID = specInfo[6]
+                else
+                    row.classID = specID
+                end
+
+                row.tooltipOptions = {
+                    spellID = abilityData.spellID,
+                    anchor = "ANCHOR_RIGHT",
+                    owner = row.frame,
+                }
+            end)
+        end
+    end
+
+    abilityList:UpdateDisplay(function(rowA, rowB)
+        if PvPLookup.CONST.PVP_SEVERITY_RANK[rowA.spellSeverity] >
+            PvPLookup.CONST.PVP_SEVERITY_RANK[rowB.spellSeverity] then
+            return true
+        elseif PvPLookup.CONST.PVP_SEVERITY_RANK[rowA.spellSeverity] <
+            PvPLookup.CONST.PVP_SEVERITY_RANK[rowB.spellSeverity] then
+            return false
+        end
+
+        return rowA.classID > rowB.classID
+    end)
 end

@@ -369,6 +369,11 @@ PvPLookup.CONST.PVP_SEVERITY = {
     MEDIUM = "MEDIUM",
     HIGH = "HIGH",
 }
+PvPLookup.CONST.PVP_SEVERITY_RANK = {
+    LOW = 1,
+    MEDIUM = 2,
+    HIGH = 3,
+}
 
 PvPLookup.CONST.MAP_ABBREVIATIONS = {
 
