@@ -5,7 +5,7 @@ local GUTIL = PvPLookup.GUTIL
 
 ---@class PvPLookup.ArenaGuide : Frame
 PvPLookup.ARENA_GUIDE = GUTIL:CreateRegistreeForEvents({ "GROUP_ROSTER_UPDATE", "ARENA_PREP_OPPONENT_SPECIALIZATIONS",
-    "PLAYER_JOINED_PVP_MATCH" })
+    "PLAYER_JOINED_PVP_MATCH", "PLAYER_ENTERING_WORLD" })
 
 ---@type GGUI.Frame
 PvPLookup.ARENA_GUIDE.frame = nil
@@ -16,20 +16,25 @@ PvPLookup.ARENA_GUIDE.specIDs = {
 }
 
 function PvPLookup.ARENA_GUIDE:UpdateArenaSpecIDs()
-    for i = 1, GetNumArenaOpponents() do
-        local specID, _ = GetArenaOpponentSpec(i)
-        local playerUID = PvPLookup.UTIL:GetPlayerUIDByUnit("arena" .. i)
-        PvPLookup.ARENA_GUIDE.specIDs.ENEMY_TEAM[playerUID] = specID
+    -- only update list if its bigger than before!
+    -- meaning do not update if someone leaves...
+    local numOpponents = GetNumArenaOpponentSpecs()
+    if #PvPLookup.ARENA_GUIDE.specIDs.ENEMY_TEAM < numOpponents then
+        for i = 1, numOpponents do
+            local specID, _ = GetArenaOpponentSpec(i)
+            PvPLookup.ARENA_GUIDE.specIDs.ENEMY_TEAM[i] = specID
+        end
     end
 
-    -- player is not accessible with "partyX" UnitId
-    local playerPlayerUID = PvPLookup.UTIL:GetPlayerUIDByUnit("player")
-    local playerSpecID = PvPLookup.UTIL:GetSpecializationIDByUnit("player")
-    PvPLookup.ARENA_GUIDE.specIDs.PLAYER_TEAM[playerPlayerUID] = playerSpecID
-    for i = 1, GetNumGroupMembers() - 1 do
-        local specID = PvPLookup.UTIL:GetSpecializationIDByUnit("party" .. i)
-        local playerUID = PvPLookup.UTIL:GetPlayerUIDByUnit("party" .. i)
-        PvPLookup.ARENA_GUIDE.specIDs.PLAYER_TEAM[playerUID] = specID
+    local numGroupMembers = GetNumGroupMembers()
+    if #PvPLookup.ARENA_GUIDE.specIDs.PLAYER_TEAM < numGroupMembers then
+        -- player is not accessible with "partyX" UnitId
+        local playerSpecID = PvPLookup.UTIL:GetSpecializationIDByUnit("player")
+        PvPLookup.ARENA_GUIDE.specIDs.PLAYER_TEAM[1] = playerSpecID
+        for i = 1, numGroupMembers - 1 do
+            local specID = PvPLookup.UTIL:GetSpecializationIDByUnit("party" .. i)
+            PvPLookup.ARENA_GUIDE.specIDs.PLAYER_TEAM[i + 1] = specID
+        end
     end
 end
 
@@ -42,12 +47,22 @@ function PvPLookup.ARENA_GUIDE:GROUP_ROSTER_UPDATE()
     PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
 end
 
+PvPLookup.ARENA_GUIDE.resetSpecIDs = true
+-- fires multiple times thats why we need a bool to check that its just once per arena at start
 function PvPLookup.ARENA_GUIDE:PLAYER_JOINED_PVP_MATCH()
-    -- clear
-    PvPLookup.ARENA_GUIDE.specIDs = {
-        PLAYER_TEAM = {},
-        ENEMY_TEAM = {},
-    }
-    PvPLookup.ARENA_GUIDE.frame:Show() -- TODO: Make optional
-    PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
+    if PvPLookup.ARENA_GUIDE.resetSpecIDs then
+        print("Reseting SpecID Table")
+        -- clear
+        PvPLookup.ARENA_GUIDE.specIDs = {
+            PLAYER_TEAM = {},
+            ENEMY_TEAM = {},
+        }
+        PvPLookup.ARENA_GUIDE.frame:Show() -- TODO: Make optional
+        PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
+        PvPLookup.ARENA_GUIDE.resetSpecIDs = false
+    end
+end
+
+function PvPLookup.ARENA_GUIDE:PLAYER_ENTERING_WORLD()
+    PvPLookup.ARENA_GUIDE.resetSpecIDs = true
 end

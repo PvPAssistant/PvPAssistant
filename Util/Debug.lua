@@ -4,7 +4,7 @@ local PvPLookup = select(2, ...)
 ---@class PvPLookup.DEBUG
 PvPLookup.DEBUG = {}
 
-PvPLookup_DEBUG = PvPLookup.DEBUG
+PvPLookupDEBUG = PvPLookup.DEBUG
 
 PvPLookupDebugDB = PvPLookupDebugDB or {}
 
@@ -193,4 +193,9 @@ end
 
 function PvPLookup.DEBUG:InspectSpecLookup()
     self:DebugTable(PvPLookup.SPEC_LOOKUP.lookupTable, "SpecLookup")
+end
+
+function PvPLookup.DEBUG:UpdateAndInspectArenaSpecs()
+    PvPLookup.ARENA_GUIDE:UpdateArenaSpecIDs()
+    self:DebugTable(PvPLookup.ARENA_GUIDE.specIDs, "ManualDebugSpecIDs")
 end

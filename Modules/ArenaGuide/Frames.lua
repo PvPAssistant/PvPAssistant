@@ -22,7 +22,7 @@ function PvPLookup.ARENA_GUIDE.FRAMES:Init()
         frameConfigTable = PvPLookupGGUIConfig, frameID = PvPLookup.CONST.FRAMES.ARENA_GUIDE,
         frameTable = PvPLookup.MAIN.FRAMES,
         backdropOptions = PvPLookup.CONST.ARENA_GUIDE_BACKDROP,
-        moveable = true,
+        moveable = true, hide = true,
     }
 
     local content = PvPLookup.ARENA_GUIDE.frame.content
@@ -73,6 +73,7 @@ function PvPLookup.ARENA_GUIDE.FRAMES:Init()
                 anchorParent = anchorPoint.anchorParent
             end
             local classIcon = GGUI.ClassIcon {
+                debug = true,
                 parent = parent, anchorParent = anchorParent,
                 anchorA = anchorA, anchorB = anchorB, offsetX = offsetX, offsetY = offsetY, sizeX = iconSize, sizeY = iconSize,
                 initialSpecID = PvPLookup.CONST.SPEC_IDS.BEAST_MASTERY, showTooltip = true,
@@ -134,12 +135,6 @@ function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
 
     PvPLookup.ARENA_GUIDE:UpdateArenaSpecIDs()
 
-    local specIDsPlayerTeam = GUTIL:Map(PvPLookup.ARENA_GUIDE.specIDs.PLAYER_TEAM, function(specID)
-        return specID
-    end)
-    local specIDsEnemyTeam = GUTIL:Map(PvPLookup.ARENA_GUIDE.specIDs.ENEMY_TEAM, function(specID)
-        return specID
-    end)
     PvPLookup.DEBUG:DebugTable(PvPLookup.ARENA_GUIDE.specIDs, "Arena Spec IDs")
 
     if debug then
@@ -153,6 +148,9 @@ function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
         }
     end
 
+    local specIDsPlayerTeam = PvPLookup.ARENA_GUIDE.specIDs.PLAYER_TEAM
+    local specIDsEnemyTeam = PvPLookup.ARENA_GUIDE.specIDs.ENEMY_TEAM
+
     table.foreach(content.playerTeamIcons2, function(_, icon) icon:Hide() end)
     table.foreach(content.playerTeamIcons3, function(_, icon) icon:Hide() end)
     table.foreach(content.enemyTeamIcons2, function(_, icon) icon:Hide() end)
@@ -165,7 +163,7 @@ function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
     else
         playerTeamIcons = content.playerTeamIcons3
     end
-    if #PvPLookup.ARENA_GUIDE.specIDs.ENEMY_TEAM <= 2 then
+    if #specIDsEnemyTeam <= 2 then
         enemyTeamIcons = content.enemyTeamIcons2
     else
         enemyTeamIcons = content.enemyTeamIcons3
@@ -175,6 +173,7 @@ function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
         local specID = specIDsPlayerTeam[i]
         if specID then
             icon:SetClass(specID)
+            print("Show Icon P" .. i)
             icon:Show()
         end
     end
@@ -182,6 +181,7 @@ function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
         local specID = specIDsEnemyTeam[i]
         if specID then
             icon:SetClass(specID)
+            print("Show Icon E" .. i)
             icon:Show()
         end
     end

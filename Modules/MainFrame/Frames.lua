@@ -232,8 +232,12 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     ---@type GGUI.FrameList.ColumnOption[]
     local columnOptions = {
         {
+            width = 20,
+            justifyOptions = { type = "H", align = "CENTER" },
+        },
+        {
             label = GUTIL:ColorizeText("Date", GUTIL.COLORS.GREY),
-            width = 145,
+            width = 135,
             justifyOptions = { type = "H", align = "CENTER" },
         },
         {
@@ -279,14 +283,27 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         rowBackdrops = { PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = PvPLookup.CONST.FRAME_LIST_HOVER_RGBA },
         sizeY = 460, columnOptions = columnOptions, rowConstructor = function(columns)
-        local dateColumn = columns[1]
-        local mapColumn = columns[2]
-        local teamColumn = columns[3]
-        local mmrColumn = columns[4]
-        local damageColumn = columns[5]
-        local healingColumn = columns[6]
-        local changeColumn = columns[7]
-        local ratingColumn = columns[8]
+        local winColumn = columns[1]
+        local dateColumn = columns[2]
+        local mapColumn = columns[3]
+        local teamColumn = columns[4]
+        local mmrColumn = columns[5]
+        local damageColumn = columns[6]
+        local healingColumn = columns[7]
+        local changeColumn = columns[8]
+        local ratingColumn = columns[9]
+
+        winColumn.text = GGUI.Text {
+            parent = winColumn, anchorPoints = { { anchorParent = winColumn } },
+        }
+        local winIconScale = 0.15
+        function winColumn:SetWin(win)
+            if win then
+                winColumn.text:SetText(PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.GREEN_DOT, winIconScale))
+            else
+                winColumn.text:SetText(PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.RED_DOT, winIconScale))
+            end
+        end
 
         dateColumn.text = GGUI.Text {
             parent = dateColumn, anchorParent = dateColumn, justifyOptions = { type = "H", align = "CENTER" }
@@ -771,14 +788,15 @@ function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
     for _, matchHistory in pairs(filteredHistory) do
         matchHistoryList:Add(function(row)
             local columns = row.columns
-            local dateColumn = columns[1]
-            local mapColumn = columns[2]
-            local teamColumn = columns[3]
-            local mmrColumn = columns[4]
-            local damageColumn = columns[5]
-            local healingColumn = columns[6]
-            local changeColumn = columns[7]
-            local ratingColumn = columns[8]
+            local winColumn = columns[1]
+            local dateColumn = columns[2]
+            local mapColumn = columns[3]
+            local teamColumn = columns[4]
+            local mmrColumn = columns[5]
+            local damageColumn = columns[6]
+            local healingColumn = columns[7]
+            local changeColumn = columns[8]
+            local ratingColumn = columns[9]
 
             local matchHistory = PvPLookup.MatchHistory:Deserialize(matchHistory)
 
@@ -825,6 +843,8 @@ function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
             end
 
             local tooltipText = matchHistory:GetTooltipText()
+
+            winColumn:SetWin(matchHistory.win)
 
             row.tooltipOptions = {
                 anchor = "ANCHOR_CURSOR",
