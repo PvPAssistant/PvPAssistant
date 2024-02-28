@@ -15,6 +15,13 @@ PvPLookup.ARENA_GUIDE.specIDs = {
     ENEMY_TEAM = {},
 }
 
+function PvPLookup.ARENA_GUIDE:UpdateAndShow()
+    if not UnitAffectingCombat("player") then
+        PvPLookup.ARENA_GUIDE.frame:Show() -- TODO: Make optional and muteable for current match
+        PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
+    end
+end
+
 function PvPLookup.ARENA_GUIDE:UpdateArenaSpecIDs()
     -- only update list if its bigger than before!
     -- meaning do not update if someone leaves...
@@ -40,11 +47,11 @@ end
 
 --- this is called whenever a member of the opposite arena party joins
 function PvPLookup.ARENA_GUIDE:ARENA_PREP_OPPONENT_SPECIALIZATIONS()
-    PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
+    PvPLookup.ARENA_GUIDE:UpdateAndShow()
 end
 
 function PvPLookup.ARENA_GUIDE:GROUP_ROSTER_UPDATE()
-    PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
+    PvPLookup.ARENA_GUIDE:UpdateAndShow()
 end
 
 PvPLookup.ARENA_GUIDE.resetSpecIDs = true
@@ -57,8 +64,7 @@ function PvPLookup.ARENA_GUIDE:PLAYER_JOINED_PVP_MATCH()
             PLAYER_TEAM = {},
             ENEMY_TEAM = {},
         }
-        PvPLookup.ARENA_GUIDE.frame:Show() -- TODO: Make optional
-        PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
+        PvPLookup.ARENA_GUIDE:UpdateAndShow()
         PvPLookup.ARENA_GUIDE.resetSpecIDs = false
     end
 end
