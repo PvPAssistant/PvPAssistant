@@ -848,8 +848,9 @@ function Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
 
             local tooltipText = matchHistory:GetTooltipText()
 
-            if matchHistory.isSoloShuffle and matchHistory.playerScoreInfo.stats and #matchHistory.playerScoreInfo.stats > 0 then
-                winColumn:SetShuffleWins(matchHistory.playerScoreInfo.stats[1].pvpStatValue)
+            if matchHistory.isSoloShuffle then
+                winColumn:SetShuffleWins((matchHistory.playerScoreInfo.stats and matchHistory.playerScoreInfo.stats[1].pvpStatValue) or
+                    0)
             else
                 winColumn:SetWin(matchHistory.win)
             end
