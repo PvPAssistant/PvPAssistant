@@ -1,14 +1,14 @@
 ## Interface: 102000
 ## DefaultState: enabled
 
-## Title: PvPLookup
+## Title: Arenalogs
 ## Notes: TBD
 ## Author: genjuwow
 ## X-Curse-Project-ID: 955365
 ## X-Wago-ID: 
 ## X-WoWI-ID: 
-## IconTexture: Interface\Addons\PvPLookup\Media\Images\logo1024
-## SavedVariables: PvPLookupDB, PvPLookupGGUIConfig, PvPLookupOptions, PvPLookupLibIconDB
+## IconTexture: Interface\Addons\Arenalogs\Media\Images\logo1024
+## SavedVariables: ArenalogsDB, ArenalogsGGUIConfig, ArenalogsOptions, ArenalogsLibIconDB
 ## Dependencies: Blizzard_PVPUI, Blizzard_InspectUI
 ## OptionalDeps: DevTool
 ## Version: 0.0.19
@@ -28,7 +28,7 @@ Classes/MatchHistory.lua
 
 Media/Media.lua
 
-Main/PvPLookup.lua
+Main/Arenalogs.lua
 
 Modules/Options/Options.lua
 Modules/MainFrame/MainFrame.lua

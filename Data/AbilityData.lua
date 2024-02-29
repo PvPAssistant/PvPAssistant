@@ -1,16 +1,16 @@
----@class PvPLookup
-local PvPLookup = select(2, ...)
+---@class Arenalogs
+local Arenalogs = select(2, ...)
 
-local GUTIL = PvPLookup.GUTIL
+local GUTIL = Arenalogs.GUTIL
 
----@class PvPLookup.Abilities
-PvPLookup.ABILITIES = {}
+---@class Arenalogs.Abilities
+Arenalogs.ABILITIES = {}
 
 ---@param specIDs number[]
----@return table<number, PvPLookup.AbilityData[]>
-function PvPLookup.ABILITIES:GetAbilitiesForSpecs(specIDs)
+---@return table<number, Arenalogs.AbilityData[]>
+function Arenalogs.ABILITIES:GetAbilitiesForSpecs(specIDs)
     local abilities = {}
-    for classFile, specList in pairs(PvPLookup.ABILITY_DATA) do
+    for classFile, specList in pairs(Arenalogs.ABILITY_DATA) do
         for specID, spellList in pairs(specList) do
             if tContains(specIDs, specID) then
                 abilities[specID] = GUTIL:Concat({ spellList, specList[classFile] })
@@ -20,29 +20,29 @@ function PvPLookup.ABILITIES:GetAbilitiesForSpecs(specIDs)
     return abilities
 end
 
-local SPECS = PvPLookup.CONST.SPEC_IDS
-local TYPES = PvPLookup.CONST.ABILITY_TYPES
-local SUB_TYPES = PvPLookup.CONST.ABILITY_SUB_TYPES
-local SEVERITY = PvPLookup.CONST.PVP_SEVERITY
+local SPECS = Arenalogs.CONST.SPEC_IDS
+local TYPES = Arenalogs.CONST.ABILITY_TYPES
+local SUB_TYPES = Arenalogs.CONST.ABILITY_SUB_TYPES
+local SEVERITY = Arenalogs.CONST.PVP_SEVERITY
 
----@class PvPLookup.AbilityData.UpgradeInfo
+---@class Arenalogs.AbilityData.UpgradeInfo
 ---@field spellID number
----@field abilityType PvPLookup.AbilityTypes
----@field subType? PvPLookup.AbilitySubTypes
+---@field abilityType Arenalogs.AbilityTypes
+---@field subType? Arenalogs.AbilitySubTypes
 ---@field duration? number
----@field severity PvPLookup.PVPSeverity
+---@field severity Arenalogs.PVPSeverity
 
----@class PvPLookup.AbilityData
+---@class Arenalogs.AbilityData
 ---@field spellID number
----@field abilityType PvPLookup.AbilityTypes
----@field subType PvPLookup.AbilitySubTypes
+---@field abilityType Arenalogs.AbilityTypes
+---@field subType Arenalogs.AbilitySubTypes
 ---@field duration? number
----@field talentUpgrades? PvPLookup.AbilityData.UpgradeInfo[] -- spellID list of potential talent upgrades including severity and subType
+---@field talentUpgrades? Arenalogs.AbilityData.UpgradeInfo[] -- spellID list of potential talent upgrades including severity and subType
 ---@field passive? boolean
----@field severity PvPLookup.PVPSeverity
+---@field severity Arenalogs.PVPSeverity
 
----@type table<ClassFile, table<PvPLookup.SpecIDs|ClassFile, PvPLookup.AbilityData[]>>
-PvPLookup.ABILITY_DATA = {
+---@type table<ClassFile, table<Arenalogs.SpecIDs|ClassFile, Arenalogs.AbilityData[]>>
+Arenalogs.ABILITY_DATA = {
     WARRIOR = {
         WARRIOR = {
             {

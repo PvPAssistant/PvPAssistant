@@ -1,74 +1,74 @@
----@class PvPLookup
-local PvPLookup = select(2, ...)
+---@class Arenalogs
+local Arenalogs = select(2, ...)
 
-local GUTIL = PvPLookup.GUTIL
+local GUTIL = Arenalogs.GUTIL
 
----@class PvPLookup.ArenaGuide : Frame
-PvPLookup.ARENA_GUIDE = GUTIL:CreateRegistreeForEvents({ "GROUP_ROSTER_UPDATE", "ARENA_PREP_OPPONENT_SPECIALIZATIONS",
+---@class Arenalogs.ArenaGuide : Frame
+Arenalogs.ARENA_GUIDE = GUTIL:CreateRegistreeForEvents({ "GROUP_ROSTER_UPDATE", "ARENA_PREP_OPPONENT_SPECIALIZATIONS",
     "PLAYER_JOINED_PVP_MATCH", "PLAYER_ENTERING_WORLD" })
 
 ---@type GGUI.Frame
-PvPLookup.ARENA_GUIDE.frame = nil
+Arenalogs.ARENA_GUIDE.frame = nil
 
-PvPLookup.ARENA_GUIDE.specIDs = {
+Arenalogs.ARENA_GUIDE.specIDs = {
     PLAYER_TEAM = {},
     ENEMY_TEAM = {},
 }
 
-function PvPLookup.ARENA_GUIDE:UpdateAndShow()
+function Arenalogs.ARENA_GUIDE:UpdateAndShow()
     if not UnitAffectingCombat("player") then
-        PvPLookup.ARENA_GUIDE.frame:Show() -- TODO: Make optional and muteable for current match
-        PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
+        Arenalogs.ARENA_GUIDE.frame:Show() -- TODO: Make optional and muteable for current match
+        Arenalogs.ARENA_GUIDE.FRAMES:UpdateDisplay()
     end
 end
 
-function PvPLookup.ARENA_GUIDE:UpdateArenaSpecIDs()
+function Arenalogs.ARENA_GUIDE:UpdateArenaSpecIDs()
     -- only update list if its bigger than before!
     -- meaning do not update if someone leaves...
     local numOpponents = GetNumArenaOpponentSpecs()
-    if #PvPLookup.ARENA_GUIDE.specIDs.ENEMY_TEAM < numOpponents then
+    if #Arenalogs.ARENA_GUIDE.specIDs.ENEMY_TEAM < numOpponents then
         for i = 1, numOpponents do
             local specID, _ = GetArenaOpponentSpec(i)
-            PvPLookup.ARENA_GUIDE.specIDs.ENEMY_TEAM[i] = specID
+            Arenalogs.ARENA_GUIDE.specIDs.ENEMY_TEAM[i] = specID
         end
     end
 
     local numGroupMembers = GetNumGroupMembers()
-    if #PvPLookup.ARENA_GUIDE.specIDs.PLAYER_TEAM < numGroupMembers then
+    if #Arenalogs.ARENA_GUIDE.specIDs.PLAYER_TEAM < numGroupMembers then
         -- player is not accessible with "partyX" UnitId
-        local playerSpecID = PvPLookup.UTIL:GetSpecializationIDByUnit("player")
-        PvPLookup.ARENA_GUIDE.specIDs.PLAYER_TEAM[1] = playerSpecID
+        local playerSpecID = Arenalogs.UTIL:GetSpecializationIDByUnit("player")
+        Arenalogs.ARENA_GUIDE.specIDs.PLAYER_TEAM[1] = playerSpecID
         for i = 1, numGroupMembers - 1 do
-            local specID = PvPLookup.UTIL:GetSpecializationIDByUnit("party" .. i)
-            PvPLookup.ARENA_GUIDE.specIDs.PLAYER_TEAM[i + 1] = specID
+            local specID = Arenalogs.UTIL:GetSpecializationIDByUnit("party" .. i)
+            Arenalogs.ARENA_GUIDE.specIDs.PLAYER_TEAM[i + 1] = specID
         end
     end
 end
 
 --- this is called whenever a member of the opposite arena party joins
-function PvPLookup.ARENA_GUIDE:ARENA_PREP_OPPONENT_SPECIALIZATIONS()
-    PvPLookup.ARENA_GUIDE:UpdateAndShow()
+function Arenalogs.ARENA_GUIDE:ARENA_PREP_OPPONENT_SPECIALIZATIONS()
+    Arenalogs.ARENA_GUIDE:UpdateAndShow()
 end
 
-function PvPLookup.ARENA_GUIDE:GROUP_ROSTER_UPDATE()
-    PvPLookup.ARENA_GUIDE:UpdateAndShow()
+function Arenalogs.ARENA_GUIDE:GROUP_ROSTER_UPDATE()
+    Arenalogs.ARENA_GUIDE:UpdateAndShow()
 end
 
-PvPLookup.ARENA_GUIDE.resetSpecIDs = true
+Arenalogs.ARENA_GUIDE.resetSpecIDs = true
 -- fires multiple times thats why we need a bool to check that its just once per arena at start
-function PvPLookup.ARENA_GUIDE:PLAYER_JOINED_PVP_MATCH()
-    if PvPLookup.ARENA_GUIDE.resetSpecIDs then
+function Arenalogs.ARENA_GUIDE:PLAYER_JOINED_PVP_MATCH()
+    if Arenalogs.ARENA_GUIDE.resetSpecIDs then
         print("Reseting SpecID Table")
         -- clear
-        PvPLookup.ARENA_GUIDE.specIDs = {
+        Arenalogs.ARENA_GUIDE.specIDs = {
             PLAYER_TEAM = {},
             ENEMY_TEAM = {},
         }
-        PvPLookup.ARENA_GUIDE:UpdateAndShow()
-        PvPLookup.ARENA_GUIDE.resetSpecIDs = false
+        Arenalogs.ARENA_GUIDE:UpdateAndShow()
+        Arenalogs.ARENA_GUIDE.resetSpecIDs = false
     end
 end
 
-function PvPLookup.ARENA_GUIDE:PLAYER_ENTERING_WORLD()
-    PvPLookup.ARENA_GUIDE.resetSpecIDs = true
+function Arenalogs.ARENA_GUIDE:PLAYER_ENTERING_WORLD()
+    Arenalogs.ARENA_GUIDE.resetSpecIDs = true
 end

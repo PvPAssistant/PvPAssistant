@@ -1,33 +1,33 @@
----@class PvPLookup
-local PvPLookup = select(2, ...)
+---@class Arenalogs
+local Arenalogs = select(2, ...)
 
-local GGUI = PvPLookup.GGUI
-local GUTIL = PvPLookup.GUTIL
+local GGUI = Arenalogs.GGUI
+local GUTIL = Arenalogs.GUTIL
 local f = GUTIL:GetFormatter()
 
----@class PvPLookup.ArenaGuide
-PvPLookup.ARENA_GUIDE = PvPLookup.ARENA_GUIDE
+---@class Arenalogs.ArenaGuide
+Arenalogs.ARENA_GUIDE = Arenalogs.ARENA_GUIDE
 
----@class PvPLookup.ArenaGuide.Frames
-PvPLookup.ARENA_GUIDE.FRAMES = {}
+---@class Arenalogs.ArenaGuide.Frames
+Arenalogs.ARENA_GUIDE.FRAMES = {}
 
 local debug = false
 
-function PvPLookup.ARENA_GUIDE.FRAMES:Init()
+function Arenalogs.ARENA_GUIDE.FRAMES:Init()
     local sizeX = 320
     local sizeY = 445
-    PvPLookup.ARENA_GUIDE.frame = GGUI.Frame {
+    Arenalogs.ARENA_GUIDE.frame = GGUI.Frame {
         parent = UIParent, anchorParent = UIParent,
         sizeX = sizeX, sizeY = sizeY,
-        frameConfigTable = PvPLookupGGUIConfig, frameID = PvPLookup.CONST.FRAMES.ARENA_GUIDE,
-        frameTable = PvPLookup.MAIN.FRAMES,
-        backdropOptions = PvPLookup.CONST.ARENA_GUIDE_BACKDROP,
+        frameConfigTable = ArenalogsGGUIConfig, frameID = Arenalogs.CONST.FRAMES.ARENA_GUIDE,
+        frameTable = Arenalogs.MAIN.FRAMES,
+        backdropOptions = Arenalogs.CONST.ARENA_GUIDE_BACKDROP,
         moveable = true, hide = true,
     }
 
-    local content = PvPLookup.ARENA_GUIDE.frame.content
+    local content = Arenalogs.ARENA_GUIDE.frame.content
 
-    content.logo = PvPLookup.UTIL:CreateLogo(content,
+    content.logo = Arenalogs.UTIL:CreateLogo(content,
         { { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = -10, } })
 
     content.title = GGUI.Text {
@@ -39,14 +39,14 @@ function PvPLookup.ARENA_GUIDE.FRAMES:Init()
         parent = content, anchorParent = content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
         offsetX = -8, offsetY = -8,
         label = f.white("x"),
-        buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+        buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.TAB_BUTTON,
         fontOptions = {
-            fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+            fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
         },
         sizeX = 15,
         sizeY = 15,
         clickCallback = function()
-            PvPLookup.ARENA_GUIDE.frame:Hide()
+            Arenalogs.ARENA_GUIDE.frame:Hide()
         end
     }
 
@@ -75,7 +75,7 @@ function PvPLookup.ARENA_GUIDE.FRAMES:Init()
             local classIcon = GGUI.ClassIcon {
                 parent = parent, anchorParent = anchorParent,
                 anchorA = anchorA, anchorB = anchorB, offsetX = offsetX, offsetY = offsetY, sizeX = iconSize, sizeY = iconSize,
-                initialSpecID = PvPLookup.CONST.SPEC_IDS.BEAST_MASTERY, showTooltip = true,
+                initialSpecID = Arenalogs.CONST.SPEC_IDS.BEAST_MASTERY, showTooltip = true,
                 showBorder = true,
             }
             lastAnchor = classIcon.frame
@@ -118,7 +118,7 @@ function PvPLookup.ARENA_GUIDE.FRAMES:Init()
 
     content.strategyBackground = GGUI.Frame {
         parent = content, anchorParent = content, anchorA = "TOP", anchorB = "TOP", sizeX = sizeX - 10, sizeY = 130, offsetY = -105,
-        backdropOptions = PvPLookup.CONST.STRAGETY_TEXT_BACKDROP,
+        backdropOptions = Arenalogs.CONST.STRAGETY_TEXT_BACKDROP,
     }
 
     content.strategyBackground.frame:SetFrameLevel(content:GetFrameLevel() + 1)
@@ -168,13 +168,13 @@ function PvPLookup.ARENA_GUIDE.FRAMES:Init()
                 anchorA = "LEFT", anchorB = "RIGHT", offsetX = 3, wrap = true, fixedWidth = 150, scale = 0.9,
             }
 
-            ---@type PvPLookup.PVPSeverity
+            ---@type Arenalogs.PVPSeverity
             row.spellSeverity = nil
 
             spellColumn.SetSpell = function(self, spellID, severity)
                 spellColumn.icon:SetSpell(spellID)
                 local spellname = select(1, GetSpellInfo(spellID))
-                if severity and severity == PvPLookup.CONST.PVP_SEVERITY.HIGH then
+                if severity and severity == Arenalogs.CONST.PVP_SEVERITY.HIGH then
                     spellname = spellname .. f.r(" (!)")
                 end
                 spellColumn.spellName:SetText(spellname)
@@ -189,8 +189,8 @@ function PvPLookup.ARENA_GUIDE.FRAMES:Init()
         parent = content,
         sizeY = 180,
         anchorPoints = { { anchorParent = content.strategyBackground.frame, anchorA = "TOP", anchorB = "BOTTOM", offsetY = -25, offsetX = -10, } },
-        rowBackdrops = { PvPLookup.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} },
-        selectionOptions = { noSelectionColor = true, hoverRGBA = PvPLookup.CONST.FRAME_LIST_HOVER_RGBA },
+        rowBackdrops = { Arenalogs.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} },
+        selectionOptions = { noSelectionColor = true, hoverRGBA = Arenalogs.CONST.FRAME_LIST_HOVER_RGBA },
     }
 
     content.listHeader = GGUI.Text {
@@ -199,28 +199,28 @@ function PvPLookup.ARENA_GUIDE.FRAMES:Init()
     }
 end
 
-function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
-    local content = PvPLookup.ARENA_GUIDE.frame.content
+function Arenalogs.ARENA_GUIDE.FRAMES:UpdateDisplay()
+    local content = Arenalogs.ARENA_GUIDE.frame.content
 
-    PvPLookup.ARENA_GUIDE:UpdateArenaSpecIDs()
+    Arenalogs.ARENA_GUIDE:UpdateArenaSpecIDs()
 
     if debug then
-        PvPLookup.ARENA_GUIDE.specIDs = {
+        Arenalogs.ARENA_GUIDE.specIDs = {
             PLAYER_TEAM = {
-                PvPLookup.CONST.SPEC_IDS.FURY,
-                PvPLookup.CONST.SPEC_IDS.RETRIBUTION,
-                PvPLookup.CONST.SPEC_IDS.ASSASSINATION
+                Arenalogs.CONST.SPEC_IDS.FURY,
+                Arenalogs.CONST.SPEC_IDS.RETRIBUTION,
+                Arenalogs.CONST.SPEC_IDS.ASSASSINATION
             },
             ENEMY_TEAM = {
-                PvPLookup.CONST.SPEC_IDS.HOLY_PALADIN,
-                PvPLookup.CONST.SPEC_IDS.BLOOD,
-                PvPLookup.CONST.SPEC_IDS.ASSASSINATION
+                Arenalogs.CONST.SPEC_IDS.HOLY_PALADIN,
+                Arenalogs.CONST.SPEC_IDS.BLOOD,
+                Arenalogs.CONST.SPEC_IDS.ASSASSINATION
             },
         }
     end
 
-    local specIDsPlayerTeam = PvPLookup.ARENA_GUIDE.specIDs.PLAYER_TEAM
-    local specIDsEnemyTeam = PvPLookup.ARENA_GUIDE.specIDs.ENEMY_TEAM
+    local specIDsPlayerTeam = Arenalogs.ARENA_GUIDE.specIDs.PLAYER_TEAM
+    local specIDsEnemyTeam = Arenalogs.ARENA_GUIDE.specIDs.ENEMY_TEAM
 
     table.foreach(content.playerTeamIcons2, function(_, icon) icon:Hide() end)
     table.foreach(content.playerTeamIcons3, function(_, icon) icon:Hide() end)
@@ -256,14 +256,14 @@ function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
     end
 
     -- fill strategyText
-    local strategy = PvPLookup.ARENA_STRATEGIES:Get(specIDsEnemyTeam) or
+    local strategy = Arenalogs.ARENA_STRATEGIES:Get(specIDsEnemyTeam) or
         f.white("No Quick Guide was submitted yet for this enemy composition")
 
     content.strategyText:SetText(strategy)
 
 
     -- fill enemy ability list
-    local specAbilities = PvPLookup.ABILITIES:GetAbilitiesForSpecs(specIDsEnemyTeam)
+    local specAbilities = Arenalogs.ABILITIES:GetAbilitiesForSpecs(specIDsEnemyTeam)
     local abilityList = content.enemyAbilityList --[[@as GGUI.FrameList]]
     abilityList:Remove()
     for specID, abilityDataList in pairs(specAbilities) do
@@ -295,11 +295,11 @@ function PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
     end
 
     abilityList:UpdateDisplay(function(rowA, rowB)
-        if PvPLookup.CONST.PVP_SEVERITY_RANK[rowA.spellSeverity] >
-            PvPLookup.CONST.PVP_SEVERITY_RANK[rowB.spellSeverity] then
+        if Arenalogs.CONST.PVP_SEVERITY_RANK[rowA.spellSeverity] >
+            Arenalogs.CONST.PVP_SEVERITY_RANK[rowB.spellSeverity] then
             return true
-        elseif PvPLookup.CONST.PVP_SEVERITY_RANK[rowA.spellSeverity] <
-            PvPLookup.CONST.PVP_SEVERITY_RANK[rowB.spellSeverity] then
+        elseif Arenalogs.CONST.PVP_SEVERITY_RANK[rowA.spellSeverity] <
+            Arenalogs.CONST.PVP_SEVERITY_RANK[rowB.spellSeverity] then
             return false
         end
 

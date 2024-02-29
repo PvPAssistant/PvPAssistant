@@ -1,20 +1,20 @@
----@class PvPLookup
-local PvPLookup = select(2, ...)
+---@class Arenalogs
+local Arenalogs = select(2, ...)
 
----@class PvPLookup.DEBUG
-PvPLookup.DEBUG = {}
+---@class Arenalogs.DEBUG
+Arenalogs.DEBUG = {}
 
-PvPLookupDEBUG = PvPLookup.DEBUG
+ArenalogsDEBUG = Arenalogs.DEBUG
 
-PvPLookupDebugDB = PvPLookupDebugDB or {}
+ArenalogsDebugDB = ArenalogsDebugDB or {}
 
 local DevTool = DevTool
 
-function PvPLookup.DEBUG:CreateHistoryDummyData()
-    wipe(PvPLookupHistoryDB)
+function Arenalogs.DEBUG:CreateHistoryDummyData()
+    wipe(ArenalogsHistoryDB)
     --- 2v2s
     for _ = 1, 150 do
-        local matchHistory = PvPLookup.MatchHistory()
+        local matchHistory = Arenalogs.MatchHistory()
         matchHistory.timestamp = GetServerTime()
         matchHistory.map = "TTP"
         matchHistory.playerTeam = {
@@ -60,14 +60,14 @@ function PvPLookup.DEBUG:CreateHistoryDummyData()
         matchHistory.isArena = true
         matchHistory.rating = 1478
         matchHistory.ratingChange = 17
-        matchHistory.pvpMode = PvPLookup.CONST.PVP_MODES.TWOS
+        matchHistory.pvpMode = Arenalogs.CONST.PVP_MODES.TWOS
         matchHistory.win = true
         matchHistory.season = GetCurrentArenaSeason() or 0
-        table.insert(PvPLookupHistoryDB, matchHistory)
+        table.insert(ArenalogsHistoryDB, matchHistory)
     end
     --- 3v3s
     for _ = 1, 150 do
-        local matchHistory = PvPLookup.MatchHistory()
+        local matchHistory = Arenalogs.MatchHistory()
         matchHistory.timestamp = GetServerTime()
         matchHistory.map = "RoL"
         matchHistory.playerTeam = {
@@ -125,40 +125,40 @@ function PvPLookup.DEBUG:CreateHistoryDummyData()
         matchHistory.isArena = true
         matchHistory.rating = 1478
         matchHistory.ratingChange = -17
-        matchHistory.pvpMode = PvPLookup.CONST.PVP_MODES.THREES
+        matchHistory.pvpMode = Arenalogs.CONST.PVP_MODES.THREES
         matchHistory.win = false
         matchHistory.season = GetCurrentArenaSeason() or 0
-        table.insert(PvPLookupHistoryDB, matchHistory)
+        table.insert(ArenalogsHistoryDB, matchHistory)
     end
 end
 
-function PvPLookup.DEBUG:CreatePlayerDummyData()
-    PvPLookup.DB.PLAYER_DATA:Clear()
+function Arenalogs.DEBUG:CreatePlayerDummyData()
+    Arenalogs.DB.PLAYER_DATA:Clear()
 
-    local playerUID = PvPLookup.UTIL:GetPlayerUIDByUnit("player")
+    local playerUID = Arenalogs.UTIL:GetPlayerUIDByUnit("player")
 
-    ---@type PvPLookup.PlayerTooltipData
+    ---@type Arenalogs.PlayerTooltipData
     local playerTooltipData = {
         ratingData = {
-            [PvPLookup.CONST.PVP_MODES.TWOS] = {
+            [Arenalogs.CONST.PVP_MODES.TWOS] = {
                 rating = 2168,
                 win = 190,
                 loss = 95,
                 exp = 2657,
             },
-            [PvPLookup.CONST.PVP_MODES.THREES] = {
+            [Arenalogs.CONST.PVP_MODES.THREES] = {
                 rating = 2568,
                 win = 601,
                 loss = 95,
                 exp = 2895,
             },
-            [PvPLookup.CONST.PVP_MODES.BATTLEGROUND] = {
+            [Arenalogs.CONST.PVP_MODES.BATTLEGROUND] = {
                 rating = 2168,
                 win = 69,
                 loss = 16,
                 exp = 3145,
             },
-            [PvPLookup.CONST.PVP_MODES.SOLO_SHUFFLE] = {
+            [Arenalogs.CONST.PVP_MODES.SOLO_SHUFFLE] = {
                 rating = 2168,
                 win = 567,
                 loss = 109,
@@ -166,35 +166,35 @@ function PvPLookup.DEBUG:CreatePlayerDummyData()
             },
         },
     }
-    PvPLookup.DB.PLAYER_DATA:Save(playerUID, playerTooltipData)
+    Arenalogs.DB.PLAYER_DATA:Save(playerUID, playerTooltipData)
 end
 
----@return PvPLookup
-function PvPLookup.DEBUG:RUN()
-    return PvPLookup
+---@return Arenalogs
+function Arenalogs.DEBUG:RUN()
+    return Arenalogs
 end
 
 ---@param t table
 ---@param label string?
-function PvPLookup.DEBUG:DebugTable(t, label)
+function Arenalogs.DEBUG:DebugTable(t, label)
     if DevTool then
         DevTool:AddData(t, label)
     end
 end
 
-function PvPLookup.DEBUG:RetrieveMatchData()
-    local matchHistory = PvPLookup.MatchHistory:CreateFromEndScreen()
+function Arenalogs.DEBUG:RetrieveMatchData()
+    local matchHistory = Arenalogs.MatchHistory:CreateFromEndScreen()
 end
 
-function PvPLookup.DEBUG:GetSpecializationIDByUnit(unit)
-    return PvPLookup.UTIL:GetSpecializationIDByUnit(unit)
+function Arenalogs.DEBUG:GetSpecializationIDByUnit(unit)
+    return Arenalogs.UTIL:GetSpecializationIDByUnit(unit)
 end
 
-function PvPLookup.DEBUG:InspectSpecLookup()
-    self:DebugTable(PvPLookup.SPEC_LOOKUP.lookupTable, "SpecLookup")
+function Arenalogs.DEBUG:InspectSpecLookup()
+    self:DebugTable(Arenalogs.SPEC_LOOKUP.lookupTable, "SpecLookup")
 end
 
-function PvPLookup.DEBUG:UpdateAndInspectArenaSpecs()
-    PvPLookup.ARENA_GUIDE:UpdateArenaSpecIDs()
-    self:DebugTable(PvPLookup.ARENA_GUIDE.specIDs, "ManualDebugSpecIDs")
+function Arenalogs.DEBUG:UpdateAndInspectArenaSpecs()
+    Arenalogs.ARENA_GUIDE:UpdateArenaSpecIDs()
+    self:DebugTable(Arenalogs.ARENA_GUIDE.specIDs, "ManualDebugSpecIDs")
 end

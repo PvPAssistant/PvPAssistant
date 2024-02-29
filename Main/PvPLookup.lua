@@ -1,30 +1,30 @@
-local PvPLookupName = select(1, ...)
----@class PvPLookup
-local PvPLookup = select(2, ...)
+local ArenalogsName = select(1, ...)
+---@class Arenalogs
+local Arenalogs = select(2, ...)
 
-local GUTIL = PvPLookup.GUTIL
-local GGUI = PvPLookup.GGUI
+local GUTIL = Arenalogs.GUTIL
+local GGUI = Arenalogs.GGUI
 local f = GUTIL:GetFormatter()
 
-PvPLookupGGUIConfig = PvPLookupGGUIConfig or {}
+ArenalogsGGUIConfig = ArenalogsGGUIConfig or {}
 
----@class PvPLookup.Main : Frame
-PvPLookup.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD",
+---@class Arenalogs.Main : Frame
+Arenalogs.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD",
 	"PLAYER_JOINED_PVP_MATCH", "PVP_MATCH_COMPLETE" })
 
-PvPLookup.MAIN.FRAMES = {}
+Arenalogs.MAIN.FRAMES = {}
 
-PvPLookup.MAIN.enableCombatLog = false
+Arenalogs.MAIN.enableCombatLog = false
 
-function PvPLookup:InitializeMinimapButton()
+function Arenalogs:InitializeMinimapButton()
 	local LibIcon = LibStub("LibDBIcon-1.0")
-	local ldb = LibStub("LibDataBroker-1.1"):NewDataObject("PVPLOOKUP", {
+	local ldb = LibStub("LibDataBroker-1.1"):NewDataObject("ARENALOGS", {
 		type = "data source",
-		label = "PvPLookup",
-		tocname = "PvPLookup",
-		icon = "Interface\\Addons\\PvPLookup\\Media\\Images\\logo1024",
+		label = "Arenalogs",
+		tocname = "Arenalogs",
+		icon = "Interface\\Addons\\Arenalogs\\Media\\Images\\logo1024",
 		OnClick = function()
-			local mainFrame = GGUI:GetFrame(PvPLookup.MAIN.FRAMES, PvPLookup.CONST.FRAMES.MAIN_FRAME)
+			local mainFrame = GGUI:GetFrame(Arenalogs.MAIN.FRAMES, Arenalogs.CONST.FRAMES.MAIN_FRAME)
 			if mainFrame then
 				mainFrame:SetVisible(not mainFrame:IsVisible())
 			end
@@ -32,35 +32,35 @@ function PvPLookup:InitializeMinimapButton()
 	})
 
 	function ldb.OnTooltipShow(tt)
-		tt:AddLine(GUTIL:ColorizeText("PvPLookup\n", GUTIL.COLORS.LEGENDARY))
+		tt:AddLine(GUTIL:ColorizeText("Arenalogs\n", GUTIL.COLORS.LEGENDARY))
 		tt:AddLine(GUTIL:ColorizeText("Click to Open!", GUTIL.COLORS.WHITE))
 	end
 
-	PvPLookupLibIconDB = PvPLookupLibIconDB or {}
+	ArenalogsLibIconDB = ArenalogsLibIconDB or {}
 
-	LibIcon:Register("PvPLookup", ldb, PvPLookupLibIconDB)
+	LibIcon:Register("Arenalogs", ldb, ArenalogsLibIconDB)
 end
 
-function PvPLookup.MAIN:Init()
-	PvPLookup.DB:Init()
+function Arenalogs.MAIN:Init()
+	Arenalogs.DB:Init()
 
-	PvPLookup.MAIN:InitializeSlashCommands()
-	PvPLookup.OPTIONS:Init()
-	PvPLookup.MAIN_FRAME.FRAMES:Init()
-	PvPLookup.PVPINFO.FRAMES:Init()
-	PvPLookup.ARENA_GUIDE.FRAMES:Init()
-	PvPLookup:InitializeMinimapButton()
-	PvPLookup.PLAYER_TOOLTIP:Init()
+	Arenalogs.MAIN:InitializeSlashCommands()
+	Arenalogs.OPTIONS:Init()
+	Arenalogs.MAIN_FRAME.FRAMES:Init()
+	Arenalogs.PVPINFO.FRAMES:Init()
+	Arenalogs.ARENA_GUIDE.FRAMES:Init()
+	Arenalogs:InitializeMinimapButton()
+	Arenalogs.PLAYER_TOOLTIP:Init()
 
 	-- restore frame positions
-	PvPLookup.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
-	PvPLookup.ARENA_GUIDE.frame:RestoreSavedConfig(UIParent)
+	Arenalogs.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
+	Arenalogs.ARENA_GUIDE.frame:RestoreSavedConfig(UIParent)
 end
 
-function PvPLookup.MAIN:InitializeSlashCommands()
-	SLASH_PVPLOOKUP1 = "/pvplookup"
-	SLASH_PVPLOOKUP2 = "/plu"
-	SlashCmdList["PVPLOOKUP"] = function(input)
+function Arenalogs.MAIN:InitializeSlashCommands()
+	SLASH_ARENALOGS1 = "/pvplookup"
+	SLASH_ARENALOGS2 = "/plu"
+	SlashCmdList["ARENALOGS"] = function(input)
 		input = SecureCmdOptionParse(input)
 		if not input then return end
 
@@ -69,53 +69,53 @@ function PvPLookup.MAIN:InitializeSlashCommands()
 		rest = (rest and rest ~= "") and rest:trim() or nil
 
 		if command == "config" then
-			InterfaceOptionsFrame_OpenToCategory(PvPLookup.OPTIONS.optionsPanel)
+			InterfaceOptionsFrame_OpenToCategory(Arenalogs.OPTIONS.optionsPanel)
 		end
 
 		if command == "history" and rest == "clear" then
-			print(f.l("PvPLookup") .. ": Match History Cleared")
-			PvPLookup.DB.MATCH_HISTORY:Clear()
-			PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
+			print(f.l("Arenalogs") .. ": Match History Cleared")
+			Arenalogs.DB.MATCH_HISTORY:Clear()
+			Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
 		end
 
 		if command == "tooltips" and rest == "clear" then
-			print(f.l("PvPLookup ") .. ": Player Tooltip Data Cleared")
-			PvPLookup.DB.PLAYER_DATA:Clear()
+			print(f.l("Arenalogs ") .. ": Player Tooltip Data Cleared")
+			Arenalogs.DB.PLAYER_DATA:Clear()
 		end
 
 		if command == "guide" then
 			if C_PvP.IsArena() or true then -- TODO: Remove debug
-				PvPLookup.ARENA_GUIDE.frame:Show()
-				PvPLookup.ARENA_GUIDE.FRAMES:UpdateDisplay()
+				Arenalogs.ARENA_GUIDE.frame:Show()
+				Arenalogs.ARENA_GUIDE.FRAMES:UpdateDisplay()
 			else
-				print(f.l("PvPLookup ") .. ": Arena Guide is only available in Arena Matches")
+				print(f.l("Arenalogs ") .. ": Arena Guide is only available in Arena Matches")
 			end
 		end
 
 		if command == "" then
-			PvPLookup.MAIN_FRAME.frame:Show()
+			Arenalogs.MAIN_FRAME.frame:Show()
 		end
 	end
 end
 
-function PvPLookup.MAIN:ADDON_LOADED(addon_name)
-	if addon_name ~= PvPLookupName then
+function Arenalogs.MAIN:ADDON_LOADED(addon_name)
+	if addon_name ~= ArenalogsName then
 		return
 	end
-	PvPLookup.MAIN:Init()
-	PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
+	Arenalogs.MAIN:Init()
+	Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
 end
 
-function PvPLookup.MAIN:PLAYER_ENTERING_WORLD()
-	PvPLookup.SPEC_LOOKUP:Init()
+function Arenalogs.MAIN:PLAYER_ENTERING_WORLD()
+	Arenalogs.SPEC_LOOKUP:Init()
 
 	--- DEBUG Dummy Data
-	-- PvPLookup.DEBUG:CreateHistoryDummyData()
-	--PvPLookup.DEBUG:CreatePlayerDummyData()
+	-- Arenalogs.DEBUG:CreateHistoryDummyData()
+	--Arenalogs.DEBUG:CreatePlayerDummyData()
 
-	PvPLookup.PVPINFO.FRAMES:UpdateDisplay()
+	Arenalogs.PVPINFO.FRAMES:UpdateDisplay()
 
-	PvPLookup.MAIN.enableCombatLog = false
+	Arenalogs.MAIN.enableCombatLog = false
 end
 
 ---@class SpecializationInfo
@@ -127,22 +127,22 @@ end
 ---@field class ClassFile
 
 --- works!
-function PvPLookup.MAIN:PLAYER_JOINED_PVP_MATCH()
-	if not PvPLookup.MAIN.enableCombatLog then
-		print("PvPLookup: Joined PvP Match")
+function Arenalogs.MAIN:PLAYER_JOINED_PVP_MATCH()
+	if not Arenalogs.MAIN.enableCombatLog then
+		print("Arenalogs: Joined PvP Match")
 		print("LoggingCombat: " .. tostring(LoggingCombat(true)))
 
-		PvPLookup.MAIN.enableCombatLog = true
+		Arenalogs.MAIN.enableCombatLog = true
 	end
 end
 
-function PvPLookup.MAIN:PVP_MATCH_COMPLETE()
-	print("PvPLookup: PvP Match Completed")
+function Arenalogs.MAIN:PVP_MATCH_COMPLETE()
+	print("Arenalogs: PvP Match Completed")
 	print("LoggingCombat: " .. tostring(LoggingCombat(false)))
 
-	print("PvPLookup: Saving Match Data...")
-	local matchHistory = PvPLookup.MatchHistory:CreateFromEndScreen()
-	PvPLookup.DB.MATCH_HISTORY:Save(matchHistory)
+	print("Arenalogs: Saving Match Data...")
+	local matchHistory = Arenalogs.MatchHistory:CreateFromEndScreen()
+	Arenalogs.DB.MATCH_HISTORY:Save(matchHistory)
 
-	PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
+	Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
 end

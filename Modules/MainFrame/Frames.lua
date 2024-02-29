@@ -1,30 +1,30 @@
----@class PvPLookup
-local PvPLookup = select(2, ...)
+---@class Arenalogs
+local Arenalogs = select(2, ...)
 
-local GGUI = PvPLookup.GGUI
-local GUTIL = PvPLookup.GUTIL
+local GGUI = Arenalogs.GGUI
+local GUTIL = Arenalogs.GUTIL
 local f = GUTIL:GetFormatter()
 
 ---@class MAIN_FRAME
-PvPLookup.MAIN_FRAME = PvPLookup.MAIN_FRAME
+Arenalogs.MAIN_FRAME = Arenalogs.MAIN_FRAME
 
----@class PvPLookup.MAIN_FRAME.FRAMES
-PvPLookup.MAIN_FRAME.FRAMES = {}
+---@class Arenalogs.MAIN_FRAME.FRAMES
+Arenalogs.MAIN_FRAME.FRAMES = {}
 
-function PvPLookup.MAIN_FRAME.FRAMES:Init()
+function Arenalogs.MAIN_FRAME.FRAMES:Init()
     local sizeX = 750
     local sizeY = 650
-    ---@class PvPLookup.MAIN_FRAME.FRAME : GGUI.Frame
+    ---@class Arenalogs.MAIN_FRAME.FRAME : GGUI.Frame
     local frame = GGUI.Frame {
-        moveable = true, frameID = PvPLookup.CONST.FRAMES.MAIN_FRAME,
-        sizeX = sizeX, sizeY = sizeY, frameConfigTable = PvPLookupGGUIConfig, frameTable = PvPLookup.MAIN.FRAMES,
-        backdropOptions = PvPLookup.CONST.MAIN_FRAME_BACKDROP, globalName = PvPLookup.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME
+        moveable = true, frameID = Arenalogs.CONST.FRAMES.MAIN_FRAME,
+        sizeX = sizeX, sizeY = sizeY, frameConfigTable = ArenalogsGGUIConfig, frameTable = Arenalogs.MAIN.FRAMES,
+        backdropOptions = Arenalogs.CONST.MAIN_FRAME_BACKDROP, globalName = Arenalogs.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME
     }
 
     -- makes it closeable on Esc
-    tinsert(UISpecialFrames, PvPLookup.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME)
+    tinsert(UISpecialFrames, Arenalogs.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME)
 
-    frame.content.titleLogo = PvPLookup.UTIL:CreateLogo(frame.content,
+    frame.content.titleLogo = Arenalogs.UTIL:CreateLogo(frame.content,
         {
             {
                 anchorParent = frame.content,
@@ -35,11 +35,11 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
             }
         })
 
-    ---@class PvPLookup.MAIN_FRAME.CONTENT : Frame
+    ---@class Arenalogs.MAIN_FRAME.CONTENT : Frame
     frame.content = frame.content
     local tabContentOffsetY = -50
     local tabButtonScale = 1
-    ---@class PvPLookup.MAIN_FRAME.MATCH_HISTORY_TAB : GGUI.Tab
+    ---@class Arenalogs.MAIN_FRAME.MATCH_HISTORY_TAB : GGUI.Tab
     frame.content.matchHistoryTab = GGUI.Tab {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
@@ -53,22 +53,22 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
             anchorB = "RIGHT",
             adjustWidth = true,
             sizeX = 15,
-            buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.TAB_BUTTON,
             fontOptions = {
-                fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+                fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
             },
             scale = tabButtonScale,
         }
     }
 
-    ---@class PvPLookup.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
+    ---@class Arenalogs.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
     frame.content.matchHistoryTab.content = frame.content.matchHistoryTab.content
     local matchHistoryTab = frame.content.matchHistoryTab
-    ---@class PvPLookup.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
+    ---@class Arenalogs.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
     matchHistoryTab.content = matchHistoryTab.content
 
 
-    ---@class PvPLookup.MAIN_FRAME.DR_OVERVIEW_TAB : GGUI.Tab
+    ---@class Arenalogs.MAIN_FRAME.DR_OVERVIEW_TAB : GGUI.Tab
     frame.content.drOverviewTab = GGUI.Tab {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
@@ -81,20 +81,20 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
             adjustWidth = true,
             sizeX = 15,
             offsetX = 10,
-            buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.TAB_BUTTON,
             fontOptions = {
-                fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+                fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
             },
             scale = tabButtonScale,
         },
     }
-    ---@class PvPLookup.MAIN_FRAME.DR_OVERVIEW_TAB.CONTENT
+    ---@class Arenalogs.MAIN_FRAME.DR_OVERVIEW_TAB.CONTENT
     frame.content.drOverviewTab.content = frame.content.drOverviewTab.content
     local drOverviewTab = frame.content.drOverviewTab
-    ---@class PvPLookup.MAIN_FRAME.DR_OVERVIEW_TAB.CONTENT
+    ---@class Arenalogs.MAIN_FRAME.DR_OVERVIEW_TAB.CONTENT
     drOverviewTab.content = drOverviewTab.content
 
-    ---@class PvPLookup.MAIN_FRAME.ABILITIES_TAB : GGUI.Tab
+    ---@class Arenalogs.MAIN_FRAME.ABILITIES_TAB : GGUI.Tab
     frame.content.abilitiesTab = GGUI.Tab {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
@@ -107,17 +107,17 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
             adjustWidth = true,
             sizeX = 15,
             offsetX = 10,
-            buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.TAB_BUTTON,
             fontOptions = {
-                fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+                fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
             },
             scale = tabButtonScale,
         }
     }
-    ---@class PvPLookup.MAIN_FRAME.ABILITIES_TAB.CONTENT
+    ---@class Arenalogs.MAIN_FRAME.ABILITIES_TAB.CONTENT
     frame.content.abilitiesTab.content = frame.content.abilitiesTab.content
     local ccCatalogueTab = frame.content.abilitiesTab
-    ---@class PvPLookup.MAIN_FRAME.ABILITIES_TAB.CONTENT
+    ---@class Arenalogs.MAIN_FRAME.ABILITIES_TAB.CONTENT
     ccCatalogueTab.content = ccCatalogueTab.content
 
     GGUI.TabSystem { matchHistoryTab, ccCatalogueTab, drOverviewTab }
@@ -126,9 +126,9 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
         parent = frame.content, anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
         offsetX = -8, offsetY = -8,
         label = f.white("x"),
-        buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+        buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.TAB_BUTTON,
         fontOptions = {
-            fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+            fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
         },
         sizeX = 15,
         sizeY = 15,
@@ -137,27 +137,27 @@ function PvPLookup.MAIN_FRAME.FRAMES:Init()
         end
     }
 
-    PvPLookup.MAIN_FRAME.frame = frame
+    Arenalogs.MAIN_FRAME.frame = frame
 
-    PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
-    PvPLookup.MAIN_FRAME.FRAMES:InitABILITIES_CATALOGUE_TAB()
-    PvPLookup.MAIN_FRAME.FRAMES:InitDR_OVERVIEW_TAB()
+    Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
+    Arenalogs.MAIN_FRAME.FRAMES:InitABILITIES_CATALOGUE_TAB()
+    Arenalogs.MAIN_FRAME.FRAMES:InitDR_OVERVIEW_TAB()
 
     frame:Hide()
 end
 
-function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
-    ---@class PvPLookup.MAIN_FRAME.MATCH_HISTORY_TAB
-    local matchHistoryTab = PvPLookup.MAIN_FRAME.frame.content.matchHistoryTab
-    ---@type PvPLookup.MAIN_FRAME.ABILITIES_TAB
-    local ccCatalogueTab = PvPLookup.MAIN_FRAME.frame.content.abilitiesTab
-    ---@class PvPLookup.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
+function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
+    ---@class Arenalogs.MAIN_FRAME.MATCH_HISTORY_TAB
+    local matchHistoryTab = Arenalogs.MAIN_FRAME.frame.content.matchHistoryTab
+    ---@type Arenalogs.MAIN_FRAME.ABILITIES_TAB
+    local ccCatalogueTab = Arenalogs.MAIN_FRAME.frame.content.abilitiesTab
+    ---@class Arenalogs.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
     matchHistoryTab.content = matchHistoryTab.content
 
-    ---@class PvPLookup.History.ClassFilterFrame : GGUI.Frame
+    ---@class Arenalogs.History.ClassFilterFrame : GGUI.Frame
     matchHistoryTab.content.classFilterFrame = GGUI.Frame {
         parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content,
-        anchorA = "TOP", anchorB = "TOP", backdropOptions = PvPLookup.CONST.CLASS_FILTER_FRAME_BACKDROP,
+        anchorA = "TOP", anchorB = "TOP", backdropOptions = Arenalogs.CONST.CLASS_FILTER_FRAME_BACKDROP,
         sizeX = 715, sizeY = 100, offsetY = 0,
     }
 
@@ -165,7 +165,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         parent = matchHistoryTab.content.classFilterFrame.frame, anchorParent = matchHistoryTab.content.classFilterFrame.content,
         anchorA = "TOP", anchorB = "TOP", text = "Class Filtering", offsetY = -15,
         fontOptions = {
-            fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+            fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
             height = 15,
         },
     }
@@ -194,12 +194,12 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
                 matchHistoryTab.activeClassFilters[classFile] = true
                 classFilterIcon:Desaturate()
                 -- reload list with new filters
-                PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
+                Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
             else
                 matchHistoryTab.activeClassFilters[classFile] = nil
                 classFilterIcon:Saturate()
                 -- reload list with new filters
-                PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
+                Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
             end
         end)
 
@@ -280,8 +280,8 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     matchHistoryTab.content.matchHistoryList = GGUI.FrameList {
         parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.classFilterFrame.frame, offsetX = 0, hideScrollbar = true,
         anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -25, rowHeight = 30,
-        rowBackdrops = { PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B },
-        selectionOptions = { noSelectionColor = true, hoverRGBA = PvPLookup.CONST.FRAME_LIST_HOVER_RGBA },
+        rowBackdrops = { Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_A, Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_B },
+        selectionOptions = { noSelectionColor = true, hoverRGBA = Arenalogs.CONST.FRAME_LIST_HOVER_RGBA },
         sizeY = 460, columnOptions = columnOptions, rowConstructor = function(columns)
         local winColumn = columns[1]
         local dateColumn = columns[2]
@@ -299,9 +299,9 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         local winIconScale = 0.15
         function winColumn:SetWin(win)
             if win then
-                winColumn.text:SetText(PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.GREEN_DOT, winIconScale))
+                winColumn.text:SetText(Arenalogs.MEDIA:GetAsTextIcon(Arenalogs.MEDIA.IMAGES.GREEN_DOT, winIconScale))
             else
-                winColumn.text:SetText(PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.RED_DOT, winIconScale))
+                winColumn.text:SetText(Arenalogs.MEDIA:GetAsTextIcon(Arenalogs.MEDIA.IMAGES.RED_DOT, winIconScale))
             end
         end
 
@@ -377,7 +377,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         teamColumn.iconsTwo = { teamColumn.icon21, teamColumn.icon22 }
         teamColumn.iconsThree = { teamColumn.icon31, teamColumn.icon32, teamColumn.icon33 }
 
-        ---@param team PvPLookup.Team
+        ---@param team Arenalogs.Team
         teamColumn.SetTeam = function(self, team, isSoloShuffle)
             for _, icon in pairs(teamColumn.iconsTwo) do
                 icon:Hide()
@@ -446,7 +446,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             else
                 ratingColumn.texture:Show()
             end
-            local rankingIcon = PvPLookup.UTIL:GetIconByRating(playerRating)
+            local rankingIcon = Arenalogs.UTIL:GetIconByRating(playerRating)
             if rankingIcon then
                 ratingColumn.texture:SetTexture(rankingIcon)
             end
@@ -463,29 +463,29 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         initialData = {
             {
                 label = GUTIL:ColorizeText("Enemy Team", GUTIL.COLORS.WHITE),
-                value = PvPLookup.CONST.DISPLAY_TEAMS.ENEMY_TEAM,
+                value = Arenalogs.CONST.DISPLAY_TEAMS.ENEMY_TEAM,
             },
             {
                 label = GUTIL:ColorizeText("My Team", GUTIL.COLORS.WHITE),
-                value = PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM
+                value = Arenalogs.CONST.DISPLAY_TEAMS.PLAYER_TEAM
             },
         },
         initialLabel = GUTIL:ColorizeText("My Team", GUTIL.COLORS.WHITE),
-        initialValue = PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM,
+        initialValue = Arenalogs.CONST.DISPLAY_TEAMS.PLAYER_TEAM,
         clickCallback = function(self, label, value)
-            PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
+            Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
         end,
         buttonOptions = {
-            buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.DROPDOWN,
+            buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.DROPDOWN,
             fontOptions = {
-                fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+                fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
             },
             sizeY = dropdownSizeY,
             scale = dropdownScale
         },
-        arrowOptions = PvPLookup.CONST.ASSETS.BUTTONS.DROPDOWN_ARROW_OPTIONS,
+        arrowOptions = Arenalogs.CONST.ASSETS.BUTTONS.DROPDOWN_ARROW_OPTIONS,
         selectionFrameOptions = {
-            backdropOptions = PvPLookup.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP,
+            backdropOptions = Arenalogs.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP,
             scale = dropdownScale,
         }
     }
@@ -500,45 +500,45 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             },
             {
                 label = GUTIL:ColorizeText("Solo", GUTIL.COLORS.WHITE),
-                value = PvPLookup.CONST.PVP_MODES.SOLO_SHUFFLE,
+                value = Arenalogs.CONST.PVP_MODES.SOLO_SHUFFLE,
             },
             {
                 label = GUTIL:ColorizeText("2v2", GUTIL.COLORS.WHITE),
-                value = PvPLookup.CONST.PVP_MODES.TWOS,
+                value = Arenalogs.CONST.PVP_MODES.TWOS,
             },
             {
                 label = GUTIL:ColorizeText("3v3", GUTIL.COLORS.WHITE),
-                value = PvPLookup.CONST.PVP_MODES.THREES,
+                value = Arenalogs.CONST.PVP_MODES.THREES,
             },
             {
                 label = GUTIL:ColorizeText("BG", GUTIL.COLORS.WHITE),
-                value = PvPLookup.CONST.PVP_MODES.BATTLEGROUND,
+                value = Arenalogs.CONST.PVP_MODES.BATTLEGROUND,
             },
         },
         initialLabel = GUTIL:ColorizeText("All", GUTIL.COLORS.WHITE),
         initialValue = nil,
         clickCallback = function(self, label, value)
-            PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
+            Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
         end,
         buttonOptions = {
-            buttonTextureOptions = PvPLookup.CONST.ASSETS.BUTTONS.DROPDOWN,
+            buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.DROPDOWN,
             fontOptions = {
-                fontFile = PvPLookup.CONST.FONT_FILES.ROBOTO,
+                fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
             },
             sizeY = dropdownSizeY,
             scale = dropdownScale,
         },
-        arrowOptions = PvPLookup.CONST.ASSETS.BUTTONS.DROPDOWN_ARROW_OPTIONS,
+        arrowOptions = Arenalogs.CONST.ASSETS.BUTTONS.DROPDOWN_ARROW_OPTIONS,
         selectionFrameOptions = {
-            backdropOptions = PvPLookup.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP,
+            backdropOptions = Arenalogs.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP,
             scale = dropdownScale,
         }
     }
 end
 
-function PvPLookup.MAIN_FRAME.FRAMES:InitABILITIES_CATALOGUE_TAB()
-    local ccCatalogueTab = PvPLookup.MAIN_FRAME.frame.content.abilitiesTab
-    ---@class PvPLookup.MAIN_FRAME.ABILITIES_TAB.CONTENT
+function Arenalogs.MAIN_FRAME.FRAMES:InitABILITIES_CATALOGUE_TAB()
+    local ccCatalogueTab = Arenalogs.MAIN_FRAME.frame.content.abilitiesTab
+    ---@class Arenalogs.MAIN_FRAME.ABILITIES_TAB.CONTENT
     ccCatalogueTab.content = ccCatalogueTab.content
 
     ---@type GGUI.FrameList.ColumnOption[]
@@ -574,8 +574,8 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitABILITIES_CATALOGUE_TAB()
         parent = ccCatalogueTab.content, anchorParent = ccCatalogueTab.content, anchorA = "TOP", anchorB = "TOP",
         sizeY = 500, showBorder = true, offsetY = -40, offsetX = -8,
         columnOptions = columnOptions,
-        rowBackdrops = { PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B },
-        selectionOptions = { noSelectionColor = true, hoverRGBA = PvPLookup.CONST.FRAME_LIST_HOVER_RGBA },
+        rowBackdrops = { Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_A, Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_B },
+        selectionOptions = { noSelectionColor = true, hoverRGBA = Arenalogs.CONST.FRAME_LIST_HOVER_RGBA },
         rowConstructor = function(columns)
             local classSpecColumn = columns[1]
             local spellColumn = columns[2]
@@ -685,12 +685,12 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitABILITIES_CATALOGUE_TAB()
         end
     }
 
-    PvPLookup.MAIN_FRAME:FillAbilityData()
+    Arenalogs.MAIN_FRAME:FillAbilityData()
 end
 
-function PvPLookup.MAIN_FRAME.FRAMES:InitDR_OVERVIEW_TAB()
-    local drOverviewTab = PvPLookup.MAIN_FRAME.frame.content.drOverviewTab
-    ---@class PvPLookup.MAIN_FRAME.DR_OVERVIEW_TAB.CONTENT
+function Arenalogs.MAIN_FRAME.FRAMES:InitDR_OVERVIEW_TAB()
+    local drOverviewTab = Arenalogs.MAIN_FRAME.frame.content.drOverviewTab
+    ---@class Arenalogs.MAIN_FRAME.DR_OVERVIEW_TAB.CONTENT
     drOverviewTab.content = drOverviewTab.content
 
     ---@type GGUI.FrameList.ColumnOption[]
@@ -720,7 +720,7 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitDR_OVERVIEW_TAB()
     drOverviewTab.content.drList = GGUI.FrameList {
         parent = drOverviewTab.content, anchorParent = drOverviewTab.content, anchorA = "TOP", anchorB = "TOP",
         sizeY = 300, showBorder = true, offsetY = -150,
-        columnOptions = columnOptions, rowBackdrops = { PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A, PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B },
+        columnOptions = columnOptions, rowBackdrops = { Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_A, Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_B },
         rowConstructor = function(columns)
             local specColumn = columns[1]
             local spellColumn = columns[2]
@@ -743,26 +743,26 @@ function PvPLookup.MAIN_FRAME.FRAMES:InitDR_OVERVIEW_TAB()
 
     drOverviewTab.content.drList:Hide() -- Temp
 
-    PvPLookup.MAIN_FRAME:FillDRData()
+    Arenalogs.MAIN_FRAME:FillDRData()
 end
 
-function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
-    local matchHistoryTab = PvPLookup.MAIN_FRAME.frame.content.matchHistoryTab
+function Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
+    local matchHistoryTab = Arenalogs.MAIN_FRAME.frame.content.matchHistoryTab
     local matchHistoryList = matchHistoryTab.content.matchHistoryList
 
     matchHistoryTab.content.matchHistoryList:Remove()
 
-    local pvpModeFilter = PvPLookup.MAIN_FRAME:GetSelectedModeFilter()
-    local displayedTeam = PvPLookup.MAIN_FRAME:GetDisplayTeam()
+    local pvpModeFilter = Arenalogs.MAIN_FRAME:GetSelectedModeFilter()
+    local displayedTeam = Arenalogs.MAIN_FRAME:GetDisplayTeam()
 
-    local matchHistories = PvPLookup.DB.MATCH_HISTORY:Get()
+    local matchHistories = Arenalogs.DB.MATCH_HISTORY:Get()
 
     local filteredHistory = GUTIL:Filter(matchHistories or {},
         function(matchHistory)
             local classFiltered = false
-            ---@type PvPLookup.Player[]
+            ---@type Arenalogs.Player[]
             local players = {}
-            if displayedTeam == PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
+            if displayedTeam == Arenalogs.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
                 players = matchHistory.playerTeam.players
             else
                 players = matchHistory.enemyTeam.players
@@ -798,23 +798,23 @@ function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
             local changeColumn = columns[8]
             local ratingColumn = columns[9]
 
-            local matchHistory = PvPLookup.MatchHistory:Deserialize(matchHistory)
+            local matchHistory = Arenalogs.MatchHistory:Deserialize(matchHistory)
 
             local date = date("!*t", matchHistory.timestamp / 1000) -- use ! because it is already localized time and divide by 1000 because date constructor needs seconds
             local formattedDate = string.format("%d.%d.%d %d:%d", date.day, date.month, date.year, date.hour, date.min)
             dateColumn.text:SetText(formattedDate)
-            local mapAbbreviation = PvPLookup.UTIL:GetMapAbbreviation(matchHistory.mapInfo.name)
+            local mapAbbreviation = Arenalogs.UTIL:GetMapAbbreviation(matchHistory.mapInfo.name)
             mapColumn.text:SetText(f.r(mapAbbreviation))
 
-            if displayedTeam == PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
+            if displayedTeam == Arenalogs.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
                 teamColumn:SetTeam(matchHistory.playerTeam)
                 if matchHistory.isRated then
                     mmrColumn.text:SetText(matchHistory.playerTeam.ratingInfo.ratingMMR)
                 else
                     mmrColumn.text:SetText(f.grey("-"))
                 end
-                damageColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.playerTeam.damage))
-                healingColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.playerTeam.healing))
+                damageColumn.text:SetText(Arenalogs.UTIL:FormatDamageNumber(matchHistory.playerTeam.damage))
+                healingColumn.text:SetText(Arenalogs.UTIL:FormatDamageNumber(matchHistory.playerTeam.healing))
             else
                 teamColumn:SetTeam(matchHistory.enemyTeam)
                 if matchHistory.isRated then
@@ -822,11 +822,11 @@ function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
                 else
                     mmrColumn.text:SetText(f.grey("-"))
                 end
-                damageColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.enemyTeam.damage))
-                healingColumn.text:SetText(PvPLookup.UTIL:FormatDamageNumber(matchHistory.enemyTeam.healing))
+                damageColumn.text:SetText(Arenalogs.UTIL:FormatDamageNumber(matchHistory.enemyTeam.damage))
+                healingColumn.text:SetText(Arenalogs.UTIL:FormatDamageNumber(matchHistory.enemyTeam.healing))
             end
 
-            if displayedTeam == PvPLookup.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
+            if displayedTeam == Arenalogs.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
                 team = matchHistory.playerTeam
             else
                 team = matchHistory.enemyTeam
@@ -857,11 +857,11 @@ function PvPLookup.MAIN_FRAME.FRAMES:UpdateHistory()
     matchHistoryList:UpdateDisplay()
 end
 
-function PvPLookup.MAIN_FRAME:FillAbilityData()
-    local ccCatalogueTab = PvPLookup.MAIN_FRAME.frame.content.abilitiesTab
+function Arenalogs.MAIN_FRAME:FillAbilityData()
+    local ccCatalogueTab = Arenalogs.MAIN_FRAME.frame.content.abilitiesTab
     local abilityList = ccCatalogueTab.content.abilityList
 
-    for classFile, specData in pairs(PvPLookup.ABILITY_DATA) do
+    for classFile, specData in pairs(Arenalogs.ABILITY_DATA) do
         for specID, spells in pairs(specData) do
             for _, abilityData in ipairs(spells) do
                 abilityList:Add(function(row, columns)
@@ -895,8 +895,8 @@ function PvPLookup.MAIN_FRAME:FillAbilityData()
     abilityList:UpdateDisplay()
 end
 
-function PvPLookup.MAIN_FRAME:FillDRData()
-    local drOverviewTab = PvPLookup.MAIN_FRAME.frame.content.drOverviewTab
+function Arenalogs.MAIN_FRAME:FillDRData()
+    local drOverviewTab = Arenalogs.MAIN_FRAME.frame.content.drOverviewTab
     local drList = drOverviewTab.content.drList
 
     for i = 1, 30 do

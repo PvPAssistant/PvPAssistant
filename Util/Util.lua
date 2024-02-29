@@ -1,14 +1,14 @@
----@class PvPLookup
-local PvPLookup = select(2, ...)
+---@class Arenalogs
+local Arenalogs = select(2, ...)
 
-local GGUI = PvPLookup.GGUI
-local GUTIL = PvPLookup.GUTIL
+local GGUI = Arenalogs.GGUI
+local GUTIL = Arenalogs.GUTIL
 
----@class PvPLookup.Util
-PvPLookup.UTIL = {}
+---@class Arenalogs.Util
+Arenalogs.UTIL = {}
 
 --- also for healing
-function PvPLookup.UTIL:FormatDamageNumber(number)
+function Arenalogs.UTIL:FormatDamageNumber(number)
     if number >= 1000000000 then
         return GUTIL:Round(number / 1000000000, 2) .. "B"
     end
@@ -24,7 +24,7 @@ end
 
 ---@param unit UnitId
 ---@return PlayerUID playerUID
-function PvPLookup.UTIL:GetPlayerUIDByUnit(unit)
+function Arenalogs.UTIL:GetPlayerUIDByUnit(unit)
     local playerName, playerRealm = UnitNameUnmodified(unit)
     playerRealm = playerRealm or GetNormalizedRealmName()
 
@@ -33,12 +33,12 @@ end
 
 ---@param unit UnitId
 ---@return number? specializationID
-function PvPLookup.UTIL:GetSpecializationIDByUnit(unit)
+function Arenalogs.UTIL:GetSpecializationIDByUnit(unit)
     local info = C_TooltipInfo.GetUnit(unit)
 
     for _, line in ipairs(info.lines) do
         local specText = line.leftText
-        local specID = PvPLookup.SPEC_LOOKUP:LookUp(specText)
+        local specID = Arenalogs.SPEC_LOOKUP:LookUp(specText)
         if specID then
             return specID
         end
@@ -47,8 +47,8 @@ function PvPLookup.UTIL:GetSpecializationIDByUnit(unit)
     return nil
 end
 
-function PvPLookup.UTIL:GetMapAbbreviation(mapName)
-    local custom = PvPLookup.CONST.MAP_ABBREVIATIONS[mapName]
+function Arenalogs.UTIL:GetMapAbbreviation(mapName)
+    local custom = Arenalogs.CONST.MAP_ABBREVIATIONS[mapName]
 
     if custom then return custom end
 
@@ -63,9 +63,9 @@ end
 
 ---@param rating number
 ---@return string?
-function PvPLookup.UTIL:GetIconByRating(rating)
+function Arenalogs.UTIL:GetIconByRating(rating)
     local rankingIcon
-    for _, ratingData in ipairs(PvPLookup.CONST.RATING_ICON_MAP) do
+    for _, ratingData in ipairs(Arenalogs.CONST.RATING_ICON_MAP) do
         if rating >= ratingData.rating then
             rankingIcon = ratingData.icon
         end
@@ -73,10 +73,10 @@ function PvPLookup.UTIL:GetIconByRating(rating)
     return rankingIcon
 end
 
----@param pvpMode PvPLookup.Const.PVPModes
+---@param pvpMode Arenalogs.Const.PVPModes
 ---@param data table
 ---@return InspectArenaData inspectArenaData
-function PvPLookup.UTIL:ConvertInspectArenaData(pvpMode, data)
+function Arenalogs.UTIL:ConvertInspectArenaData(pvpMode, data)
     ---@type InspectArenaData
     local inspectArenaData = {
         pvpMode = pvpMode,
@@ -93,7 +93,7 @@ end
 ---@param anchorPoints GGUI.AnchorPoint[]
 ---@param scale number?
 ---@return GGUI.Text, GGUI.Text
-function PvPLookup.UTIL:CreateLogo(parent, anchorPoints, scale)
+function Arenalogs.UTIL:CreateLogo(parent, anchorPoints, scale)
     scale = scale or 1
     parent.titleLogo = GGUI.Text {
         parent = parent,
@@ -105,7 +105,7 @@ function PvPLookup.UTIL:CreateLogo(parent, anchorPoints, scale)
     parent.logoIcon = GGUI.Text {
         parent = parent,
         anchorPoints = { { anchorParent = parent.titleLogo.frame, anchorA = "RIGHT", anchorB = "LEFT" }, offsetY = 2 },
-        text = PvPLookup.MEDIA:GetAsTextIcon(PvPLookup.MEDIA.IMAGES.LOGO_1024, 0.028 * scale)
+        text = Arenalogs.MEDIA:GetAsTextIcon(Arenalogs.MEDIA.IMAGES.LOGO_1024, 0.028 * scale)
     }
 
     return parent.titleLogo, parent.logoIcon

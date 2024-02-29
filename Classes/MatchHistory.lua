@@ -1,7 +1,7 @@
----@class PvPLookup
-local PvPLookup = select(2, ...)
+---@class Arenalogs
+local Arenalogs = select(2, ...)
 
-local GUTIL = PvPLookup.GUTIL
+local GUTIL = Arenalogs.GUTIL
 local f = GUTIL:GetFormatter()
 
 ---@class InstanceInfo
@@ -34,26 +34,26 @@ local f = GUTIL:GetFormatter()
 ---@field mmrChange number
 ---@field talentSpec string
 
----@class PvPLookup.Player
+---@class Arenalogs.Player
 ---@field name string
 ---@field realm string
 ---@field class string
 ---@field specID number
 ---@field scoreData BattlefieldScore
 
----@class PvPLookup.Team
+---@class Arenalogs.Team
 ---@field name? string
----@field players PvPLookup.Player[]
+---@field players Arenalogs.Player[]
 ---@field damage number
 ---@field healing number
 ---@field kills number
 ---@field ratingInfo PVPTeamInfo
 
----@class PvPLookup.MatchHistory
----@overload fun(): PvPLookup.MatchHistory
-PvPLookup.MatchHistory = PvPLookup.Object:extend()
+---@class Arenalogs.MatchHistory
+---@overload fun(): Arenalogs.MatchHistory
+Arenalogs.MatchHistory = Arenalogs.Object:extend()
 
-function PvPLookup.MatchHistory:new()
+function Arenalogs.MatchHistory:new()
     ---@type number
     self.timestamp = nil
     ---@type InstanceInfo
@@ -68,27 +68,27 @@ function PvPLookup.MatchHistory:new()
     self.playerScoreInfo = nil
     ---@type PVPScoreInfo[]
     self.playerScoreInfos = nil
-    ---@type PvPLookup.Team
+    ---@type Arenalogs.Team
     self.playerTeam = nil
-    ---@type PvPLookup.Team
+    ---@type Arenalogs.Team
     self.enemyTeam = nil
     ---@type number
     self.duration = nil
     ---@type boolean
     self.isRated = false
-    ---@type PvPLookup.Const.PVPModes
+    ---@type Arenalogs.Const.PVPModes
     self.pvpMode = nil
     ---@type boolean
     self.win = nil
     ---@type number
     self.season = nil
-    ---@type PvPLookup.Player
+    ---@type Arenalogs.Player
     self.player = nil
 end
 
 --- STATIC create a match history instance based on current match ending screen
----@return PvPLookup.MatchHistory?
-function PvPLookup.MatchHistory:CreateFromEndScreen()
+---@return Arenalogs.MatchHistory?
+function Arenalogs.MatchHistory:CreateFromEndScreen()
     -- force showing all players
     SetBattlefieldScoreFaction(-1)
 
@@ -168,8 +168,8 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
         IsRatedMap = C_PvP.IsRatedMap(),
     }
 
-    PvPLookup.DEBUG:DebugTable(apiData, "GatheredAPIData " .. (GetTimePreciseSec() * 1000))
-    PvPLookup.DB.DEBUG:Add(apiData)
+    Arenalogs.DEBUG:DebugTable(apiData, "GatheredAPIData " .. (GetTimePreciseSec() * 1000))
+    Arenalogs.DB.DEBUG:Add(apiData)
 
     -- DEBUG END
 
@@ -178,7 +178,7 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
     local playerTeamID = GetBattlefieldArenaFaction()
 
     if not playerTeamID then
-        error("PvPLookup: Could not fetch player team id")
+        error("Arenalogs: Could not fetch player team id")
         return
     end
 
@@ -189,11 +189,11 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
     local enemyTeamRatingInfo = C_PvP.GetTeamInfo(enemyTeamID)
 
     if not playerTeamRatingInfo or not enemyTeamRatingInfo then
-        error("PvPLookup: Could not parse team infos")
+        error("Arenalogs: Could not parse team infos")
         return
     end
 
-    ---@type PvPLookup.Player[]
+    ---@type Arenalogs.Player[]
     local playerTeam = {}
     local enemyTeam = {}
     local player = nil
@@ -202,12 +202,12 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
         realm = realm or playerRealm
 
         local specDescriptor = battlefieldScore.talentSpec .. " " .. battlefieldScore.class
-        ---@type PvPLookup.Player
+        ---@type Arenalogs.Player
         local arenaPlayer = {
             name = name,
             realm = realm,
             class = battlefieldScore.classToken,
-            specID = PvPLookup.SPEC_LOOKUP:LookUp(specDescriptor),
+            specID = Arenalogs.SPEC_LOOKUP:LookUp(specDescriptor),
             scoreData = battlefieldScore,
         }
         if battlefieldScore.faction == playerTeamID or isSoloShuffle then
@@ -221,7 +221,7 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
         end
     end
 
-    ---@type PvPLookup.Team
+    ---@type Arenalogs.Team
     local playerTeam = {
         players = playerTeam,
         damage = GUTIL:Fold(playerTeam, 0, function(tD, p)
@@ -236,7 +236,7 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
         ratingInfo = playerTeamRatingInfo,
     }
 
-    ---@type PvPLookup.Team
+    ---@type Arenalogs.Team
     local enemyTeam = {
         players = enemyTeam,
         damage = GUTIL:Fold(enemyTeam, 0, function(tD, p)
@@ -270,7 +270,7 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
         end
     end
 
-    local matchHistory = PvPLookup.MatchHistory()
+    local matchHistory = Arenalogs.MatchHistory()
     matchHistory.duration = C_PvP.GetActiveMatchDuration() * 1000 -- seconds -> ms
     matchHistory.isArena = C_PvP.IsArena()
     matchHistory.isBattleground = C_PvP.IsBattleground()
@@ -293,10 +293,10 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
         instanceGroupSize = instanceInfo[9],
         LfgDungeonID = instanceInfo[10],
     }
-    matchHistory.pvpMode = (matchHistory.isBattleground and PvPLookup.CONST.PVP_MODES.BATTLEGROUND) or
-        (matchHistory.isSoloShuffle and PvPLookup.CONST.PVP_MODES.SOLO_SHUFFLE) or
-        (matchHistory.isArena and highestTeamSize <= 2 and PvPLookup.CONST.PVP_MODES.TWOS) or
-        (matchHistory.isArena and highestTeamSize <= 3 and PvPLookup.CONST.PVP_MODES.THREES)
+    matchHistory.pvpMode = (matchHistory.isBattleground and Arenalogs.CONST.PVP_MODES.BATTLEGROUND) or
+        (matchHistory.isSoloShuffle and Arenalogs.CONST.PVP_MODES.SOLO_SHUFFLE) or
+        (matchHistory.isArena and highestTeamSize <= 2 and Arenalogs.CONST.PVP_MODES.TWOS) or
+        (matchHistory.isArena and highestTeamSize <= 3 and Arenalogs.CONST.PVP_MODES.THREES)
     matchHistory.player = player
     matchHistory.timestamp = (C_DateAndTime.GetServerTimeLocal() * 1000) - matchHistory.duration
     matchHistory.playerScoreInfo = C_PvP.GetScoreInfoByPlayerGuid(UnitGUID("player"))
@@ -304,22 +304,22 @@ function PvPLookup.MatchHistory:CreateFromEndScreen()
     return matchHistory
 end
 
----@param player PvPLookup.Player
+---@param player Arenalogs.Player
 ---@return string
-function PvPLookup.MatchHistory:GetTooltipTextForPlayer(player)
+function Arenalogs.MatchHistory:GetTooltipTextForPlayer(player)
     local tooltipText =
         f.class(player.name .. "-" .. player.realm, player.class)
     if self.isRated then
         local rating = player.scoreData.bgRating
-        local ratingIcon = PvPLookup.UTIL:GetIconByRating(rating)
+        local ratingIcon = Arenalogs.UTIL:GetIconByRating(rating)
         local iconText = GUTIL:IconToText(ratingIcon, 20, 20)
         tooltipText = tooltipText ..
             " " .. iconText .. " " .. rating
     end
     tooltipText = tooltipText ..
         "\n - Damage / Heal: " ..
-        PvPLookup.UTIL:FormatDamageNumber(player.scoreData.damageDone) ..
-        " / " .. PvPLookup.UTIL:FormatDamageNumber(player.scoreData.healingDone) .. "\n"
+        Arenalogs.UTIL:FormatDamageNumber(player.scoreData.damageDone) ..
+        " / " .. Arenalogs.UTIL:FormatDamageNumber(player.scoreData.healingDone) .. "\n"
     if self.isArena then
         tooltipText = tooltipText ..
             " - Kills: " .. player.scoreData.killingBlows .. "\n"
@@ -331,9 +331,9 @@ function PvPLookup.MatchHistory:GetTooltipTextForPlayer(player)
     return tooltipText
 end
 
----@param team PvPLookup.Team
+---@param team Arenalogs.Team
 ---@return string
-function PvPLookup.MatchHistory:GetTooltipTextForTeam(team)
+function Arenalogs.MatchHistory:GetTooltipTextForTeam(team)
     local tooltipText = ""
 
     for _, player in ipairs(team.players) do
@@ -343,17 +343,17 @@ function PvPLookup.MatchHistory:GetTooltipTextForTeam(team)
     return tooltipText
 end
 
-function PvPLookup.MatchHistory:GetTooltipText()
+function Arenalogs.MatchHistory:GetTooltipText()
     local tooltipText = ""
     if self.isArena then
         tooltipText = tooltipText .. "Arena"
-        tooltipText = tooltipText .. " " .. PvPLookup.CONST.PVP_MODES_NAMES[self.pvpMode]
+        tooltipText = tooltipText .. " " .. tostring(Arenalogs.CONST.PVP_MODES_NAMES[self.pvpMode])
         if self.isRated then
             tooltipText = tooltipText .. " - Rated"
         end
     elseif self.isBattleground then
         tooltipText = tooltipText .. "Battleground"
-        tooltipText = tooltipText .. " " .. PvPLookup.CONST.PVP_MODES_NAMES[self.pvpMode]
+        tooltipText = tooltipText .. " " .. tostring(Arenalogs.CONST.PVP_MODES_NAMES[self.pvpMode])
         if self.isRated then
             tooltipText = tooltipText .. " - Rated"
         end
@@ -385,26 +385,26 @@ function PvPLookup.MatchHistory:GetTooltipText()
     return tooltipText
 end
 
----@class PvPLookup.MatchHistory.Serialized
+---@class Arenalogs.MatchHistory.Serialized
 ---@field timestamp number
 ---@field mapInfo InstanceInfo
 ---@field isArena boolean
 ---@field isBattleground boolean
 ---@field isSoloShuffle boolean
----@field playerTeam PvPLookup.Team
----@field enemyTeam PvPLookup.Team
+---@field playerTeam Arenalogs.Team
+---@field enemyTeam Arenalogs.Team
 ---@field duration number
 ---@field isRated boolean
----@field pvpMode PvPLookup.Const.PVPModes
+---@field pvpMode Arenalogs.Const.PVPModes
 ---@field win boolean
 ---@field season number
----@field player PvPLookup.Player
+---@field player Arenalogs.Player
 ---@field playerScoreInfo PVPScoreInfo
 ---@field playerScoreInfos PVPScoreInfo[]
 
----@return PvPLookup.MatchHistory.Serialized
-function PvPLookup.MatchHistory:Serialize()
-    ---@type PvPLookup.MatchHistory.Serialized
+---@return Arenalogs.MatchHistory.Serialized
+function Arenalogs.MatchHistory:Serialize()
+    ---@type Arenalogs.MatchHistory.Serialized
     local serialized = {
         timestamp = self.timestamp,
         mapInfo = self.mapInfo,
@@ -426,10 +426,10 @@ function PvPLookup.MatchHistory:Serialize()
     return serialized
 end
 
----@param serializedData PvPLookup.MatchHistory.Serialized
----@return PvPLookup.MatchHistory matchHistory
-function PvPLookup.MatchHistory:Deserialize(serializedData)
-    local matchHistory = PvPLookup.MatchHistory()
+---@param serializedData Arenalogs.MatchHistory.Serialized
+---@return Arenalogs.MatchHistory matchHistory
+function Arenalogs.MatchHistory:Deserialize(serializedData)
+    local matchHistory = Arenalogs.MatchHistory()
     matchHistory.timestamp = serializedData.timestamp
     matchHistory.mapInfo = serializedData.mapInfo
     matchHistory.isArena = serializedData.isArena

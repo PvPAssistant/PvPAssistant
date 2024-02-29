@@ -7,13 +7,13 @@
 -- the terms of the MIT license. See LICENSE for details.
 --
 
----@class PvPLookup
-local PvPLookup = select(2, ...)
+---@class Arenalogs
+local Arenalogs = select(2, ...)
 
 local Object = {}
 Object.__index = Object
 
-PvPLookup.Object = Object
+Arenalogs.Object = Object
 
 
 function Object:new()

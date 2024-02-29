@@ -1,90 +1,90 @@
----@class PvPLookup
-local PvPLookup = select(2, ...)
+---@class Arenalogs
+local Arenalogs = select(2, ...)
 
----@class PvPLookup.Const
-PvPLookup.CONST = {}
+---@class Arenalogs.Const
+Arenalogs.CONST = {}
 
----@enum PvPLookup.Const.Frames
-PvPLookup.CONST.FRAMES = {
+---@enum Arenalogs.Const.Frames
+Arenalogs.CONST.FRAMES = {
     NEWS = "NEWS",
     MAIN_FRAME = "MAIN_FRAME",
     PVPINFO = "PVPINFO",
     ARENA_GUIDE = "ARENA_GUIDE",
 }
 
----@enum PvPLookup.Const.DisplayTeams
-PvPLookup.CONST.DISPLAY_TEAMS = {
+---@enum Arenalogs.Const.DisplayTeams
+Arenalogs.CONST.DISPLAY_TEAMS = {
     PLAYER_TEAM = "PLAYER_TEAM",
     ENEMY_TEAM = "ENEMY_TEAM",
 }
 
-PvPLookup.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME = "PvPLookupFrame"
+Arenalogs.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME = "ArenalogsFrame"
 
----@enum PvPLookup.Const.PVPModes
-PvPLookup.CONST.PVP_MODES = {
+---@enum Arenalogs.Const.PVPModes
+Arenalogs.CONST.PVP_MODES = {
     TWOS = "TWOS",
     THREES = "THREES",
     BATTLEGROUND = "BATTLEGROUND",
     SOLO_SHUFFLE = "SOLO_SHUFFLE",
 }
----@type table<PvPLookup.Const.PVPModes, string>
-PvPLookup.CONST.PVP_MODES_NAMES = {
+---@type table<Arenalogs.Const.PVPModes, string>
+Arenalogs.CONST.PVP_MODES_NAMES = {
     SOLO_SHUFFLE = "Shuffle",
     TWOS = "2v2",
     THREES = "3v3",
     BATTLEGROUND = "BG",
 }
 
-PvPLookup.CONST.PVP_MODES_BRACKET_IDS = {
+Arenalogs.CONST.PVP_MODES_BRACKET_IDS = {
     SOLO_SHUFFLE = 7,
     TWOS = 1,
     THREES = 2,
     BATTLEGROUND = 4,
 }
 
-PvPLookup.CONST.FRAME_LIST_HOVER_RGBA = { 1, 1, 1, 0.1 }
+Arenalogs.CONST.FRAME_LIST_HOVER_RGBA = { 1, 1, 1, 0.1 }
 
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.PVPINFO_BACKDROP = {
+Arenalogs.CONST.PVPINFO_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
         insets = { left = 0, right = 0, top = 0, bottom = 0 },
     },
-    bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024",
+    bgFile = "Interface/addons/Arenalogs/Media/Backgrounds/bgRoundedWhite1024",
     colorR = 0.2,
     colorG = 0.2,
     colorB = 0.2,
     colorA = 0.7,
 }
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.ARENA_GUIDE_BACKDROP = {
+Arenalogs.CONST.ARENA_GUIDE_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
         insets = { left = 0, right = 0, top = 0, bottom = 0 },
     },
-    bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024",
+    bgFile = "Interface/addons/Arenalogs/Media/Backgrounds/bgRoundedWhite1024",
     colorR = 0.2,
     colorG = 0.2,
     colorB = 0.2,
     colorA = 1,
 }
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.MAIN_FRAME_BACKDROP = {
+Arenalogs.CONST.MAIN_FRAME_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
         insets = { left = 0, right = 0, top = 0, bottom = 0 },
     },
-    bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024",
+    bgFile = "Interface/addons/Arenalogs/Media/Backgrounds/bgRoundedWhite1024",
     colorR = 0.2,
     colorG = 0.2,
     colorB = 0.2,
     colorA = 1,
 }
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.TOOLTIP_FRAME_BACKDROP = {
+Arenalogs.CONST.TOOLTIP_FRAME_BACKDROP = {
     bgFile = "Interface\\Buttons\\WHITE8X8",
     colorR = 0.816,
     colorG = 0.863,
@@ -92,7 +92,7 @@ PvPLookup.CONST.TOOLTIP_FRAME_BACKDROP = {
     colorA = 0.08,
 }
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A = {
+Arenalogs.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A = {
     bgFile = "Interface\\Buttons\\WHITE8X8",
     colorR = 0.816,
     colorG = 0.863,
@@ -101,8 +101,8 @@ PvPLookup.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A = {
 }
 
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP = {
-    bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024",
+Arenalogs.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP = {
+    bgFile = "Interface/addons/Arenalogs/Media/Backgrounds/bgRoundedWhite1024",
     borderOptions = {
         insets = {
             top = 0,
@@ -118,7 +118,7 @@ PvPLookup.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP = {
 }
 
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP = {
+Arenalogs.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
@@ -130,8 +130,8 @@ PvPLookup.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP = {
 }
 
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.CLASS_FILTER_FRAME_BACKDROP = {
-    bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024x128",
+Arenalogs.CONST.CLASS_FILTER_FRAME_BACKDROP = {
+    bgFile = "Interface/addons/Arenalogs/Media/Backgrounds/bgRoundedWhite1024x128",
     colorR = 0.176,
     colorG = 0.176,
     colorB = 0.184,
@@ -139,8 +139,8 @@ PvPLookup.CONST.CLASS_FILTER_FRAME_BACKDROP = {
 }
 
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.STRAGETY_TEXT_BACKDROP = {
-    bgFile = "Interface/addons/PvPLookup/Media/Backgrounds/bgRoundedWhite1024x128",
+Arenalogs.CONST.STRAGETY_TEXT_BACKDROP = {
+    bgFile = "Interface/addons/Arenalogs/Media/Backgrounds/bgRoundedWhite1024x128",
     colorR = 0.176,
     colorG = 0.176,
     colorB = 0.184,
@@ -148,7 +148,7 @@ PvPLookup.CONST.STRAGETY_TEXT_BACKDROP = {
 }
 
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.HISTORY_TITLE_BACKDROP = {
+Arenalogs.CONST.HISTORY_TITLE_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
         edgeSize = 32,
@@ -167,14 +167,14 @@ PvPLookup.CONST.HISTORY_TITLE_BACKDROP = {
     colorA = 0.8,
 }
 ---@type GGUI.BackdropOptions
-PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_B = {
+Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_B = {
     bgFile = "Interface\\Buttons\\WHITE8X8",
     colorR = 0.816,
     colorG = 0.863,
     colorB = 0.961,
     colorA = 0.08,
 }
-PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A = {
+Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_A = {
     bgFile = "Interface\\Buttons\\WHITE8X8",
     colorR = 0.2,
     colorG = 0.2,
@@ -182,57 +182,57 @@ PvPLookup.CONST.HISTORY_COLUMN_BACKDROP_A = {
     colorA = 1,
 }
 
-PvPLookup.CONST.RATING_ICON_MAP = {
+Arenalogs.CONST.RATING_ICON_MAP = {
     {
-        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank1",
+        icon = "Interface\\addons\\Arenalogs\\Media\\Images\\rank1",
         rating = 0
     },
     {
-        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank2",
+        icon = "Interface\\addons\\Arenalogs\\Media\\Images\\rank2",
         rating = 1000
     },
     {
-        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank3",
+        icon = "Interface\\addons\\Arenalogs\\Media\\Images\\rank3",
         rating = 1400
     },
     {
-        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank4",
+        icon = "Interface\\addons\\Arenalogs\\Media\\Images\\rank4",
         rating = 1600
     },
     {
-        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank5",
+        icon = "Interface\\addons\\Arenalogs\\Media\\Images\\rank5",
         rating = 1800
     },
     {
-        icon = "Interface\\addons\\PvPLookup\\Media\\Images\\rank6",
+        icon = "Interface\\addons\\Arenalogs\\Media\\Images\\rank6",
         rating = 2100
     },
 }
 
----@class PvPLookup.Assets
-PvPLookup.CONST.ASSETS = {
+---@class Arenalogs.Assets
+Arenalogs.CONST.ASSETS = {
 
     BUTTONS = {
         ---@type GGUI.ButtonTextureOptions
         TAB_BUTTON = {
-            normal = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonNormal',
-            disabled = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonDisabled',
-            highlight = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonHighlighted',
-            pushed = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonDisabled',
+            normal = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonNormal',
+            disabled = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonDisabled',
+            highlight = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonHighlighted',
+            pushed = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonDisabled',
         },
         ---@type GGUI.ButtonTextureOptions
         DROPDOWN = {
-            normal = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonNormal',
-            disabled = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonDisabled',
-            highlight = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonHighlighted',
-            pushed = 'Interface/addons/PvPLookup/Media/Buttons/TabButton/TabButtonDisabled',
+            normal = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonNormal',
+            disabled = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonDisabled',
+            highlight = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonHighlighted',
+            pushed = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonDisabled',
             isAtlas = false,
         },
         ---@type GGUI.CustomDropdown.ArrowOptions
         DROPDOWN_ARROW_OPTIONS = {
             isAtlas = false,
-            normal = "Interface/addons/PvPLookup/Media/Buttons/Dropdown/DropdownArrowPushed",
-            pushed = "Interface/addons/PvPLookup/Media/Buttons/Dropdown/DropdownArrowPushed",
+            normal = "Interface/addons/Arenalogs/Media/Buttons/Dropdown/DropdownArrowPushed",
+            pushed = "Interface/addons/Arenalogs/Media/Buttons/Dropdown/DropdownArrowPushed",
             sizeX = 15,
             sizeY = 15,
             offsetX = -5,
@@ -241,16 +241,16 @@ PvPLookup.CONST.ASSETS = {
     },
 }
 
-PvPLookup.CONST.FONT_FILES = {
-    ROBOTO = 'Interface/addons/PvPLookup/Media/Fonts/Roboto-Regular.ttf',
-    MONOSPACE = 'Interface/addons/PvPLookup/Media/Fonts/SpaceMono-Regular.ttf',
+Arenalogs.CONST.FONT_FILES = {
+    ROBOTO = 'Interface/addons/Arenalogs/Media/Fonts/Roboto-Regular.ttf',
+    MONOSPACE = 'Interface/addons/Arenalogs/Media/Fonts/SpaceMono-Regular.ttf',
 }
 
-PvPLookup.CONST.ATLAS = {
+Arenalogs.CONST.ATLAS = {
     TOOLTIP_SWORD = "pvptalents-warmode-swords",
 }
 
-PvPLookup.CONST.SPEC_ID_LIST = {
+Arenalogs.CONST.SPEC_ID_LIST = {
     250,
     251,
     252,
@@ -292,8 +292,8 @@ PvPLookup.CONST.SPEC_ID_LIST = {
     73,
 }
 
----@enum PvPLookup.SpecIDs
-PvPLookup.CONST.SPEC_IDS = {
+---@enum Arenalogs.SpecIDs
+Arenalogs.CONST.SPEC_IDS = {
     BLOOD = 250,
     FROST_DK = 251,
     UNHOLY = 252,
@@ -335,8 +335,8 @@ PvPLookup.CONST.SPEC_IDS = {
     PROTECTION = 73,
 }
 
----@enum PvPLookup.AbilitySubTypes
-PvPLookup.CONST.ABILITY_SUB_TYPES = {
+---@enum Arenalogs.AbilitySubTypes
+Arenalogs.CONST.ABILITY_SUB_TYPES = {
     STUN = "STUN",
     FEAR = "FEAR",
     ROOT = "ROOT",
@@ -357,24 +357,24 @@ PvPLookup.CONST.ABILITY_SUB_TYPES = {
     BUFF = "BUFF",
 }
 
----@enum PvPLookup.AbilityTypes
-PvPLookup.CONST.ABILITY_TYPES = {
+---@enum Arenalogs.AbilityTypes
+Arenalogs.CONST.ABILITY_TYPES = {
     CC = "CC",
     DEF = "DEF"
 }
 
----@enum PvPLookup.PVPSeverity
-PvPLookup.CONST.PVP_SEVERITY = {
+---@enum Arenalogs.PVPSeverity
+Arenalogs.CONST.PVP_SEVERITY = {
     LOW = "LOW",
     MEDIUM = "MEDIUM",
     HIGH = "HIGH",
 }
-PvPLookup.CONST.PVP_SEVERITY_RANK = {
+Arenalogs.CONST.PVP_SEVERITY_RANK = {
     LOW = 1,
     MEDIUM = 2,
     HIGH = 3,
 }
 
-PvPLookup.CONST.MAP_ABBREVIATIONS = {
+Arenalogs.CONST.MAP_ABBREVIATIONS = {
 
 }
