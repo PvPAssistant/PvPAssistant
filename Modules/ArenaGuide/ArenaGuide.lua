@@ -22,6 +22,13 @@ function Arenalogs.ARENA_GUIDE:UpdateAndShow()
     end
 end
 
+function Arenalogs.ARENA_GUIDE:ResetSpecIDs()
+    Arenalogs.ARENA_GUIDE.specIDs = {
+        PLAYER_TEAM = {},
+        ENEMY_TEAM = {},
+    }
+end
+
 function Arenalogs.ARENA_GUIDE:UpdateArenaSpecIDs()
     -- only update list if its bigger than before!
     -- meaning do not update if someone leaves...
@@ -45,30 +52,27 @@ function Arenalogs.ARENA_GUIDE:UpdateArenaSpecIDs()
     end
 end
 
+-- Arenalogs.ARENA_GUIDE.resetSpecIDs = true
 --- this is called whenever a member of the opposite arena party joins
 function Arenalogs.ARENA_GUIDE:ARENA_PREP_OPPONENT_SPECIALIZATIONS()
+    Arenalogs.ARENA_GUIDE:ResetSpecIDs()
     Arenalogs.ARENA_GUIDE:UpdateAndShow()
 end
 
 function Arenalogs.ARENA_GUIDE:GROUP_ROSTER_UPDATE()
+    Arenalogs.ARENA_GUIDE:ResetSpecIDs()
     Arenalogs.ARENA_GUIDE:UpdateAndShow()
 end
 
-Arenalogs.ARENA_GUIDE.resetSpecIDs = true
 -- fires multiple times thats why we need a bool to check that its just once per arena at start
 function Arenalogs.ARENA_GUIDE:PLAYER_JOINED_PVP_MATCH()
-    if Arenalogs.ARENA_GUIDE.resetSpecIDs then
-        print("Reseting SpecID Table")
-        -- clear
-        Arenalogs.ARENA_GUIDE.specIDs = {
-            PLAYER_TEAM = {},
-            ENEMY_TEAM = {},
-        }
-        Arenalogs.ARENA_GUIDE:UpdateAndShow()
-        Arenalogs.ARENA_GUIDE.resetSpecIDs = false
-    end
+    -- if Arenalogs.ARENA_GUIDE.resetSpecIDs then
+    --     -- Arenalogs.ARENA_GUIDE:ResetSpecIDs()
+    --     Arenalogs.ARENA_GUIDE:UpdateAndShow()
+    --     Arenalogs.ARENA_GUIDE.resetSpecIDs = false
+    -- end
 end
 
 function Arenalogs.ARENA_GUIDE:PLAYER_ENTERING_WORLD()
-    Arenalogs.ARENA_GUIDE.resetSpecIDs = true
+    -- Arenalogs.ARENA_GUIDE.resetSpecIDs = true
 end
