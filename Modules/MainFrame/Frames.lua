@@ -806,7 +806,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
             local mapAbbreviation = Arenalogs.UTIL:GetMapAbbreviation(matchHistory.mapInfo.name)
             mapColumn.text:SetText(f.r(mapAbbreviation))
 
-            if displayedTeam == Arenalogs.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
+            if displayedTeam == Arenalogs.CONST.DISPLAY_TEAMS.PLAYER_TEAM or matchHistory.isSoloShuffle then
                 teamColumn:SetTeam(matchHistory.playerTeam)
                 if matchHistory.isRated then
                     mmrColumn.text:SetText(matchHistory.playerTeam.ratingInfo.ratingMMR)
@@ -824,12 +824,6 @@ function Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
                 end
                 damageColumn.text:SetText(Arenalogs.UTIL:FormatDamageNumber(matchHistory.enemyTeam.damage))
                 healingColumn.text:SetText(Arenalogs.UTIL:FormatDamageNumber(matchHistory.enemyTeam.healing))
-            end
-
-            if displayedTeam == Arenalogs.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
-                team = matchHistory.playerTeam
-            else
-                team = matchHistory.enemyTeam
             end
 
             if matchHistory.isRated then

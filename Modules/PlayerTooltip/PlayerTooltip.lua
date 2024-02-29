@@ -65,7 +65,6 @@ function Arenalogs.PLAYER_TOOLTIP:InitTooltipFrame()
     Arenalogs.PLAYER_TOOLTIP.tooltipFrame.contentFrame = GGUI.Frame {
         parent = Arenalogs.PLAYER_TOOLTIP.tooltipFrame, anchorParent = Arenalogs.PLAYER_TOOLTIP.tooltipFrame,
         anchorA = "TOP", anchorB = "TOP", sizeX = tooltipFrameX, sizeY = tooltipFrameY,
-        --backdropOptions = Arenalogs.CONST.TOOLTIP_FRAME_BACKDROP
     }
     Arenalogs.PLAYER_TOOLTIP.tooltipFrame.content = Arenalogs.PLAYER_TOOLTIP.tooltipFrame.contentFrame.content
     local content = Arenalogs.PLAYER_TOOLTIP.tooltipFrame.content
