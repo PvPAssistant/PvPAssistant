@@ -1,1 +1,1 @@
-PVPLookup
+Arenalogs PVP Addon
