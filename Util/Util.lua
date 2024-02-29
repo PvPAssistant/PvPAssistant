@@ -98,7 +98,7 @@ function Arenalogs.UTIL:CreateLogo(parent, anchorPoints, scale)
     parent.titleLogo = GGUI.Text {
         parent = parent,
         anchorPoints = anchorPoints,
-        text = GUTIL:ColorizeText(" PVP-LOOKUP", GUTIL.COLORS.LEGENDARY),
+        text = GUTIL:ColorizeText(" ARENALOGS", GUTIL.COLORS.LEGENDARY),
         scale = 1.7 * scale,
     }
 

@@ -72,7 +72,7 @@ function Arenalogs.PLAYER_TOOLTIP:InitTooltipFrame()
     content.title = GGUI.Text {
         parent = content, anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = -12, offsetX = 0,
         text = Arenalogs.MEDIA:GetAsTextIcon(Arenalogs.MEDIA.IMAGES.LOGO_1024, 0.017) .. " " ..
-            GUTIL:ColorizeText("PVPLookup", GUTIL.COLORS.LEGENDARY)
+            GUTIL:ColorizeText("Arenalogs", GUTIL.COLORS.LEGENDARY)
     }
     local frameListOffsetY = -50
     content.ratingList = GGUI.FrameList {

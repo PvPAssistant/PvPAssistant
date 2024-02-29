@@ -58,8 +58,8 @@ function Arenalogs.MAIN:Init()
 end
 
 function Arenalogs.MAIN:InitializeSlashCommands()
-	SLASH_ARENALOGS1 = "/pvplookup"
-	SLASH_ARENALOGS2 = "/plu"
+	SLASH_ARENALOGS1 = "/arenalogs"
+	SLASH_ARENALOGS2 = "/al"
 	SlashCmdList["ARENALOGS"] = function(input)
 		input = SecureCmdOptionParse(input)
 		if not input then return end

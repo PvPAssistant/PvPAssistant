@@ -15,7 +15,7 @@ Arenalogs.MAIN_FRAME.frame = nil
 function Arenalogs.MAIN_FRAME:GetSelectedModeFilter()
     local mainFrame = Arenalogs.MAIN_FRAME.frame
     if not mainFrame then
-        error("PVPLookup Error: MainFrame not found")
+        error("Arenalogs Error: MainFrame not found")
     end
 
     return mainFrame.content.matchHistoryTab.content.pvpModeDropdown.selectedValue
@@ -25,7 +25,7 @@ end
 function Arenalogs.MAIN_FRAME:GetDisplayTeam()
     local mainFrame = Arenalogs.MAIN_FRAME.frame
     if not mainFrame then
-        error("PVPLookup Error: MainFrame not found")
+        error("Arenalogs Error: MainFrame not found")
     end
 
     return mainFrame.content.matchHistoryTab.content.teamDisplayDropdown.selectedValue
