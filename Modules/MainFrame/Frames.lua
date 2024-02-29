@@ -305,6 +305,16 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             end
         end
 
+        function winColumn:SetShuffleWins(wins)
+            if wins >= 6 then
+                winColumn.text:SetText(f.g(wins))
+            elseif wins >= 3 then
+                winColumn.text:SetText(f.l(wins))
+            else
+                winColumn.text:SetText(f.r(wins))
+            end
+        end
+
         dateColumn.text = GGUI.Text {
             parent = dateColumn, anchorParent = dateColumn, justifyOptions = { type = "H", align = "CENTER" }
         }
@@ -838,7 +848,11 @@ function Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
 
             local tooltipText = matchHistory:GetTooltipText()
 
-            winColumn:SetWin(matchHistory.win)
+            if matchHistory.isSoloShuffle and matchHistory.playerScoreInfo.stats and #matchHistory.playerScoreInfo.stats > 0 then
+                winColumn:SetShuffleWins(matchHistory.playerScoreInfo.stats[1].pvpStatValue)
+            else
+                winColumn:SetWin(matchHistory.win)
+            end
 
             row.tooltipOptions = {
                 anchor = "ANCHOR_CURSOR",
