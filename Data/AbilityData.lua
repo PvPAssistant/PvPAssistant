@@ -2,6 +2,7 @@
 local Arenalogs = select(2, ...)
 
 local GUTIL = Arenalogs.GUTIL
+local f = GUTIL:GetFormatter()
 
 ---@class Arenalogs.Abilities
 Arenalogs.ABILITIES = {}
@@ -52,6 +53,7 @@ local SEVERITY = Arenalogs.CONST.PVP_SEVERITY
 ---@field talentUpgrades? Arenalogs.AbilityData.UpgradeInfo[] -- spellID list of potential talent upgrades including severity and subType
 ---@field passive? boolean
 ---@field severity Arenalogs.PVPSeverity
+---@field additionalData? table<string, string>
 
 ---@type table<ClassFile, table<Arenalogs.SpecIDs|ClassFile, Arenalogs.AbilityData[]>>
 Arenalogs.ABILITY_DATA = {
@@ -63,6 +65,9 @@ Arenalogs.ABILITY_DATA = {
                 subType = SUB_TYPES.REFLECT,
                 duration = 5,
                 severity = SEVERITY.HIGH,
+                additionalData = {
+                    ["PvP Damage Reduction"] = f.g("50%")
+                },
             },
             {
                 spellID = 100, -- Charge

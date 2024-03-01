@@ -55,7 +55,7 @@ Arenalogs.CONST.PVPINFO_BACKDROP = {
     colorR = 0.2,
     colorG = 0.2,
     colorB = 0.2,
-    colorA = 0.7,
+    colorA = 0.8,
 }
 ---@type GGUI.BackdropOptions
 Arenalogs.CONST.ARENA_GUIDE_BACKDROP = {

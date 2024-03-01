@@ -127,8 +127,8 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     matchHistoryTab.content = matchHistoryTab.content
 
     matchHistoryTab.content.matchHistoryTitle = GGUI.Text {
-        parent = matchHistoryTab.content, anchorPoints = { { anchorParent = matchHistoryTab.content, anchorA = "TOP", anchorB = "TOP", offsetY = -30 } },
-        scale = 1.3, text = f.white("Match History")
+        parent = matchHistoryTab.content, anchorPoints = { { anchorParent = matchHistoryTab.content, anchorA = "TOP", anchorB = "TOP", offsetY = -20 } },
+        scale = 1.5, text = f.white("Match History")
     }
 
     ---@type GGUI.FrameList.ColumnOption[]

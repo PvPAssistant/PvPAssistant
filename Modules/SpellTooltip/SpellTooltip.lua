@@ -60,5 +60,11 @@ function Arenalogs.SPELL_TOOLTIP:UpdateSpellTooltipByAbilityData(abilityData)
         GameTooltip:AddDoubleLine(f.white("PvP Duration: "), f.white(abilityData.duration .. " Seconds"))
     end
 
+    if abilityData.additionalData then
+        for description, value in pairs(abilityData.additionalData) do
+            GameTooltip:AddDoubleLine(f.white(description .. ": "), value)
+        end
+    end
+
     GameTooltip:Show()
 end
