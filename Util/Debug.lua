@@ -6,8 +6,6 @@ Arenalogs.DEBUG = {}
 
 ArenalogsDEBUG = Arenalogs.DEBUG
 
-ArenalogsDebugDB = ArenalogsDebugDB or {}
-
 local DevTool = DevTool
 
 function Arenalogs.DEBUG:CreateHistoryDummyData()
@@ -177,7 +175,7 @@ end
 ---@param t table
 ---@param label string?
 function Arenalogs.DEBUG:DebugTable(t, label)
-    if DevTool then
+    if DevTool and ArenalogsOptions.enableDebug then
         DevTool:AddData(t, label)
     end
 end
@@ -197,4 +195,12 @@ end
 function Arenalogs.DEBUG:UpdateAndInspectArenaSpecs()
     Arenalogs.ARENA_GUIDE:UpdateArenaSpecIDs()
     self:DebugTable(Arenalogs.ARENA_GUIDE.specIDs, "ManualDebugSpecIDs")
+end
+
+function Arenalogs.DEBUG:GetDebugPrint()
+    return function(text)
+        if ArenalogsOptions.enableDebug then
+            print(f.l("AL Debug: ") .. tostring(text))
+        end
+    end
 end

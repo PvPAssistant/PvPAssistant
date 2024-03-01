@@ -5,6 +5,7 @@ local Arenalogs = select(2, ...)
 local GUTIL = Arenalogs.GUTIL
 local GGUI = Arenalogs.GGUI
 local f = GUTIL:GetFormatter()
+local debug = Arenalogs.DEBUG:GetDebugPrint()
 
 ArenalogsGGUIConfig = ArenalogsGGUIConfig or {}
 
@@ -76,7 +77,7 @@ function Arenalogs.MAIN:InitializeSlashCommands()
 		if command == "history" and rest == "clear" then
 			print(f.l("Arenalogs") .. ": Match History Cleared")
 			Arenalogs.DB.MATCH_HISTORY:Clear()
-			Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
+			Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 		end
 
 		if command == "tooltips" and rest == "clear" then
@@ -93,6 +94,11 @@ function Arenalogs.MAIN:InitializeSlashCommands()
 			end
 		end
 
+		if command == "debug" then
+			ArenalogsOptions.enableDebug = not ArenalogsOptions.enableDebug
+			print(f.l("Arenalogs ") .. ": Toggle Debug Mode " .. tostring(ArenalogsOptions.enableDebug))
+		end
+
 		if command == "" then
 			Arenalogs.MAIN_FRAME.frame:Show()
 		end
@@ -104,7 +110,7 @@ function Arenalogs.MAIN:ADDON_LOADED(addon_name)
 		return
 	end
 	Arenalogs.MAIN:Init()
-	Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
+	Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 end
 
 function Arenalogs.MAIN:PLAYER_ENTERING_WORLD()
@@ -127,23 +133,22 @@ end
 ---@field role string
 ---@field class ClassFile
 
---- works!
 function Arenalogs.MAIN:PLAYER_JOINED_PVP_MATCH()
 	if not Arenalogs.MAIN.enableCombatLog then
-		print("Arenalogs: Joined PvP Match")
-		print("LoggingCombat: " .. tostring(LoggingCombat(true)))
+		debug("Arenalogs: Joined PvP Match")
+		debug("LoggingCombat: " .. tostring(LoggingCombat(true)))
 
 		Arenalogs.MAIN.enableCombatLog = true
 	end
 end
 
 function Arenalogs.MAIN:PVP_MATCH_COMPLETE()
-	print("Arenalogs: PvP Match Completed")
-	print("LoggingCombat: " .. tostring(LoggingCombat(false)))
+	debug("Arenalogs: PvP Match Completed")
+	debug("LoggingCombat: " .. tostring(LoggingCombat(false)))
 
-	print("Arenalogs: Saving Match Data...")
+	debug("Arenalogs: Saving Match Data...")
 	local matchHistory = Arenalogs.MatchHistory:CreateFromEndScreen()
 	Arenalogs.DB.MATCH_HISTORY:Save(matchHistory)
 
-	Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
+	Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 end

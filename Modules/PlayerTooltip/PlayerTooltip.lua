@@ -4,6 +4,7 @@ local Arenalogs = select(2, ...)
 local GUTIL = Arenalogs.GUTIL
 local GGUI = Arenalogs.GGUI
 local f = GUTIL:GetFormatter()
+local debug = Arenalogs.DEBUG:GetDebugPrint()
 
 ---@class Arenalogs.PLAYER_TOOLTIP : Frame
 Arenalogs.PLAYER_TOOLTIP = GUTIL:CreateRegistreeForEvents({ "INSPECT_HONOR_UPDATE" })
@@ -241,7 +242,7 @@ function Arenalogs.PLAYER_TOOLTIP:UpdatePlayerTooltipByInspectData(unit, pvpData
 end
 
 function Arenalogs.PLAYER_TOOLTIP:INSPECT_HONOR_UPDATE()
-    -- print("INSPECT_HONOR_UPDATE")
+    debug("INSPECT_HONOR_UPDATE")
 
     if not Arenalogs.PLAYER_TOOLTIP.inspectPlayerUID then return end
 
@@ -249,16 +250,16 @@ function Arenalogs.PLAYER_TOOLTIP:INSPECT_HONOR_UPDATE()
         local _, gameTooltipUnit = GameTooltip:GetUnit()
         if gameTooltipUnit then
             if UnitIsPlayer(gameTooltipUnit) and CanInspect(gameTooltipUnit) and Arenalogs.UTIL:GetPlayerUIDByUnit(gameTooltipUnit) == Arenalogs.PLAYER_TOOLTIP.inspectPlayerUID then
-                -- print(f.g("Arenalogs: Update Player Tooltip"))
+                debug(f.g("Arenalogs: Update Player Tooltip"))
                 self:UpdatePlayerTooltipByInspectData(gameTooltipUnit)
             else
-                -- print(f.r("not updating, no other problem"))
+                debug(f.r("not updating, no other problem"))
             end
         else
-            -- print(f.r("not updating, no tooltip unit"))
+            debug(f.r("not updating, no tooltip unit"))
         end
     else
-        -- print(f.r("not updating, tooltip not visible"))
+        debug(f.r("not updating, tooltip not visible"))
     end
 
     Arenalogs.PLAYER_TOOLTIP.inspectPlayerUID = nil

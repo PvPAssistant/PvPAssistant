@@ -15,11 +15,11 @@
 
 embeds.xml
 Libs/Libs.lua   
+Util/Debug.lua
 Util/Const.lua
 Util/Util.lua
 Util/DB.lua
 Util/SpecLookup.lua
-Util/Debug.lua
 
 Data/AbilityData.lua
 Data/ArenaStrategies.lua

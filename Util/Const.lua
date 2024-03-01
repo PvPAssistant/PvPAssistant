@@ -248,6 +248,9 @@ Arenalogs.CONST.FONT_FILES = {
 
 Arenalogs.CONST.ATLAS = {
     TOOLTIP_SWORD = "pvptalents-warmode-swords",
+    LEFT_MOUSE_BUTTON = "newplayertutorial-icon-mouse-leftbutton",
+    RIGHT_MOUSE_BUTTON = "newplayertutorial-icon-mouse-rightbutton",
+    MIDDLE_MOUSE_BUTTON = "newplayertutorial-icon-mouse-middlebutton",
 }
 
 Arenalogs.CONST.SPEC_ID_LIST = {

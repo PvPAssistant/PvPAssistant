@@ -2,6 +2,7 @@
 local Arenalogs = select(2, ...)
 
 local GUTIL = Arenalogs.GUTIL
+local debug = Arenalogs.DEBUG:GetDebugPrint()
 
 ---@class Arenalogs.ArenaGuide : Frame
 Arenalogs.ARENA_GUIDE = GUTIL:CreateRegistreeForEvents({ "GROUP_ROSTER_UPDATE", "ARENA_PREP_OPPONENT_SPECIALIZATIONS",
@@ -53,12 +54,12 @@ function Arenalogs.ARENA_GUIDE:UpdateArenaSpecIDs()
 end
 
 function Arenalogs.ARENA_GUIDE:ARENA_PREP_OPPONENT_SPECIALIZATIONS()
-    print("AL: ARENA_PREP_OPPONENT_SPECIALIZATIONS")
+    debug("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
     Arenalogs.ARENA_GUIDE:UpdateAndShow()
 end
 
 function Arenalogs.ARENA_GUIDE:GROUP_ROSTER_UPDATE()
-    print("AL: GROUP_ROSTER_UPDATE")
+    debug("GROUP_ROSTER_UPDATE")
     Arenalogs.ARENA_GUIDE:UpdateAndShow()
 end
 
@@ -67,24 +68,24 @@ function Arenalogs.ARENA_GUIDE:PVP_MATCH_STATE_CHANGED()
     -- local isShuffle = C_PvP.IsSoloShuffle()
 
     if state == Enum.PvPMatchState.StartUp then
-        print("AL: PVP_MATCH_STATE_CHANGED: StartUp")
+        debug("PVP_MATCH_STATE_CHANGED: StartUp")
         Arenalogs.ARENA_GUIDE:ResetSpecIDs()
     end
 
     if state == Enum.PvPMatchState.Waiting then
-        print("AL: PVP_MATCH_STATE_CHANGED: Waiting")
+        debug("PVP_MATCH_STATE_CHANGED: Waiting")
     end
     if state == Enum.PvPMatchState.PostRound then
-        print("AL: PVP_MATCH_STATE_CHANGED: PostRound")
+        debug("PVP_MATCH_STATE_CHANGED: PostRound")
         Arenalogs.ARENA_GUIDE:ResetSpecIDs()
     end
     if state == Enum.PvPMatchState.Inactive then
-        print("AL: PVP_MATCH_STATE_CHANGED: Inactive")
+        debug("PVP_MATCH_STATE_CHANGED: Inactive")
     end
     if state == Enum.PvPMatchState.Engaged then
-        print("AL: PVP_MATCH_STATE_CHANGED: Engaged")
+        debug("PVP_MATCH_STATE_CHANGED: Engaged")
     end
     if state == Enum.PvPMatchState.Complete then
-        print("AL: PVP_MATCH_STATE_CHANGED: Complete")
+        debug("PVP_MATCH_STATE_CHANGED: Complete")
     end
 end

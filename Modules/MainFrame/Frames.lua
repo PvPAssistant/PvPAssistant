@@ -67,41 +67,14 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
     ---@class Arenalogs.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
     matchHistoryTab.content = matchHistoryTab.content
 
-
-    ---@class Arenalogs.MAIN_FRAME.DR_OVERVIEW_TAB : GGUI.Tab
-    frame.content.drOverviewTab = GGUI.Tab {
-        parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
-        sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
-        buttonOptions = {
-            label = GUTIL:ColorizeText("DR Overview", GUTIL.COLORS.WHITE),
-            parent = frame.content,
-            anchorParent = frame.content.matchHistoryTab.button.frame,
-            anchorA = "LEFT",
-            anchorB = "RIGHT",
-            adjustWidth = true,
-            sizeX = 15,
-            offsetX = 10,
-            buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.TAB_BUTTON,
-            fontOptions = {
-                fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
-            },
-            scale = tabButtonScale,
-        },
-    }
-    ---@class Arenalogs.MAIN_FRAME.DR_OVERVIEW_TAB.CONTENT
-    frame.content.drOverviewTab.content = frame.content.drOverviewTab.content
-    local drOverviewTab = frame.content.drOverviewTab
-    ---@class Arenalogs.MAIN_FRAME.DR_OVERVIEW_TAB.CONTENT
-    drOverviewTab.content = drOverviewTab.content
-
     ---@class Arenalogs.MAIN_FRAME.ABILITIES_TAB : GGUI.Tab
     frame.content.abilitiesTab = GGUI.Tab {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
         buttonOptions = {
-            label = GUTIL:ColorizeText("CC Catalogue", GUTIL.COLORS.WHITE),
+            label = GUTIL:ColorizeText("Ability Catalogue", GUTIL.COLORS.WHITE),
             parent = frame.content,
-            anchorParent = frame.content.drOverviewTab.button.frame,
+            anchorParent = frame.content.matchHistoryTab.button.frame,
             anchorA = "LEFT",
             anchorB = "RIGHT",
             adjustWidth = true,
@@ -120,7 +93,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
     ---@class Arenalogs.MAIN_FRAME.ABILITIES_TAB.CONTENT
     ccCatalogueTab.content = ccCatalogueTab.content
 
-    GGUI.TabSystem { matchHistoryTab, ccCatalogueTab, drOverviewTab }
+    GGUI.TabSystem { matchHistoryTab, ccCatalogueTab }
 
     frame.content.closeButton = GGUI.Button {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
@@ -140,8 +113,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
     Arenalogs.MAIN_FRAME.frame = frame
 
     Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
-    Arenalogs.MAIN_FRAME.FRAMES:InitABILITIES_CATALOGUE_TAB()
-    Arenalogs.MAIN_FRAME.FRAMES:InitDR_OVERVIEW_TAB()
+    Arenalogs.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
 
     frame:Hide()
 end
@@ -150,84 +122,14 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     ---@class Arenalogs.MAIN_FRAME.MATCH_HISTORY_TAB
     local matchHistoryTab = Arenalogs.MAIN_FRAME.frame.content.matchHistoryTab
     ---@type Arenalogs.MAIN_FRAME.ABILITIES_TAB
-    local ccCatalogueTab = Arenalogs.MAIN_FRAME.frame.content.abilitiesTab
+    local abilitiesTab = Arenalogs.MAIN_FRAME.frame.content.abilitiesTab
     ---@class Arenalogs.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
     matchHistoryTab.content = matchHistoryTab.content
 
-    ---@class Arenalogs.History.ClassFilterFrame : GGUI.Frame
-    matchHistoryTab.content.classFilterFrame = GGUI.Frame {
-        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content,
-        anchorA = "TOP", anchorB = "TOP", backdropOptions = Arenalogs.CONST.CLASS_FILTER_FRAME_BACKDROP,
-        sizeX = 715, sizeY = 100, offsetY = 0,
+    matchHistoryTab.content.matchHistoryTitle = GGUI.Text {
+        parent = matchHistoryTab.content, anchorPoints = { { anchorParent = matchHistoryTab.content, anchorA = "TOP", anchorB = "TOP", offsetY = -30 } },
+        scale = 1.3, text = f.white("Match History")
     }
-
-    matchHistoryTab.content.classFilterFrame.title = GGUI.Text {
-        parent = matchHistoryTab.content.classFilterFrame.frame, anchorParent = matchHistoryTab.content.classFilterFrame.content,
-        anchorA = "TOP", anchorB = "TOP", text = "Class Filtering", offsetY = -15,
-        fontOptions = {
-            fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
-            height = 15,
-        },
-    }
-
-    matchHistoryTab.content.classFilterFrame.frame:SetFrameLevel(matchHistoryTab.content:GetFrameLevel() + 10)
-
-    ---@type GGUI.ClassIcon[]
-    matchHistoryTab.content.classFilterFrame.classFilterButtons = {}
-
-    -- init class filter
-    matchHistoryTab.activeClassFilters = {}
-    local classFilterIconSize = 35
-    local classFilterIconOffsetX = 45
-    local classFilterIconOffsetY = -10
-    local classFilterIconSpacingX = 14
-    local function CreateClassFilterIcon(classFile, anchorParent, offX, offY, anchorA, anchorB)
-        local classFilterIcon = GGUI.ClassIcon {
-            sizeX = classFilterIconSize, sizeY = classFilterIconSize,
-            parent = matchHistoryTab.content.classFilterFrame.content, anchorParent = anchorParent,
-            initialClass = classFile, offsetX = offX, offsetY = offY, anchorA = anchorA, anchorB = anchorB,
-            showTooltip = true,
-        }
-
-        classFilterIcon.frame:SetScript("OnClick", function()
-            if not matchHistoryTab.activeClassFilters[classFile] then
-                matchHistoryTab.activeClassFilters[classFile] = true
-                classFilterIcon:Desaturate()
-                -- reload list with new filters
-                Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
-            else
-                matchHistoryTab.activeClassFilters[classFile] = nil
-                classFilterIcon:Saturate()
-                -- reload list with new filters
-                Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
-            end
-        end)
-
-        return classFilterIcon
-    end
-    local t = {}
-    FillLocalizedClassList(t)
-    local classFiles = GUTIL:Map(t, function(_, classFile)
-        -- ignore hidden test class or whatever this is
-        if classFile == "Adventurer" then
-            return nil
-        end
-        return classFile
-    end)
-    local currentAnchor = matchHistoryTab.content.classFilterFrame.frame
-    for i, classFile in pairs(classFiles) do
-        local anchorB = "RIGHT"
-        local offX = classFilterIconSpacingX
-        local offY = 0
-        if i == 1 then
-            anchorB = "LEFT"
-            offX = classFilterIconOffsetX
-            offY = classFilterIconOffsetY
-        end
-        local classFilterIcon = CreateClassFilterIcon(classFile, currentAnchor, offX, offY, "LEFT", anchorB)
-        currentAnchor = classFilterIcon.frame
-    end
-
 
     ---@type GGUI.FrameList.ColumnOption[]
     local columnOptions = {
@@ -278,11 +180,11 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     }
     local listScale = 0.997
     matchHistoryTab.content.matchHistoryList = GGUI.FrameList {
-        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.classFilterFrame.frame, offsetX = 0, hideScrollbar = true,
-        anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -25, rowHeight = 30,
+        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.matchHistoryTitle.frame, offsetX = 0, hideScrollbar = true,
+        anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -60, rowHeight = 30,
         rowBackdrops = { Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_A, Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = Arenalogs.CONST.FRAME_LIST_HOVER_RGBA },
-        sizeY = 460, columnOptions = columnOptions, rowConstructor = function(columns)
+        sizeY = 470, columnOptions = columnOptions, rowConstructor = function(columns)
         local winColumn = columns[1]
         local dateColumn = columns[2]
         local mapColumn = columns[3]
@@ -468,7 +370,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     local dropdownScale = 1
 
     matchHistoryTab.content.teamDisplayDropdown = GGUI.CustomDropdown {
-        parent = matchHistoryTab.content.classFilterFrame.content, anchorParent = ccCatalogueTab.button.frame,
+        parent = matchHistoryTab.content, anchorParent = abilitiesTab.button.frame,
         anchorA = "LEFT", anchorB = "RIGHT", width = 110, offsetX = 10,
         initialData = {
             {
@@ -483,9 +385,10 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         initialLabel = GUTIL:ColorizeText("My Team", GUTIL.COLORS.WHITE),
         initialValue = Arenalogs.CONST.DISPLAY_TEAMS.PLAYER_TEAM,
         clickCallback = function(self, label, value)
-            Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
+            Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
         end,
         buttonOptions = {
+            parent = matchHistoryTab.content,
             buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.DROPDOWN,
             fontOptions = {
                 fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
@@ -501,7 +404,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     }
 
     matchHistoryTab.content.pvpModeDropdown = GGUI.CustomDropdown {
-        parent = matchHistoryTab.content.classFilterFrame.content, anchorParent = matchHistoryTab.content.teamDisplayDropdown.frame.frame,
+        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.teamDisplayDropdown.frame.frame,
         anchorA = "LEFT", anchorB = "RIGHT", width = 70, offsetX = 10,
         initialData = {
             {
@@ -528,9 +431,10 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         initialLabel = GUTIL:ColorizeText("All", GUTIL.COLORS.WHITE),
         initialValue = nil,
         clickCallback = function(self, label, value)
-            Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
+            Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
         end,
         buttonOptions = {
+            parent = matchHistoryTab.content,
             buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.DROPDOWN,
             fontOptions = {
                 fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
@@ -546,10 +450,21 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     }
 end
 
-function Arenalogs.MAIN_FRAME.FRAMES:InitABILITIES_CATALOGUE_TAB()
+function Arenalogs.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
     local ccCatalogueTab = Arenalogs.MAIN_FRAME.frame.content.abilitiesTab
     ---@class Arenalogs.MAIN_FRAME.ABILITIES_TAB.CONTENT
     ccCatalogueTab.content = ccCatalogueTab.content
+
+    local classFilterFrame, classFilterTable = Arenalogs.UTIL:CreateClassFilterFrame({
+        parent = ccCatalogueTab.content,
+        anchorPoint = { anchorParent = ccCatalogueTab.content, anchorA = "TOP", anchorB = "TOP" },
+        clickCallback = function(_, _)
+            Arenalogs.MAIN_FRAME:UpdateAbilityData()
+        end
+    })
+
+    ccCatalogueTab.content.classFilterFrame = classFilterFrame
+    ccCatalogueTab.activeClassFilters = classFilterTable
 
     ---@type GGUI.FrameList.ColumnOption[]
     local columnOptions = {
@@ -581,8 +496,8 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitABILITIES_CATALOGUE_TAB()
     }
 
     ccCatalogueTab.content.abilityList = GGUI.FrameList {
-        parent = ccCatalogueTab.content, anchorParent = ccCatalogueTab.content, anchorA = "TOP", anchorB = "TOP",
-        sizeY = 500, showBorder = true, offsetY = -40, offsetX = -8,
+        parent = ccCatalogueTab.content, anchorParent = ccCatalogueTab.content.classFilterFrame.frame, anchorA = "TOP", anchorB = "BOTTOM",
+        sizeY = 450, showBorder = true, offsetY = -25, offsetX = -8,
         columnOptions = columnOptions,
         rowBackdrops = { Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_A, Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = Arenalogs.CONST.FRAME_LIST_HOVER_RGBA },
@@ -695,68 +610,10 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitABILITIES_CATALOGUE_TAB()
         end
     }
 
-    Arenalogs.MAIN_FRAME:FillAbilityData()
+    Arenalogs.MAIN_FRAME:UpdateAbilityData()
 end
 
-function Arenalogs.MAIN_FRAME.FRAMES:InitDR_OVERVIEW_TAB()
-    local drOverviewTab = Arenalogs.MAIN_FRAME.frame.content.drOverviewTab
-    ---@class Arenalogs.MAIN_FRAME.DR_OVERVIEW_TAB.CONTENT
-    drOverviewTab.content = drOverviewTab.content
-
-    ---@type GGUI.FrameList.ColumnOption[]
-    local columnOptions = {
-        {
-            label = "Class",
-            width = 40,
-            justifyOptions = { type = "H", align = "CENTER" },
-        },
-        {
-            label = "Spec",
-            width = 40,
-            justifyOptions = { type = "H", align = "CENTER" },
-        },
-        {
-            label = "Spell",
-            width = 70,
-            justifyOptions = { type = "H", align = "CENTER" },
-        },
-        {
-            label = "Duration",
-            width = 50,
-            justifyOptions = { type = "H", align = "CENTER" },
-        },
-    }
-
-    drOverviewTab.content.drList = GGUI.FrameList {
-        parent = drOverviewTab.content, anchorParent = drOverviewTab.content, anchorA = "TOP", anchorB = "TOP",
-        sizeY = 300, showBorder = true, offsetY = -150,
-        columnOptions = columnOptions, rowBackdrops = { Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_A, Arenalogs.CONST.HISTORY_COLUMN_BACKDROP_B },
-        rowConstructor = function(columns)
-            local specColumn = columns[1]
-            local spellColumn = columns[2]
-            local drColumn = columns[3]
-
-            local iconSize = 23
-            specColumn.icon = GGUI.ClassIcon {
-                parent = specColumn, anchorParent = specColumn, enableMouse = false, sizeX = iconSize, sizeY = iconSize,
-            }
-
-            spellColumn.icon = GGUI.Icon { -- TODO: SpellIcon?
-                parent = spellColumn, anchorParent = spellColumn, sizeX = iconSize, sizeY = iconSize,
-            }
-
-            drColumn.text = GGUI.Text { -- TODO: SpellIcon?
-                parent = drColumn, anchorParent = drColumn, text = "Some DR", justifyOptions = { type = "H", align = "CENTER" },
-            }
-        end
-    }
-
-    drOverviewTab.content.drList:Hide() -- Temp
-
-    Arenalogs.MAIN_FRAME:FillDRData()
-end
-
-function Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
+function Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
     local matchHistoryTab = Arenalogs.MAIN_FRAME.frame.content.matchHistoryTab
     local matchHistoryList = matchHistoryTab.content.matchHistoryList
 
@@ -769,25 +626,10 @@ function Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
 
     local filteredHistory = GUTIL:Filter(matchHistories or {},
         function(matchHistory)
-            local classFiltered = false
-            ---@type Arenalogs.Player[]
-            local players = {}
-            if displayedTeam == Arenalogs.CONST.DISPLAY_TEAMS.PLAYER_TEAM then
-                players = matchHistory.playerTeam.players
-            else
-                players = matchHistory.enemyTeam.players
+            if pvpModeFilter then
+                return matchHistory.pvpMode == pvpModeFilter
             end
-
-            for _, player in pairs(players) do
-                if matchHistoryTab.activeClassFilters[player.class] then
-                    classFiltered = true
-                end
-            end
-            if not pvpModeFilter then
-                return not classFiltered
-            else
-                return matchHistory.pvpMode == pvpModeFilter and not classFiltered
-            end
+            return true
         end)
 
     local filteredHistory = GUTIL:Sort(filteredHistory, function(a, b)
@@ -866,37 +708,40 @@ function Arenalogs.MAIN_FRAME.FRAMES:UpdateHistory()
     matchHistoryList:UpdateDisplay()
 end
 
-function Arenalogs.MAIN_FRAME:FillAbilityData()
-    local ccCatalogueTab = Arenalogs.MAIN_FRAME.frame.content.abilitiesTab
+function Arenalogs.MAIN_FRAME:UpdateAbilityData()
+    local ccCatalogueTab = Arenalogs.MAIN_FRAME.frame.content.abilitiesTab --[[@as Arenalogs.MAIN_FRAME.ABILITIES_TAB]]
     local abilityList = ccCatalogueTab.content.abilityList
-
+    abilityList:Remove()
     for classFile, specData in pairs(Arenalogs.ABILITY_DATA) do
-        for specID, spells in pairs(specData) do
-            for _, abilityData in ipairs(spells) do
-                abilityList:Add(function(row, columns)
-                    local classOrSpecColumn = columns[1]
-                    local spellColumn = columns[2]
-                    local typeColumn = columns[3]
-                    local durationColumn = columns[4]
-                    local upgradeColumn = columns[5]
+        if not ccCatalogueTab.activeClassFilters[classFile] then
+            for specID, spells in pairs(specData) do
+                for _, abilityData in ipairs(spells) do
+                    abilityList:Add(function(row, columns)
+                        local classOrSpecColumn = columns[1]
+                        local spellColumn = columns[2]
+                        local typeColumn = columns[3]
+                        local durationColumn = columns[4]
+                        local upgradeColumn = columns[5]
 
-                    if classFile ~= specID then
-                        classOrSpecColumn:SetClass(classFile, specID)
-                    else
-                        classOrSpecColumn:SetClass(classFile)
-                    end
-                    spellColumn:SetSpell(abilityData.spellID) -- Hammer of justice
-                    typeColumn.text:SetText(f.l(tostring(abilityData.abilityType) .. "-" .. tostring(abilityData.subType)))
-                    durationColumn:SetDuration(abilityData.duration)
+                        if classFile ~= specID then
+                            classOrSpecColumn:SetClass(classFile, specID)
+                        else
+                            classOrSpecColumn:SetClass(classFile)
+                        end
+                        spellColumn:SetSpell(abilityData.spellID) -- Hammer of justice
+                        typeColumn.text:SetText(f.l(tostring(abilityData.abilityType) ..
+                            "-" .. tostring(abilityData.subType)))
+                        durationColumn:SetDuration(abilityData.duration)
 
-                    upgradeColumn:setIcons(abilityData.talentUpgrades or {})
+                        upgradeColumn:setIcons(abilityData.talentUpgrades or {})
 
-                    row.tooltipOptions = {
-                        anchor = "ANCHOR_RIGHT",
-                        owner = row.frame,
-                        spellID = abilityData.spellID
-                    }
-                end)
+                        row.tooltipOptions = {
+                            anchor = "ANCHOR_RIGHT",
+                            owner = row.frame,
+                            spellID = abilityData.spellID
+                        }
+                    end)
+                end
             end
         end
     end

@@ -20,7 +20,7 @@ function Arenalogs.SPELL_TOOLTIP:Init()
             end
         end
     end)
-    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Macro, function(ttFrame, data)
+    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Macro, function(_, data)
         -- get spellID from tooltip data instead of GetSpell method
         local spellID = nil
         if data.lines[1].type == 19 and data.lines[1].tooltipType == 1 then

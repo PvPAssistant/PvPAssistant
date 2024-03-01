@@ -4,6 +4,7 @@ local Arenalogs = select(2, ...)
 local GGUI = Arenalogs.GGUI
 local GUTIL = Arenalogs.GUTIL
 local f = GUTIL:GetFormatter()
+local debug = Arenalogs.DEBUG:GetDebugPrint()
 
 ---@class Arenalogs.ArenaGuide
 Arenalogs.ARENA_GUIDE = Arenalogs.ARENA_GUIDE
