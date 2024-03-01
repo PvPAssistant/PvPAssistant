@@ -20,6 +20,18 @@ function Arenalogs.ABILITIES:GetAbilitiesForSpecs(specIDs)
     return abilities
 end
 
+function Arenalogs.ABILITIES:GetSpellByID(spellID)
+    for _, specList in pairs(Arenalogs.ABILITY_DATA) do
+        for _, spellList in pairs(specList) do
+            for _, abilityData in ipairs(spellList) do
+                if abilityData.spellID == spellID then
+                    return abilityData
+                end
+            end
+        end
+    end
+end
+
 local SPECS = Arenalogs.CONST.SPEC_IDS
 local TYPES = Arenalogs.CONST.ABILITY_TYPES
 local SUB_TYPES = Arenalogs.CONST.ABILITY_SUB_TYPES

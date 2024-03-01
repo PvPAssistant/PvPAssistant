@@ -51,6 +51,7 @@ function Arenalogs.MAIN:Init()
 	Arenalogs.ARENA_GUIDE.FRAMES:Init()
 	Arenalogs:InitializeMinimapButton()
 	Arenalogs.PLAYER_TOOLTIP:Init()
+	Arenalogs.SPELL_TOOLTIP:Init()
 
 	-- restore frame positions
 	Arenalogs.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)

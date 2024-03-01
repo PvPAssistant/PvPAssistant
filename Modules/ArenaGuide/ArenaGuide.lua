@@ -5,7 +5,7 @@ local GUTIL = Arenalogs.GUTIL
 
 ---@class Arenalogs.ArenaGuide : Frame
 Arenalogs.ARENA_GUIDE = GUTIL:CreateRegistreeForEvents({ "GROUP_ROSTER_UPDATE", "ARENA_PREP_OPPONENT_SPECIALIZATIONS",
-    "PLAYER_JOINED_PVP_MATCH", "PLAYER_ENTERING_WORLD" })
+    "PLAYER_JOINED_PVP_MATCH", "PVP_MATCH_STATE_CHANGED" })
 
 ---@type GGUI.Frame
 Arenalogs.ARENA_GUIDE.frame = nil
@@ -52,27 +52,39 @@ function Arenalogs.ARENA_GUIDE:UpdateArenaSpecIDs()
     end
 end
 
--- Arenalogs.ARENA_GUIDE.resetSpecIDs = true
---- this is called whenever a member of the opposite arena party joins
 function Arenalogs.ARENA_GUIDE:ARENA_PREP_OPPONENT_SPECIALIZATIONS()
-    Arenalogs.ARENA_GUIDE:ResetSpecIDs()
+    print("AL: ARENA_PREP_OPPONENT_SPECIALIZATIONS")
     Arenalogs.ARENA_GUIDE:UpdateAndShow()
 end
 
 function Arenalogs.ARENA_GUIDE:GROUP_ROSTER_UPDATE()
-    Arenalogs.ARENA_GUIDE:ResetSpecIDs()
+    print("AL: GROUP_ROSTER_UPDATE")
     Arenalogs.ARENA_GUIDE:UpdateAndShow()
 end
 
--- fires multiple times thats why we need a bool to check that its just once per arena at start
-function Arenalogs.ARENA_GUIDE:PLAYER_JOINED_PVP_MATCH()
-    -- if Arenalogs.ARENA_GUIDE.resetSpecIDs then
-    --     -- Arenalogs.ARENA_GUIDE:ResetSpecIDs()
-    --     Arenalogs.ARENA_GUIDE:UpdateAndShow()
-    --     Arenalogs.ARENA_GUIDE.resetSpecIDs = false
-    -- end
-end
+function Arenalogs.ARENA_GUIDE:PVP_MATCH_STATE_CHANGED()
+    local state = C_PvP.GetActiveMatchState()
+    -- local isShuffle = C_PvP.IsSoloShuffle()
 
-function Arenalogs.ARENA_GUIDE:PLAYER_ENTERING_WORLD()
-    -- Arenalogs.ARENA_GUIDE.resetSpecIDs = true
+    if state == Enum.PvPMatchState.StartUp then
+        print("AL: PVP_MATCH_STATE_CHANGED: StartUp")
+        Arenalogs.ARENA_GUIDE:ResetSpecIDs()
+    end
+
+    if state == Enum.PvPMatchState.Waiting then
+        print("AL: PVP_MATCH_STATE_CHANGED: Waiting")
+    end
+    if state == Enum.PvPMatchState.PostRound then
+        print("AL: PVP_MATCH_STATE_CHANGED: PostRound")
+        Arenalogs.ARENA_GUIDE:ResetSpecIDs()
+    end
+    if state == Enum.PvPMatchState.Inactive then
+        print("AL: PVP_MATCH_STATE_CHANGED: Inactive")
+    end
+    if state == Enum.PvPMatchState.Engaged then
+        print("AL: PVP_MATCH_STATE_CHANGED: Engaged")
+    end
+    if state == Enum.PvPMatchState.Complete then
+        print("AL: PVP_MATCH_STATE_CHANGED: Complete")
+    end
 end

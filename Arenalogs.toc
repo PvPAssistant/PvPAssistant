@@ -36,5 +36,6 @@ Modules/MainFrame/Frames.lua
 Modules/PvPInfo/PvPInfo.lua
 Modules/PvPInfo/Frames.lua
 Modules/PlayerTooltip/PlayerTooltip.lua
+Modules/SpellTooltip/SpellTooltip.lua
 Modules/ArenaGuide/ArenaGuide.lua
 Modules/ArenaGuide/Frames.lua
