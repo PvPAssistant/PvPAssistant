@@ -17,8 +17,8 @@ Arenalogs.ARENA_GUIDE.specIDs = {
 }
 
 function Arenalogs.ARENA_GUIDE:UpdateAndShow()
-    if not UnitAffectingCombat("player") then
-        Arenalogs.ARENA_GUIDE.frame:Show() -- TODO: Make optional and muteable for current match
+    if C_PvP.IsArena() and not UnitAffectingCombat("player") and ArenalogsOptions.arenaGuideEnable then
+        Arenalogs.ARENA_GUIDE.frame:Show()
         Arenalogs.ARENA_GUIDE.FRAMES:UpdateDisplay()
     end
 end
@@ -54,11 +54,13 @@ function Arenalogs.ARENA_GUIDE:UpdateArenaSpecIDs()
 end
 
 function Arenalogs.ARENA_GUIDE:ARENA_PREP_OPPONENT_SPECIALIZATIONS()
+    -- only if guide is enabled and we are within an arena match
     debug("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
     Arenalogs.ARENA_GUIDE:UpdateAndShow()
 end
 
 function Arenalogs.ARENA_GUIDE:GROUP_ROSTER_UPDATE()
+    -- only if guide is enabled and we are within an arena match
     debug("GROUP_ROSTER_UPDATE")
     Arenalogs.ARENA_GUIDE:UpdateAndShow()
 end
