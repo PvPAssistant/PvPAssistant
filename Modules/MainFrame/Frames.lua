@@ -40,7 +40,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
         parent = frame.content, anchorPoints = { { anchorParent = frame.content.titleLogo.frame, anchorA = "BOTTOMRIGHT", anchorB = "TOPRIGHT", offsetY = 5 } },
         text = f.bb("*Update Beta" .. C_AddOns.GetAddOnMetadata(addonName, "version")),
         tooltipOptions = {
-            owner = frame.content,
+            owner = frame.frame,
             anchor = "ANCHOR_TOPLEFT",
             text = Arenalogs.CONST.NEWS,
         },
@@ -664,7 +664,8 @@ function Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
     local pvpModeFilter = Arenalogs.MAIN_FRAME:GetSelectedModeFilter()
     local displayedTeam = Arenalogs.MAIN_FRAME:GetDisplayTeam()
 
-    local matchHistories = Arenalogs.DB.MATCH_HISTORY:Get()
+    local playerUID = Arenalogs.UTIL:GetPlayerUIDByUnit("player")
+    local matchHistories = Arenalogs.DB.MATCH_HISTORY:Get(playerUID)
 
     local filteredHistory = GUTIL:Filter(matchHistories or {},
         function(matchHistory)

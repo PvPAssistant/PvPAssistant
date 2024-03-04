@@ -7,7 +7,11 @@ Arenalogs.CONST = {}
 local f = Arenalogs.GUTIL:GetFormatter()
 
 Arenalogs.CONST.NEWS =
-    f.bb("Needs Testing:\n") ..
+    f.r("(This update wiped the Match History)\n") ..
+    f.l("\nPatch Notes:\n") ..
+    f.white("- Added Options Tab\n") ..
+    f.white("- Added ArenaGuide Enable Option\n") ..
+    f.bb("\nNeeds Testing:\n") ..
     f.white("- Solo Shuffle Match History\n") ..
     f.white("- Battleground Match History\n") ..
     f.g("\nNeeds Data:\n") ..

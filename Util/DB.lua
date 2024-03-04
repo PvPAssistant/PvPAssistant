@@ -38,7 +38,7 @@ function Arenalogs.DB:Init()
     if not ArenalogsDB.matchHistory then
         ArenalogsDB.matchHistory = {
             version = 2,
-            ---@type Arenalogs.MatchHistory.Serialized[]
+            ---@type table<PlayerUID, Arenalogs.MatchHistory.Serialized[]>
             data = {}
         }
     end
@@ -75,14 +75,19 @@ function Arenalogs.DB.MATCH_HISTORY:HandleMigrations()
     end
 end
 
+---@param playerUID PlayerUID
 ---@return Arenalogs.MatchHistory.Serialized[]
-function Arenalogs.DB.MATCH_HISTORY:Get()
-    return ArenalogsDB.matchHistory.data
+function Arenalogs.DB.MATCH_HISTORY:Get(playerUID)
+    ArenalogsDB.matchHistory.data[playerUID] = ArenalogsDB.matchHistory.data[playerUID] or {}
+    return ArenalogsDB.matchHistory.data[playerUID]
 end
 
 ---@param matchHistory Arenalogs.MatchHistory
-function Arenalogs.DB.MATCH_HISTORY:Save(matchHistory)
-    tinsert(ArenalogsDB.matchHistory.data, matchHistory:Serialize())
+---@param playerUID PlayerUID?
+function Arenalogs.DB.MATCH_HISTORY:Save(matchHistory, playerUID)
+    playerUID = playerUID or Arenalogs.UTIL:GetPlayerUIDByUnit("player")
+    ArenalogsDB.matchHistory.data[playerUID] = ArenalogsDB.matchHistory.data[playerUID] or {}
+    tinsert(ArenalogsDB.matchHistory.data[playerUID], matchHistory:Serialize())
 end
 
 function Arenalogs.DB.MATCH_HISTORY:Clear()
