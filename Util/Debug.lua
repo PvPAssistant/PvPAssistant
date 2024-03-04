@@ -1,6 +1,8 @@
 ---@class Arenalogs
 local Arenalogs = select(2, ...)
 
+local f = Arenalogs.GUTIL:GetFormatter()
+
 ---@class Arenalogs.DEBUG
 Arenalogs.DEBUG = {}
 
