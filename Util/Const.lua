@@ -252,7 +252,7 @@ Arenalogs.CONST.ASSETS = {
         ---@type GGUI.ButtonTextureOptions
         OPTIONS_BUTTON = {
             normal = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonNormal',
-            disabled = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonDisabled',
+            disabled = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonHighlighted',
             highlight = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonHighlighted',
             pushed = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonDisabled',
         },

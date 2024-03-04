@@ -109,21 +109,17 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
         buttonOptions = {
-            label = f.white("Options"),
+            label = CreateAtlasMarkup(Arenalogs.CONST.ATLAS.OPTIONS_ICON, 18, 18, 0, -1),
             anchorPoints = { {
                 anchorParent = frame.content,
                 anchorA = "TOPRIGHT",
                 anchorB = "TOPRIGHT",
                 offsetY = -8,
-                offsetX = -30,
+                offsetX = -35,
             } },
             parent = frame.content,
-            sizeX = 15, sizeY = 15,
-            adjustWidth = true,
+            sizeX = 20, sizeY = 20,
             buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.OPTIONS_BUTTON,
-            fontOptions = {
-                fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
-            },
             scale = tabButtonScale,
         }
     }
@@ -139,13 +135,13 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
     frame.content.closeButton = GGUI.Button {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
         offsetX = -8, offsetY = -8,
-        label = f.white("x"),
+        label = f.white("X"),
         buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.TAB_BUTTON,
         fontOptions = {
             fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
         },
-        sizeX = 15,
-        sizeY = 15,
+        sizeX = 20,
+        sizeY = 20,
         clickCallback = function()
             frame:Hide()
         end
