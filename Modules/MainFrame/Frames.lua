@@ -36,7 +36,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
             }
         })
 
-    frame.content.whatsNew = GGUI.Text {
+    frame.content.updateText = GGUI.Text {
         parent = frame.content, anchorPoints = { { anchorParent = frame.content.titleLogo.frame, anchorA = "BOTTOMRIGHT", anchorB = "TOPRIGHT", offsetY = 5 } },
         text = f.bb("*Update Beta" .. C_AddOns.GetAddOnMetadata(addonName, "version")),
         tooltipOptions = {
@@ -100,9 +100,9 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
     }
     ---@class Arenalogs.MAIN_FRAME.ABILITIES_TAB.CONTENT
     frame.content.abilitiesTab.content = frame.content.abilitiesTab.content
-    local ccCatalogueTab = frame.content.abilitiesTab
+    local abilitiesTab = frame.content.abilitiesTab
     ---@class Arenalogs.MAIN_FRAME.ABILITIES_TAB.CONTENT
-    ccCatalogueTab.content = ccCatalogueTab.content
+    abilitiesTab.content = abilitiesTab.content
 
     ---@class Arenalogs.MAIN_FRAME.OPTIONS_TAB : GGUI.Tab
     frame.content.optionsTab = GGUI.Tab {
@@ -134,7 +134,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
     ---@class Arenalogs.MAIN_FRAME.OPTIONS_TAB.CONTENT
     optionsTab.content = optionsTab.content
 
-    GGUI.TabSystem { matchHistoryTab, ccCatalogueTab, optionsTab }
+    GGUI.TabSystem { matchHistoryTab, abilitiesTab, optionsTab }
 
     frame.content.closeButton = GGUI.Button {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
