@@ -37,7 +37,7 @@ ArenalogsDB = ArenalogsDB or {}
 function Arenalogs.DB:Init()
     if not ArenalogsDB.matchHistory then
         ArenalogsDB.matchHistory = {
-            version = 1,
+            version = 2,
             ---@type Arenalogs.MatchHistory.Serialized[]
             data = {}
         }
@@ -64,7 +64,15 @@ function Arenalogs.DB:Init()
 end
 
 function Arenalogs.DB:HandleMigrations()
+    self.MATCH_HISTORY:HandleMigrations()
+end
 
+function Arenalogs.DB.MATCH_HISTORY:HandleMigrations()
+    -- sub 1 -> 2 Just wipe
+    if ArenalogsDB.matchHistory.version <= 1 then
+        self:Clear()
+        ArenalogsDB.matchHistory.version = 2
+    end
 end
 
 ---@return Arenalogs.MatchHistory.Serialized[]

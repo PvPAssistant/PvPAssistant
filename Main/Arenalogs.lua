@@ -86,7 +86,7 @@ function Arenalogs.MAIN:InitializeSlashCommands()
 		end
 
 		if command == "guide" then
-			if C_PvP.IsArena() or true then -- TODO: Remove debug
+			if C_PvP.IsArena() then
 				Arenalogs.ARENA_GUIDE.frame:Show()
 				Arenalogs.ARENA_GUIDE.FRAMES:UpdateDisplay()
 			else

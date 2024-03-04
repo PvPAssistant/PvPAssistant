@@ -16,30 +16,12 @@ local f = GUTIL:GetFormatter()
 ---@field instanceGroupSize number
 ---@field LfgDungeonID number
 
----@class BattlefieldScore
----@field name string
----@field killingBlows number
----@field honorableKills number
----@field deaths number
----@field honorGained number
----@field faction number
----@field race string
----@field class string
----@field classToken string ClassFile ?
----@field damageDone number
----@field healingDone number
----@field bgRating number
----@field ratingChange number
----@field preMatchMMR number
----@field mmrChange number
----@field talentSpec string
-
 ---@class Arenalogs.Player
 ---@field name string
 ---@field realm string
 ---@field class string
 ---@field specID number
----@field scoreData BattlefieldScore
+---@field scoreData PVPScoreInfo
 
 ---@class Arenalogs.Team
 ---@field name? string
@@ -64,10 +46,6 @@ function Arenalogs.MatchHistory:new()
     self.isBattleground = false
     ---@type boolean
     self.isSoloShuffle = false
-    ---@type PVPScoreInfo
-    self.playerScoreInfo = nil
-    ---@type PVPScoreInfo[]
-    self.playerScoreInfos = nil
     ---@type Arenalogs.Team
     self.playerTeam = nil
     ---@type Arenalogs.Team
@@ -100,30 +78,11 @@ function Arenalogs.MatchHistory:CreateFromEndScreen()
 
     local numPlayers = GetNumBattlefieldScores()
 
-    ---@type BattlefieldScore[]
-    local battlefieldScores = {}
+    ---@type PVPScoreInfo[]
+    local pvpScores = {}
     for playerIndex = 1, numPlayers do
-        local bfScore = { GetBattlefieldScore(playerIndex) }
-        ---@type BattlefieldScore
-        local score = {
-            name = bfScore[1],
-            killingBlows = bfScore[2],
-            honorableKills = bfScore[3],
-            deaths = bfScore[4],
-            honorGained = bfScore[5],
-            faction = bfScore[6],
-            race = bfScore[7],
-            class = bfScore[8],
-            classToken = bfScore[9],
-            damageDone = bfScore[10],
-            healingDone = bfScore[11],
-            bgRating = bfScore[12],
-            ratingChange = bfScore[13],
-            preMatchMMR = bfScore[14],
-            mmrChange = bfScore[15],
-            talentSpec = bfScore[16],
-        }
-        table.insert(battlefieldScores, score)
+        local playerPvPScore = C_PvP.GetScoreInfo(playerIndex)
+        table.insert(pvpScores, playerPvPScore)
     end
 
     -- DEBUG START
@@ -131,7 +90,6 @@ function Arenalogs.MatchHistory:CreateFromEndScreen()
     local playerSpecializationID = GetSpecialization()
     local apiData = {
         GetNumArenaOpponentSpecs = GetNumArenaOpponentSpecs() or "nil",
-        GetBattlefieldScore = battlefieldScores,
         IsRatedArena = C_PvP.IsRatedArena(),
         IsMatchConsideredArena = C_PvP.IsMatchConsideredArena(),
         enemySpecIDs = enemySpecIDs,
@@ -197,20 +155,20 @@ function Arenalogs.MatchHistory:CreateFromEndScreen()
     local playerTeam = {}
     local enemyTeam = {}
     local player = nil
-    for _, battlefieldScore in ipairs(battlefieldScores) do
-        local name, realm = strsplit("-", battlefieldScore.name)
+    for _, pvpScore in ipairs(pvpScores) do
+        local name, realm = strsplit("-", pvpScore.name)
         realm = realm or playerRealm
 
-        local specDescriptor = battlefieldScore.talentSpec .. " " .. battlefieldScore.class
+        local specDescriptor = pvpScore.talentSpec .. " " .. pvpScore.className
         ---@type Arenalogs.Player
         local arenaPlayer = {
             name = name,
             realm = realm,
-            class = battlefieldScore.classToken,
+            class = pvpScore.classToken,
             specID = Arenalogs.SPEC_LOOKUP:LookUp(specDescriptor),
-            scoreData = battlefieldScore,
+            scoreData = pvpScore,
         }
-        if battlefieldScore.faction == playerTeamID or isSoloShuffle then
+        if pvpScore.faction == playerTeamID or isSoloShuffle then
             tinsert(playerTeam, arenaPlayer)
 
             if arenaPlayer.name == playerName and arenaPlayer.realm == playerRealm then
@@ -262,14 +220,6 @@ function Arenalogs.MatchHistory:CreateFromEndScreen()
 
     local instanceInfo = { GetInstanceInfo() }
 
-    local playerScoreInfos = {}
-    for i = 1, #battlefieldScores do
-        local scoreInfo = C_PvP.GetScoreInfo(i)
-        if scoreInfo then
-            table.insert(playerScoreInfos, C_PvP.GetScoreInfo(i))
-        end
-    end
-
     local matchHistory = Arenalogs.MatchHistory()
     matchHistory.duration = C_PvP.GetActiveMatchDuration() * 1000 -- seconds -> ms
     matchHistory.isArena = C_PvP.IsArena()
@@ -299,8 +249,6 @@ function Arenalogs.MatchHistory:CreateFromEndScreen()
         (matchHistory.isArena and highestTeamSize <= 3 and Arenalogs.CONST.PVP_MODES.THREES)
     matchHistory.player = player
     matchHistory.timestamp = (C_DateAndTime.GetServerTimeLocal() * 1000) - matchHistory.duration
-    matchHistory.playerScoreInfo = C_PvP.GetScoreInfoByPlayerGuid(UnitGUID("player"))
-    matchHistory.playerScoreInfos = playerScoreInfos
     return matchHistory
 end
 
@@ -310,7 +258,7 @@ function Arenalogs.MatchHistory:GetTooltipTextForPlayer(player)
     local tooltipText =
         f.class(player.name .. "-" .. player.realm, player.class)
     if self.isRated then
-        local rating = player.scoreData.bgRating
+        local rating = player.scoreData.rating
         local ratingIcon = Arenalogs.UTIL:GetIconByRating(rating)
         local iconText = GUTIL:IconToText(ratingIcon, 20, 20)
         tooltipText = tooltipText ..
@@ -359,7 +307,7 @@ function Arenalogs.MatchHistory:GetTooltipText()
         end
     end
     if self.isSoloShuffle then
-        local wins = self.playerScoreInfo.stats[1] and self.playerScoreInfo.stats[1].pvpStatValue
+        local wins = self.player.scoreData.stats[1] and self.player.scoreData.stats[1].pvpStatValue
         if wins and wins > 0 then
             tooltipText = tooltipText .. " ( " .. f.g(wins .. " Wins") .. " )"
         else
@@ -399,8 +347,6 @@ end
 ---@field win boolean
 ---@field season number
 ---@field player Arenalogs.Player
----@field playerScoreInfo PVPScoreInfo
----@field playerScoreInfos PVPScoreInfo[]
 
 ---@return Arenalogs.MatchHistory.Serialized
 function Arenalogs.MatchHistory:Serialize()
@@ -419,8 +365,6 @@ function Arenalogs.MatchHistory:Serialize()
         win = self.win,
         season = self.season,
         player = self.player,
-        playerScoreInfo = self.playerScoreInfo,
-        playerScoreInfos = self.playerScoreInfos,
     }
 
     return serialized
@@ -443,7 +387,5 @@ function Arenalogs.MatchHistory:Deserialize(serializedData)
     matchHistory.win = serializedData.win
     matchHistory.season = serializedData.season
     matchHistory.player = serializedData.player
-    matchHistory.playerScoreInfo = serializedData.playerScoreInfo
-    matchHistory.playerScoreInfos = serializedData.playerScoreInfos
     return matchHistory
 end

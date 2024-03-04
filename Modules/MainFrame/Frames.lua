@@ -680,8 +680,8 @@ function Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 
             if matchHistory.isRated then
                 changeColumn.text:SetText(FormatValueWithSign(matchHistory.player.scoreData.ratingChange))
-                ratingColumn.text:SetText(matchHistory.player.scoreData.bgRating)
-                ratingColumn:SetIconByRating(matchHistory.player.scoreData.bgRating)
+                ratingColumn.text:SetText(matchHistory.player.scoreData.rating)
+                ratingColumn:SetIconByRating(matchHistory.player.scoreData.rating)
             else
                 changeColumn.text:SetText(f.grey("-"))
                 ratingColumn.text:SetText(f.grey("-"))
@@ -691,7 +691,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
             local tooltipText = matchHistory:GetTooltipText()
 
             if matchHistory.isSoloShuffle then
-                winColumn:SetShuffleWins((matchHistory.playerScoreInfo.stats and matchHistory.playerScoreInfo.stats[1].pvpStatValue) or
+                winColumn:SetShuffleWins((matchHistory.player.scoreData.stats and matchHistory.player.scoreData.stats[1].pvpStatValue) or
                     0)
             else
                 winColumn:SetWin(matchHistory.win)
