@@ -1,5 +1,6 @@
 ---@class Arenalogs
 local Arenalogs = select(2, ...)
+local addonName = select(1, ...)
 
 local GGUI = Arenalogs.GGUI
 local GUTIL = Arenalogs.GUTIL
@@ -34,6 +35,16 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
                 offsetY = -15,
             }
         })
+
+    frame.content.whatsNew = GGUI.Text {
+        parent = frame.content, anchorPoints = { { anchorParent = frame.content.titleLogo.frame, anchorA = "BOTTOMRIGHT", anchorB = "TOPRIGHT", offsetY = 5 } },
+        text = f.bb("*Update Beta" .. C_AddOns.GetAddOnMetadata(addonName, "version")),
+        tooltipOptions = {
+            owner = frame.content,
+            anchor = "ANCHOR_TOPLEFT",
+            text = Arenalogs.CONST.NEWS,
+        },
+    }
 
     ---@class Arenalogs.MAIN_FRAME.CONTENT : Frame
     frame.content = frame.content
@@ -93,7 +104,37 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
     ---@class Arenalogs.MAIN_FRAME.ABILITIES_TAB.CONTENT
     ccCatalogueTab.content = ccCatalogueTab.content
 
-    GGUI.TabSystem { matchHistoryTab, ccCatalogueTab }
+    ---@class Arenalogs.MAIN_FRAME.OPTIONS_TAB : GGUI.Tab
+    frame.content.optionsTab = GGUI.Tab {
+        parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
+        sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
+        buttonOptions = {
+            label = f.white("Options"),
+            anchorPoints = { {
+                anchorParent = frame.content,
+                anchorA = "TOPRIGHT",
+                anchorB = "TOPRIGHT",
+                offsetY = -8,
+                offsetX = -30,
+            } },
+            parent = frame.content,
+            sizeX = 15, sizeY = 15,
+            adjustWidth = true,
+            buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.OPTIONS_BUTTON,
+            fontOptions = {
+                fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
+            },
+            scale = tabButtonScale,
+        }
+    }
+
+    ---@class Arenalogs.MAIN_FRAME.OPTIONS_TAB.CONTENT
+    frame.content.optionsTab.content = frame.content.optionsTab.content
+    local optionsTab = frame.content.optionsTab
+    ---@class Arenalogs.MAIN_FRAME.OPTIONS_TAB.CONTENT
+    optionsTab.content = optionsTab.content
+
+    GGUI.TabSystem { matchHistoryTab, ccCatalogueTab, optionsTab }
 
     frame.content.closeButton = GGUI.Button {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
@@ -114,6 +155,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
 
     Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     Arenalogs.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
+    Arenalogs.OPTIONS:InitOptionsTab()
 
     frame:Hide()
 end

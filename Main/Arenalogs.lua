@@ -116,10 +116,6 @@ end
 function Arenalogs.MAIN:PLAYER_ENTERING_WORLD()
 	Arenalogs.SPEC_LOOKUP:Init()
 
-	--- DEBUG Dummy Data
-	-- Arenalogs.DEBUG:CreateHistoryDummyData()
-	--Arenalogs.DEBUG:CreatePlayerDummyData()
-
 	Arenalogs.PVPINFO.FRAMES:UpdateDisplay()
 
 	Arenalogs.MAIN.enableCombatLog = false

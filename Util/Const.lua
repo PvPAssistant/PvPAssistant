@@ -4,6 +4,16 @@ local Arenalogs = select(2, ...)
 ---@class Arenalogs.Const
 Arenalogs.CONST = {}
 
+local f = Arenalogs.GUTIL:GetFormatter()
+
+Arenalogs.CONST.NEWS =
+    f.bb("Needs Testing:\n") ..
+    f.white("- Solo Shuffle Match History\n") ..
+    f.white("- Battleground Match History\n") ..
+    f.g("\nNeeds Data:\n") ..
+    f.white("- Ability Catalogue\n") ..
+    f.white("- Arena Quick Guide Strategies")
+
 ---@enum Arenalogs.Const.Frames
 Arenalogs.CONST.FRAMES = {
     NEWS = "NEWS",
@@ -43,6 +53,21 @@ Arenalogs.CONST.PVP_MODES_BRACKET_IDS = {
 }
 
 Arenalogs.CONST.FRAME_LIST_HOVER_RGBA = { 1, 1, 1, 0.1 }
+
+---@type table<string, GGUI.BackdropOptions>
+Arenalogs.CONST.BACKDROPS = {
+    OPTIONS_TAB = {
+        backdropInfo = {
+            bgFile = "Interface/addons/Arenalogs/Media/Backgrounds/bgRoundedWhite1024",
+        },
+        backdropRGBA = {
+            0.176,
+            0.176,
+            0.176,
+            1,
+        },
+    }
+}
 
 ---@type GGUI.BackdropOptions
 Arenalogs.CONST.PVPINFO_BACKDROP = {
@@ -221,6 +246,13 @@ Arenalogs.CONST.ASSETS = {
             pushed = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonDisabled',
         },
         ---@type GGUI.ButtonTextureOptions
+        OPTIONS_BUTTON = {
+            normal = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonNormal',
+            disabled = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonDisabled',
+            highlight = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonHighlighted',
+            pushed = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonDisabled',
+        },
+        ---@type GGUI.ButtonTextureOptions
         DROPDOWN = {
             normal = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonNormal',
             disabled = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonDisabled',
@@ -251,6 +283,7 @@ Arenalogs.CONST.ATLAS = {
     LEFT_MOUSE_BUTTON = "newplayertutorial-icon-mouse-leftbutton",
     RIGHT_MOUSE_BUTTON = "newplayertutorial-icon-mouse-rightbutton",
     MIDDLE_MOUSE_BUTTON = "newplayertutorial-icon-mouse-middlebutton",
+    OPTIONS_ICON = "mechagon-projects",
 }
 
 Arenalogs.CONST.SPEC_ID_LIST = {
