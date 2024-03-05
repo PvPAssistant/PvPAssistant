@@ -17,10 +17,22 @@ function Arenalogs.UTIL:FormatDamageNumber(number)
         return GUTIL:Round(number / 1000000, 2) .. "M"
     end
     if number >= 1000 then
-        return GUTIL:Round(number / 1000, 2) .. "K"
+        return GUTIL:Round(number / 1000) .. "K"
     end
 
     return tostring(number)
+end
+
+---@param text string
+---@param rating number
+function Arenalogs.UTIL:ColorByRating(text, rating)
+    if rating >= 2200 then
+        return f.l(text)
+    elseif rating >= 1800 then
+        return f.e(text)
+    else
+        return f.white(text)
+    end
 end
 
 ---@param unit UnitId

@@ -25,13 +25,15 @@ classColors = {
 Arenalogs.CONST.NEWS =
     f.r("(This update wiped the Match History)\n") ..
     f.l("\nPatch Notes:\n") ..
-    f.white("- Added Options Tab\n") ..
+    f.white("- Added Options Panel\n") ..
     f.white("- Added ArenaGuide Enable Option\n") ..
+    f.white("- Added new Tooltip for Match History\n") ..
+    f.white("- Reworked Player Tooltip\n") ..
+    f.white("- Added more Abilities to the Catalogue\n") .. 
     f.bb("\nNeeds Testing:\n") ..
     f.white("- Solo Shuffle Match History\n") ..
     f.white("- Battleground Match History\n") ..
     f.g("\nNeeds Data:\n") ..
-    f.white("- Ability Catalogue\n") ..
     f.white("- Arena Quick Guide Strategies")
 
 ---@enum Arenalogs.Const.Frames
@@ -433,4 +435,5 @@ Arenalogs.CONST.PVP_SEVERITY_RANK = {
 
 Arenalogs.CONST.MAP_ABBREVIATIONS = {
 
+}
 }
