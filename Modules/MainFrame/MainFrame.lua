@@ -30,3 +30,13 @@ function Arenalogs.MAIN_FRAME:GetDisplayTeam()
 
     return mainFrame.content.matchHistoryTab.content.teamDisplayDropdown.selectedValue
 end
+
+---@return character history based on selection FrameOptions? characterDropdown
+function Arenalogs.MAIN_FRAME:GetCharacterFilter()
+    local mainFrame = Arenalogs.MAIN_FRAME.frame
+    if not mainFrame then
+        error("Arenalogs Error: MainFrame not found")
+    end
+
+    return mainFrame.content.matchHistoryTab.content.characterDropdown.selectedValue
+end

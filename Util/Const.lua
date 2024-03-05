@@ -6,6 +6,24 @@ Arenalogs.CONST = {}
 
 local f = Arenalogs.GUTIL:GetFormatter()
 
+local classColors = {
+	["HUNTER"] = "|cffaad372",
+	["WARRIOR"] = "|cffc69b6d",
+	["PALADIN"] = "|cfff48cba",
+	["MAGE"] = "|cff3fc6ea",
+	["PRIEST"] = "|cFFFFFFFF",
+	["SHAMAN"] = "|cff0070dd",
+	["WARLOCK"] = "|cff8787ed",
+	["DEMONHUNTER"] = "|cffa330c9",
+	["DEATHKNIGHT"] = "|cffc41e3a",
+	["DRUID"] = "|cffff7c0a",
+	["MONK"] = "|cff00ff96",
+	["ROGUE"] = "|cfffff468",
+	["EVOKER"] = "|cff33937f",
+	
+	
+}
+
 Arenalogs.CONST.NEWS =
     f.r("(This update wiped the Match History)\n") ..
     f.l("\nPatch Notes:\n") ..
