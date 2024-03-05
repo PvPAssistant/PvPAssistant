@@ -488,7 +488,8 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
 	}
 
 	matchHistoryTab.content.characterDropdown = GGUI.CustomDropdown {
-		parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.teamDisplayDropdown.frame.frame.frame,
+		---parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.teamDisplayDropdown.frame.frame.frame,
+		parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.teamDisplayDropdown.frame.frame,
 		anchorA = "LEFT", anchorB = "RIGHT", width = 70, offsetX = 10,
 		initialData = PopulateDropdownChar(),
 		initialLabel = GUTIL:ColorizeText("xAll", GUTIL.COLORS.WHITE),
@@ -514,6 +515,12 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
 
 end
 
+function GetPlayerClass(characterName)
+    local fullName = characterName
+    local _, class, _, _, _, _, _ = GetCharacterInfoByName(fullName)
+    return string.upper(class)
+end
+
 function GetClassColor(class)
 	local classColor = RAID_CLASS_COLORS[class]
 	return string.format("|c%s", classColor.colorStr)
@@ -529,7 +536,8 @@ function PopulateDropdownChar()
 
     if ArenalogsDB and ArenalogsDB.matchHistory and ArenalogsDB.matchHistory.data then
         for character, _ in pairs(ArenalogsDB.matchHistory.data) do
-            local label = GUTIL:ColorizeText(character, GUTIL.COLORS.WHITE)
+			local class = GetPlayerClass(character)
+            local label = GUTIL:ColorizeText(character, GUTIL.CLASS_COLORS[class])
             table.insert(dropdownList, {
                 label = label,
                 value = character,
