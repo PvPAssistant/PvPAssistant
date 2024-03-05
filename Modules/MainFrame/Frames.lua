@@ -156,6 +156,87 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
     frame:Hide()
 end
 
+function Arenalogs.MAIN_FRAME:InitMatchHistoryTooltipFrame()
+    local tooltipFrameX = 265
+    local tooltipFrameY = 50
+    Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame = CreateFrame("Frame", nil, nil, "BackdropTemplate")
+    Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame:SetSize(tooltipFrameX, tooltipFrameY)
+    Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame.contentFrame = GGUI.Frame {
+        parent = Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame, anchorParent = Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame,
+        anchorA = "TOP", anchorB = "TOP", sizeX = tooltipFrameX, sizeY = tooltipFrameY,
+    }
+    Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame.content = Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame.contentFrame
+        .content
+    local content = Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame.content
+    content.title = GGUI.Text {
+        parent = content, anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = -12, offsetX = 0,
+        text = Arenalogs.MEDIA:GetAsTextIcon(Arenalogs.MEDIA.IMAGES.LOGO_1024, 0.017) .. " " ..
+            GUTIL:ColorizeText("Arenalogs", GUTIL.COLORS.LEGENDARY)
+    }
+    local frameListOffsetY = -50
+    content.ratingList = GGUI.FrameList {
+        columnOptions = {
+            {
+                label = f.grey("Player"),
+                width = 80,
+                justifyOptions = { type = "H", align = "LEFT" },
+            },
+            {
+                label = f.grey("Dmg"),
+                width = 60,
+                justifyOptions = { type = "H", align = "LEFT" },
+            },
+            {
+                label = f.grey("Heal"),
+                width = 60,
+                justifyOptions = { type = "H", align = "CENTER" },
+            },
+            {
+                label = f.grey("Kills"),
+                width = 60,
+                justifyOptions = { type = "H", align = "CENTER" },
+            }
+        },
+        rowConstructor = function(columns)
+            local playerColumn = columns[1]
+            local DmgColumn = columns[2]
+            local healColumn = columns[3]
+            local killColumn = columns[4]
+
+            playerColumn.text = GGUI.Text {
+                parent = playerColumn, anchorParent = playerColumn,
+                text = "", anchorA = "LEFT", anchorB = "LEFT", offsetX = 5,
+                justifyOptions = { type = "H", align = "LEFT" },
+            }
+            DmgColumn.text = GGUI.Text {
+                parent = DmgColumn, anchorParent = DmgColumn,
+                anchorA = "LEFT", anchorB = "LEFT",
+                text = "", justifyOptions = { type = "H", align = "LEFT" },
+            }
+            healColumn.text = GGUI.Text {
+                parent = healColumn, anchorParent = healColumn,
+                text = "",
+            }
+            killColumn.text = GGUI.Text {
+                parent = killColumn, anchorParent = killColumn, offsetX = 5,
+                text = "", justifyOptions = { type = "H", align = "CENTER" },
+            }
+        end,
+        disableScrolling = true,
+        parent = content, anchorParent = content,
+        hideScrollbar = true, autoAdjustHeight = true, anchorA = "TOPLEFT", anchorB = "TOPLEFT", offsetY = frameListOffsetY, offsetX = -7,
+        rowHeight = 20,
+        autoAdjustHeightCallback = function(newHeight)
+            Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame:SetSize(tooltipFrameX, newHeight + -frameListOffsetY + 0)
+            Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame.contentFrame:SetSize(tooltipFrameX,
+                newHeight + -frameListOffsetY + 0)
+        end,
+        rowBackdrops = { Arenalogs.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} }
+    }
+
+    Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame:Hide()
+end
+
 function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     ---@class Arenalogs.MAIN_FRAME.MATCH_HISTORY_TAB
     local matchHistoryTab = Arenalogs.MAIN_FRAME.frame.content.matchHistoryTab

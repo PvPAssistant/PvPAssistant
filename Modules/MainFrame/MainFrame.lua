@@ -10,6 +10,9 @@ Arenalogs.MAIN_FRAME = {}
 ---@type Arenalogs.MAIN_FRAME.FRAME
 Arenalogs.MAIN_FRAME.frame = nil
 
+---@type Frame
+Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame = nil
+
 
 ---@return Arenalogs.Const.PVPModes? pvpMode
 function Arenalogs.MAIN_FRAME:GetSelectedModeFilter()
