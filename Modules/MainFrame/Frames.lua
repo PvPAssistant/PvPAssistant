@@ -709,22 +709,29 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
 			end
 
 			upgradeColumn.setIcons = function(self, spellUpgrades)
-				for i = 1, #spellUpgrades do
-					local icon = upgradeColumn.icons[i]
-					local spellUpgradeData = spellUpgrades and spellUpgrades[i]
-					if not icon then
-						return
-					end
-					if not spellUpgradeData then
-						icon:Hide()
-					else
-						icon:SetSpell(spellUpgradeData.spellID)
-						icon:Show()
-					end
-				end
-			end
-		end
-	}
+                if not spellUpgrades then
+                    -- just hide all
+                    table.foreach(upgradeColumn.icons, function(_, icon)
+                        icon:Hide()
+                    end)
+                    return
+                end
+                for i = 1, #spellUpgrades do
+                    local icon = upgradeColumn.icons[i]
+                    local spellUpgradeData = spellUpgrades and spellUpgrades[i]
+                    if not icon then
+                        return
+                    end
+                    if not spellUpgradeData then
+                        icon:Hide()
+                    else
+                        icon:SetSpell(spellUpgradeData.spellID)
+                        icon:Show()
+                    end
+                end
+            end
+        end
+    }
 
 	Arenalogs.MAIN_FRAME:UpdateAbilityData()
 end
@@ -851,8 +858,8 @@ function Arenalogs.MAIN_FRAME:UpdateAbilityData()
 						typeColumn.text:SetText(f.l(tostring(abilityData.abilityType) ..
 							"-" .. tostring(abilityData.subType)))
 						durationColumn:SetDuration(abilityData.duration)
-
-						upgradeColumn:setIcons(abilityData.talentUpgrades or {})
+						
+                        upgradeColumn:setIcons(abilityData.talentUpgrades)
 
 						row.tooltipOptions = {
 							anchor = "ANCHOR_RIGHT",
