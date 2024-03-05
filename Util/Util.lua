@@ -23,6 +23,18 @@ function Arenalogs.UTIL:FormatDamageNumber(number)
     return tostring(number)
 end
 
+---@param text string
+---@param rating number
+function Arenalogs.UTIL:ColorByRating(text, rating)
+    if rating >= 2200 then
+        return f.l(text)
+    elseif rating >= 1800 then
+        return f.e(text)
+    else
+        return f.white(text)
+    end
+end
+
 ---@param unit UnitId
 ---@return PlayerUID playerUID
 function Arenalogs.UTIL:GetPlayerUIDByUnit(unit)
