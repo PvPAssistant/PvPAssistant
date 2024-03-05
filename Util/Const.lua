@@ -436,4 +436,3 @@ Arenalogs.CONST.PVP_SEVERITY_RANK = {
 Arenalogs.CONST.MAP_ABBREVIATIONS = {
 
 }
-}
