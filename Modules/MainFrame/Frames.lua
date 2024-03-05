@@ -158,23 +158,39 @@ end
 
 function Arenalogs.MAIN_FRAME:InitMatchHistoryTooltipFrame()
     local tooltipFrameX = 265
-    local tooltipFrameY = 50
+    local tooltipFrameY = 40
+    local frameScale = 0.95
     Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame = CreateFrame("Frame", nil, nil, "BackdropTemplate")
-    Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame:SetSize(tooltipFrameX, tooltipFrameY)
+    Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame:SetSize(tooltipFrameX - 10, tooltipFrameY)
     Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame.contentFrame = GGUI.Frame {
         parent = Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame, anchorParent = Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame,
-        anchorA = "TOP", anchorB = "TOP", sizeX = tooltipFrameX, sizeY = tooltipFrameY,
+        anchorA = "TOP", anchorB = "TOP", sizeX = tooltipFrameX, sizeY = tooltipFrameY, scale = frameScale,
     }
     Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame.content = Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame.contentFrame
         .content
+
+    ---@class Arenalogs.MAIN_FRAME.TooltipFrame.Content : BackdropTemplate, Frame
     local content = Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame.content
-    content.title = GGUI.Text {
-        parent = content, anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = -12, offsetX = 0,
-        text = Arenalogs.MEDIA:GetAsTextIcon(Arenalogs.MEDIA.IMAGES.LOGO_1024, 0.017) .. " " ..
-            GUTIL:ColorizeText("Arenalogs", GUTIL.COLORS.LEGENDARY)
+    content.modeText = GGUI.Text {
+        parent = content,
+        anchorPoints = { { anchorParent = content, anchorA = "TOPLEFT", anchorB = "TOPLEFT", } },
+        text = "<Mode>",
     }
-    local frameListOffsetY = -50
-    content.ratingList = GGUI.FrameList {
+
+    content.winText = GGUI.Text {
+        parent = content,
+        anchorPoints = { { anchorParent = content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT", } },
+        text = "<Win>", offsetY = -3,
+    }
+
+    content.mapText = GGUI.Text {
+        parent = content,
+        anchorPoints = { { anchorParent = content, anchorA = "TOP", anchorB = "TOP", } },
+        text = "<Map>", offsetY = 1,
+    }
+
+    local frameListOffsetY = -40
+    content.playerList = GGUI.FrameList {
         columnOptions = {
             {
                 label = f.grey("Player"),
@@ -224,12 +240,12 @@ function Arenalogs.MAIN_FRAME:InitMatchHistoryTooltipFrame()
         end,
         disableScrolling = true,
         parent = content, anchorParent = content,
-        hideScrollbar = true, autoAdjustHeight = true, anchorA = "TOPLEFT", anchorB = "TOPLEFT", offsetY = frameListOffsetY, offsetX = -7,
+        hideScrollbar = true, autoAdjustHeight = true, anchorA = "TOPLEFT", anchorB = "TOPLEFT", offsetY = frameListOffsetY, offsetX = -4,
         rowHeight = 20,
         autoAdjustHeightCallback = function(newHeight)
             Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame:SetSize(tooltipFrameX, newHeight + -frameListOffsetY + 0)
             Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame.contentFrame:SetSize(tooltipFrameX,
-                newHeight + -frameListOffsetY + 0)
+                newHeight + -frameListOffsetY)
         end,
         rowBackdrops = { Arenalogs.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} }
     }
@@ -815,8 +831,6 @@ function Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
                 ratingColumn:SetIconByRating(nil)
             end
 
-            local tooltipText = matchHistory:GetTooltipText()
-
             if matchHistory.isSoloShuffle then
                 winColumn:SetShuffleWins((matchHistory.player.scoreData.stats and matchHistory.player.scoreData.stats[1].pvpStatValue) or
                     0)
@@ -827,7 +841,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
             row.tooltipOptions = {
                 anchor = "ANCHOR_CURSOR",
                 owner = row.frame,
-                text = f.white(tooltipText),
+                frame = matchHistory:FillTooltipFrame(),
             }
         end)
     end
