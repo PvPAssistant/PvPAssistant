@@ -110,13 +110,14 @@ function Arenalogs.MAIN:ADDON_LOADED(addon_name)
 		return
 	end
 	Arenalogs.MAIN:Init()
-	Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 end
 
 function Arenalogs.MAIN:PLAYER_ENTERING_WORLD()
 	Arenalogs.SPEC_LOOKUP:Init()
 
 	Arenalogs.PVPINFO.FRAMES:UpdateDisplay()
+
+	Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 
 	Arenalogs.MAIN.enableCombatLog = false
 end
