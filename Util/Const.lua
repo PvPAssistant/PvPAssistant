@@ -6,7 +6,7 @@ Arenalogs.CONST = {}
 
 local f = Arenalogs.GUTIL:GetFormatter()
 
-local classColors = {
+classColors = {
 	["HUNTER"] = "|cffaad372",
 	["WARRIOR"] = "|cffc69b6d",
 	["PALADIN"] = "|cfff48cba",
@@ -20,8 +20,6 @@ local classColors = {
 	["MONK"] = "|cff00ff96",
 	["ROGUE"] = "|cfffff468",
 	["EVOKER"] = "|cff33937f",
-	
-	
 }
 
 Arenalogs.CONST.NEWS =

@@ -20,7 +20,7 @@ function Arenalogs.MAIN_FRAME:GetSelectedModeFilter()
 
     return mainFrame.content.matchHistoryTab.content.pvpModeDropdown.selectedValue
 end
-
+--[[
 ---@return Arenalogs.Const.DisplayTeams displayTeams
 function Arenalogs.MAIN_FRAME:GetDisplayTeam()
     local mainFrame = Arenalogs.MAIN_FRAME.frame
@@ -30,6 +30,7 @@ function Arenalogs.MAIN_FRAME:GetDisplayTeam()
 
     return mainFrame.content.matchHistoryTab.content.teamDisplayDropdown.selectedValue
 end
+]]--
 
 ---@return character history based on selection FrameOptions? characterDropdown
 function Arenalogs.MAIN_FRAME:GetCharacterFilter()

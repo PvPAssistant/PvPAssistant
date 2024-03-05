@@ -406,7 +406,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
 
 	local dropdownSizeY = 25
 	local dropdownScale = 1
-
+--[[
 	matchHistoryTab.content.teamDisplayDropdown = GGUI.CustomDropdown {
 		parent = matchHistoryTab.content, anchorParent = abilitiesTab.button.frame,
 		anchorA = "LEFT", anchorB = "RIGHT", width = 110, offsetX = 10,
@@ -440,9 +440,9 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
 			scale = dropdownScale,
 		}
 	}
-
+]]--
 	matchHistoryTab.content.pvpModeDropdown = GGUI.CustomDropdown {
-		parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.teamDisplayDropdown.frame.frame,
+		parent = matchHistoryTab.content, anchorParent = abilitiesTab.button.frame,
 		anchorA = "LEFT", anchorB = "RIGHT", width = 70, offsetX = 10,
 		initialData = {
 			{
@@ -489,11 +489,11 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
 
 	matchHistoryTab.content.characterDropdown = GGUI.CustomDropdown {
 		---parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.teamDisplayDropdown.frame.frame.frame,
-		parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.teamDisplayDropdown.frame.frame,
-		anchorA = "LEFT", anchorB = "RIGHT", width = 70, offsetX = 10,
+		parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.pvpModeDropdown.frame.frame,
+		anchorA = "LEFT", anchorB = "RIGHT", width = 180, offsetX = 10,
 		initialData = PopulateDropdownChar(),
-		initialLabel = GUTIL:ColorizeText("xAll", GUTIL.COLORS.WHITE),
-		initialValue = nil,
+		initialLabel = GetCurrentPlayer(),
+		initialValue = GetCurrentPlayer(),
 		clickCallback = function(self, label, value)
 			Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 		end,
@@ -517,13 +517,30 @@ end
 
 function GetPlayerClass(characterName)
     local fullName = characterName
-    local _, class, _, _, _, _, _ = GetCharacterInfoByName(fullName)
-    return string.upper(class)
+	--- GetPlayerUIDByUnit("player")
+    local class, engClass, locRace, engRace, gender, name, server = GetPlayerInfoByGUID("guid")
+	local unit = fullName
+    ---local _, class = UnitClass(unit)
+	local class, classFilename, classID = UnitClass( GetPlayerUIDByUnit("player") )
+
+    return class
+end
+function GetCurrentPlayer()
+	local guid = UnitGUID("player")
+	print("guid:["..guid.."]")
+	local class, classFilename, race, raceFilename, sex, name, realm = GetPlayerInfoByGUID( guid )
+	realmm = GetRealmName()
+    local label = name.."-"..realmm ---GetClassColor(class, character)
+	---GUTIL.CLASS_COLORS
+	return GUTIL:ColorizeText(label, GUTIL.CLASS_COLORS[string.upper(class)])
 end
 
-function GetClassColor(class)
-	local classColor = RAID_CLASS_COLORS[class]
-	return string.format("|c%s", classColor.colorStr)
+function GetPlayerClassColor()
+	class, classFileName, classIndex = UnitClass("player")
+	print("class:"..class)
+	local classColor = classColors[class]
+	--return string.format("|c%s", classColor.colorStr)
+	return ''---format("%s%s", classColor, name)
 end
 
 function PopulateDropdownChar()
@@ -536,8 +553,9 @@ function PopulateDropdownChar()
 
     if ArenalogsDB and ArenalogsDB.matchHistory and ArenalogsDB.matchHistory.data then
         for character, _ in pairs(ArenalogsDB.matchHistory.data) do
-			local class = GetPlayerClass(character)
-            local label = GUTIL:ColorizeText(character, GUTIL.CLASS_COLORS[class])
+			---class = GetPlayerClass(character)
+			---print("Hello, world! ".. class .."")
+            local label = character ---GetClassColor(class, character)
             table.insert(dropdownList, {
                 label = label,
                 value = character,
@@ -719,7 +737,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 	matchHistoryTab.content.matchHistoryList:Remove()
 
 	local pvpModeFilter = Arenalogs.MAIN_FRAME:GetSelectedModeFilter()
-	local displayedTeam = Arenalogs.MAIN_FRAME:GetDisplayTeam()
+	--local displayedTeam = Arenalogs.MAIN_FRAME:GetDisplayTeam()
 	local displayedCharacter = Arenalogs.MAIN_FRAME:GetCharacterFilter()
 
 	local playerUID = Arenalogs.UTIL:GetPlayerUIDByUnit("player")
