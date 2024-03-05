@@ -17,7 +17,7 @@ function Arenalogs.UTIL:FormatDamageNumber(number)
         return GUTIL:Round(number / 1000000, 2) .. "M"
     end
     if number >= 1000 then
-        return GUTIL:Round(number / 1000, 2) .. "K"
+        return GUTIL:Round(number / 1000) .. "K"
     end
 
     return tostring(number)
