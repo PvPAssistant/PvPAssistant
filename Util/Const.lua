@@ -13,7 +13,7 @@ Arenalogs.CONST.NEWS =
     f.white("- Added ArenaGuide Enable Option\n") ..
     f.white("- Added new Tooltip for Match History\n") ..
     f.white("- Reworked Player Tooltip\n") ..
-    f.white("- Added more Abilities to the Catalogue\n") .. 
+    f.white("- Added more Abilities to the Catalogue\n") ..
     f.bb("\nNeeds Testing:\n") ..
     f.white("- Solo Shuffle Match History\n") ..
     f.white("- Battleground Match History\n") ..
@@ -419,5 +419,4 @@ Arenalogs.CONST.PVP_SEVERITY_RANK = {
 
 Arenalogs.CONST.MAP_ABBREVIATIONS = {
 
-}
 }
