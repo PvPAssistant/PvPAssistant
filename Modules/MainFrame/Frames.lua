@@ -629,7 +629,8 @@ function GetCurrentPlayer()
 	realmm = GetRealmName()
     local label = name.."-"..realmm ---GetClassColor(class, character)
 	---GUTIL.CLASS_COLORS
-	return GUTIL:ColorizeText(label, GUTIL.CLASS_COLORS[string.upper(class)])
+	---return GUTIL:ColorizeText(label, GUTIL.CLASS_COLORS[string.upper(class)])
+	return format("|c%s%s", RAID_CLASS_COLORS[string.upper(class)].colorStr, label) --GUTIL:ColorizeText(label, RAID_CLASS_COLORS[string.upper(class)])
 end
 
 function GetPlayerClassColor()
