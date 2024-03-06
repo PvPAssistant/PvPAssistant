@@ -5,7 +5,7 @@
 ## Notes: TBD
 ## Author: genjuwow
 ## X-Curse-Project-ID: 955365
-## X-Wago-ID: 
+## X-Wago-ID: vNAex9No
 ## X-WoWI-ID: 
 ## IconTexture: Interface\Addons\Arenalogs\Media\Images\logo1024
 ## SavedVariables: ArenalogsDB, ArenalogsGGUIConfig, ArenalogsOptions, ArenalogsLibIconDB
