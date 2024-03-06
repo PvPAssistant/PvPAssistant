@@ -11,7 +11,7 @@
 ## SavedVariables: ArenalogsDB, ArenalogsGGUIConfig, ArenalogsOptions, ArenalogsLibIconDB
 ## Dependencies: Blizzard_PVPUI, Blizzard_InspectUI
 ## OptionalDeps: DevTool
-## Version: 0.1.2
+## Version: 0.1.3
 
 embeds.xml
 Libs/Libs.lua   
