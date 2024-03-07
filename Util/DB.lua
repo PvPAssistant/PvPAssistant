@@ -14,6 +14,15 @@ Arenalogs.DB.MATCH_HISTORY = {}
 ---@class Arenalogs.DB.DEBUG
 Arenalogs.DB.DEBUG = {}
 
+---@class Arenalogs.DB.TOOLTIP_OPTIONS
+Arenalogs.DB.TOOLTIP_OPTIONS = {}
+
+---@class Arenalogs.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP
+Arenalogs.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP = {}
+
+---@class Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP
+Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP = {}
+
 ---@alias PlayerUID string -- PlayerName-NormalizedServerName
 
 ---@class Arenalogs.PlayerTooltipData.ModeData
@@ -32,6 +41,7 @@ Arenalogs.DB.PLAYER_DATA = {}
 ---@field matchHistory ArenalogsDB.Database
 ---@field playerData ArenalogsDB.Database
 ---@field debugData ArenalogsDB.Database
+---@field tooltipOptions ArenalogsDB.Database
 ArenalogsDB = ArenalogsDB or {}
 
 function Arenalogs.DB:Init()
@@ -56,6 +66,29 @@ function Arenalogs.DB:Init()
             version = 1,
             ---@type any
             data = {}
+        }
+    end
+
+    if not ArenalogsDB.tooltipOptions then
+        ArenalogsDB.tooltipOptions = {
+            version = 1,
+            data = {
+                playerTooltip = {
+                    enabled = true,
+                    [Arenalogs.CONST.PVP_MODES.TWOS] = true,
+                    [Arenalogs.CONST.PVP_MODES.THREES] = true,
+                    [Arenalogs.CONST.PVP_MODES.SOLO_SHUFFLE] = true,
+                    [Arenalogs.CONST.PVP_MODES.BATTLEGROUND] = true,
+                },
+                spellTooltip = {
+                    enabled = true,
+                    [Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.TYPE] = true,
+                    [Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.SUBTYPE] = true,
+                    [Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.PVP_SEVERITY] = true,
+                    [Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.PVP_DURATION] = true,
+                    [Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.ADDITIONAL_DATA] = true,
+                },
+            },
         }
     end
 
@@ -118,4 +151,41 @@ end
 ---@return table[]
 function Arenalogs.DB.DEBUG:Get()
     return ArenalogsDB.debugData.data
+end
+
+function Arenalogs.DB.TOOLTIP_OPTIONS:Clear()
+    wipe(ArenalogsDB.tooltipOptions.data.playerTooltip)
+    wipe(ArenalogsDB.tooltipOptions.data.spellTooltip)
+end
+
+function Arenalogs.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Clear()
+    wipe(ArenalogsDB.tooltipOptions.data.playerTooltip)
+end
+
+function Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Clear()
+    wipe(ArenalogsDB.tooltipOptions.data.spellTooltip)
+end
+
+---@param mode Arenalogs.Const.PVPModes
+---@return boolean enabled
+function Arenalogs.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Get(mode)
+    return ArenalogsDB.tooltipOptions.data.playerTooltip[mode]
+end
+
+---@param mode
+---@return boolean enabled
+function Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Get(mode)
+    return ArenalogsDB.tooltipOptions.data.spellTooltip[mode]
+end
+
+---@return boolean enabled
+function Arenalogs.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:IsEnabled()
+    return ArenalogsDB.tooltipOptions.data.playerTooltip.enabled == nil or
+        ArenalogsDB.tooltipOptions.data.playerTooltip.enabled
+end
+
+---@return boolean enabled
+function Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:IsEnabled()
+    return ArenalogsDB.tooltipOptions.data.spellTooltip.enabled == nil or
+        ArenalogsDB.tooltipOptions.data.spellTooltip.enabled
 end

@@ -14,6 +14,8 @@ Arenalogs.PLAYER_TOOLTIP.inspectPlayerUID = nil
 Arenalogs.PLAYER_TOOLTIP.cached = false
 function Arenalogs.PLAYER_TOOLTIP:Init()
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, function(_, data)
+        local tooltipEnabled = Arenalogs.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:IsEnabled()
+        if not tooltipEnabled then return end
         local unit = select(2, GameTooltip:GetUnit())
         if unit and UnitIsPlayer(unit) then
             Arenalogs.PLAYER_TOOLTIP.inspectPlayerUID = Arenalogs.UTIL:GetPlayerUIDByUnit(unit)
@@ -67,8 +69,11 @@ function Arenalogs.PLAYER_TOOLTIP:UpdatePlayerTooltipByInspectData(unit, pvpData
         local weeklyLost = (bracketData.weeklyPlayed or 0) - weeklyWon
         local rating = bracketData.rating or 0
 
-        GameTooltip:AddDoubleLine(f.white(tostring(Arenalogs.CONST.PVP_MODES_NAMES[mode])),
-            Arenalogs.UTIL:ColorByRating(tostring(rating), rating))
+        local isEnabled = Arenalogs.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Get(mode)
+        if isEnabled then
+            GameTooltip:AddDoubleLine(f.white(tostring(Arenalogs.CONST.PVP_MODES_NAMES[mode])),
+                Arenalogs.UTIL:ColorByRating(tostring(rating), rating))
+        end
     end
 
     GameTooltip:Show()
