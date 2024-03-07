@@ -7,13 +7,8 @@ Arenalogs.CONST = {}
 local f = Arenalogs.GUTIL:GetFormatter()
 
 Arenalogs.CONST.NEWS =
-    f.r("(This update wiped the Match History)\n") ..
     f.l("\nPatch Notes:\n") ..
-    f.white("- Added Options Panel\n") ..
-    f.white("- Added ArenaGuide Enable Option\n") ..
-    f.white("- Added new Tooltip for Match History\n") ..
-    f.white("- Reworked Player Tooltip\n") ..
-    f.white("- Added more Abilities to the Catalogue\n") ..
+    f.white("- Added Tooltip Options\n") ..
     f.bb("\nNeeds Testing:\n") ..
     f.white("- Solo Shuffle Match History\n") ..
     f.white("- Battleground Match History\n") ..
@@ -72,7 +67,21 @@ Arenalogs.CONST.BACKDROPS = {
             0.176,
             1,
         },
-    }
+    },
+    TOOLTIP_PREVIEW = {
+        backdropInfo = {
+            bgFile = "Interface/addons/Arenalogs/Media/Backgrounds/bgRoundedWhite1024",
+            edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+            edgeSize = 16,
+            insets = { left = 0, right = 0, top = 0, bottom = 0 },
+        },
+        backdropRGBA = {
+            0,
+            0,
+            0.7,
+            0.2,
+        },
+    },
 }
 
 ---@type GGUI.BackdropOptions
@@ -419,4 +428,13 @@ Arenalogs.CONST.PVP_SEVERITY_RANK = {
 
 Arenalogs.CONST.MAP_ABBREVIATIONS = {
 
+}
+
+---@enum Arenalogs.OPTIONS.SPELL_TOOLTIP.KEYS
+Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS = {
+    TYPE = "TYPE",
+    SUBTYPE = "SUBTYPE",
+    PVP_SEVERITY = "PVP_SEVERITY",
+    PVP_DURATION = "PVP_DURATION",
+    ADDITIONAL_DATA = "ADDITIONAL_DATA",
 }
