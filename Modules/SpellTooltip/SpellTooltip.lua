@@ -12,6 +12,8 @@ Arenalogs.SPELL_TOOLTIP.tooltipFrame = nil
 Arenalogs.SPELL_TOOLTIP.inspectPlayerUID = nil
 function Arenalogs.SPELL_TOOLTIP:Init()
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell, function()
+        local tooltipEnabled = Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:IsEnabled()
+        if not tooltipEnabled then return end
         local _, spellID = GameTooltip:GetSpell()
         if spellID then
             local abilityData = Arenalogs.ABILITIES:GetSpellByID(spellID)
@@ -21,6 +23,8 @@ function Arenalogs.SPELL_TOOLTIP:Init()
         end
     end)
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Macro, function(_, data)
+        local tooltipEnabled = Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:IsEnabled()
+        if not tooltipEnabled then return end
         -- get spellID from tooltip data instead of GetSpell method
         local spellID = nil
         if data.lines[1].type == 19 and data.lines[1].tooltipType == 1 then
@@ -39,14 +43,15 @@ end
 function Arenalogs.SPELL_TOOLTIP:UpdateSpellTooltipByAbilityData(abilityData)
     GameTooltip:AddLine(Arenalogs.MEDIA:GetAsTextIcon(Arenalogs.MEDIA.IMAGES.LOGO_1024, 0.028 * 0.5) ..
         f.l(" Arenalogs"))
-    if abilityData.abilityType then
+
+    if abilityData.abilityType and Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Get(Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.TYPE) then
         GameTooltip:AddDoubleLine(f.white("Type: "), f.l(abilityData.abilityType))
     end
-    if abilityData.subType then
+    if abilityData.subType and Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Get(Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.SUBTYPE) then
         GameTooltip:AddDoubleLine(f.white("Subtype: "), f.whisper(abilityData.subType))
     end
 
-    if abilityData.severity then
+    if abilityData.severity and Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Get(Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.PVP_SEVERITY) then
         if abilityData.severity == Arenalogs.CONST.PVP_SEVERITY.HIGH then
             GameTooltip:AddDoubleLine(f.white("PvP Severity: "), f.r(abilityData.severity))
         elseif abilityData.severity == Arenalogs.CONST.PVP_SEVERITY.MEDIUM then
@@ -56,11 +61,11 @@ function Arenalogs.SPELL_TOOLTIP:UpdateSpellTooltipByAbilityData(abilityData)
         end
     end
 
-    if abilityData.duration then
+    if abilityData.duration and Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Get(Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.PVP_DURATION) then
         GameTooltip:AddDoubleLine(f.white("PvP Duration: "), f.white(abilityData.duration .. " Seconds"))
     end
 
-    if abilityData.additionalData then
+    if abilityData.additionalData and Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Get(Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.ADDITIONAL_DATA) then
         for description, value in pairs(abilityData.additionalData) do
             GameTooltip:AddDoubleLine(f.white(description .. ": "), value)
         end
