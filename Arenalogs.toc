@@ -2,7 +2,7 @@
 ## DefaultState: enabled
 
 ## Title: Arenalogs
-## Notes: TBD
+## Notes: Arena Guides, History and more!
 ## Author: genjuwow
 ## X-Curse-Project-ID: 955365
 ## X-Wago-ID: vNAex9No

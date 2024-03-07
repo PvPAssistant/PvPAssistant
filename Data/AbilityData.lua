@@ -153,7 +153,7 @@ Arenalogs.ABILITY_DATA = {
                 spellID = 853, -- Hammer of Justice
                 abilityType = TYPES.CC,
                 subType = SUB_TYPES.STUN,
-                duration = 3,
+                duration = 6,
                 severity = SEVERITY.HIGH,
             },
             {
