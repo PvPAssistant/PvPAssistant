@@ -124,6 +124,13 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
         }
     }
 
+    frame.content.discordButton = GGUI.Button {
+        parent = frame.content, anchorPoints = { { anchorParent = frame.content.abilitiesTab.button.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = 20, } },
+        buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+        label = Arenalogs.MEDIA:GetAsTextIcon(Arenalogs.MEDIA.IMAGES.DISCORD_ICON_WHITE, 0.1),
+        sizeX = 25, sizeY = 25,
+    }
+
     ---@class Arenalogs.MAIN_FRAME.OPTIONS_TAB.CONTENT
     frame.content.optionsTab.content = frame.content.optionsTab.content
     local optionsTab = frame.content.optionsTab
@@ -270,12 +277,12 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     local columnOptions = {
         {
             width = 20,
-            justifyOptions = { type = "H", align = "CENTER" },
+            justifyOptions = { type = "H", align = "LEFT" },
         },
         {
             label = GUTIL:ColorizeText("Date", GUTIL.COLORS.GREY),
             width = 135,
-            justifyOptions = { type = "H", align = "CENTER" },
+            justifyOptions = { type = "H", align = "LEFT" },
         },
         {
             label = GUTIL:ColorizeText("Map", GUTIL.COLORS.GREY),
@@ -505,8 +512,8 @@ function Arenalogs.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     local dropdownScale = 1
 
     matchHistoryTab.content.teamDisplayDropdown = GGUI.CustomDropdown {
-        parent = matchHistoryTab.content, anchorParent = abilitiesTab.button.frame,
-        anchorA = "LEFT", anchorB = "RIGHT", width = 110, offsetX = 10,
+        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.matchHistoryList.frame,
+        anchorA = "BOTTOMLEFT", anchorB = "TOPLEFT", width = 110, offsetX = 25, offsetY = 30,
         initialData = {
             {
                 label = GUTIL:ColorizeText("Enemy Team", GUTIL.COLORS.WHITE),
