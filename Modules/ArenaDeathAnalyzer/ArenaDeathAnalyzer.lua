@@ -6,7 +6,8 @@ local GUTIL = Arenalogs.GUTIL
 local debug = Arenalogs.DEBUG:GetDebugPrint()
 
 ---@class Arenalogs.ArenaDeathAnalyzer : Frame
-Arenalogs.ARENA_DEATH_ANALYZER = GUTIL:CreateRegistreeForEvents({ "GROUP_ROSTER_UPDATE", "ARENA_PREP_OPPONENT_SPECIALIZATIONS",
+Arenalogs.ARENA_DEATH_ANALYZER = GUTIL:CreateRegistreeForEvents({ "GROUP_ROSTER_UPDATE",
+    "ARENA_PREP_OPPONENT_SPECIALIZATIONS",
     "PLAYER_JOINED_PVP_MATCH", "PVP_MATCH_STATE_CHANGED" })
 
 ---@type GGUI.Frame
