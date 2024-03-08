@@ -125,10 +125,18 @@ function Arenalogs.MAIN_FRAME.FRAMES:Init()
     }
 
     frame.content.discordButton = GGUI.Button {
-        parent = frame.content, anchorPoints = { { anchorParent = frame.content.abilitiesTab.button.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = 20, } },
-        buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.TAB_BUTTON,
-        label = Arenalogs.MEDIA:GetAsTextIcon(Arenalogs.MEDIA.IMAGES.DISCORD_ICON_WHITE, 0.1),
-        sizeX = 25, sizeY = 25,
+        parent = frame.content, anchorPoints = { { anchorParent = frame.content.optionsTab.button.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -6, } },
+        buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.DISCORD_BUTTON,
+        cleanTemplate = true,
+        sizeX = 20, sizeY = 20,
+        clickCallback = function()
+            GGUI:ShowPopup {
+                copyText = Arenalogs.CONST.DISCORD_INVITE,
+                parent = frame.content, anchorParent = frame.content.discordButton.frame,
+                title = "Join our Discord!", sizeX = 250, sizeY = 100,
+                okButtonLabel = f.white("Ok"),
+            }
+        end
     }
 
     ---@class Arenalogs.MAIN_FRAME.OPTIONS_TAB.CONTENT

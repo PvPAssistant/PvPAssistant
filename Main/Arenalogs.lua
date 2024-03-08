@@ -54,6 +54,15 @@ function Arenalogs.MAIN:Init()
 	Arenalogs:InitializeMinimapButton()
 	Arenalogs.PLAYER_TOOLTIP:Init()
 	Arenalogs.SPELL_TOOLTIP:Init()
+	Arenalogs.GGUI:InitializePopup {
+		backdropOptions = Arenalogs.CONST.MAIN_FRAME_BACKDROP,
+		sizeX = 150, sizeY = 100,
+		buttonTextureOptions = Arenalogs.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+		buttonFontOptions = {
+			fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
+		},
+		hideCloseButton = true,
+	}
 
 	-- restore frame positions
 	Arenalogs.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
