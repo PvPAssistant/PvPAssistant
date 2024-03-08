@@ -28,5 +28,5 @@ Arenalogs.MEDIA.IMAGES = {
     GLADIATOR = { file = "rank7.blp", dimensions = { x = 256, y = 256 } },
     RED_DOT = { file = "redDot.blp", dimensions = { x = 64, y = 64 } },
     GREEN_DOT = { file = "greenDot.blp", dimensions = { x = 64, y = 64 } },
-    OPTIONS_ICON = { file = "Options.blp", dimensions = { x = 256, y = 256 } },
+    DISCORD_ICON_WHITE = { file = "Discord.blp", dimensions = { x = 256, y = 256 } },
 }

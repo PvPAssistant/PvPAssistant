@@ -15,6 +15,8 @@ Arenalogs.CONST.NEWS =
     f.g("\nNeeds Data:\n") ..
     f.white("- Arena Quick Guide Strategies")
 
+Arenalogs.CONST.DISCORD_INVITE = "https://discord.gg/BvZzctWZZ3"
+
 ---@enum Arenalogs.Const.Frames
 Arenalogs.CONST.FRAMES = {
     NEWS = "NEWS",
@@ -253,6 +255,14 @@ Arenalogs.CONST.RATING_ICON_MAP = {
 Arenalogs.CONST.ASSETS = {
 
     BUTTONS = {
+        ---@type GGUI.ButtonTextureOptions
+        DISCORD_BUTTON = {
+            normal = 'Interface/addons/Arenalogs/Media/Buttons/DiscordButton/DiscordButton',
+            disabled = 'Interface/addons/Arenalogs/Media/Buttons/DiscordButton/DiscordButton',
+            highlight = 'Interface/addons/Arenalogs/Media/Buttons/DiscordButton/DiscordButton',
+            pushed = 'Interface/addons/Arenalogs/Media/Buttons/DiscordButton/DiscordButton',
+            isAtlas = false,
+        },
         ---@type GGUI.ButtonTextureOptions
         TAB_BUTTON = {
             normal = 'Interface/addons/Arenalogs/Media/Buttons/TabButton/TabButtonNormal',
