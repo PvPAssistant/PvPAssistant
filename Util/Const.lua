@@ -8,7 +8,7 @@ local f = Arenalogs.GUTIL:GetFormatter()
 
 Arenalogs.CONST.NEWS =
     f.l("\nPatch Notes:\n") ..
-    f.white("- Added Tooltip Options\n") ..
+    f.white("- Added a neat little") .. f.bb(" Discord") .. f.white(" Button\n") ..
     f.bb("\nNeeds Testing:\n") ..
     f.white("- Solo Shuffle Match History\n") ..
     f.white("- Battleground Match History\n") ..
