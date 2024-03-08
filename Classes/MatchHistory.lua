@@ -357,6 +357,7 @@ function Arenalogs.MatchHistory:FillTooltipFrame()
         end
     end
 
+    playerList:Remove()
     local playerTeamSize = #self.playerTeam.players
     for playerIndex, player in ipairs(GUTIL:Concat { self.playerTeam.players, self.enemyTeam.players }) do
         playerList:Add(function(row, columns)

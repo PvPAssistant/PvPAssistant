@@ -856,7 +856,7 @@ function Arenalogs.MAIN_FRAME.FRAMES:UpdateMatchHistory()
             row.tooltipOptions = {
                 anchor = "ANCHOR_CURSOR",
                 owner = row.frame,
-                frame = matchHistory:FillTooltipFrame(),
+                frame = matchHistory:FillTooltipFrame(), -- TODO: Need a different tooltip frame per row??? otherwise its always the same.. I need to copy it !!! or instead of FILL I need CREATE ? But what about reuseable? better to make a functional frame update on hover..
             }
         end)
     end
