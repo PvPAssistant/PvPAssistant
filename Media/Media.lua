@@ -1,23 +1,23 @@
----@class Arenalogs
-local Arenalogs = select(2, ...)
+---@class PvpAssistant
+local PvpAssistant = select(2, ...)
 
-Arenalogs.MEDIA = {}
+PvpAssistant.MEDIA = {}
 
-Arenalogs.MEDIA.BASE_PATH = "Interface/Addons/Arenalogs/Media/Images/"
+PvpAssistant.MEDIA.BASE_PATH = "Interface/Addons/PvpAssistant/Media/Images/"
 
-function Arenalogs.MEDIA:GetAsTextIcon(image, scale)
-    if tContains(Arenalogs.MEDIA.IMAGES, image) then
+function PvpAssistant.MEDIA:GetAsTextIcon(image, scale)
+    if tContains(PvpAssistant.MEDIA.IMAGES, image) then
         scale = scale or 1
         local width = image.dimensions.x * scale
         local height = image.dimensions.y * scale
 
-        return Arenalogs.GUTIL:IconToText(Arenalogs.MEDIA.BASE_PATH .. image.file, height, width)
+        return PvpAssistant.GUTIL:IconToText(PvpAssistant.MEDIA.BASE_PATH .. image.file, height, width)
     else
         return "<ImageNotFound>"
     end
 end
 
-Arenalogs.MEDIA.IMAGES = {
+PvpAssistant.MEDIA.IMAGES = {
     LOGO_1024 = { file = "logo1024.blp", dimensions = { x = 1024, y = 1024 } },
     RANK1 = { file = "rank1.blp", dimensions = { x = 256, y = 256 } },
     RANK2 = { file = "rank2.blp", dimensions = { x = 256, y = 256 } },
@@ -28,5 +28,5 @@ Arenalogs.MEDIA.IMAGES = {
     GLADIATOR = { file = "rank7.blp", dimensions = { x = 256, y = 256 } },
     RED_DOT = { file = "redDot.blp", dimensions = { x = 64, y = 64 } },
     GREEN_DOT = { file = "greenDot.blp", dimensions = { x = 64, y = 64 } },
-    DISCORD_ICON_WHITE = { file = "Discord.blp", dimensions = { x = 256, y = 256 } },
+    OPTIONS_ICON = { file = "Options.blp", dimensions = { x = 256, y = 256 } },
 }

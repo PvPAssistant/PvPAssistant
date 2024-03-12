@@ -1,17 +1,17 @@
----@class Arenalogs
-local Arenalogs = select(2, ...)
+---@class PvpAssistant
+local PvpAssistant = select(2, ...)
 
-local GUTIL = Arenalogs.GUTIL
+local GUTIL = PvpAssistant.GUTIL
 local f = GUTIL:GetFormatter()
 
----@class Arenalogs.Abilities
-Arenalogs.ABILITIES = {}
+---@class PvpAssistant.Abilities
+PvpAssistant.ABILITIES = {}
 
 ---@param specIDs number[]
----@return table<number, Arenalogs.AbilityData[]>
-function Arenalogs.ABILITIES:GetAbilitiesForSpecs(specIDs)
+---@return table<number, PvpAssistant.AbilityData[]>
+function PvpAssistant.ABILITIES:GetAbilitiesForSpecs(specIDs)
     local abilities = {}
-    for classFile, specList in pairs(Arenalogs.ABILITY_DATA) do
+    for classFile, specList in pairs(PvpAssistant.ABILITY_DATA) do
         for specID, spellList in pairs(specList) do
             if tContains(specIDs, specID) then
                 abilities[specID] = GUTIL:Concat({ spellList, specList[classFile] })
@@ -21,8 +21,8 @@ function Arenalogs.ABILITIES:GetAbilitiesForSpecs(specIDs)
     return abilities
 end
 
-function Arenalogs.ABILITIES:GetSpellByID(spellID)
-    for _, specList in pairs(Arenalogs.ABILITY_DATA) do
+function PvpAssistant.ABILITIES:GetSpellByID(spellID)
+    for _, specList in pairs(PvpAssistant.ABILITY_DATA) do
         for _, spellList in pairs(specList) do
             for _, abilityData in ipairs(spellList) do
                 if abilityData.spellID == spellID then
@@ -33,30 +33,30 @@ function Arenalogs.ABILITIES:GetSpellByID(spellID)
     end
 end
 
-local SPECS = Arenalogs.CONST.SPEC_IDS
-local TYPES = Arenalogs.CONST.ABILITY_TYPES
-local SUB_TYPES = Arenalogs.CONST.ABILITY_SUB_TYPES
-local SEVERITY = Arenalogs.CONST.PVP_SEVERITY
+local SPECS = PvpAssistant.CONST.SPEC_IDS
+local TYPES = PvpAssistant.CONST.ABILITY_TYPES
+local SUB_TYPES = PvpAssistant.CONST.ABILITY_SUB_TYPES
+local SEVERITY = PvpAssistant.CONST.PVP_SEVERITY
 
----@class Arenalogs.AbilityData.UpgradeInfo
+---@class PvpAssistant.AbilityData.UpgradeInfo
 ---@field spellID number
----@field abilityType Arenalogs.AbilityTypes
----@field subType? Arenalogs.AbilitySubTypes
+---@field abilityType PvpAssistant.AbilityTypes
+---@field subType? PvpAssistant.AbilitySubTypes
 ---@field duration? number
----@field severity Arenalogs.PVPSeverity
+---@field severity PvpAssistant.PVPSeverity
 
----@class Arenalogs.AbilityData
+---@class PvpAssistant.AbilityData
 ---@field spellID number
----@field abilityType Arenalogs.AbilityTypes
----@field subType Arenalogs.AbilitySubTypes
+---@field abilityType PvpAssistant.AbilityTypes
+---@field subType PvpAssistant.AbilitySubTypes
 ---@field duration? number
----@field talentUpgrades? Arenalogs.AbilityData.UpgradeInfo[] -- spellID list of potential talent upgrades including severity and subType
+---@field talentUpgrades? PvpAssistant.AbilityData.UpgradeInfo[] -- spellID list of potential talent upgrades including severity and subType
 ---@field passive? boolean
----@field severity Arenalogs.PVPSeverity
+---@field severity PvpAssistant.PVPSeverity
 ---@field additionalData? table<string, string>
 
----@type table<ClassFile, table<Arenalogs.SpecIDs|ClassFile, Arenalogs.AbilityData[]>>
-Arenalogs.ABILITY_DATA = {
+---@type table<ClassFile, table<PvpAssistant.SpecIDs|ClassFile, PvpAssistant.AbilityData[]>>
+PvpAssistant.ABILITY_DATA = {
     WARRIOR = {
         WARRIOR = {
             { -- Thunderstruck

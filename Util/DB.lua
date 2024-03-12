@@ -1,191 +1,191 @@
----@class Arenalogs
-local Arenalogs = select(2, ...)
+---@class PvpAssistant
+local PvpAssistant = select(2, ...)
 
----@class ArenalogsDB.Database
+---@class PvpAssistantDB.Database
 ---@field version number
 ---@field data table
 
----@class Arenalogs.DB
-Arenalogs.DB = {}
+---@class PvpAssistant.DB
+PvpAssistant.DB = {}
 
----@class Arenalogs.DB.MATCH_HISTORY
-Arenalogs.DB.MATCH_HISTORY = {}
+---@class PvpAssistant.DB.MATCH_HISTORY
+PvpAssistant.DB.MATCH_HISTORY = {}
 
----@class Arenalogs.DB.DEBUG
-Arenalogs.DB.DEBUG = {}
+---@class PvpAssistant.DB.DEBUG
+PvpAssistant.DB.DEBUG = {}
 
----@class Arenalogs.DB.TOOLTIP_OPTIONS
-Arenalogs.DB.TOOLTIP_OPTIONS = {}
+---@class PvpAssistant.DB.TOOLTIP_OPTIONS
+PvpAssistant.DB.TOOLTIP_OPTIONS = {}
 
----@class Arenalogs.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP
-Arenalogs.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP = {}
+---@class PvpAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP
+PvpAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP = {}
 
----@class Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP
-Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP = {}
+---@class PvpAssistant.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP
+PvpAssistant.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP = {}
 
 ---@alias PlayerUID string -- PlayerName-NormalizedServerName
 
----@class Arenalogs.PlayerTooltipData.ModeData
+---@class PvpAssistant.PlayerTooltipData.ModeData
 ---@field rating number
 ---@field win number
 ---@field loss number
 ---@field exp number
 
----@class Arenalogs.PlayerTooltipData
----@field ratingData table<Arenalogs.Const.PVPModes, Arenalogs.PlayerTooltipData.ModeData>
+---@class PvpAssistant.PlayerTooltipData
+---@field ratingData table<PvpAssistant.Const.PVPModes, PvpAssistant.PlayerTooltipData.ModeData>
 
----@class Arenalogs.DB.PLAYER_DATA
-Arenalogs.DB.PLAYER_DATA = {}
+---@class PvpAssistant.DB.PLAYER_DATA
+PvpAssistant.DB.PLAYER_DATA = {}
 
----@class ArenalogsDB
----@field matchHistory ArenalogsDB.Database
----@field playerData ArenalogsDB.Database
----@field debugData ArenalogsDB.Database
----@field tooltipOptions ArenalogsDB.Database
-ArenalogsDB = ArenalogsDB or {}
+---@class PvpAssistantDB
+---@field matchHistory PvpAssistantDB.Database
+---@field playerData PvpAssistantDB.Database
+---@field debugData PvpAssistantDB.Database
+---@field tooltipOptions PvpAssistantDB.Database
+PvpAssistantDB = PvpAssistantDB or {}
 
-function Arenalogs.DB:Init()
-    if not ArenalogsDB.matchHistory then
-        ArenalogsDB.matchHistory = {
+function PvpAssistant.DB:Init()
+    if not PvpAssistantDB.matchHistory then
+        PvpAssistantDB.matchHistory = {
             version = 2,
-            ---@type table<PlayerUID, Arenalogs.MatchHistory.Serialized[]>
+            ---@type table<PlayerUID, PvpAssistant.MatchHistory.Serialized[]>
             data = {}
         }
     end
 
-    if not ArenalogsDB.playerData then
-        ArenalogsDB.playerData = {
+    if not PvpAssistantDB.playerData then
+        PvpAssistantDB.playerData = {
             version = 1,
-            ---@type table<PlayerUID, table<Arenalogs.Const.PVPModes, InspectArenaData | InspectPVPData>>
+            ---@type table<PlayerUID, table<PvpAssistant.Const.PVPModes, InspectArenaData | InspectPVPData>>
             data = {}
         }
     end
 
-    if not ArenalogsDB.debugData then
-        ArenalogsDB.debugData = {
+    if not PvpAssistantDB.debugData then
+        PvpAssistantDB.debugData = {
             version = 1,
             ---@type any
             data = {}
         }
     end
 
-    if not ArenalogsDB.tooltipOptions then
-        ArenalogsDB.tooltipOptions = {
+    if not PvpAssistantDB.tooltipOptions then
+        PvpAssistantDB.tooltipOptions = {
             version = 1,
             data = {
                 playerTooltip = {
                     enabled = true,
-                    [Arenalogs.CONST.PVP_MODES.TWOS] = true,
-                    [Arenalogs.CONST.PVP_MODES.THREES] = true,
-                    [Arenalogs.CONST.PVP_MODES.SOLO_SHUFFLE] = true,
-                    [Arenalogs.CONST.PVP_MODES.BATTLEGROUND] = true,
+                    [PvpAssistant.CONST.PVP_MODES.TWOS] = true,
+                    [PvpAssistant.CONST.PVP_MODES.THREES] = true,
+                    [PvpAssistant.CONST.PVP_MODES.SOLO_SHUFFLE] = true,
+                    [PvpAssistant.CONST.PVP_MODES.BATTLEGROUND] = true,
                 },
                 spellTooltip = {
                     enabled = true,
-                    [Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.TYPE] = true,
-                    [Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.SUBTYPE] = true,
-                    [Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.PVP_SEVERITY] = true,
-                    [Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.PVP_DURATION] = true,
-                    [Arenalogs.CONST.SPELL_TOOLTIP_OPTIONS.ADDITIONAL_DATA] = true,
+                    [PvpAssistant.CONST.SPELL_TOOLTIP_OPTIONS.TYPE] = true,
+                    [PvpAssistant.CONST.SPELL_TOOLTIP_OPTIONS.SUBTYPE] = true,
+                    [PvpAssistant.CONST.SPELL_TOOLTIP_OPTIONS.PVP_SEVERITY] = true,
+                    [PvpAssistant.CONST.SPELL_TOOLTIP_OPTIONS.PVP_DURATION] = true,
+                    [PvpAssistant.CONST.SPELL_TOOLTIP_OPTIONS.ADDITIONAL_DATA] = true,
                 },
             },
         }
     end
 
 
-    Arenalogs.DB:HandleMigrations()
+    PvpAssistant.DB:HandleMigrations()
 end
 
-function Arenalogs.DB:HandleMigrations()
+function PvpAssistant.DB:HandleMigrations()
     self.MATCH_HISTORY:HandleMigrations()
 end
 
-function Arenalogs.DB.MATCH_HISTORY:HandleMigrations()
+function PvpAssistant.DB.MATCH_HISTORY:HandleMigrations()
     -- sub 1 -> 2 Just wipe
-    if ArenalogsDB.matchHistory.version <= 1 then
+    if PvpAssistantDB.matchHistory.version <= 1 then
         self:Clear()
-        ArenalogsDB.matchHistory.version = 2
+        PvpAssistantDB.matchHistory.version = 2
     end
 end
 
 ---@param playerUID PlayerUID
----@return Arenalogs.MatchHistory.Serialized[]
-function Arenalogs.DB.MATCH_HISTORY:Get(playerUID)
-    ArenalogsDB.matchHistory.data[playerUID] = ArenalogsDB.matchHistory.data[playerUID] or {}
-    return ArenalogsDB.matchHistory.data[playerUID]
+---@return PvpAssistant.MatchHistory.Serialized[]
+function PvpAssistant.DB.MATCH_HISTORY:Get(playerUID)
+    PvpAssistantDB.matchHistory.data[playerUID] = PvpAssistantDB.matchHistory.data[playerUID] or {}
+    return PvpAssistantDB.matchHistory.data[playerUID]
 end
 
----@param matchHistory Arenalogs.MatchHistory
+---@param matchHistory PvpAssistant.MatchHistory
 ---@param playerUID PlayerUID?
-function Arenalogs.DB.MATCH_HISTORY:Save(matchHistory, playerUID)
-    playerUID = playerUID or Arenalogs.UTIL:GetPlayerUIDByUnit("player")
-    ArenalogsDB.matchHistory.data[playerUID] = ArenalogsDB.matchHistory.data[playerUID] or {}
-    tinsert(ArenalogsDB.matchHistory.data[playerUID], matchHistory:Serialize())
+function PvpAssistant.DB.MATCH_HISTORY:Save(matchHistory, playerUID)
+    playerUID = playerUID or PvpAssistant.UTIL:GetPlayerUIDByUnit("player")
+    PvpAssistantDB.matchHistory.data[playerUID] = PvpAssistantDB.matchHistory.data[playerUID] or {}
+    tinsert(PvpAssistantDB.matchHistory.data[playerUID], matchHistory:Serialize())
 end
 
-function Arenalogs.DB.MATCH_HISTORY:Clear()
-    wipe(ArenalogsDB.matchHistory.data)
-end
-
----@param playerUID PlayerUID
----@return table<Arenalogs.Const.PVPModes, InspectArenaData | InspectPVPData>?
-function Arenalogs.DB.PLAYER_DATA:Get(playerUID)
-    return ArenalogsDB.playerData.data[playerUID]
+function PvpAssistant.DB.MATCH_HISTORY:Clear()
+    wipe(PvpAssistantDB.matchHistory.data)
 end
 
 ---@param playerUID PlayerUID
----@param playerPvPData table<Arenalogs.Const.PVPModes, InspectArenaData | InspectPVPData>
-function Arenalogs.DB.PLAYER_DATA:Save(playerUID, playerPvPData)
-    ArenalogsDB.playerData.data[playerUID] = playerPvPData
+---@return table<PvpAssistant.Const.PVPModes, InspectArenaData | InspectPVPData>?
+function PvpAssistant.DB.PLAYER_DATA:Get(playerUID)
+    return PvpAssistantDB.playerData.data[playerUID]
 end
 
-function Arenalogs.DB.PLAYER_DATA:Clear()
-    wipe(ArenalogsDB.playerData.data)
+---@param playerUID PlayerUID
+---@param playerPvPData table<PvpAssistant.Const.PVPModes, InspectArenaData | InspectPVPData>
+function PvpAssistant.DB.PLAYER_DATA:Save(playerUID, playerPvPData)
+    PvpAssistantDB.playerData.data[playerUID] = playerPvPData
+end
+
+function PvpAssistant.DB.PLAYER_DATA:Clear()
+    wipe(PvpAssistantDB.playerData.data)
 end
 
 ---@param data table
-function Arenalogs.DB.DEBUG:Add(data)
-    tinsert(ArenalogsDB.debugData.data, data)
+function PvpAssistant.DB.DEBUG:Add(data)
+    tinsert(PvpAssistantDB.debugData.data, data)
 end
 
 ---@return table[]
-function Arenalogs.DB.DEBUG:Get()
-    return ArenalogsDB.debugData.data
+function PvpAssistant.DB.DEBUG:Get()
+    return PvpAssistantDB.debugData.data
 end
 
-function Arenalogs.DB.TOOLTIP_OPTIONS:Clear()
-    wipe(ArenalogsDB.tooltipOptions.data.playerTooltip)
-    wipe(ArenalogsDB.tooltipOptions.data.spellTooltip)
+function PvpAssistant.DB.TOOLTIP_OPTIONS:Clear()
+    wipe(PvpAssistantDB.tooltipOptions.data.playerTooltip)
+    wipe(PvpAssistantDB.tooltipOptions.data.spellTooltip)
 end
 
-function Arenalogs.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Clear()
-    wipe(ArenalogsDB.tooltipOptions.data.playerTooltip)
+function PvpAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Clear()
+    wipe(PvpAssistantDB.tooltipOptions.data.playerTooltip)
 end
 
-function Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Clear()
-    wipe(ArenalogsDB.tooltipOptions.data.spellTooltip)
+function PvpAssistant.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Clear()
+    wipe(PvpAssistantDB.tooltipOptions.data.spellTooltip)
 end
 
----@param mode Arenalogs.Const.PVPModes
+---@param mode PvpAssistant.Const.PVPModes
 ---@return boolean enabled
-function Arenalogs.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Get(mode)
-    return ArenalogsDB.tooltipOptions.data.playerTooltip[mode]
+function PvpAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Get(mode)
+    return PvpAssistantDB.tooltipOptions.data.playerTooltip[mode]
 end
 
 ---@param mode
 ---@return boolean enabled
-function Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Get(mode)
-    return ArenalogsDB.tooltipOptions.data.spellTooltip[mode]
+function PvpAssistant.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Get(mode)
+    return PvpAssistantDB.tooltipOptions.data.spellTooltip[mode]
 end
 
 ---@return boolean enabled
-function Arenalogs.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:IsEnabled()
-    return ArenalogsDB.tooltipOptions.data.playerTooltip.enabled == nil or
-        ArenalogsDB.tooltipOptions.data.playerTooltip.enabled
+function PvpAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:IsEnabled()
+    return PvpAssistantDB.tooltipOptions.data.playerTooltip.enabled == nil or
+        PvpAssistantDB.tooltipOptions.data.playerTooltip.enabled
 end
 
 ---@return boolean enabled
-function Arenalogs.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:IsEnabled()
-    return ArenalogsDB.tooltipOptions.data.spellTooltip.enabled == nil or
-        ArenalogsDB.tooltipOptions.data.spellTooltip.enabled
+function PvpAssistant.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:IsEnabled()
+    return PvpAssistantDB.tooltipOptions.data.spellTooltip.enabled == nil or
+        PvpAssistantDB.tooltipOptions.data.spellTooltip.enabled
 end

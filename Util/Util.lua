@@ -1,15 +1,15 @@
----@class Arenalogs
-local Arenalogs = select(2, ...)
+---@class PvpAssistant
+local PvpAssistant = select(2, ...)
 
-local GGUI = Arenalogs.GGUI
-local GUTIL = Arenalogs.GUTIL
+local GGUI = PvpAssistant.GGUI
+local GUTIL = PvpAssistant.GUTIL
 local f = GUTIL:GetFormatter()
 
----@class Arenalogs.Util
-Arenalogs.UTIL = {}
+---@class PvpAssistant.Util
+PvpAssistant.UTIL = {}
 
 --- also for healing
-function Arenalogs.UTIL:FormatDamageNumber(number)
+function PvpAssistant.UTIL:FormatDamageNumber(number)
     if number >= 1000000000 then
         return GUTIL:Round(number / 1000000000, 2) .. "B"
     end
@@ -25,7 +25,7 @@ end
 
 ---@param text string
 ---@param rating number
-function Arenalogs.UTIL:ColorByRating(text, rating)
+function PvpAssistant.UTIL:ColorByRating(text, rating)
     if rating >= 2200 then
         return f.l(text)
     elseif rating >= 1800 then
@@ -37,7 +37,7 @@ end
 
 ---@param unit UnitId
 ---@return PlayerUID playerUID
-function Arenalogs.UTIL:GetPlayerUIDByUnit(unit)
+function PvpAssistant.UTIL:GetPlayerUIDByUnit(unit)
     local playerName, playerRealm = UnitNameUnmodified(unit)
     playerRealm = playerRealm or GetNormalizedRealmName()
 
@@ -46,12 +46,12 @@ end
 
 ---@param unit UnitId
 ---@return number? specializationID
-function Arenalogs.UTIL:GetSpecializationIDByUnit(unit)
+function PvpAssistant.UTIL:GetSpecializationIDByUnit(unit)
     local info = C_TooltipInfo.GetUnit(unit)
 
     for _, line in ipairs(info.lines) do
         local specText = line.leftText
-        local specID = Arenalogs.SPEC_LOOKUP:LookUp(specText)
+        local specID = PvpAssistant.SPEC_LOOKUP:LookUp(specText)
         if specID then
             return specID
         end
@@ -60,8 +60,8 @@ function Arenalogs.UTIL:GetSpecializationIDByUnit(unit)
     return nil
 end
 
-function Arenalogs.UTIL:GetMapAbbreviation(mapName)
-    local custom = Arenalogs.CONST.MAP_ABBREVIATIONS[mapName]
+function PvpAssistant.UTIL:GetMapAbbreviation(mapName)
+    local custom = PvpAssistant.CONST.MAP_ABBREVIATIONS[mapName]
 
     if custom then return custom end
 
@@ -76,9 +76,9 @@ end
 
 ---@param rating number
 ---@return string?
-function Arenalogs.UTIL:GetIconByRating(rating)
+function PvpAssistant.UTIL:GetIconByRating(rating)
     local rankingIcon
-    for _, ratingData in ipairs(Arenalogs.CONST.RATING_ICON_MAP) do
+    for _, ratingData in ipairs(PvpAssistant.CONST.RATING_ICON_MAP) do
         if rating >= ratingData.rating then
             rankingIcon = ratingData.icon
         end
@@ -86,10 +86,10 @@ function Arenalogs.UTIL:GetIconByRating(rating)
     return rankingIcon
 end
 
----@param pvpMode Arenalogs.Const.PVPModes
+---@param pvpMode PvpAssistant.Const.PVPModes
 ---@param data table
 ---@return InspectArenaData inspectArenaData
-function Arenalogs.UTIL:ConvertInspectArenaData(pvpMode, data)
+function PvpAssistant.UTIL:ConvertInspectArenaData(pvpMode, data)
     ---@type InspectArenaData
     local inspectArenaData = {
         pvpMode = pvpMode,
@@ -106,41 +106,41 @@ end
 ---@param anchorPoints GGUI.AnchorPoint[]
 ---@param scale number?
 ---@return GGUI.Text, GGUI.Text
-function Arenalogs.UTIL:CreateLogo(parent, anchorPoints, scale)
+function PvpAssistant.UTIL:CreateLogo(parent, anchorPoints, scale)
     scale = scale or 1
     parent.titleLogo = GGUI.Text {
         parent = parent,
         anchorPoints = anchorPoints,
-        text = GUTIL:ColorizeText(" ARENALOGS", GUTIL.COLORS.LEGENDARY),
+        text = GUTIL:ColorizeText(" PvpAssistant", GUTIL.COLORS.LEGENDARY),
         scale = 1.7 * scale,
     }
 
     parent.logoIcon = GGUI.Text {
         parent = parent,
         anchorPoints = { { anchorParent = parent.titleLogo.frame, anchorA = "RIGHT", anchorB = "LEFT" }, offsetY = 2 },
-        text = Arenalogs.MEDIA:GetAsTextIcon(Arenalogs.MEDIA.IMAGES.LOGO_1024, 0.028 * scale)
+        text = PvpAssistant.MEDIA:GetAsTextIcon(PvpAssistant.MEDIA.IMAGES.LOGO_1024, 0.028 * scale)
     }
 
     return parent.titleLogo, parent.logoIcon
 end
 
----@class Arenalogs.ClassFilterFrameOptions
+---@class PvpAssistant.ClassFilterFrameOptions
 ---@field parent Frame
 ---@field anchorPoint GGUI.AnchorPoint?
 ---@field clickCallback? fun(ClassFile, boolean)
 
----@param options Arenalogs.ClassFilterFrameOptions
+---@param options PvpAssistant.ClassFilterFrameOptions
 ---@return GGUI.Frame classFilterFrame
 ---@return table<ClassFile, boolean> activeClassFiltersTable
-function Arenalogs.UTIL:CreateClassFilterFrame(options)
+function PvpAssistant.UTIL:CreateClassFilterFrame(options)
     local activeClassFiltersTable = {}
     local anchorPoint = options.anchorPoint or {}
     local parent = options.parent
 
-    ---@class Arenalogs.History.ClassFilterFrame : GGUI.Frame
+    ---@class PvpAssistant.History.ClassFilterFrame : GGUI.Frame
     local classFilterFrame = GGUI.Frame {
         parent = parent, anchorParent = anchorPoint.anchorParent or parent,
-        anchorA = anchorPoint.anchorA or "TOP", anchorB = anchorPoint.anchorB or "TOP", backdropOptions = Arenalogs.CONST.CLASS_FILTER_FRAME_BACKDROP,
+        anchorA = anchorPoint.anchorA or "TOP", anchorB = anchorPoint.anchorB or "TOP", backdropOptions = PvpAssistant.CONST.CLASS_FILTER_FRAME_BACKDROP,
         sizeX = 715, sizeY = 100, offsetY = anchorPoint.offsetY or 0, offsetX = anchorPoint.offsetX or 0
     }
 
@@ -148,15 +148,15 @@ function Arenalogs.UTIL:CreateClassFilterFrame(options)
         parent = classFilterFrame.frame, anchorParent = classFilterFrame.content,
         anchorA = "TOP", anchorB = "TOP", text = "Class Filtering", offsetY = -15,
         fontOptions = {
-            fontFile = Arenalogs.CONST.FONT_FILES.ROBOTO,
+            fontFile = PvpAssistant.CONST.FONT_FILES.ROBOTO,
             height = 15,
         },
         tooltipOptions = {
             owner = classFilterFrame.frame,
             anchor = "ANCHOR_CURSOR",
             text = f.white("Toggle Class Filters off and on."
-                .. "\n\nSHIFT+" .. CreateAtlasMarkup(Arenalogs.CONST.ATLAS.LEFT_MOUSE_BUTTON, 15, 20) .. ": Filter out everything else"
-                .. "\n\nALT+" .. CreateAtlasMarkup(Arenalogs.CONST.ATLAS.LEFT_MOUSE_BUTTON, 15, 20) .. ": Filter in everything else"),
+                .. "\n\nSHIFT+" .. CreateAtlasMarkup(PvpAssistant.CONST.ATLAS.LEFT_MOUSE_BUTTON, 15, 20) .. ": Filter out everything else"
+                .. "\n\nALT+" .. CreateAtlasMarkup(PvpAssistant.CONST.ATLAS.LEFT_MOUSE_BUTTON, 15, 20) .. ": Filter in everything else"),
         },
     }
 
