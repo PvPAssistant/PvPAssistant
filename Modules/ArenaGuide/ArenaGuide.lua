@@ -1,77 +1,77 @@
----@class Arenalogs
-local Arenalogs = select(2, ...)
+---@class PvpAssistant
+local PvpAssistant = select(2, ...)
 
-local GUTIL = Arenalogs.GUTIL
-local debug = Arenalogs.DEBUG:GetDebugPrint()
+local GUTIL = PvpAssistant.GUTIL
+local debug = PvpAssistant.DEBUG:GetDebugPrint()
 
----@class Arenalogs.ArenaGuide : Frame
-Arenalogs.ARENA_GUIDE = GUTIL:CreateRegistreeForEvents({ "GROUP_ROSTER_UPDATE", "ARENA_PREP_OPPONENT_SPECIALIZATIONS",
+---@class PvpAssistant.ArenaGuide : Frame
+PvpAssistant.ARENA_GUIDE = GUTIL:CreateRegistreeForEvents({ "GROUP_ROSTER_UPDATE", "ARENA_PREP_OPPONENT_SPECIALIZATIONS",
     "PLAYER_JOINED_PVP_MATCH", "PVP_MATCH_STATE_CHANGED" })
 
 ---@type GGUI.Frame
-Arenalogs.ARENA_GUIDE.frame = nil
+PvpAssistant.ARENA_GUIDE.frame = nil
 
-Arenalogs.ARENA_GUIDE.specIDs = {
+PvpAssistant.ARENA_GUIDE.specIDs = {
     PLAYER_TEAM = {},
     ENEMY_TEAM = {},
 }
 
-function Arenalogs.ARENA_GUIDE:UpdateAndShow()
-    if C_PvP.IsArena() and not UnitAffectingCombat("player") and ArenalogsOptions.arenaGuideEnable then
-        Arenalogs.ARENA_GUIDE.frame:Show()
-        Arenalogs.ARENA_GUIDE.FRAMES:UpdateDisplay()
+function PvpAssistant.ARENA_GUIDE:UpdateAndShow()
+    if C_PvP.IsArena() and not UnitAffectingCombat("player") and PvpAssistantOptions.arenaGuideEnable then
+        PvpAssistant.ARENA_GUIDE.frame:Show()
+        PvpAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
     end
 end
 
-function Arenalogs.ARENA_GUIDE:ResetSpecIDs()
-    Arenalogs.ARENA_GUIDE.specIDs = {
+function PvpAssistant.ARENA_GUIDE:ResetSpecIDs()
+    PvpAssistant.ARENA_GUIDE.specIDs = {
         PLAYER_TEAM = {},
         ENEMY_TEAM = {},
     }
 end
 
-function Arenalogs.ARENA_GUIDE:UpdateArenaSpecIDs()
+function PvpAssistant.ARENA_GUIDE:UpdateArenaSpecIDs()
     -- only update list if its bigger than before!
     -- meaning do not update if someone leaves...
     local numOpponents = GetNumArenaOpponentSpecs()
-    if #Arenalogs.ARENA_GUIDE.specIDs.ENEMY_TEAM < numOpponents then
+    if #PvpAssistant.ARENA_GUIDE.specIDs.ENEMY_TEAM < numOpponents then
         for i = 1, numOpponents do
             local specID, _ = GetArenaOpponentSpec(i)
-            Arenalogs.ARENA_GUIDE.specIDs.ENEMY_TEAM[i] = specID
+            PvpAssistant.ARENA_GUIDE.specIDs.ENEMY_TEAM[i] = specID
         end
     end
 
     local numGroupMembers = GetNumGroupMembers()
-    if #Arenalogs.ARENA_GUIDE.specIDs.PLAYER_TEAM < numGroupMembers then
+    if #PvpAssistant.ARENA_GUIDE.specIDs.PLAYER_TEAM < numGroupMembers then
         -- player is not accessible with "partyX" UnitId
-        local playerSpecID = Arenalogs.UTIL:GetSpecializationIDByUnit("player")
-        Arenalogs.ARENA_GUIDE.specIDs.PLAYER_TEAM[1] = playerSpecID
+        local playerSpecID = PvpAssistant.UTIL:GetSpecializationIDByUnit("player")
+        PvpAssistant.ARENA_GUIDE.specIDs.PLAYER_TEAM[1] = playerSpecID
         for i = 1, numGroupMembers - 1 do
-            local specID = Arenalogs.UTIL:GetSpecializationIDByUnit("party" .. i)
-            Arenalogs.ARENA_GUIDE.specIDs.PLAYER_TEAM[i + 1] = specID
+            local specID = PvpAssistant.UTIL:GetSpecializationIDByUnit("party" .. i)
+            PvpAssistant.ARENA_GUIDE.specIDs.PLAYER_TEAM[i + 1] = specID
         end
     end
 end
 
-function Arenalogs.ARENA_GUIDE:ARENA_PREP_OPPONENT_SPECIALIZATIONS()
+function PvpAssistant.ARENA_GUIDE:ARENA_PREP_OPPONENT_SPECIALIZATIONS()
     -- only if guide is enabled and we are within an arena match
     debug("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
-    Arenalogs.ARENA_GUIDE:UpdateAndShow()
+    PvpAssistant.ARENA_GUIDE:UpdateAndShow()
 end
 
-function Arenalogs.ARENA_GUIDE:GROUP_ROSTER_UPDATE()
+function PvpAssistant.ARENA_GUIDE:GROUP_ROSTER_UPDATE()
     -- only if guide is enabled and we are within an arena match
     debug("GROUP_ROSTER_UPDATE")
-    Arenalogs.ARENA_GUIDE:UpdateAndShow()
+    PvpAssistant.ARENA_GUIDE:UpdateAndShow()
 end
 
-function Arenalogs.ARENA_GUIDE:PVP_MATCH_STATE_CHANGED()
+function PvpAssistant.ARENA_GUIDE:PVP_MATCH_STATE_CHANGED()
     local state = C_PvP.GetActiveMatchState()
     -- local isShuffle = C_PvP.IsSoloShuffle()
 
     if state == Enum.PvPMatchState.StartUp then
         debug("PVP_MATCH_STATE_CHANGED: StartUp")
-        Arenalogs.ARENA_GUIDE:ResetSpecIDs()
+        PvpAssistant.ARENA_GUIDE:ResetSpecIDs()
     end
 
     if state == Enum.PvPMatchState.Waiting then
@@ -79,7 +79,7 @@ function Arenalogs.ARENA_GUIDE:PVP_MATCH_STATE_CHANGED()
     end
     if state == Enum.PvPMatchState.PostRound then
         debug("PVP_MATCH_STATE_CHANGED: PostRound")
-        Arenalogs.ARENA_GUIDE:ResetSpecIDs()
+        PvpAssistant.ARENA_GUIDE:ResetSpecIDs()
     end
     if state == Enum.PvPMatchState.Inactive then
         debug("PVP_MATCH_STATE_CHANGED: Inactive")

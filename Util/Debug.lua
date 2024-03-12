@@ -1,20 +1,20 @@
----@class Arenalogs
-local Arenalogs = select(2, ...)
+---@class PvpAssistant
+local PvpAssistant = select(2, ...)
 
-local f = Arenalogs.GUTIL:GetFormatter()
+local f = PvpAssistant.GUTIL:GetFormatter()
 
----@class Arenalogs.DEBUG
-Arenalogs.DEBUG = {}
+---@class PvpAssistant.DEBUG
+PvpAssistant.DEBUG = {}
 
-ArenalogsDEBUG = Arenalogs.DEBUG
+PvpAssistantDEBUG = PvpAssistant.DEBUG
 
 local DevTool = DevTool
 
-function Arenalogs.DEBUG:CreateHistoryDummyData()
-    wipe(ArenalogsHistoryDB)
+function PvpAssistant.DEBUG:CreateHistoryDummyData()
+    wipe(PvpAssistantHistoryDB)
     --- 2v2s
     for _ = 1, 150 do
-        local matchHistory = Arenalogs.MatchHistory()
+        local matchHistory = PvpAssistant.MatchHistory()
         matchHistory.timestamp = GetServerTime()
         matchHistory.map = "TTP"
         matchHistory.playerTeam = {
@@ -60,14 +60,14 @@ function Arenalogs.DEBUG:CreateHistoryDummyData()
         matchHistory.isArena = true
         matchHistory.rating = 1478
         matchHistory.ratingChange = 17
-        matchHistory.pvpMode = Arenalogs.CONST.PVP_MODES.TWOS
+        matchHistory.pvpMode = PvpAssistant.CONST.PVP_MODES.TWOS
         matchHistory.win = true
         matchHistory.season = GetCurrentArenaSeason() or 0
-        table.insert(ArenalogsHistoryDB, matchHistory)
+        table.insert(PvpAssistantHistoryDB, matchHistory)
     end
     --- 3v3s
     for _ = 1, 150 do
-        local matchHistory = Arenalogs.MatchHistory()
+        local matchHistory = PvpAssistant.MatchHistory()
         matchHistory.timestamp = GetServerTime()
         matchHistory.map = "RoL"
         matchHistory.playerTeam = {
@@ -125,40 +125,40 @@ function Arenalogs.DEBUG:CreateHistoryDummyData()
         matchHistory.isArena = true
         matchHistory.rating = 1478
         matchHistory.ratingChange = -17
-        matchHistory.pvpMode = Arenalogs.CONST.PVP_MODES.THREES
+        matchHistory.pvpMode = PvpAssistant.CONST.PVP_MODES.THREES
         matchHistory.win = false
         matchHistory.season = GetCurrentArenaSeason() or 0
-        table.insert(ArenalogsHistoryDB, matchHistory)
+        table.insert(PvpAssistantHistoryDB, matchHistory)
     end
 end
 
-function Arenalogs.DEBUG:CreatePlayerDummyData()
-    Arenalogs.DB.PLAYER_DATA:Clear()
+function PvpAssistant.DEBUG:CreatePlayerDummyData()
+    PvpAssistant.DB.PLAYER_DATA:Clear()
 
-    local playerUID = Arenalogs.UTIL:GetPlayerUIDByUnit("player")
+    local playerUID = PvpAssistant.UTIL:GetPlayerUIDByUnit("player")
 
-    ---@type Arenalogs.PlayerTooltipData
+    ---@type PvpAssistant.PlayerTooltipData
     local playerTooltipData = {
         ratingData = {
-            [Arenalogs.CONST.PVP_MODES.TWOS] = {
+            [PvpAssistant.CONST.PVP_MODES.TWOS] = {
                 rating = 2168,
                 win = 190,
                 loss = 95,
                 exp = 2657,
             },
-            [Arenalogs.CONST.PVP_MODES.THREES] = {
+            [PvpAssistant.CONST.PVP_MODES.THREES] = {
                 rating = 2568,
                 win = 601,
                 loss = 95,
                 exp = 2895,
             },
-            [Arenalogs.CONST.PVP_MODES.BATTLEGROUND] = {
+            [PvpAssistant.CONST.PVP_MODES.BATTLEGROUND] = {
                 rating = 2168,
                 win = 69,
                 loss = 16,
                 exp = 3145,
             },
-            [Arenalogs.CONST.PVP_MODES.SOLO_SHUFFLE] = {
+            [PvpAssistant.CONST.PVP_MODES.SOLO_SHUFFLE] = {
                 rating = 2168,
                 win = 567,
                 loss = 109,
@@ -166,42 +166,42 @@ function Arenalogs.DEBUG:CreatePlayerDummyData()
             },
         },
     }
-    Arenalogs.DB.PLAYER_DATA:Save(playerUID, playerTooltipData)
+    PvpAssistant.DB.PLAYER_DATA:Save(playerUID, playerTooltipData)
 end
 
----@return Arenalogs
-function Arenalogs.DEBUG:RUN()
-    return Arenalogs
+---@return PvpAssistant
+function PvpAssistant.DEBUG:RUN()
+    return PvpAssistant
 end
 
 ---@param t table
 ---@param label string?
-function Arenalogs.DEBUG:DebugTable(t, label)
-    if DevTool and ArenalogsOptions.enableDebug then
+function PvpAssistant.DEBUG:DebugTable(t, label)
+    if DevTool and PvpAssistantOptions.enableDebug then
         DevTool:AddData(t, label)
     end
 end
 
-function Arenalogs.DEBUG:RetrieveMatchData()
-    local matchHistory = Arenalogs.MatchHistory:CreateFromEndScreen()
+function PvpAssistant.DEBUG:RetrieveMatchData()
+    local matchHistory = PvpAssistant.MatchHistory:CreateFromEndScreen()
 end
 
-function Arenalogs.DEBUG:GetSpecializationIDByUnit(unit)
-    return Arenalogs.UTIL:GetSpecializationIDByUnit(unit)
+function PvpAssistant.DEBUG:GetSpecializationIDByUnit(unit)
+    return PvpAssistant.UTIL:GetSpecializationIDByUnit(unit)
 end
 
-function Arenalogs.DEBUG:InspectSpecLookup()
-    self:DebugTable(Arenalogs.SPEC_LOOKUP.lookupTable, "SpecLookup")
+function PvpAssistant.DEBUG:InspectSpecLookup()
+    self:DebugTable(PvpAssistant.SPEC_LOOKUP.lookupTable, "SpecLookup")
 end
 
-function Arenalogs.DEBUG:UpdateAndInspectArenaSpecs()
-    Arenalogs.ARENA_GUIDE:UpdateArenaSpecIDs()
-    self:DebugTable(Arenalogs.ARENA_GUIDE.specIDs, "ManualDebugSpecIDs")
+function PvpAssistant.DEBUG:UpdateAndInspectArenaSpecs()
+    PvpAssistant.ARENA_GUIDE:UpdateArenaSpecIDs()
+    self:DebugTable(PvpAssistant.ARENA_GUIDE.specIDs, "ManualDebugSpecIDs")
 end
 
-function Arenalogs.DEBUG:GetDebugPrint()
+function PvpAssistant.DEBUG:GetDebugPrint()
     return function(text)
-        if ArenalogsOptions.enableDebug then
+        if PvpAssistantOptions.enableDebug then
             print(f.l("AL Debug: ") .. tostring(text))
         end
     end

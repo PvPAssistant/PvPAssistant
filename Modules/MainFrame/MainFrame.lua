@@ -1,34 +1,34 @@
----@class Arenalogs
-local Arenalogs = select(2, ...)
+---@class PvpAssistant
+local PvpAssistant = select(2, ...)
 
-local GGUI = Arenalogs.GGUI
-local GUTIL = Arenalogs.GUTIL
+local GGUI = PvpAssistant.GGUI
+local GUTIL = PvpAssistant.GUTIL
 
----@class Arenalogs.MAIN_FRAME
-Arenalogs.MAIN_FRAME = {}
+---@class PvpAssistant.MAIN_FRAME
+PvpAssistant.MAIN_FRAME = {}
 
----@type Arenalogs.MAIN_FRAME.FRAME
-Arenalogs.MAIN_FRAME.frame = nil
+---@type PvpAssistant.MAIN_FRAME.FRAME
+PvpAssistant.MAIN_FRAME.frame = nil
 
 ---@type Frame
-Arenalogs.MAIN_FRAME.matchHistoryTooltipFrame = nil
+PvpAssistant.MAIN_FRAME.matchHistoryTooltipFrame = nil
 
 
----@return Arenalogs.Const.PVPModes? pvpMode
-function Arenalogs.MAIN_FRAME:GetSelectedModeFilter()
-    local mainFrame = Arenalogs.MAIN_FRAME.frame
+---@return PvpAssistant.Const.PVPModes? pvpMode
+function PvpAssistant.MAIN_FRAME:GetSelectedModeFilter()
+    local mainFrame = PvpAssistant.MAIN_FRAME.frame
     if not mainFrame then
-        error("Arenalogs Error: MainFrame not found")
+        error("PvpAssistant Error: MainFrame not found")
     end
 
     return mainFrame.content.matchHistoryTab.content.pvpModeDropdown.selectedValue
 end
 
----@return Arenalogs.Const.DisplayTeams displayTeams
-function Arenalogs.MAIN_FRAME:GetDisplayTeam()
-    local mainFrame = Arenalogs.MAIN_FRAME.frame
+---@return PvpAssistant.Const.DisplayTeams displayTeams
+function PvpAssistant.MAIN_FRAME:GetDisplayTeam()
+    local mainFrame = PvpAssistant.MAIN_FRAME.frame
     if not mainFrame then
-        error("Arenalogs Error: MainFrame not found")
+        error("PvpAssistant Error: MainFrame not found")
     end
 
     return mainFrame.content.matchHistoryTab.content.teamDisplayDropdown.selectedValue

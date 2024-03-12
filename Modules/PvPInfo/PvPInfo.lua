@@ -1,16 +1,16 @@
----@class Arenalogs
-local Arenalogs = select(2, ...)
+---@class PvpAssistant
+local PvpAssistant = select(2, ...)
 
-local GGUI = Arenalogs.GGUI
-local GUTIL = Arenalogs.GUTIL
+local GGUI = PvpAssistant.GGUI
+local GUTIL = PvpAssistant.GUTIL
 
----@class Arenalogs.PvPInfo
-Arenalogs.PVPINFO = {}
+---@class PvpAssistant.PvPInfo
+PvpAssistant.PVPINFO = {}
 
----@class Arenalogs.PvPInfoFrame
-Arenalogs.PVPINFO.frame = nil
+---@class PvpAssistant.PvPInfoFrame
+PvpAssistant.PVPINFO.frame = nil
 
----@class Arenalogs.PVPINFO.PersonalRatingInfo
+---@class PvpAssistant.PVPINFO.PersonalRatingInfo
 ---@field rating number
 ---@field seasonBest number
 ---@field weeklyBest number
@@ -20,11 +20,11 @@ Arenalogs.PVPINFO.frame = nil
 ---@field weeklyWon number
 ---@field cap number
 
----@return table<Arenalogs.Const.PVPModes, Arenalogs.PVPINFO.PersonalRatingInfo>
-function Arenalogs.PVPINFO:GetPersonalRatingInfo()
+---@return table<PvpAssistant.Const.PVPModes, PvpAssistant.PVPINFO.PersonalRatingInfo>
+function PvpAssistant.PVPINFO:GetPersonalRatingInfo()
     local personalRatedInfo = {}
 
-    for mode, bracketID in pairs(Arenalogs.CONST.PVP_MODES_BRACKET_IDS) do
+    for mode, bracketID in pairs(PvpAssistant.CONST.PVP_MODES_BRACKET_IDS) do
         personalRatedInfo[mode] = self:ConvertPersonalRatedInfo({ GetPersonalRatedInfo(bracketID) })
     end
 
@@ -32,8 +32,8 @@ function Arenalogs.PVPINFO:GetPersonalRatingInfo()
 end
 
 ---@param personalRatedInfo table https://warcraft.wiki.gg/wiki/API_GetPersonalRatedInfo
-function Arenalogs.PVPINFO:ConvertPersonalRatedInfo(personalRatedInfo)
-    ---@type Arenalogs.PVPINFO.PersonalRatingInfo
+function PvpAssistant.PVPINFO:ConvertPersonalRatedInfo(personalRatedInfo)
+    ---@type PvpAssistant.PVPINFO.PersonalRatingInfo
     local personalRatingInfo = {
         rating = personalRatedInfo[1],
         seasonBest = personalRatedInfo[2],
