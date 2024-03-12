@@ -1,1 +1,2 @@
-Arenalogs PVP Addon
+# PvpAssistant
+ Pvp addon

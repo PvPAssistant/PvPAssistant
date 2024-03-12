@@ -1,33 +1,33 @@
----@class Arenalogs
-local Arenalogs = select(2, ...)
+---@class PvpAssistant
+local PvpAssistant = select(2, ...)
 
-local GGUI = Arenalogs.GGUI
-local GUTIL = Arenalogs.GUTIL
+local GGUI = PvpAssistant.GGUI
+local GUTIL = PvpAssistant.GUTIL
 local f = GUTIL:GetFormatter()
 
----@class Arenalogs.PvPInfo
-Arenalogs.PVPINFO = Arenalogs.PVPINFO
+---@class PvpAssistant.PvPInfo
+PvpAssistant.PVPINFO = PvpAssistant.PVPINFO
 
----@class Arenalogs.PvPInfo.Frames
-Arenalogs.PVPINFO.FRAMES = {}
+---@class PvpAssistant.PvPInfo.Frames
+PvpAssistant.PVPINFO.FRAMES = {}
 
-function Arenalogs.PVPINFO.FRAMES:Init()
+function PvpAssistant.PVPINFO.FRAMES:Init()
     if not PVPUIFrame then
         error("PVPUIFrame not found")
     end
     local sizeX, sizeY = 300, PVPUIFrame:GetHeight()
-    Arenalogs.PVPINFO.frame = GGUI.Frame {
+    PvpAssistant.PVPINFO.frame = GGUI.Frame {
         parent = PVPUIFrame, anchorParent = PVPUIFrame,
         anchorA = "TOPLEFT", anchorB = "TOPRIGHT", offsetX = 0, offsetY = 0, sizeX = sizeX, sizeY = sizeY,
-        moveable = true, frameConfigTable = ArenalogsGGUIConfig, frameID = Arenalogs.CONST.FRAMES.PVPINFO,
-        frameTable = Arenalogs.MAIN.FRAMES,
-        backdropOptions = Arenalogs.CONST.PVPINFO_BACKDROP
+        moveable = true, frameConfigTable = PvpAssistantGGUIConfig, frameID = PvpAssistant.CONST.FRAMES.PVPINFO,
+        frameTable = PvpAssistant.MAIN.FRAMES,
+        backdropOptions = PvpAssistant.CONST.PVPINFO_BACKDROP
     }
 
-    local content = Arenalogs.PVPINFO.frame.content
+    local content = PvpAssistant.PVPINFO.frame.content
 
 
-    content.titleLogo = Arenalogs.UTIL:CreateLogo(content,
+    content.titleLogo = PvpAssistant.UTIL:CreateLogo(content,
         {
             {
                 anchorParent = content,
@@ -102,15 +102,15 @@ function Arenalogs.PVPINFO.FRAMES:Init()
         sizeY = 300,
         anchorPoints = { { anchorParent = content.ratedPvPHeader.frame, anchorA = "TOP", anchorB = "BOTTOM", offsetY = -30, offsetX = 0, } },
         hideScrollbar = true,
-        rowBackdrops = { Arenalogs.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} },
-        selectionOptions = { noSelectionColor = true, hoverRGBA = Arenalogs.CONST.FRAME_LIST_HOVER_RGBA },
+        rowBackdrops = { PvpAssistant.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} },
+        selectionOptions = { noSelectionColor = true, hoverRGBA = PvpAssistant.CONST.FRAME_LIST_HOVER_RGBA },
     }
 end
 
-function Arenalogs.PVPINFO.FRAMES:UpdateDisplay()
-    local ratingList = Arenalogs.PVPINFO.frame.content.ratingList --[[@as GGUI.FrameList]]
-    local honorValue = Arenalogs.PVPINFO.frame.content.honorValue --[[@as GGUI.Text]]
-    local personalRatedInfo = Arenalogs.PVPINFO:GetPersonalRatingInfo()
+function PvpAssistant.PVPINFO.FRAMES:UpdateDisplay()
+    local ratingList = PvpAssistant.PVPINFO.frame.content.ratingList --[[@as GGUI.FrameList]]
+    local honorValue = PvpAssistant.PVPINFO.frame.content.honorValue --[[@as GGUI.Text]]
+    local personalRatedInfo = PvpAssistant.PVPINFO:GetPersonalRatingInfo()
     local maxHonor = UnitHonorMax("player") or 0
     local curHonor = UnitHonor("player") or 0
     local honorLevel = UnitHonorLevel("player") or 0
@@ -124,8 +124,8 @@ function Arenalogs.PVPINFO.FRAMES:UpdateDisplay()
             local scoreColumn = columns[3]
             local seasonBestColumn = columns[4]
 
-            typeColumn.text:SetText(CreateAtlasMarkup(Arenalogs.CONST.ATLAS.TOOLTIP_SWORD) ..
-                "  " .. Arenalogs.CONST.PVP_MODES_NAMES[mode])
+            typeColumn.text:SetText(CreateAtlasMarkup(PvpAssistant.CONST.ATLAS.TOOLTIP_SWORD) ..
+                "  " .. PvpAssistant.CONST.PVP_MODES_NAMES[mode])
             ratingColumn.text:SetText(f.l(ratedInfo.rating or 0))
             local seasonWon = ratedInfo.seasonWon or 0
             local seasonLost = (ratedInfo.seasonPlayed or 0) - seasonWon
@@ -133,7 +133,7 @@ function Arenalogs.PVPINFO.FRAMES:UpdateDisplay()
             seasonBestColumn.text:SetText(f.e(ratedInfo.seasonBest))
 
             local tooltipText = ""
-            tooltipText = tooltipText .. f.white(Arenalogs.CONST.PVP_MODES_NAMES[mode]) .. "\n"
+            tooltipText = tooltipText .. f.white(PvpAssistant.CONST.PVP_MODES_NAMES[mode]) .. "\n"
             tooltipText = tooltipText .. f.white("- Rating: " .. f.l(ratedInfo.rating or 0)) .. "\n"
             tooltipText = tooltipText .. f.white("\n- Season Best: " .. f.l(ratedInfo.seasonBest or 0)) .. "\n"
             tooltipText = tooltipText .. f.white("-  Played: " .. f.white(ratedInfo.seasonPlayed or 0)) .. "\n"

@@ -1,0 +1,41 @@
+## Interface: 102000
+## DefaultState: enabled
+
+## Title: PvpAssistant
+## Notes: Arena Guides, History and more!
+## Author: genjuwow
+## X-Curse-Project-ID: 955365
+## X-Wago-ID: vNAex9No
+## X-WoWI-ID: 
+## IconTexture: Interface\Addons\PvpAssistant\Media\Images\logo1024
+## SavedVariables: PvpAssistantDB, PvpAssistantGGUIConfig, PvpAssistantOptions, PvpAssistantLibIconDB
+## Dependencies: Blizzard_PVPUI, Blizzard_InspectUI
+## OptionalDeps: DevTool
+## Version: 0.1.4
+
+embeds.xml
+Libs/Libs.lua   
+Util/Debug.lua
+Util/Const.lua
+Util/Util.lua
+Util/DB.lua
+Util/SpecLookup.lua
+
+Data/AbilityData.lua
+Data/ArenaStrategies.lua
+
+Classes/MatchHistory.lua
+
+Media/Media.lua
+
+Main/PvpAssistant.lua
+
+Modules/Options/Options.lua
+Modules/MainFrame/MainFrame.lua
+Modules/MainFrame/Frames.lua
+Modules/PvPInfo/PvPInfo.lua
+Modules/PvPInfo/Frames.lua
+Modules/PlayerTooltip/PlayerTooltip.lua
+Modules/SpellTooltip/SpellTooltip.lua
+Modules/ArenaGuide/ArenaGuide.lua
+Modules/ArenaGuide/Frames.lua
