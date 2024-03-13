@@ -1,7 +1,7 @@
----@class PvpAssistant
-local PvpAssistant = select(2, ...)
+---@class PvPAssistant
+local PvPAssistant = select(2, ...)
 
-local GUTIL = PvpAssistant.GUTIL
+local GUTIL = PvPAssistant.GUTIL
 local f = GUTIL:GetFormatter()
 
 ---@class InstanceInfo
@@ -16,26 +16,26 @@ local f = GUTIL:GetFormatter()
 ---@field instanceGroupSize number
 ---@field LfgDungeonID number
 
----@class PvpAssistant.Player
+---@class PvPAssistant.Player
 ---@field name string
 ---@field realm string
 ---@field class string
 ---@field specID number
 ---@field scoreData PVPScoreInfo
 
----@class PvpAssistant.Team
+---@class PvPAssistant.Team
 ---@field name? string
----@field players PvpAssistant.Player[]
+---@field players PvPAssistant.Player[]
 ---@field damage number
 ---@field healing number
 ---@field kills number
 ---@field ratingInfo PVPTeamInfo
 
----@class PvpAssistant.MatchHistory
----@overload fun(): PvpAssistant.MatchHistory
-PvpAssistant.MatchHistory = PvpAssistant.Object:extend()
+---@class PvPAssistant.MatchHistory
+---@overload fun(): PvPAssistant.MatchHistory
+PvPAssistant.MatchHistory = PvPAssistant.Object:extend()
 
-function PvpAssistant.MatchHistory:new()
+function PvPAssistant.MatchHistory:new()
     ---@type number
     self.timestamp = nil
     ---@type InstanceInfo
@@ -46,27 +46,27 @@ function PvpAssistant.MatchHistory:new()
     self.isBattleground = false
     ---@type boolean
     self.isSoloShuffle = false
-    ---@type PvpAssistant.Team
+    ---@type PvPAssistant.Team
     self.playerTeam = nil
-    ---@type PvpAssistant.Team
+    ---@type PvPAssistant.Team
     self.enemyTeam = nil
     ---@type number
     self.duration = nil
     ---@type boolean
     self.isRated = false
-    ---@type PvpAssistant.Const.PVPModes
+    ---@type PvPAssistant.Const.PVPModes
     self.pvpMode = nil
     ---@type boolean
     self.win = nil
     ---@type number
     self.season = nil
-    ---@type PvpAssistant.Player
+    ---@type PvPAssistant.Player
     self.player = nil
 end
 
 --- STATIC create a match history instance based on current match ending screen
----@return PvpAssistant.MatchHistory?
-function PvpAssistant.MatchHistory:CreateFromEndScreen()
+---@return PvPAssistant.MatchHistory?
+function PvPAssistant.MatchHistory:CreateFromEndScreen()
     -- force showing all players
     SetBattlefieldScoreFaction(-1)
 
@@ -126,8 +126,8 @@ function PvpAssistant.MatchHistory:CreateFromEndScreen()
         IsRatedMap = C_PvP.IsRatedMap(),
     }
 
-    PvpAssistant.DEBUG:DebugTable(apiData, "GatheredAPIData " .. (GetTimePreciseSec() * 1000))
-    PvpAssistant.DB.DEBUG:Add(apiData)
+    PvPAssistant.DEBUG:DebugTable(apiData, "GatheredAPIData " .. (GetTimePreciseSec() * 1000))
+    PvPAssistant.DB.DEBUG:Add(apiData)
 
     -- DEBUG END
 
@@ -136,7 +136,7 @@ function PvpAssistant.MatchHistory:CreateFromEndScreen()
     local playerTeamID = GetBattlefieldArenaFaction()
 
     if not playerTeamID then
-        error("PvpAssistant: Could not fetch player team id")
+        error("PvPAssistant: Could not fetch player team id")
         return
     end
 
@@ -147,11 +147,11 @@ function PvpAssistant.MatchHistory:CreateFromEndScreen()
     local enemyTeamRatingInfo = C_PvP.GetTeamInfo(enemyTeamID)
 
     if not playerTeamRatingInfo or not enemyTeamRatingInfo then
-        error("PvpAssistant: Could not parse team infos")
+        error("PvPAssistant: Could not parse team infos")
         return
     end
 
-    ---@type PvpAssistant.Player[]
+    ---@type PvPAssistant.Player[]
     local playerTeam = {}
     local enemyTeam = {}
     local player = nil
@@ -160,12 +160,12 @@ function PvpAssistant.MatchHistory:CreateFromEndScreen()
         realm = realm or playerRealm
 
         local specDescriptor = pvpScore.talentSpec .. " " .. pvpScore.className
-        ---@type PvpAssistant.Player
+        ---@type PvPAssistant.Player
         local arenaPlayer = {
             name = name,
             realm = realm,
             class = pvpScore.classToken,
-            specID = PvpAssistant.SPEC_LOOKUP:LookUp(specDescriptor),
+            specID = PvPAssistant.SPEC_LOOKUP:LookUp(specDescriptor),
             scoreData = pvpScore,
         }
         if pvpScore.faction == playerTeamID or isSoloShuffle then
@@ -179,7 +179,7 @@ function PvpAssistant.MatchHistory:CreateFromEndScreen()
         end
     end
 
-    ---@type PvpAssistant.Team
+    ---@type PvPAssistant.Team
     local playerTeam = {
         players = playerTeam,
         damage = GUTIL:Fold(playerTeam, 0, function(tD, p)
@@ -194,7 +194,7 @@ function PvpAssistant.MatchHistory:CreateFromEndScreen()
         ratingInfo = playerTeamRatingInfo,
     }
 
-    ---@type PvpAssistant.Team
+    ---@type PvPAssistant.Team
     local enemyTeam = {
         players = enemyTeam,
         damage = GUTIL:Fold(enemyTeam, 0, function(tD, p)
@@ -220,7 +220,7 @@ function PvpAssistant.MatchHistory:CreateFromEndScreen()
 
     local instanceInfo = { GetInstanceInfo() }
 
-    local matchHistory = PvpAssistant.MatchHistory()
+    local matchHistory = PvPAssistant.MatchHistory()
     matchHistory.duration = C_PvP.GetActiveMatchDuration() * 1000 -- seconds -> ms
     matchHistory.isArena = C_PvP.IsArena()
     matchHistory.isBattleground = C_PvP.IsBattleground()
@@ -243,31 +243,31 @@ function PvpAssistant.MatchHistory:CreateFromEndScreen()
         instanceGroupSize = instanceInfo[9],
         LfgDungeonID = instanceInfo[10],
     }
-    matchHistory.pvpMode = (matchHistory.isBattleground and PvpAssistant.CONST.PVP_MODES.BATTLEGROUND) or
-        (matchHistory.isSoloShuffle and PvpAssistant.CONST.PVP_MODES.SOLO_SHUFFLE) or
-        (matchHistory.isArena and highestTeamSize <= 2 and PvpAssistant.CONST.PVP_MODES.TWOS) or
-        (matchHistory.isArena and highestTeamSize <= 3 and PvpAssistant.CONST.PVP_MODES.THREES)
+    matchHistory.pvpMode = (matchHistory.isBattleground and PvPAssistant.CONST.PVP_MODES.BATTLEGROUND) or
+        (matchHistory.isSoloShuffle and PvPAssistant.CONST.PVP_MODES.SOLO_SHUFFLE) or
+        (matchHistory.isArena and highestTeamSize <= 2 and PvPAssistant.CONST.PVP_MODES.TWOS) or
+        (matchHistory.isArena and highestTeamSize <= 3 and PvPAssistant.CONST.PVP_MODES.THREES)
     matchHistory.player = player
     matchHistory.timestamp = (C_DateAndTime.GetServerTimeLocal() * 1000) - matchHistory.duration
     return matchHistory
 end
 
----@param player PvpAssistant.Player
+---@param player PvPAssistant.Player
 ---@return string
-function PvpAssistant.MatchHistory:GetTooltipTextForPlayer(player)
+function PvPAssistant.MatchHistory:GetTooltipTextForPlayer(player)
     local tooltipText =
         f.class(player.name .. "-" .. player.realm, player.class)
     if self.isRated then
         local rating = player.scoreData.rating
-        local ratingIcon = PvpAssistant.UTIL:GetIconByRating(rating)
+        local ratingIcon = PvPAssistant.UTIL:GetIconByRating(rating)
         local iconText = GUTIL:IconToText(ratingIcon, 20, 20)
         tooltipText = tooltipText ..
             " " .. iconText .. " " .. rating
     end
     tooltipText = tooltipText ..
         "\n - Damage / Heal: " ..
-        PvpAssistant.UTIL:FormatDamageNumber(player.scoreData.damageDone) ..
-        " / " .. PvpAssistant.UTIL:FormatDamageNumber(player.scoreData.healingDone) .. "\n"
+        PvPAssistant.UTIL:FormatDamageNumber(player.scoreData.damageDone) ..
+        " / " .. PvPAssistant.UTIL:FormatDamageNumber(player.scoreData.healingDone) .. "\n"
     if self.isArena then
         tooltipText = tooltipText ..
             " - Kills: " .. player.scoreData.killingBlows .. "\n"
@@ -279,9 +279,9 @@ function PvpAssistant.MatchHistory:GetTooltipTextForPlayer(player)
     return tooltipText
 end
 
----@param team PvpAssistant.Team
+---@param team PvPAssistant.Team
 ---@return string
-function PvpAssistant.MatchHistory:GetTooltipTextForTeam(team)
+function PvPAssistant.MatchHistory:GetTooltipTextForTeam(team)
     local tooltipText = ""
 
     for _, player in ipairs(team.players) do
@@ -291,17 +291,17 @@ function PvpAssistant.MatchHistory:GetTooltipTextForTeam(team)
     return tooltipText
 end
 
-function PvpAssistant.MatchHistory:GetTooltipText()
+function PvPAssistant.MatchHistory:GetTooltipText()
     local tooltipText = ""
     if self.isArena then
         tooltipText = tooltipText .. "Arena"
-        tooltipText = tooltipText .. " " .. tostring(PvpAssistant.CONST.PVP_MODES_NAMES[self.pvpMode])
+        tooltipText = tooltipText .. " " .. tostring(PvPAssistant.CONST.PVP_MODES_NAMES[self.pvpMode])
         if self.isRated then
             tooltipText = tooltipText .. " - Rated"
         end
     elseif self.isBattleground then
         tooltipText = tooltipText .. "Battleground"
-        tooltipText = tooltipText .. " " .. tostring(PvpAssistant.CONST.PVP_MODES_NAMES[self.pvpMode])
+        tooltipText = tooltipText .. " " .. tostring(PvPAssistant.CONST.PVP_MODES_NAMES[self.pvpMode])
         if self.isRated then
             tooltipText = tooltipText .. " - Rated"
         end
@@ -334,13 +334,13 @@ function PvpAssistant.MatchHistory:GetTooltipText()
 end
 
 ---@return Frame tooltipFrame
-function PvpAssistant.MatchHistory:FillTooltipFrame()
-    local tooltipFrame = PvpAssistant.MAIN_FRAME.matchHistoryTooltipFrame.contentFrame --[[@as GGUI.Frame]]
-    local content = tooltipFrame.content --[[@as PvpAssistant.MAIN_FRAME.TooltipFrame.Content]]
+function PvPAssistant.MatchHistory:FillTooltipFrame()
+    local tooltipFrame = PvPAssistant.MAIN_FRAME.matchHistoryTooltipFrame.contentFrame --[[@as GGUI.Frame]]
+    local content = tooltipFrame.content --[[@as PvPAssistant.MAIN_FRAME.TooltipFrame.Content]]
 
     local playerList = content.playerList
 
-    content.modeText:SetText(f.white(PvpAssistant.CONST.PVP_MODES_NAMES[self.pvpMode] or "<?>"))
+    content.modeText:SetText(f.white(PvPAssistant.CONST.PVP_MODES_NAMES[self.pvpMode] or "<?>"))
     content.mapText:SetText(f.bb(self.mapInfo.name))
     if self.isSoloShuffle then
         local wins = self.player.scoreData.stats[1] and self.player.scoreData.stats[1].pvpStatValue
@@ -369,36 +369,36 @@ function PvpAssistant.MatchHistory:FillTooltipFrame()
             row:SetSeparatorLine(playerIndex == playerTeamSize)
 
             playerColumn.text:SetText(f.class(player.name, player.class))
-            dmgColumn.text:SetText(PvpAssistant.UTIL:FormatDamageNumber(player.scoreData.damageDone))
-            healColumn.text:SetText(PvpAssistant.UTIL:FormatDamageNumber(player.scoreData.healingDone))
-            killColumn.text:SetText(PvpAssistant.UTIL:FormatDamageNumber(player.scoreData.killingBlows))
+            dmgColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(player.scoreData.damageDone))
+            healColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(player.scoreData.healingDone))
+            killColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(player.scoreData.killingBlows))
         end)
     end
 
     playerList:UpdateDisplay()
 
 
-    return PvpAssistant.MAIN_FRAME.matchHistoryTooltipFrame
+    return PvPAssistant.MAIN_FRAME.matchHistoryTooltipFrame
 end
 
----@class PvpAssistant.MatchHistory.Serialized
+---@class PvPAssistant.MatchHistory.Serialized
 ---@field timestamp number
 ---@field mapInfo InstanceInfo
 ---@field isArena boolean
 ---@field isBattleground boolean
 ---@field isSoloShuffle boolean
----@field playerTeam PvpAssistant.Team
----@field enemyTeam PvpAssistant.Team
+---@field playerTeam PvPAssistant.Team
+---@field enemyTeam PvPAssistant.Team
 ---@field duration number
 ---@field isRated boolean
----@field pvpMode PvpAssistant.Const.PVPModes
+---@field pvpMode PvPAssistant.Const.PVPModes
 ---@field win boolean
 ---@field season number
----@field player PvpAssistant.Player
+---@field player PvPAssistant.Player
 
----@return PvpAssistant.MatchHistory.Serialized
-function PvpAssistant.MatchHistory:Serialize()
-    ---@type PvpAssistant.MatchHistory.Serialized
+---@return PvPAssistant.MatchHistory.Serialized
+function PvPAssistant.MatchHistory:Serialize()
+    ---@type PvPAssistant.MatchHistory.Serialized
     local serialized = {
         timestamp = self.timestamp,
         mapInfo = self.mapInfo,
@@ -418,10 +418,10 @@ function PvpAssistant.MatchHistory:Serialize()
     return serialized
 end
 
----@param serializedData PvpAssistant.MatchHistory.Serialized
----@return PvpAssistant.MatchHistory matchHistory
-function PvpAssistant.MatchHistory:Deserialize(serializedData)
-    local matchHistory = PvpAssistant.MatchHistory()
+---@param serializedData PvPAssistant.MatchHistory.Serialized
+---@return PvPAssistant.MatchHistory matchHistory
+function PvPAssistant.MatchHistory:Deserialize(serializedData)
+    local matchHistory = PvPAssistant.MatchHistory()
     matchHistory.timestamp = serializedData.timestamp
     matchHistory.mapInfo = serializedData.mapInfo
     matchHistory.isArena = serializedData.isArena

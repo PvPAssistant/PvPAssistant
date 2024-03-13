@@ -1,24 +1,24 @@
----@class PvpAssistant
-local PvpAssistant = select(2, ...)
+---@class PvPAssistant
+local PvPAssistant = select(2, ...)
 
-local GUTIL = PvpAssistant.GUTIL
-local GGUI = PvpAssistant.GGUI
+local GUTIL = PvPAssistant.GUTIL
+local GGUI = PvPAssistant.GGUI
 local f = GUTIL:GetFormatter()
-local debug = PvpAssistant.DEBUG:GetDebugPrint()
+local debug = PvPAssistant.DEBUG:GetDebugPrint()
 
----@class PvpAssistant.PLAYER_TOOLTIP : Frame
-PvpAssistant.PLAYER_TOOLTIP = GUTIL:CreateRegistreeForEvents({ "INSPECT_HONOR_UPDATE" })
+---@class PvPAssistant.PLAYER_TOOLTIP : Frame
+PvPAssistant.PLAYER_TOOLTIP = GUTIL:CreateRegistreeForEvents({ "INSPECT_HONOR_UPDATE" })
 ---@type PlayerUID
-PvpAssistant.PLAYER_TOOLTIP.inspectPlayerUID = nil
+PvPAssistant.PLAYER_TOOLTIP.inspectPlayerUID = nil
 
-PvpAssistant.PLAYER_TOOLTIP.cached = false
-function PvpAssistant.PLAYER_TOOLTIP:Init()
+PvPAssistant.PLAYER_TOOLTIP.cached = false
+function PvPAssistant.PLAYER_TOOLTIP:Init()
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, function(_, data)
-        local tooltipEnabled = PvpAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:IsEnabled()
+        local tooltipEnabled = PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:IsEnabled()
         if not tooltipEnabled then return end
         local unit = select(2, GameTooltip:GetUnit())
         if unit and UnitIsPlayer(unit) then
-            PvpAssistant.PLAYER_TOOLTIP.inspectPlayerUID = PvpAssistant.UTIL:GetPlayerUIDByUnit(unit)
+            PvPAssistant.PLAYER_TOOLTIP.inspectPlayerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit(unit)
             INSPECTED_UNIT = unit;
             NotifyInspect(unit)
         end
@@ -26,25 +26,25 @@ function PvpAssistant.PLAYER_TOOLTIP:Init()
 end
 
 ---@param unit UnitId
----@return table<PvpAssistant.Const.PVPModes, InspectArenaData>?
-function PvpAssistant.PLAYER_TOOLTIP:GetPlayerPVPDataFromInspect(unit)
+---@return table<PvPAssistant.Const.PVPModes, InspectArenaData>?
+function PvPAssistant.PLAYER_TOOLTIP:GetPlayerPVPDataFromInspect(unit)
     if not unit then return nil end
-    ---@type table<PvpAssistant.Const.PVPModes, InspectArenaData | InspectPVPData>
+    ---@type table<PvPAssistant.Const.PVPModes, InspectArenaData | InspectPVPData>
     local bracketPvPData = {}
 
-    for mode, bracketID in pairs(PvpAssistant.CONST.PVP_MODES_BRACKET_IDS) do
-        bracketPvPData[mode] = PvpAssistant.UTIL:ConvertInspectArenaData(
+    for mode, bracketID in pairs(PvPAssistant.CONST.PVP_MODES_BRACKET_IDS) do
+        bracketPvPData[mode] = PvPAssistant.UTIL:ConvertInspectArenaData(
             mode, { GetInspectArenaData(bracketID) })
     end
 
     -- cache
-    PvpAssistant.DB.PLAYER_DATA:Save(PvpAssistant.UTIL:GetPlayerUIDByUnit(unit), bracketPvPData)
+    PvPAssistant.DB.PLAYER_DATA:Save(PvPAssistant.UTIL:GetPlayerUIDByUnit(unit), bracketPvPData)
 
     return bracketPvPData
 end
 
 ---@class InspectArenaData
----@field pvpMode PvpAssistant.Const.PVPModes
+---@field pvpMode PvPAssistant.Const.PVPModes
 ---@field rating number
 ---@field seasonPlayed number
 ---@field seasonWon number
@@ -52,13 +52,13 @@ end
 ---@field weeklyWon number
 
 ---@param unit UnitId
----@param pvpData? table<PvpAssistant.Const.PVPModes, InspectArenaData>
-function PvpAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByInspectData(unit, pvpData)
+---@param pvpData? table<PvPAssistant.Const.PVPModes, InspectArenaData>
+function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByInspectData(unit, pvpData)
     if not unit then return end
     --- fetches the data and updates cache
-    ---@type table<PvpAssistant.Const.PVPModes, InspectArenaData>
-    local bracketPvPData = pvpData or PvpAssistant.PLAYER_TOOLTIP:GetPlayerPVPDataFromInspect(unit)
-    local headerTitle = "PvpAssistant.gg - Score"
+    ---@type table<PvPAssistant.Const.PVPModes, InspectArenaData>
+    local bracketPvPData = pvpData or PvPAssistant.PLAYER_TOOLTIP:GetPlayerPVPDataFromInspect(unit)
+    local headerTitle = "PvPAssistant.gg - Score"
 
     GameTooltip:AddLine(f.l(headerTitle))
 
@@ -69,26 +69,26 @@ function PvpAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByInspectData(unit, pvpD
         local weeklyLost = (bracketData.weeklyPlayed or 0) - weeklyWon
         local rating = bracketData.rating or 0
 
-        local isEnabled = PvpAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Get(mode)
+        local isEnabled = PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Get(mode)
         if isEnabled then
-            GameTooltip:AddDoubleLine(f.white(tostring(PvpAssistant.CONST.PVP_MODES_NAMES[mode])),
-                PvpAssistant.UTIL:ColorByRating(tostring(rating), rating))
+            GameTooltip:AddDoubleLine(f.white(tostring(PvPAssistant.CONST.PVP_MODES_NAMES[mode])),
+                PvPAssistant.UTIL:ColorByRating(tostring(rating), rating))
         end
     end
 
     GameTooltip:Show()
 end
 
-function PvpAssistant.PLAYER_TOOLTIP:INSPECT_HONOR_UPDATE()
+function PvPAssistant.PLAYER_TOOLTIP:INSPECT_HONOR_UPDATE()
     debug("INSPECT_HONOR_UPDATE")
 
-    if not PvpAssistant.PLAYER_TOOLTIP.inspectPlayerUID then return end
+    if not PvPAssistant.PLAYER_TOOLTIP.inspectPlayerUID then return end
 
     if GameTooltip:IsVisible() then
         local _, gameTooltipUnit = GameTooltip:GetUnit()
         if gameTooltipUnit then
-            if UnitIsPlayer(gameTooltipUnit) and CanInspect(gameTooltipUnit) and PvpAssistant.UTIL:GetPlayerUIDByUnit(gameTooltipUnit) == PvpAssistant.PLAYER_TOOLTIP.inspectPlayerUID then
-                debug(f.g("PvpAssistant: Update Player Tooltip"))
+            if UnitIsPlayer(gameTooltipUnit) and CanInspect(gameTooltipUnit) and PvPAssistant.UTIL:GetPlayerUIDByUnit(gameTooltipUnit) == PvPAssistant.PLAYER_TOOLTIP.inspectPlayerUID then
+                debug(f.g("PvPAssistant: Update Player Tooltip"))
                 self:UpdatePlayerTooltipByInspectData(gameTooltipUnit)
             else
                 debug(f.r("not updating, no other problem"))
@@ -100,6 +100,6 @@ function PvpAssistant.PLAYER_TOOLTIP:INSPECT_HONOR_UPDATE()
         debug(f.r("not updating, tooltip not visible"))
     end
 
-    PvpAssistant.PLAYER_TOOLTIP.inspectPlayerUID = nil
+    PvPAssistant.PLAYER_TOOLTIP.inspectPlayerUID = nil
     ClearInspectPlayer()
 end

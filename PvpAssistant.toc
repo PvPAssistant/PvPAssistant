@@ -1,14 +1,14 @@
 ## Interface: 102000
 ## DefaultState: enabled
 
-## Title: PvpAssistant
+## Title: PvPAssistant
 ## Notes: Arena Guides, History and more!
 ## Author: genjuwow
 ## X-Curse-Project-ID: 955365
 ## X-Wago-ID: vNAex9No
 ## X-WoWI-ID: 
-## IconTexture: Interface\Addons\PvpAssistant\Media\Images\logo1024
-## SavedVariables: PvpAssistantDB, PvpAssistantGGUIConfig, PvpAssistantOptions, PvpAssistantLibIconDB
+## IconTexture: Interface\Addons\PvPAssistant\Media\Images\logo1024
+## SavedVariables: PvPAssistantDB, PvPAssistantGGUIConfig, PvPAssistantOptions, PvPAssistantLibIconDB
 ## Dependencies: Blizzard_PVPUI, Blizzard_InspectUI
 ## OptionalDeps: DevTool
 ## Version: 0.1.5
@@ -28,7 +28,7 @@ Classes/MatchHistory.lua
 
 Media/Media.lua
 
-Main/PvpAssistant.lua
+Main/PvPAssistant.lua
 
 Modules/Options/Options.lua
 Modules/MainFrame/MainFrame.lua

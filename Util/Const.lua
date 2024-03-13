@@ -1,66 +1,66 @@
----@class PvpAssistant
-local PvpAssistant = select(2, ...)
+---@class PvPAssistant
+local PvPAssistant = select(2, ...)
 
----@class PvpAssistant.Const
-PvpAssistant.CONST = {}
+---@class PvPAssistant.Const
+PvPAssistant.CONST = {}
 
-local f = PvpAssistant.GUTIL:GetFormatter()
+local f = PvPAssistant.GUTIL:GetFormatter()
 
-PvpAssistant.CONST.NEWS =
+PvPAssistant.CONST.NEWS =
     f.l("\nPatch Notes:\n") ..
     f.white("- Added Tooltip Options\n") ..
-    f.white("- Name change from Arenalogs to PvpAssistant\n") ..
+    f.white("- Name change from Arenalogs to PvPAssistant\n") ..
     f.bb("\nNeeds Testing:\n") ..
     f.white("- Solo Shuffle Match History\n") ..
     f.white("- Battleground Match History\n") ..
     f.g("\nNeeds Data:\n") ..
     f.white("- Arena Quick Guide Strategies")
 
----@enum PvpAssistant.Const.Frames
-PvpAssistant.CONST.FRAMES = {
+---@enum PvPAssistant.Const.Frames
+PvPAssistant.CONST.FRAMES = {
     NEWS = "NEWS",
     MAIN_FRAME = "MAIN_FRAME",
     PVPINFO = "PVPINFO",
     ARENA_GUIDE = "ARENA_GUIDE",
 }
 
----@enum PvpAssistant.Const.DisplayTeams
-PvpAssistant.CONST.DISPLAY_TEAMS = {
+---@enum PvPAssistant.Const.DisplayTeams
+PvPAssistant.CONST.DISPLAY_TEAMS = {
     PLAYER_TEAM = "PLAYER_TEAM",
     ENEMY_TEAM = "ENEMY_TEAM",
 }
 
-PvpAssistant.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME = "PvpAssistantFrame"
+PvPAssistant.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME = "PvPAssistantFrame"
 
----@enum PvpAssistant.Const.PVPModes
-PvpAssistant.CONST.PVP_MODES = {
+---@enum PvPAssistant.Const.PVPModes
+PvPAssistant.CONST.PVP_MODES = {
     TWOS = "TWOS",
     THREES = "THREES",
     BATTLEGROUND = "BATTLEGROUND",
     SOLO_SHUFFLE = "SOLO_SHUFFLE",
 }
----@type table<PvpAssistant.Const.PVPModes, string>
-PvpAssistant.CONST.PVP_MODES_NAMES = {
+---@type table<PvPAssistant.Const.PVPModes, string>
+PvPAssistant.CONST.PVP_MODES_NAMES = {
     SOLO_SHUFFLE = "Shuffle",
     TWOS = "2v2",
     THREES = "3v3",
     BATTLEGROUND = "BG",
 }
 
-PvpAssistant.CONST.PVP_MODES_BRACKET_IDS = {
+PvPAssistant.CONST.PVP_MODES_BRACKET_IDS = {
     SOLO_SHUFFLE = 7,
     TWOS = 1,
     THREES = 2,
     BATTLEGROUND = 4,
 }
 
-PvpAssistant.CONST.FRAME_LIST_HOVER_RGBA = { 1, 1, 1, 0.1 }
+PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA = { 1, 1, 1, 0.1 }
 
 ---@type table<string, GGUI.BackdropOptions>
-PvpAssistant.CONST.BACKDROPS = {
+PvPAssistant.CONST.BACKDROPS = {
     OPTIONS_TAB = {
         backdropInfo = {
-            bgFile = "Interface/addons/PvpAssistant/Media/Backgrounds/bgRoundedWhite1024",
+            bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
         },
         backdropRGBA = {
             0.176,
@@ -71,7 +71,7 @@ PvpAssistant.CONST.BACKDROPS = {
     },
     TOOLTIP_PREVIEW = {
         backdropInfo = {
-            bgFile = "Interface/addons/PvpAssistant/Media/Backgrounds/bgRoundedWhite1024",
+            bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
             edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
             edgeSize = 16,
             insets = { left = 0, right = 0, top = 0, bottom = 0 },
@@ -86,46 +86,46 @@ PvpAssistant.CONST.BACKDROPS = {
 }
 
 ---@type GGUI.BackdropOptions
-PvpAssistant.CONST.PVPINFO_BACKDROP = {
+PvPAssistant.CONST.PVPINFO_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
         insets = { left = 0, right = 0, top = 0, bottom = 0 },
     },
-    bgFile = "Interface/addons/PvpAssistant/Media/Backgrounds/bgRoundedWhite1024",
+    bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
     colorR = 0.2,
     colorG = 0.2,
     colorB = 0.2,
     colorA = 0.8,
 }
 ---@type GGUI.BackdropOptions
-PvpAssistant.CONST.ARENA_GUIDE_BACKDROP = {
+PvPAssistant.CONST.ARENA_GUIDE_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
         insets = { left = 0, right = 0, top = 0, bottom = 0 },
     },
-    bgFile = "Interface/addons/PvpAssistant/Media/Backgrounds/bgRoundedWhite1024",
+    bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
     colorR = 0.2,
     colorG = 0.2,
     colorB = 0.2,
     colorA = 1,
 }
 ---@type GGUI.BackdropOptions
-PvpAssistant.CONST.MAIN_FRAME_BACKDROP = {
+PvPAssistant.CONST.MAIN_FRAME_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
         insets = { left = 0, right = 0, top = 0, bottom = 0 },
     },
-    bgFile = "Interface/addons/PvpAssistant/Media/Backgrounds/bgRoundedWhite1024",
+    bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
     colorR = 0.2,
     colorG = 0.2,
     colorB = 0.2,
     colorA = 1,
 }
 ---@type GGUI.BackdropOptions
-PvpAssistant.CONST.TOOLTIP_FRAME_BACKDROP = {
+PvPAssistant.CONST.TOOLTIP_FRAME_BACKDROP = {
     bgFile = "Interface\\Buttons\\WHITE8X8",
     colorR = 0.816,
     colorG = 0.863,
@@ -133,7 +133,7 @@ PvpAssistant.CONST.TOOLTIP_FRAME_BACKDROP = {
     colorA = 0.08,
 }
 ---@type GGUI.BackdropOptions
-PvpAssistant.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A = {
+PvPAssistant.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A = {
     bgFile = "Interface\\Buttons\\WHITE8X8",
     colorR = 0.816,
     colorG = 0.863,
@@ -142,8 +142,8 @@ PvpAssistant.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A = {
 }
 
 ---@type GGUI.BackdropOptions
-PvpAssistant.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP = {
-    bgFile = "Interface/addons/PvpAssistant/Media/Backgrounds/bgRoundedWhite1024",
+PvPAssistant.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP = {
+    bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
     borderOptions = {
         insets = {
             top = 0,
@@ -159,7 +159,7 @@ PvpAssistant.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP = {
 }
 
 ---@type GGUI.BackdropOptions
-PvpAssistant.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP = {
+PvPAssistant.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
@@ -171,8 +171,8 @@ PvpAssistant.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP = {
 }
 
 ---@type GGUI.BackdropOptions
-PvpAssistant.CONST.CLASS_FILTER_FRAME_BACKDROP = {
-    bgFile = "Interface/addons/PvpAssistant/Media/Backgrounds/bgRoundedWhite1024x128",
+PvPAssistant.CONST.CLASS_FILTER_FRAME_BACKDROP = {
+    bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024x128",
     colorR = 0.176,
     colorG = 0.176,
     colorB = 0.184,
@@ -180,8 +180,8 @@ PvpAssistant.CONST.CLASS_FILTER_FRAME_BACKDROP = {
 }
 
 ---@type GGUI.BackdropOptions
-PvpAssistant.CONST.STRAGETY_TEXT_BACKDROP = {
-    bgFile = "Interface/addons/PvpAssistant/Media/Backgrounds/bgRoundedWhite1024x128",
+PvPAssistant.CONST.STRAGETY_TEXT_BACKDROP = {
+    bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024x128",
     colorR = 0.176,
     colorG = 0.176,
     colorB = 0.184,
@@ -189,7 +189,7 @@ PvpAssistant.CONST.STRAGETY_TEXT_BACKDROP = {
 }
 
 ---@type GGUI.BackdropOptions
-PvpAssistant.CONST.HISTORY_TITLE_BACKDROP = {
+PvPAssistant.CONST.HISTORY_TITLE_BACKDROP = {
     borderOptions = {
         edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
         edgeSize = 32,
@@ -208,14 +208,14 @@ PvpAssistant.CONST.HISTORY_TITLE_BACKDROP = {
     colorA = 0.8,
 }
 ---@type GGUI.BackdropOptions
-PvpAssistant.CONST.HISTORY_COLUMN_BACKDROP_B = {
+PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B = {
     bgFile = "Interface\\Buttons\\WHITE8X8",
     colorR = 0.816,
     colorG = 0.863,
     colorB = 0.961,
     colorA = 0.08,
 }
-PvpAssistant.CONST.HISTORY_COLUMN_BACKDROP_A = {
+PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A = {
     bgFile = "Interface\\Buttons\\WHITE8X8",
     colorR = 0.2,
     colorG = 0.2,
@@ -223,64 +223,64 @@ PvpAssistant.CONST.HISTORY_COLUMN_BACKDROP_A = {
     colorA = 1,
 }
 
-PvpAssistant.CONST.RATING_ICON_MAP = {
+PvPAssistant.CONST.RATING_ICON_MAP = {
     {
-        icon = "Interface\\addons\\PvpAssistant\\Media\\Images\\rank1",
+        icon = "Interface\\addons\\PvPAssistant\\Media\\Images\\rank1",
         rating = 0
     },
     {
-        icon = "Interface\\addons\\PvpAssistant\\Media\\Images\\rank2",
+        icon = "Interface\\addons\\PvPAssistant\\Media\\Images\\rank2",
         rating = 1000
     },
     {
-        icon = "Interface\\addons\\PvpAssistant\\Media\\Images\\rank3",
+        icon = "Interface\\addons\\PvPAssistant\\Media\\Images\\rank3",
         rating = 1400
     },
     {
-        icon = "Interface\\addons\\PvpAssistant\\Media\\Images\\rank4",
+        icon = "Interface\\addons\\PvPAssistant\\Media\\Images\\rank4",
         rating = 1600
     },
     {
-        icon = "Interface\\addons\\PvpAssistant\\Media\\Images\\rank5",
+        icon = "Interface\\addons\\PvPAssistant\\Media\\Images\\rank5",
         rating = 1800
     },
     {
-        icon = "Interface\\addons\\PvpAssistant\\Media\\Images\\rank6",
+        icon = "Interface\\addons\\PvPAssistant\\Media\\Images\\rank6",
         rating = 2100
     },
 }
 
----@class PvpAssistant.Assets
-PvpAssistant.CONST.ASSETS = {
+---@class PvPAssistant.Assets
+PvPAssistant.CONST.ASSETS = {
 
     BUTTONS = {
         ---@type GGUI.ButtonTextureOptions
         TAB_BUTTON = {
-            normal = 'Interface/addons/PvpAssistant/Media/Buttons/TabButton/TabButtonNormal',
-            disabled = 'Interface/addons/PvpAssistant/Media/Buttons/TabButton/TabButtonDisabled',
-            highlight = 'Interface/addons/PvpAssistant/Media/Buttons/TabButton/TabButtonHighlighted',
-            pushed = 'Interface/addons/PvpAssistant/Media/Buttons/TabButton/TabButtonDisabled',
+            normal = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonNormal',
+            disabled = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonDisabled',
+            highlight = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonHighlighted',
+            pushed = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonDisabled',
         },
         ---@type GGUI.ButtonTextureOptions
         OPTIONS_BUTTON = {
-            normal = 'Interface/addons/PvpAssistant/Media/Buttons/TabButton/TabButtonNormal',
-            disabled = 'Interface/addons/PvpAssistant/Media/Buttons/TabButton/TabButtonHighlighted',
-            highlight = 'Interface/addons/PvpAssistant/Media/Buttons/TabButton/TabButtonHighlighted',
-            pushed = 'Interface/addons/PvpAssistant/Media/Buttons/TabButton/TabButtonDisabled',
+            normal = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonNormal',
+            disabled = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonHighlighted',
+            highlight = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonHighlighted',
+            pushed = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonDisabled',
         },
         ---@type GGUI.ButtonTextureOptions
         DROPDOWN = {
-            normal = 'Interface/addons/PvpAssistant/Media/Buttons/TabButton/TabButtonNormal',
-            disabled = 'Interface/addons/PvpAssistant/Media/Buttons/TabButton/TabButtonDisabled',
-            highlight = 'Interface/addons/PvpAssistant/Media/Buttons/TabButton/TabButtonHighlighted',
-            pushed = 'Interface/addons/PvpAssistant/Media/Buttons/TabButton/TabButtonDisabled',
+            normal = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonNormal',
+            disabled = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonDisabled',
+            highlight = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonHighlighted',
+            pushed = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonDisabled',
             isAtlas = false,
         },
         ---@type GGUI.CustomDropdown.ArrowOptions
         DROPDOWN_ARROW_OPTIONS = {
             isAtlas = false,
-            normal = "Interface/addons/PvpAssistant/Media/Buttons/Dropdown/DropdownArrowPushed",
-            pushed = "Interface/addons/PvpAssistant/Media/Buttons/Dropdown/DropdownArrowPushed",
+            normal = "Interface/addons/PvPAssistant/Media/Buttons/Dropdown/DropdownArrowPushed",
+            pushed = "Interface/addons/PvPAssistant/Media/Buttons/Dropdown/DropdownArrowPushed",
             sizeX = 15,
             sizeY = 15,
             offsetX = -5,
@@ -289,12 +289,12 @@ PvpAssistant.CONST.ASSETS = {
     },
 }
 
-PvpAssistant.CONST.FONT_FILES = {
-    ROBOTO = 'Interface/addons/PvpAssistant/Media/Fonts/Roboto-Regular.ttf',
-    MONOSPACE = 'Interface/addons/PvpAssistant/Media/Fonts/SpaceMono-Regular.ttf',
+PvPAssistant.CONST.FONT_FILES = {
+    ROBOTO = 'Interface/addons/PvPAssistant/Media/Fonts/Roboto-Regular.ttf',
+    MONOSPACE = 'Interface/addons/PvPAssistant/Media/Fonts/SpaceMono-Regular.ttf',
 }
 
-PvpAssistant.CONST.ATLAS = {
+PvPAssistant.CONST.ATLAS = {
     TOOLTIP_SWORD = "pvptalents-warmode-swords",
     LEFT_MOUSE_BUTTON = "newplayertutorial-icon-mouse-leftbutton",
     RIGHT_MOUSE_BUTTON = "newplayertutorial-icon-mouse-rightbutton",
@@ -302,7 +302,7 @@ PvpAssistant.CONST.ATLAS = {
     OPTIONS_ICON = "mechagon-projects",
 }
 
-PvpAssistant.CONST.SPEC_ID_LIST = {
+PvPAssistant.CONST.SPEC_ID_LIST = {
     250,
     251,
     252,
@@ -344,8 +344,8 @@ PvpAssistant.CONST.SPEC_ID_LIST = {
     73,
 }
 
----@enum PvpAssistant.SpecIDs
-PvpAssistant.CONST.SPEC_IDS = {
+---@enum PvPAssistant.SpecIDs
+PvPAssistant.CONST.SPEC_IDS = {
     BLOOD = 250,
     FROST_DK = 251,
     UNHOLY = 252,
@@ -387,8 +387,8 @@ PvpAssistant.CONST.SPEC_IDS = {
     PROTECTION = 73,
 }
 
----@enum PvpAssistant.AbilitySubTypes
-PvpAssistant.CONST.ABILITY_SUB_TYPES = {
+---@enum PvPAssistant.AbilitySubTypes
+PvPAssistant.CONST.ABILITY_SUB_TYPES = {
     STUN = "STUN",
     FEAR = "FEAR",
     ROOT = "ROOT",
@@ -409,30 +409,30 @@ PvpAssistant.CONST.ABILITY_SUB_TYPES = {
     BUFF = "BUFF",
 }
 
----@enum PvpAssistant.AbilityTypes
-PvpAssistant.CONST.ABILITY_TYPES = {
+---@enum PvPAssistant.AbilityTypes
+PvPAssistant.CONST.ABILITY_TYPES = {
     CC = "CC",
     DEF = "DEF"
 }
 
----@enum PvpAssistant.PVPSeverity
-PvpAssistant.CONST.PVP_SEVERITY = {
+---@enum PvPAssistant.PVPSeverity
+PvPAssistant.CONST.PVP_SEVERITY = {
     LOW = "LOW",
     MEDIUM = "MEDIUM",
     HIGH = "HIGH",
 }
-PvpAssistant.CONST.PVP_SEVERITY_RANK = {
+PvPAssistant.CONST.PVP_SEVERITY_RANK = {
     LOW = 1,
     MEDIUM = 2,
     HIGH = 3,
 }
 
-PvpAssistant.CONST.MAP_ABBREVIATIONS = {
+PvPAssistant.CONST.MAP_ABBREVIATIONS = {
 
 }
 
----@enum PvpAssistant.OPTIONS.SPELL_TOOLTIP.KEYS
-PvpAssistant.CONST.SPELL_TOOLTIP_OPTIONS = {
+---@enum PvPAssistant.OPTIONS.SPELL_TOOLTIP.KEYS
+PvPAssistant.CONST.SPELL_TOOLTIP_OPTIONS = {
     TYPE = "TYPE",
     SUBTYPE = "SUBTYPE",
     PVP_SEVERITY = "PVP_SEVERITY",
