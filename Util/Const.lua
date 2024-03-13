@@ -8,7 +8,6 @@ local f = PvPAssistant.GUTIL:GetFormatter()
 
 PvPAssistant.CONST.NEWS =
     f.l("\nPatch Notes:\n") ..
-    f.white("- Added Tooltip Options\n") ..
     f.white("- Name change from Arenalogs to PvPAssistant\n") ..
     f.bb("\nNeeds Testing:\n") ..
     f.white("- Solo Shuffle Match History\n") ..
