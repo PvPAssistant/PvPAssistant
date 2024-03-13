@@ -1,17 +1,17 @@
----@class PvpAssistant
-local PvpAssistant = select(2, ...)
+---@class PvPAssistant
+local PvPAssistant = select(2, ...)
 
-local GUTIL = PvpAssistant.GUTIL
+local GUTIL = PvPAssistant.GUTIL
 local f = GUTIL:GetFormatter()
 
----@class PvpAssistant.Abilities
-PvpAssistant.ABILITIES = {}
+---@class PvPAssistant.Abilities
+PvPAssistant.ABILITIES = {}
 
 ---@param specIDs number[]
----@return table<number, PvpAssistant.AbilityData[]>
-function PvpAssistant.ABILITIES:GetAbilitiesForSpecs(specIDs)
+---@return table<number, PvPAssistant.AbilityData[]>
+function PvPAssistant.ABILITIES:GetAbilitiesForSpecs(specIDs)
     local abilities = {}
-    for classFile, specList in pairs(PvpAssistant.ABILITY_DATA) do
+    for classFile, specList in pairs(PvPAssistant.ABILITY_DATA) do
         for specID, spellList in pairs(specList) do
             if tContains(specIDs, specID) then
                 abilities[specID] = GUTIL:Concat({ spellList, specList[classFile] })
@@ -21,8 +21,8 @@ function PvpAssistant.ABILITIES:GetAbilitiesForSpecs(specIDs)
     return abilities
 end
 
-function PvpAssistant.ABILITIES:GetSpellByID(spellID)
-    for _, specList in pairs(PvpAssistant.ABILITY_DATA) do
+function PvPAssistant.ABILITIES:GetSpellByID(spellID)
+    for _, specList in pairs(PvPAssistant.ABILITY_DATA) do
         for _, spellList in pairs(specList) do
             for _, abilityData in ipairs(spellList) do
                 if abilityData.spellID == spellID then
@@ -33,30 +33,30 @@ function PvpAssistant.ABILITIES:GetSpellByID(spellID)
     end
 end
 
-local SPECS = PvpAssistant.CONST.SPEC_IDS
-local TYPES = PvpAssistant.CONST.ABILITY_TYPES
-local SUB_TYPES = PvpAssistant.CONST.ABILITY_SUB_TYPES
-local SEVERITY = PvpAssistant.CONST.PVP_SEVERITY
+local SPECS = PvPAssistant.CONST.SPEC_IDS
+local TYPES = PvPAssistant.CONST.ABILITY_TYPES
+local SUB_TYPES = PvPAssistant.CONST.ABILITY_SUB_TYPES
+local SEVERITY = PvPAssistant.CONST.PVP_SEVERITY
 
----@class PvpAssistant.AbilityData.UpgradeInfo
+---@class PvPAssistant.AbilityData.UpgradeInfo
 ---@field spellID number
----@field abilityType PvpAssistant.AbilityTypes
----@field subType? PvpAssistant.AbilitySubTypes
+---@field abilityType PvPAssistant.AbilityTypes
+---@field subType? PvPAssistant.AbilitySubTypes
 ---@field duration? number
----@field severity PvpAssistant.PVPSeverity
+---@field severity PvPAssistant.PVPSeverity
 
----@class PvpAssistant.AbilityData
+---@class PvPAssistant.AbilityData
 ---@field spellID number
----@field abilityType PvpAssistant.AbilityTypes
----@field subType PvpAssistant.AbilitySubTypes
+---@field abilityType PvPAssistant.AbilityTypes
+---@field subType PvPAssistant.AbilitySubTypes
 ---@field duration? number
----@field talentUpgrades? PvpAssistant.AbilityData.UpgradeInfo[] -- spellID list of potential talent upgrades including severity and subType
+---@field talentUpgrades? PvPAssistant.AbilityData.UpgradeInfo[] -- spellID list of potential talent upgrades including severity and subType
 ---@field passive? boolean
----@field severity PvpAssistant.PVPSeverity
+---@field severity PvPAssistant.PVPSeverity
 ---@field additionalData? table<string, string>
 
----@type table<ClassFile, table<PvpAssistant.SpecIDs|ClassFile, PvpAssistant.AbilityData[]>>
-PvpAssistant.ABILITY_DATA = {
+---@type table<ClassFile, table<PvPAssistant.SpecIDs|ClassFile, PvPAssistant.AbilityData[]>>
+PvPAssistant.ABILITY_DATA = {
     WARRIOR = {
         WARRIOR = {
             { -- Thunderstruck

@@ -1,34 +1,34 @@
----@class PvpAssistant
-local PvpAssistant = select(2, ...)
+---@class PvPAssistant
+local PvPAssistant = select(2, ...)
 
-local GGUI = PvpAssistant.GGUI
-local GUTIL = PvpAssistant.GUTIL
+local GGUI = PvPAssistant.GGUI
+local GUTIL = PvPAssistant.GUTIL
 local f = GUTIL:GetFormatter()
-local debug = PvpAssistant.DEBUG:GetDebugPrint()
+local debug = PvPAssistant.DEBUG:GetDebugPrint()
 
----@class PvpAssistant.ArenaGuide
-PvpAssistant.ARENA_GUIDE = PvpAssistant.ARENA_GUIDE
+---@class PvPAssistant.ArenaGuide
+PvPAssistant.ARENA_GUIDE = PvPAssistant.ARENA_GUIDE
 
----@class PvpAssistant.ArenaGuide.Frames
-PvpAssistant.ARENA_GUIDE.FRAMES = {}
+---@class PvPAssistant.ArenaGuide.Frames
+PvPAssistant.ARENA_GUIDE.FRAMES = {}
 
 local debug = false
 
-function PvpAssistant.ARENA_GUIDE.FRAMES:Init()
+function PvPAssistant.ARENA_GUIDE.FRAMES:Init()
     local sizeX = 320
     local sizeY = 445
-    PvpAssistant.ARENA_GUIDE.frame = GGUI.Frame {
+    PvPAssistant.ARENA_GUIDE.frame = GGUI.Frame {
         parent = UIParent, anchorParent = UIParent,
         sizeX = sizeX, sizeY = sizeY,
-        frameConfigTable = PvpAssistantGGUIConfig, frameID = PvpAssistant.CONST.FRAMES.ARENA_GUIDE,
-        frameTable = PvpAssistant.MAIN.FRAMES,
-        backdropOptions = PvpAssistant.CONST.ARENA_GUIDE_BACKDROP,
+        frameConfigTable = PvPAssistantGGUIConfig, frameID = PvPAssistant.CONST.FRAMES.ARENA_GUIDE,
+        frameTable = PvPAssistant.MAIN.FRAMES,
+        backdropOptions = PvPAssistant.CONST.ARENA_GUIDE_BACKDROP,
         moveable = true, hide = true,
     }
 
-    local content = PvpAssistant.ARENA_GUIDE.frame.content
+    local content = PvPAssistant.ARENA_GUIDE.frame.content
 
-    content.logo = PvpAssistant.UTIL:CreateLogo(content,
+    content.logo = PvPAssistant.UTIL:CreateLogo(content,
         { { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = -10, } })
 
     content.title = GGUI.Text {
@@ -40,14 +40,14 @@ function PvpAssistant.ARENA_GUIDE.FRAMES:Init()
         parent = content, anchorParent = content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
         offsetX = -8, offsetY = -8,
         label = f.white("x"),
-        buttonTextureOptions = PvpAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
         fontOptions = {
-            fontFile = PvpAssistant.CONST.FONT_FILES.ROBOTO,
+            fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
         },
         sizeX = 15,
         sizeY = 15,
         clickCallback = function()
-            PvpAssistant.ARENA_GUIDE.frame:Hide()
+            PvPAssistant.ARENA_GUIDE.frame:Hide()
         end
     }
 
@@ -76,7 +76,7 @@ function PvpAssistant.ARENA_GUIDE.FRAMES:Init()
             local classIcon = GGUI.ClassIcon {
                 parent = parent, anchorParent = anchorParent,
                 anchorA = anchorA, anchorB = anchorB, offsetX = offsetX, offsetY = offsetY, sizeX = iconSize, sizeY = iconSize,
-                initialSpecID = PvpAssistant.CONST.SPEC_IDS.BEAST_MASTERY, showTooltip = true,
+                initialSpecID = PvPAssistant.CONST.SPEC_IDS.BEAST_MASTERY, showTooltip = true,
                 showBorder = true,
             }
             lastAnchor = classIcon.frame
@@ -119,7 +119,7 @@ function PvpAssistant.ARENA_GUIDE.FRAMES:Init()
 
     content.strategyBackground = GGUI.Frame {
         parent = content, anchorParent = content, anchorA = "TOP", anchorB = "TOP", sizeX = sizeX - 10, sizeY = 130, offsetY = -105,
-        backdropOptions = PvpAssistant.CONST.STRAGETY_TEXT_BACKDROP,
+        backdropOptions = PvPAssistant.CONST.STRAGETY_TEXT_BACKDROP,
     }
 
     content.strategyBackground.frame:SetFrameLevel(content:GetFrameLevel() + 1)
@@ -169,13 +169,13 @@ function PvpAssistant.ARENA_GUIDE.FRAMES:Init()
                 anchorA = "LEFT", anchorB = "RIGHT", offsetX = 3, wrap = true, fixedWidth = 150, scale = 0.9,
             }
 
-            ---@type PvpAssistant.PVPSeverity
+            ---@type PvPAssistant.PVPSeverity
             row.spellSeverity = nil
 
             spellColumn.SetSpell = function(self, spellID, severity)
                 spellColumn.icon:SetSpell(spellID)
                 local spellname = select(1, GetSpellInfo(spellID))
-                if severity and severity == PvpAssistant.CONST.PVP_SEVERITY.HIGH then
+                if severity and severity == PvPAssistant.CONST.PVP_SEVERITY.HIGH then
                     spellname = spellname .. f.r(" (!)")
                 end
                 spellColumn.spellName:SetText(spellname)
@@ -190,8 +190,8 @@ function PvpAssistant.ARENA_GUIDE.FRAMES:Init()
         parent = content,
         sizeY = 180,
         anchorPoints = { { anchorParent = content.strategyBackground.frame, anchorA = "TOP", anchorB = "BOTTOM", offsetY = -25, offsetX = -10, } },
-        rowBackdrops = { PvpAssistant.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} },
-        selectionOptions = { noSelectionColor = true, hoverRGBA = PvpAssistant.CONST.FRAME_LIST_HOVER_RGBA },
+        rowBackdrops = { PvPAssistant.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} },
+        selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
     }
 
     content.listHeader = GGUI.Text {
@@ -200,28 +200,28 @@ function PvpAssistant.ARENA_GUIDE.FRAMES:Init()
     }
 end
 
-function PvpAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
-    local content = PvpAssistant.ARENA_GUIDE.frame.content
+function PvPAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
+    local content = PvPAssistant.ARENA_GUIDE.frame.content
 
-    PvpAssistant.ARENA_GUIDE:UpdateArenaSpecIDs()
+    PvPAssistant.ARENA_GUIDE:UpdateArenaSpecIDs()
 
     if debug then
-        PvpAssistant.ARENA_GUIDE.specIDs = {
+        PvPAssistant.ARENA_GUIDE.specIDs = {
             PLAYER_TEAM = {
-                PvpAssistant.CONST.SPEC_IDS.FURY,
-                PvpAssistant.CONST.SPEC_IDS.RETRIBUTION,
-                PvpAssistant.CONST.SPEC_IDS.ASSASSINATION
+                PvPAssistant.CONST.SPEC_IDS.FURY,
+                PvPAssistant.CONST.SPEC_IDS.RETRIBUTION,
+                PvPAssistant.CONST.SPEC_IDS.ASSASSINATION
             },
             ENEMY_TEAM = {
-                PvpAssistant.CONST.SPEC_IDS.HOLY_PALADIN,
-                PvpAssistant.CONST.SPEC_IDS.BLOOD,
-                PvpAssistant.CONST.SPEC_IDS.ASSASSINATION
+                PvPAssistant.CONST.SPEC_IDS.HOLY_PALADIN,
+                PvPAssistant.CONST.SPEC_IDS.BLOOD,
+                PvPAssistant.CONST.SPEC_IDS.ASSASSINATION
             },
         }
     end
 
-    local specIDsPlayerTeam = PvpAssistant.ARENA_GUIDE.specIDs.PLAYER_TEAM
-    local specIDsEnemyTeam = PvpAssistant.ARENA_GUIDE.specIDs.ENEMY_TEAM
+    local specIDsPlayerTeam = PvPAssistant.ARENA_GUIDE.specIDs.PLAYER_TEAM
+    local specIDsEnemyTeam = PvPAssistant.ARENA_GUIDE.specIDs.ENEMY_TEAM
 
     table.foreach(content.playerTeamIcons2, function(_, icon) icon:Hide() end)
     table.foreach(content.playerTeamIcons3, function(_, icon) icon:Hide() end)
@@ -257,14 +257,14 @@ function PvpAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
     end
 
     -- fill strategyText
-    local strategy = PvpAssistant.ARENA_STRATEGIES:Get(specIDsEnemyTeam) or
+    local strategy = PvPAssistant.ARENA_STRATEGIES:Get(specIDsEnemyTeam) or
         f.white("No Quick Guide was submitted yet for this enemy composition")
 
     content.strategyText:SetText(strategy)
 
 
     -- fill enemy ability list
-    local specAbilities = PvpAssistant.ABILITIES:GetAbilitiesForSpecs(specIDsEnemyTeam)
+    local specAbilities = PvPAssistant.ABILITIES:GetAbilitiesForSpecs(specIDsEnemyTeam)
     local abilityList = content.enemyAbilityList --[[@as GGUI.FrameList]]
     abilityList:Remove()
     for specID, abilityDataList in pairs(specAbilities) do
@@ -296,11 +296,11 @@ function PvpAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
     end
 
     abilityList:UpdateDisplay(function(rowA, rowB)
-        if PvpAssistant.CONST.PVP_SEVERITY_RANK[rowA.spellSeverity] >
-            PvpAssistant.CONST.PVP_SEVERITY_RANK[rowB.spellSeverity] then
+        if PvPAssistant.CONST.PVP_SEVERITY_RANK[rowA.spellSeverity] >
+            PvPAssistant.CONST.PVP_SEVERITY_RANK[rowB.spellSeverity] then
             return true
-        elseif PvpAssistant.CONST.PVP_SEVERITY_RANK[rowA.spellSeverity] <
-            PvpAssistant.CONST.PVP_SEVERITY_RANK[rowB.spellSeverity] then
+        elseif PvPAssistant.CONST.PVP_SEVERITY_RANK[rowA.spellSeverity] <
+            PvPAssistant.CONST.PVP_SEVERITY_RANK[rowB.spellSeverity] then
             return false
         end
 

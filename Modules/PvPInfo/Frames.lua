@@ -1,33 +1,33 @@
----@class PvpAssistant
-local PvpAssistant = select(2, ...)
+---@class PvPAssistant
+local PvPAssistant = select(2, ...)
 
-local GGUI = PvpAssistant.GGUI
-local GUTIL = PvpAssistant.GUTIL
+local GGUI = PvPAssistant.GGUI
+local GUTIL = PvPAssistant.GUTIL
 local f = GUTIL:GetFormatter()
 
----@class PvpAssistant.PvPInfo
-PvpAssistant.PVPINFO = PvpAssistant.PVPINFO
+---@class PvPAssistant.PvPInfo
+PvPAssistant.PVPINFO = PvPAssistant.PVPINFO
 
----@class PvpAssistant.PvPInfo.Frames
-PvpAssistant.PVPINFO.FRAMES = {}
+---@class PvPAssistant.PvPInfo.Frames
+PvPAssistant.PVPINFO.FRAMES = {}
 
-function PvpAssistant.PVPINFO.FRAMES:Init()
+function PvPAssistant.PVPINFO.FRAMES:Init()
     if not PVPUIFrame then
         error("PVPUIFrame not found")
     end
     local sizeX, sizeY = 300, PVPUIFrame:GetHeight()
-    PvpAssistant.PVPINFO.frame = GGUI.Frame {
+    PvPAssistant.PVPINFO.frame = GGUI.Frame {
         parent = PVPUIFrame, anchorParent = PVPUIFrame,
         anchorA = "TOPLEFT", anchorB = "TOPRIGHT", offsetX = 0, offsetY = 0, sizeX = sizeX, sizeY = sizeY,
-        moveable = true, frameConfigTable = PvpAssistantGGUIConfig, frameID = PvpAssistant.CONST.FRAMES.PVPINFO,
-        frameTable = PvpAssistant.MAIN.FRAMES,
-        backdropOptions = PvpAssistant.CONST.PVPINFO_BACKDROP
+        moveable = true, frameConfigTable = PvPAssistantGGUIConfig, frameID = PvPAssistant.CONST.FRAMES.PVPINFO,
+        frameTable = PvPAssistant.MAIN.FRAMES,
+        backdropOptions = PvPAssistant.CONST.PVPINFO_BACKDROP
     }
 
-    local content = PvpAssistant.PVPINFO.frame.content
+    local content = PvPAssistant.PVPINFO.frame.content
 
 
-    content.titleLogo = PvpAssistant.UTIL:CreateLogo(content,
+    content.titleLogo = PvPAssistant.UTIL:CreateLogo(content,
         {
             {
                 anchorParent = content,
@@ -102,15 +102,15 @@ function PvpAssistant.PVPINFO.FRAMES:Init()
         sizeY = 300,
         anchorPoints = { { anchorParent = content.ratedPvPHeader.frame, anchorA = "TOP", anchorB = "BOTTOM", offsetY = -30, offsetX = 0, } },
         hideScrollbar = true,
-        rowBackdrops = { PvpAssistant.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} },
-        selectionOptions = { noSelectionColor = true, hoverRGBA = PvpAssistant.CONST.FRAME_LIST_HOVER_RGBA },
+        rowBackdrops = { PvPAssistant.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} },
+        selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
     }
 end
 
-function PvpAssistant.PVPINFO.FRAMES:UpdateDisplay()
-    local ratingList = PvpAssistant.PVPINFO.frame.content.ratingList --[[@as GGUI.FrameList]]
-    local honorValue = PvpAssistant.PVPINFO.frame.content.honorValue --[[@as GGUI.Text]]
-    local personalRatedInfo = PvpAssistant.PVPINFO:GetPersonalRatingInfo()
+function PvPAssistant.PVPINFO.FRAMES:UpdateDisplay()
+    local ratingList = PvPAssistant.PVPINFO.frame.content.ratingList --[[@as GGUI.FrameList]]
+    local honorValue = PvPAssistant.PVPINFO.frame.content.honorValue --[[@as GGUI.Text]]
+    local personalRatedInfo = PvPAssistant.PVPINFO:GetPersonalRatingInfo()
     local maxHonor = UnitHonorMax("player") or 0
     local curHonor = UnitHonor("player") or 0
     local honorLevel = UnitHonorLevel("player") or 0
@@ -124,8 +124,8 @@ function PvpAssistant.PVPINFO.FRAMES:UpdateDisplay()
             local scoreColumn = columns[3]
             local seasonBestColumn = columns[4]
 
-            typeColumn.text:SetText(CreateAtlasMarkup(PvpAssistant.CONST.ATLAS.TOOLTIP_SWORD) ..
-                "  " .. PvpAssistant.CONST.PVP_MODES_NAMES[mode])
+            typeColumn.text:SetText(CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.TOOLTIP_SWORD) ..
+                "  " .. PvPAssistant.CONST.PVP_MODES_NAMES[mode])
             ratingColumn.text:SetText(f.l(ratedInfo.rating or 0))
             local seasonWon = ratedInfo.seasonWon or 0
             local seasonLost = (ratedInfo.seasonPlayed or 0) - seasonWon
@@ -133,7 +133,7 @@ function PvpAssistant.PVPINFO.FRAMES:UpdateDisplay()
             seasonBestColumn.text:SetText(f.e(ratedInfo.seasonBest))
 
             local tooltipText = ""
-            tooltipText = tooltipText .. f.white(PvpAssistant.CONST.PVP_MODES_NAMES[mode]) .. "\n"
+            tooltipText = tooltipText .. f.white(PvPAssistant.CONST.PVP_MODES_NAMES[mode]) .. "\n"
             tooltipText = tooltipText .. f.white("- Rating: " .. f.l(ratedInfo.rating or 0)) .. "\n"
             tooltipText = tooltipText .. f.white("\n- Season Best: " .. f.l(ratedInfo.seasonBest or 0)) .. "\n"
             tooltipText = tooltipText .. f.white("-  Played: " .. f.white(ratedInfo.seasonPlayed or 0)) .. "\n"
