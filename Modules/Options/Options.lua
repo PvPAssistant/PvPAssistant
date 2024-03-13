@@ -1,14 +1,14 @@
----@class PvpAssistant
-local PvpAssistant = select(2, ...)
+---@class PvPAssistant
+local PvPAssistant = select(2, ...)
 
-local GGUI = PvpAssistant.GGUI
-local GUTIL = PvpAssistant.GUTIL
+local GGUI = PvPAssistant.GGUI
+local GUTIL = PvPAssistant.GUTIL
 local f = GUTIL:GetFormatter()
 
----@class PvpAssistant.Options
-PvpAssistant.OPTIONS = {}
+---@class PvPAssistant.Options
+PvPAssistant.OPTIONS = {}
 
-PvpAssistantOptions = PvpAssistantOptions or {
+PvPAssistantOptions = PvPAssistantOptions or {
     enableDebug = false,
 
     -- Arena Guide
@@ -17,34 +17,34 @@ PvpAssistantOptions = PvpAssistantOptions or {
 
 ---@param optionName string
 ---@param value any
-function PvpAssistant.OPTIONS:InitDefaultValue(optionName, value)
-    if PvpAssistantOptions[optionName] == nil then
-        PvpAssistantOptions[optionName] = value
+function PvPAssistant.OPTIONS:InitDefaultValue(optionName, value)
+    if PvPAssistantOptions[optionName] == nil then
+        PvPAssistantOptions[optionName] = value
     end
 end
 
-function PvpAssistant.OPTIONS:Init()
+function PvPAssistant.OPTIONS:Init()
     self:HandleOptionsUpdates()
-    PvpAssistant.OPTIONS.optionsPanel = CreateFrame("Frame", "PvpAssistantOptionsPanel")
-    PvpAssistant.OPTIONS.optionsPanel.name = "PvpAssistant"
+    PvPAssistant.OPTIONS.optionsPanel = CreateFrame("Frame", "PvPAssistantOptionsPanel")
+    PvPAssistant.OPTIONS.optionsPanel.name = "PvPAssistant"
 
     InterfaceOptions_AddCategory(self.optionsPanel)
 end
 
-function PvpAssistant.OPTIONS:HandleOptionsUpdates()
-    if PvpAssistantOptions then
-        PvpAssistant.OPTIONS:InitDefaultValue("enableDebug", false)
-        PvpAssistant.OPTIONS:InitDefaultValue("arenaGuideEnable", true)
+function PvPAssistant.OPTIONS:HandleOptionsUpdates()
+    if PvPAssistantOptions then
+        PvPAssistant.OPTIONS:InitDefaultValue("enableDebug", false)
+        PvPAssistant.OPTIONS:InitDefaultValue("arenaGuideEnable", true)
     end
 end
 
-function PvpAssistant.OPTIONS:InitOptionsTab()
+function PvPAssistant.OPTIONS:InitOptionsTab()
     local tabSizeX = 650
     local tabSizeY = 450
     local tabContentOffsetY = -80
 
-    local optionsTab = PvpAssistant.MAIN_FRAME.frame.content.optionsTab
-    ---@class PvpAssistant.MAIN_FRAME.OPTIONS_TAB.CONTENT
+    local optionsTab = PvPAssistant.MAIN_FRAME.frame.content.optionsTab
+    ---@class PvPAssistant.MAIN_FRAME.OPTIONS_TAB.CONTENT
     optionsTab.content = optionsTab.content
 
     optionsTab.content.header = GGUI.Text {
@@ -52,11 +52,11 @@ function PvpAssistant.OPTIONS:InitOptionsTab()
         scale = 1.5, text = f.white("Options")
     }
 
-    ---@class PvpAssistant.OPTIONS.ArenaGuideTab : GGUI.Tab
+    ---@class PvPAssistant.OPTIONS.ArenaGuideTab : GGUI.Tab
     optionsTab.content.arenaGuideTab = GGUI.Tab {
         parent = optionsTab.content, anchorParent = optionsTab.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = tabSizeX, sizeY = tabSizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
-        backdropOptions = PvpAssistant.CONST.BACKDROPS.OPTIONS_TAB,
+        backdropOptions = PvPAssistant.CONST.BACKDROPS.OPTIONS_TAB,
         buttonOptions = {
             label = GUTIL:ColorizeText("Arena Guide", GUTIL.COLORS.WHITE),
             parent = optionsTab.content,
@@ -72,18 +72,18 @@ function PvpAssistant.OPTIONS:InitOptionsTab()
             },
             adjustWidth = true,
             sizeX = 15,
-            buttonTextureOptions = PvpAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
             fontOptions = {
-                fontFile = PvpAssistant.CONST.FONT_FILES.ROBOTO,
+                fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
             },
         }
     }
 
-    ---@class PvpAssistant.OPTIONS.TooltipsTab : GGUI.Tab
+    ---@class PvPAssistant.OPTIONS.TooltipsTab : GGUI.Tab
     optionsTab.content.tooltipsTab = GGUI.Tab {
         parent = optionsTab.content, anchorParent = optionsTab.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = tabSizeX, sizeY = tabSizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
-        backdropOptions = PvpAssistant.CONST.BACKDROPS.OPTIONS_TAB,
+        backdropOptions = PvPAssistant.CONST.BACKDROPS.OPTIONS_TAB,
         buttonOptions = {
             label = GUTIL:ColorizeText("Tooltips", GUTIL.COLORS.WHITE),
             parent = optionsTab.content,
@@ -98,9 +98,9 @@ function PvpAssistant.OPTIONS:InitOptionsTab()
             },
             adjustWidth = true,
             sizeX = 20,
-            buttonTextureOptions = PvpAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
             fontOptions = {
-                fontFile = PvpAssistant.CONST.FONT_FILES.ROBOTO,
+                fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
             },
         }
     }
@@ -110,13 +110,13 @@ function PvpAssistant.OPTIONS:InitOptionsTab()
 
     GGUI.TabSystem { arenaGuideTab, tooltipsTab }
 
-    PvpAssistant.OPTIONS:InitArenaGuideTab(arenaGuideTab)
-    PvpAssistant.OPTIONS:InitTooltipsTab(tooltipsTab)
+    PvPAssistant.OPTIONS:InitArenaGuideTab(arenaGuideTab)
+    PvPAssistant.OPTIONS:InitTooltipsTab(tooltipsTab)
 end
 
----@param arenaGuideTab PvpAssistant.OPTIONS.ArenaGuideTab
-function PvpAssistant.OPTIONS:InitArenaGuideTab(arenaGuideTab)
-    ---@class PvpAssistant.OPTIONS.ArenaGuideTab.Content : Frame
+---@param arenaGuideTab PvPAssistant.OPTIONS.ArenaGuideTab
+function PvPAssistant.OPTIONS:InitArenaGuideTab(arenaGuideTab)
+    ---@class PvPAssistant.OPTIONS.ArenaGuideTab.Content : Frame
     local content = arenaGuideTab.content
 
     content.enableArenaGuideCheckbox = GGUI.Checkbox {
@@ -124,17 +124,17 @@ function PvpAssistant.OPTIONS:InitArenaGuideTab(arenaGuideTab)
         labelOptions = {
             text = f.white("Enable the " .. f.e("Arena Quick Guide")),
         },
-        tooltip = f.white("If enabled, the " .. f.l("PvpAssistant ") .. f.e("\nArena Quick Guide") .. " will appear in arena matches to give you useful information and hints"),
-        initialValue = PvpAssistantOptions.arenaGuideEnable,
+        tooltip = f.white("If enabled, the " .. f.l("PvPAssistant ") .. f.e("\nArena Quick Guide") .. " will appear in arena matches to give you useful information and hints"),
+        initialValue = PvPAssistantOptions.arenaGuideEnable,
         clickCallback = function(_, checked)
-            PvpAssistantOptions.arenaGuideEnable = checked
+            PvPAssistantOptions.arenaGuideEnable = checked
         end
     }
 end
 
----@param tooltipsTab PvpAssistant.OPTIONS.TooltipsTab
-function PvpAssistant.OPTIONS:InitTooltipsTab(tooltipsTab)
-    ---@class PvpAssistant.OPTIONS.TooltipsTab.Content : Frame
+---@param tooltipsTab PvPAssistant.OPTIONS.TooltipsTab
+function PvPAssistant.OPTIONS:InitTooltipsTab(tooltipsTab)
+    ---@class PvPAssistant.OPTIONS.TooltipsTab.Content : Frame
     local content = tooltipsTab.content
 
     content.playerTooltipFrame = GGUI.TooltipOptionsFrame {
@@ -145,7 +145,7 @@ function PvpAssistant.OPTIONS:InitTooltipsTab(tooltipsTab)
             anchorA = "TOPLEFT", anchorB = "TOPLEFT",
             offsetX = 20, offsetY = -20
         },
-        optionsTable = PvpAssistantDB.tooltipOptions.data.playerTooltip,
+        optionsTable = PvPAssistantDB.tooltipOptions.data.playerTooltip,
         lines = {
             {
                 label = f.l("Enable"),
@@ -155,22 +155,22 @@ function PvpAssistant.OPTIONS:InitTooltipsTab(tooltipsTab)
             {
                 label = f.white("2v2"),
                 disabledLabel = f.grey("2v2"),
-                optionsKey = PvpAssistant.CONST.PVP_MODES.TWOS,
+                optionsKey = PvPAssistant.CONST.PVP_MODES.TWOS,
             },
             {
                 label = f.white("3v3"),
                 disabledLabel = f.grey("3v3"),
-                optionsKey = PvpAssistant.CONST.PVP_MODES.THREES,
+                optionsKey = PvPAssistant.CONST.PVP_MODES.THREES,
             },
             {
                 label = f.white("Shuffle"),
                 disabledLabel = f.grey("Shuffle"),
-                optionsKey = PvpAssistant.CONST.PVP_MODES.SOLO_SHUFFLE,
+                optionsKey = PvPAssistant.CONST.PVP_MODES.SOLO_SHUFFLE,
             },
             {
                 label = f.white("BG"),
                 disabledLabel = f.grey("BG"),
-                optionsKey = PvpAssistant.CONST.PVP_MODES.BATTLEGROUND,
+                optionsKey = PvPAssistant.CONST.PVP_MODES.BATTLEGROUND,
             },
         },
     }
@@ -183,7 +183,7 @@ function PvpAssistant.OPTIONS:InitTooltipsTab(tooltipsTab)
             anchorA = "TOPLEFT", anchorB = "TOPRIGHT",
             offsetX = 20,
         },
-        optionsTable = PvpAssistantDB.tooltipOptions.data.spellTooltip,
+        optionsTable = PvPAssistantDB.tooltipOptions.data.spellTooltip,
         lines = {
             {
                 label = f.l("Enable"),
@@ -193,27 +193,27 @@ function PvpAssistant.OPTIONS:InitTooltipsTab(tooltipsTab)
             {
                 label = f.white("Type"),
                 disabledLabel = f.grey("Type"),
-                optionsKey = PvpAssistant.CONST.SPELL_TOOLTIP_OPTIONS.TYPE,
+                optionsKey = PvPAssistant.CONST.SPELL_TOOLTIP_OPTIONS.TYPE,
             },
             {
                 label = f.white("Subtype"),
                 disabledLabel = f.grey("Subtype"),
-                optionsKey = PvpAssistant.CONST.SPELL_TOOLTIP_OPTIONS.SUBTYPE,
+                optionsKey = PvPAssistant.CONST.SPELL_TOOLTIP_OPTIONS.SUBTYPE,
             },
             {
                 label = f.white("PvP Severity"),
                 disabledLabel = f.grey("PvP Severity"),
-                optionsKey = PvpAssistant.CONST.SPELL_TOOLTIP_OPTIONS.PVP_SEVERITY,
+                optionsKey = PvPAssistant.CONST.SPELL_TOOLTIP_OPTIONS.PVP_SEVERITY,
             },
             {
                 label = f.white("PvP Duration"),
                 disabledLabel = f.grey("PvP Duration"),
-                optionsKey = PvpAssistant.CONST.SPELL_TOOLTIP_OPTIONS.PVP_DURATION,
+                optionsKey = PvPAssistant.CONST.SPELL_TOOLTIP_OPTIONS.PVP_DURATION,
             },
             {
                 label = f.white("Additional Data"),
                 disabledLabel = f.grey("Additional Data"),
-                optionsKey = PvpAssistant.CONST.SPELL_TOOLTIP_OPTIONS.ADDITIONAL_DATA,
+                optionsKey = PvPAssistant.CONST.SPELL_TOOLTIP_OPTIONS.ADDITIONAL_DATA,
             },
         },
     }

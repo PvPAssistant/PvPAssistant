@@ -1,31 +1,31 @@
-local PvpAssistantName = select(1, ...)
----@class PvpAssistant
-local PvpAssistant = select(2, ...)
+local PvPAssistantName = select(1, ...)
+---@class PvPAssistant
+local PvPAssistant = select(2, ...)
 
-local GUTIL = PvpAssistant.GUTIL
-local GGUI = PvpAssistant.GGUI
+local GUTIL = PvPAssistant.GUTIL
+local GGUI = PvPAssistant.GGUI
 local f = GUTIL:GetFormatter()
-local debug = PvpAssistant.DEBUG:GetDebugPrint()
+local debug = PvPAssistant.DEBUG:GetDebugPrint()
 
-PvpAssistantGGUIConfig = PvpAssistantGGUIConfig or {}
+PvPAssistantGGUIConfig = PvPAssistantGGUIConfig or {}
 
----@class PvpAssistant.Main : Frame
-PvpAssistant.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD",
+---@class PvPAssistant.Main : Frame
+PvPAssistant.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD",
 	"PLAYER_JOINED_PVP_MATCH", "PVP_MATCH_COMPLETE" })
 
-PvpAssistant.MAIN.FRAMES = {}
+PvPAssistant.MAIN.FRAMES = {}
 
-PvpAssistant.MAIN.enableCombatLog = false
+PvPAssistant.MAIN.enableCombatLog = false
 
-function PvpAssistant:InitializeMinimapButton()
+function PvPAssistant:InitializeMinimapButton()
 	local LibIcon = LibStub("LibDBIcon-1.0")
-	local ldb = LibStub("LibDataBroker-1.1"):NewDataObject("PvpAssistant", {
+	local ldb = LibStub("LibDataBroker-1.1"):NewDataObject("PvPAssistant", {
 		type = "data source",
-		label = "PvpAssistant",
-		tocname = "PvpAssistant",
-		icon = "Interface\\Addons\\PvpAssistant\\Media\\Images\\logo1024",
+		label = "PvPAssistant",
+		tocname = "PvPAssistant",
+		icon = "Interface\\Addons\\PvPAssistant\\Media\\Images\\logo1024",
 		OnClick = function()
-			local mainFrame = GGUI:GetFrame(PvpAssistant.MAIN.FRAMES, PvpAssistant.CONST.FRAMES.MAIN_FRAME)
+			local mainFrame = GGUI:GetFrame(PvPAssistant.MAIN.FRAMES, PvPAssistant.CONST.FRAMES.MAIN_FRAME)
 			if mainFrame then
 				mainFrame:SetVisible(not mainFrame:IsVisible())
 			end
@@ -33,37 +33,37 @@ function PvpAssistant:InitializeMinimapButton()
 	})
 
 	function ldb.OnTooltipShow(tt)
-		tt:AddLine(GUTIL:ColorizeText("PvpAssistant\n", GUTIL.COLORS.LEGENDARY))
+		tt:AddLine(GUTIL:ColorizeText("PvPAssistant\n", GUTIL.COLORS.LEGENDARY))
 		tt:AddLine(GUTIL:ColorizeText("Click to Open!", GUTIL.COLORS.WHITE))
 	end
 
-	PvpAssistantLibIconDB = PvpAssistantLibIconDB or {}
+	PvPAssistantLibIconDB = PvPAssistantLibIconDB or {}
 
-	LibIcon:Register("PvpAssistant", ldb, PvpAssistantLibIconDB)
+	LibIcon:Register("PvPAssistant", ldb, PvPAssistantLibIconDB)
 end
 
-function PvpAssistant.MAIN:Init()
-	PvpAssistant.DB:Init()
+function PvPAssistant.MAIN:Init()
+	PvPAssistant.DB:Init()
 
-	PvpAssistant.MAIN:InitializeSlashCommands()
-	PvpAssistant.OPTIONS:Init()
-	PvpAssistant.MAIN_FRAME.FRAMES:Init()
-	PvpAssistant.MAIN_FRAME:InitMatchHistoryTooltipFrame()
-	PvpAssistant.PVPINFO.FRAMES:Init()
-	PvpAssistant.ARENA_GUIDE.FRAMES:Init()
-	PvpAssistant:InitializeMinimapButton()
-	PvpAssistant.PLAYER_TOOLTIP:Init()
-	PvpAssistant.SPELL_TOOLTIP:Init()
+	PvPAssistant.MAIN:InitializeSlashCommands()
+	PvPAssistant.OPTIONS:Init()
+	PvPAssistant.MAIN_FRAME.FRAMES:Init()
+	PvPAssistant.MAIN_FRAME:InitMatchHistoryTooltipFrame()
+	PvPAssistant.PVPINFO.FRAMES:Init()
+	PvPAssistant.ARENA_GUIDE.FRAMES:Init()
+	PvPAssistant:InitializeMinimapButton()
+	PvPAssistant.PLAYER_TOOLTIP:Init()
+	PvPAssistant.SPELL_TOOLTIP:Init()
 
 	-- restore frame positions
-	PvpAssistant.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
-	PvpAssistant.ARENA_GUIDE.frame:RestoreSavedConfig(UIParent)
+	PvPAssistant.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
+	PvPAssistant.ARENA_GUIDE.frame:RestoreSavedConfig(UIParent)
 end
 
-function PvpAssistant.MAIN:InitializeSlashCommands()
-	SLASH_PvpAssistant1 = "/PvpAssistant"
-	SLASH_PvpAssistant2 = "/al"
-	SlashCmdList["PvpAssistant"] = function(input)
+function PvPAssistant.MAIN:InitializeSlashCommands()
+	SLASH_PvPAssistant1 = "/PvPAssistant"
+	SLASH_PvPAssistant2 = "/al"
+	SlashCmdList["PvPAssistant"] = function(input)
 		input = SecureCmdOptionParse(input)
 		if not input then return end
 
@@ -72,55 +72,55 @@ function PvpAssistant.MAIN:InitializeSlashCommands()
 		rest = (rest and rest ~= "") and rest:trim() or nil
 
 		if command == "config" then
-			InterfaceOptionsFrame_OpenToCategory(PvpAssistant.OPTIONS.optionsPanel)
+			InterfaceOptionsFrame_OpenToCategory(PvPAssistant.OPTIONS.optionsPanel)
 		end
 
 		if command == "history" and rest == "clear" then
-			print(f.l("PvpAssistant") .. ": Match History Cleared")
-			PvpAssistant.DB.MATCH_HISTORY:Clear()
-			PvpAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
+			print(f.l("PvPAssistant") .. ": Match History Cleared")
+			PvPAssistant.DB.MATCH_HISTORY:Clear()
+			PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 		end
 
 		if command == "tooltips" and rest == "clear" then
-			print(f.l("PvpAssistant ") .. ": Player Tooltip Data Cleared")
-			PvpAssistant.DB.PLAYER_DATA:Clear()
+			print(f.l("PvPAssistant ") .. ": Player Tooltip Data Cleared")
+			PvPAssistant.DB.PLAYER_DATA:Clear()
 		end
 
 		if command == "guide" then
 			if C_PvP.IsArena() then
-				PvpAssistant.ARENA_GUIDE.frame:Show()
-				PvpAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
+				PvPAssistant.ARENA_GUIDE.frame:Show()
+				PvPAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
 			else
-				print(f.l("PvpAssistant ") .. ": Arena Guide is only available in Arena Matches")
+				print(f.l("PvPAssistant ") .. ": Arena Guide is only available in Arena Matches")
 			end
 		end
 
 		if command == "debug" then
-			PvpAssistantOptions.enableDebug = not PvpAssistantOptions.enableDebug
-			print(f.l("PvpAssistant ") .. ": Toggle Debug Mode " .. tostring(PvpAssistantOptions.enableDebug))
+			PvPAssistantOptions.enableDebug = not PvPAssistantOptions.enableDebug
+			print(f.l("PvPAssistant ") .. ": Toggle Debug Mode " .. tostring(PvPAssistantOptions.enableDebug))
 		end
 
 		if command == "" then
-			PvpAssistant.MAIN_FRAME.frame:Show()
+			PvPAssistant.MAIN_FRAME.frame:Show()
 		end
 	end
 end
 
-function PvpAssistant.MAIN:ADDON_LOADED(addon_name)
-	if addon_name ~= PvpAssistantName then
+function PvPAssistant.MAIN:ADDON_LOADED(addon_name)
+	if addon_name ~= PvPAssistantName then
 		return
 	end
-	PvpAssistant.MAIN:Init()
+	PvPAssistant.MAIN:Init()
 end
 
-function PvpAssistant.MAIN:PLAYER_ENTERING_WORLD()
-	PvpAssistant.SPEC_LOOKUP:Init()
+function PvPAssistant.MAIN:PLAYER_ENTERING_WORLD()
+	PvPAssistant.SPEC_LOOKUP:Init()
 
-	PvpAssistant.PVPINFO.FRAMES:UpdateDisplay()
+	PvPAssistant.PVPINFO.FRAMES:UpdateDisplay()
 
-	PvpAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
+	PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 
-	PvpAssistant.MAIN.enableCombatLog = false
+	PvPAssistant.MAIN.enableCombatLog = false
 end
 
 ---@class SpecializationInfo
@@ -131,22 +131,22 @@ end
 ---@field role string
 ---@field class ClassFile
 
-function PvpAssistant.MAIN:PLAYER_JOINED_PVP_MATCH()
-	if not PvpAssistant.MAIN.enableCombatLog then
-		debug("PvpAssistant: Joined PvP Match")
+function PvPAssistant.MAIN:PLAYER_JOINED_PVP_MATCH()
+	if not PvPAssistant.MAIN.enableCombatLog then
+		debug("PvPAssistant: Joined PvP Match")
 		debug("LoggingCombat: " .. tostring(LoggingCombat(true)))
 
-		PvpAssistant.MAIN.enableCombatLog = true
+		PvPAssistant.MAIN.enableCombatLog = true
 	end
 end
 
-function PvpAssistant.MAIN:PVP_MATCH_COMPLETE()
-	debug("PvpAssistant: PvP Match Completed")
+function PvPAssistant.MAIN:PVP_MATCH_COMPLETE()
+	debug("PvPAssistant: PvP Match Completed")
 	debug("LoggingCombat: " .. tostring(LoggingCombat(false)))
 
-	debug("PvpAssistant: Saving Match Data...")
-	local matchHistory = PvpAssistant.MatchHistory:CreateFromEndScreen()
-	PvpAssistant.DB.MATCH_HISTORY:Save(matchHistory)
+	debug("PvPAssistant: Saving Match Data...")
+	local matchHistory = PvPAssistant.MatchHistory:CreateFromEndScreen()
+	PvPAssistant.DB.MATCH_HISTORY:Save(matchHistory)
 
-	PvpAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
+	PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 end

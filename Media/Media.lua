@@ -1,23 +1,23 @@
----@class PvpAssistant
-local PvpAssistant = select(2, ...)
+---@class PvPAssistant
+local PvPAssistant = select(2, ...)
 
-PvpAssistant.MEDIA = {}
+PvPAssistant.MEDIA = {}
 
-PvpAssistant.MEDIA.BASE_PATH = "Interface/Addons/PvpAssistant/Media/Images/"
+PvPAssistant.MEDIA.BASE_PATH = "Interface/Addons/PvPAssistant/Media/Images/"
 
-function PvpAssistant.MEDIA:GetAsTextIcon(image, scale)
-    if tContains(PvpAssistant.MEDIA.IMAGES, image) then
+function PvPAssistant.MEDIA:GetAsTextIcon(image, scale)
+    if tContains(PvPAssistant.MEDIA.IMAGES, image) then
         scale = scale or 1
         local width = image.dimensions.x * scale
         local height = image.dimensions.y * scale
 
-        return PvpAssistant.GUTIL:IconToText(PvpAssistant.MEDIA.BASE_PATH .. image.file, height, width)
+        return PvPAssistant.GUTIL:IconToText(PvPAssistant.MEDIA.BASE_PATH .. image.file, height, width)
     else
         return "<ImageNotFound>"
     end
 end
 
-PvpAssistant.MEDIA.IMAGES = {
+PvPAssistant.MEDIA.IMAGES = {
     LOGO_1024 = { file = "logo1024.blp", dimensions = { x = 1024, y = 1024 } },
     RANK1 = { file = "rank1.blp", dimensions = { x = 256, y = 256 } },
     RANK2 = { file = "rank2.blp", dimensions = { x = 256, y = 256 } },

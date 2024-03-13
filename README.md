@@ -1,2 +1,2 @@
-# PvpAssistant
+# PvPAssistant
  Pvp addon
