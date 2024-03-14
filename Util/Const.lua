@@ -11,7 +11,7 @@ PvPAssistant.CONST.NEWS =
     f.white("- Name change from Arenalogs to PvPAssistant\n") ..
     f.bb("\nNeeds Testing:\n") ..
     f.white("- Solo Shuffle Match History\n") ..
-    f.white("- Battleground Match History\n") ..
+    f.white("- RBG Match History\n") ..
     f.g("\nNeeds Data:\n") ..
     f.white("- Arena Quick Guide Strategies")
 

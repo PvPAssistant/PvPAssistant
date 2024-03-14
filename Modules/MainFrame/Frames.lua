@@ -560,7 +560,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
                 value = PvPAssistant.CONST.PVP_MODES.THREES,
             },
             {
-                label = GUTIL:ColorizeText("BG", GUTIL.COLORS.WHITE),
+                label = GUTIL:ColorizeText("RBG", GUTIL.COLORS.WHITE),
                 value = PvPAssistant.CONST.PVP_MODES.BATTLEGROUND,
             },
         },
