@@ -58,7 +58,7 @@ function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByInspectData(unit, pvpD
     --- fetches the data and updates cache
     ---@type table<PvPAssistant.Const.PVPModes, InspectArenaData>
     local bracketPvPData = pvpData or PvPAssistant.PLAYER_TOOLTIP:GetPlayerPVPDataFromInspect(unit)
-    local headerTitle = "PvPAssistant.gg - Score"
+    local headerTitle = "PvPAssistant - Score"
 
     GameTooltip:AddLine(f.l(headerTitle))
 
