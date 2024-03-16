@@ -9,11 +9,13 @@ local f = PvPAssistant.GUTIL:GetFormatter()
 PvPAssistant.CONST.NEWS =
     f.l("\nPatch Notes:\n") ..
     f.white("- Name change from Arenalogs to PvPAssistant\n") ..
+    f.white("- Changed to PvPAssistant\n") ..
     f.bb("\nNeeds Testing:\n") ..
     f.white("- Solo Shuffle Match History\n") ..
     f.white("- RBG Match History\n") ..
     f.g("\nNeeds Data:\n") ..
     f.white("- Arena Quick Guide Strategies")
+    
 
 ---@enum PvPAssistant.Const.Frames
 PvPAssistant.CONST.FRAMES = {
