@@ -952,13 +952,1056 @@ PvPAssistant.ABILITY_DATA = {
             },
         },
     },
+}
+DEATHKNIGHT = {
+    [SPECS.GENERAL] = {
+        { -- Anti-Magic Shell
+            spellID = 48707,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Icebound Fortitude
+            spellID = 48792,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Abomination Limb
+            spellID = 383269,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Empower Rune Weapon
+            spellID = 47568,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.UNHOLY] = {
+        { -- Apocalypse
+            spellID = 275699,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Army of dead
+            spellID = 42650,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Dark Transformation
+            spellID = 63560,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Summon Gargoyle
+            spellID = 49206,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Unholy Assault
+            spellID = 207289,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.FROST] = {
+        { -- Pillar of frost
+            spellID = 51271,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+}
 
+DEMONHUNTER = {
+    [SPECS.HAVOC] = {
+        { -- Netherwalk
+            spellID = 196555,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Blur
+            spellID = 198589,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Eye Beam
+            spellID = 198013,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Essence Break
+            spellID = 258860,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Metamorphosis
+            spellID = 187827,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+       },
+    [SPECS.GENERAL] = {
+        { -- The Hunt
+            spellID = 370965,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Darkness
+            spellID = 196718,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        },
+}
 
+DRUID = {
+    [SPECS.GENERAL] = {
+        { -- Barkskin
+            spellID = 22812,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Frenzied Regeneration
+            spellID = 22842,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Renewal
+            spellID = 108238,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Convoke of the spirits
+            spellID = 391528,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.RESTORATION] = {
+        { -- Tranquility
+            spellID = 740,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Incarnation: tree of life
+            spellID = 33891,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.FERAL] = {
+        { -- Berserk
+            spellID = 106951,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Feral Frenzy
+            spellID = 274837,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Incarnation Feral
+            spellID = 102543,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Tiger´s Fury
+            spellID = 5217,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.MOONKIN] = {
+        { -- Fury of elune
+            spellID = 202770,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Incarnation boomi
+            spellID = 102560,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- New moon
+            spellID = 274281,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Warrior of elune
+            spellID = 202425,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+}
+EVOKER = {
+    [SPECS.AUGMENTATION] = {
+        { -- Blistering scales
+            spellID = 360827,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Defy Fate
+            spellID = 404381,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Breath of Eons
+            spellID = 403631,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Ebon Might
+            spellID = 395152,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.PRESERVATION] = {
+        { -- Emerald Communion
+            spellID = 370960,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Rewind
+            spellID = 363534,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        },
+    [SPECS.DEVISTATION] = {
+        { -- Time stop
+            spellID = 378441,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Deep Breath
+            spellID = 357210,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Dragonrage
+            spellID = 375087,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Eternity Surge
+            spellID = 359073,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Fire breath
+            spellID = 382266,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Shattering Star
+            spellID = 370452,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.GENERAL] = {
+        { -- Obsidian Scales
+            spellID = 363916,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Renewing Blaze
+            spellID = 374348,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Tip of the scales
+            spellID = 370553,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+}
+HUNTER = {
+    [SPECS.GENERAL] = {
+        { -- Aspect of the turtle
+            spellID = 186265,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Exhilaration
+            spellID = 109304,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Roar of sacrifice
+            spellID = 53480,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Survival of the fittest
+            spellID = 264735,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Death Chakram
+            spellID = 375891,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Explosive Shot
+            spellID = 212431,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.BEAST_MASTERY] = {
+        { -- Bestial Wrath
+            spellID = 19574,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Bloodshed
+            spellID = 321530,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Call of the Wild
+            spellID = 359844,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.SURVIVAL] = {
+        { -- Coordinated Assault
+            spellID = 360952,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Flanking Strike
+            spellID = 269751,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Fury of the eagle
+            spellID = 203415,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Spearhead
+            spellID = 360966,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.MARKSMANSHIP] = {
+        { -- Rapid Fire
+            spellID = 257044,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Salvo
+            spellID = 400456,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Trueshot
+           spellID = 288613,
+           subType = SUB_TYPES.OFFENSIVE,
+           abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Volley
+          spellID = 260243,
+          subType = SUB_TYPES.OFFENSIVE,
+          abilityType = TYPES.OFFENSIVE,
+       },
+       },
+}
+MAGE = {
+    [SPECS.GENERAL] = {
+        { -- Ice block
+            spellID = 45438,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Alter time
+            spellID = 432245,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Greater Invisibility
+            spellID = 110959,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Mass barrier
+            spellID = 414660,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Mirror Image
+            spellID = 55342,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        },
+    [SPECS.FIRE] = {
+        { -- Blazing Barrier
+            spellID = 235313,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Cauterize
+            spellID = 86949,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Combustion
+            spellID = 190319,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.FROST] = {
+        { -- Cold snap
+            spellID = 235219,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Ice Barrier
+            spellID = 11426,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Icy Veins
+            spellID = 12472,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Ray of Frost
+            spellID = 205021,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.ARCANE] = {
+        { -- Temporal Shield
+            spellID = 198111,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Prismatic Barrier
+            spellID = 235450,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Arcane Surge
+            spellID = 365350,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        
+        },
+        { -- Presence of Mind
+           spellID = 205025,
+           subType = SUB_TYPES.OFFENSIVE,
+           abilityType = TYPES.OFFENSIVE,
+       },
+       }
+}
+MONK = {
+    [SPECS.GENERAL] = {
+        { -- dampen harm
+            spellID = 122278,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Diffuse Magic
+            spellID = 122783,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Fortifying Brew
+            spellID = 115203,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        },
+    [SPECS.MISTWEAVER] = {
+        { -- Life cocoon
+            spellID = 116849,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Restoral
+            spellID = 388615,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Revival
+            spellID = 115310,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Ivoke Xuen, The white tiger
+            spellID = 322118,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Thunder focus tea
+            spellID = 116680,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.WINDWALKER] = {
+        { -- Ivoke Xuen, The white tiger
+            spellID = 123904,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Serenity
+            spellID = 152173,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Strike of the windloard
+            spellID = 392983,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Storm, Earth, And fire
+            spellID = 137639,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+}
+PALADIN = {
+    [SPECS.GENERAL] = {
+        { -- Divine Shield
+            spellID = 642,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Blessing of protection
+            spellID = 1022,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Blessing of sacrifce
+            spellID = 6940,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Divine Protection
+            spellID = 498,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Lay on Hands
+            spellID = 633,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Avenging Wrath
+            spellID = 31884,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Divine Toll
+            spellID = 375576,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.RETRIBUTION] = {
+        { -- Shield of Vengeance
+            spellID = 184662,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Crusade
+            spellID = 231895,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Execution Sentence
+            spellID = 343527,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Final Reckoning
+            spellID = 343721,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Wake of ashes
+            spellID = 255937,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.HOLY] = {
+        { -- Aura Mastery
+            spellID = 31821,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Avenging Crusader
+            spellID = 216331,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Tyr´s Deliverance
+            spellID = 200652,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+}
+PRIEST = {
+    [SPECS.GENERAL] = {
+        { -- Desperate Prayer
+            spellID = 19236,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Vampiric Embrace
+            spellID = 15286,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Void Shift
+            spellID = 108968,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Mindgames
+            spellID = 375901,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Power infusion
+            spellID = 10060,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.HOLY] = {
+        { -- Guardian Spirit
+            spellID = 47788,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Ray of hope
+            spellID = 197268,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Apotheosis
+            spellID = 200183,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Mindbender
+            spellID = 123040,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Shadowfiend
+            spellID = 34433,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.DISCIPLINE] = {
+        { -- Pain suppression
+            spellID = 33206,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Ultimate Penitence
+            spellID = 421453,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Power World: Barrier
+            spellID = 62618,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Mindbender
+            spellID = 123040,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Rapture
+            spellID = 47536,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Shadowfiend
+            spellID = 34433,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.SHADOW] = {
+        { -- Dispersion
+            spellID = 47585,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Dark Ascension
+            spellID = 391109,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Mindbender
+            spellID = 200174,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Psyfiend
+            spellID = 211522,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Void Eruption
+            spellID = 228260,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Void Torrent
+            spellID = 263165,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+}
+ROGUE = {
+    [SPECS.GENERAL] = {
+        { -- Cheat death
+            spellID = 31230,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Cloak of shadows
+            spellID = 31224,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Evasion
+            spellID = 5277,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Vanish
+            spellID = 1856,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- feint
+            spellID = 1966,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Thistle tea
+            spellID = 381623,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.OUTLAW] = {
+        { -- Adrenaline Rush
+            spellID = 13750,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.SUBTLETY] = {
+        { -- Cold Blood
+            spellID = 382245,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Secret technique
+            spellID = 280719,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Shadow Dance
+            spellID = 185313,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Shadow Blades
+            spellID = 121471,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Symbols of death
+            spellID = 212283,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Shuriken tornado
+            spellID = 277925,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.ASSASSINATION] = {
+        { -- Deathmark
+            spellID = 360194,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Kingsbane
+            spellID = 385627,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+}
+SHAMAN = {
+    [SPECS.GENERAL] = {
+        { -- Burrow
+            spellID = 409293,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Ancestral Guidance
+            spellID = 108281,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Astral Shift
+            spellID = 108271,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Nature´s Guardian
+            spellID = 30884,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Stormkeeper
+            spellID = 383009,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.RESTORATION] = {
+        { -- Earthen wall totem
+            spellID = 198838,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Healing tide totem
+            spellID = 108280,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Spirit Link totem
+            spellID = 98008,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Ascendance
+            spellID = 114052,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Primordial wave (Note: Listed twice, potentially for different contexts or an error)
+            spellID = 428332,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Primordial wave
+            spellID = 375982,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.ELEMENTAL] = {
+        { -- Ascendance
+            spellID = 114050,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Fire Elemental
+            spellID = 198067,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Stormkeeper
+            spellID = 191634,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.ENHANCEMENT] = {
+        { -- Ascendance
+            spellID = 114051,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Bloodlust
+            spellID = 2825,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Doom winds
+            spellID = 384352,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Feral spirit
+            spellID = 51533,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+}
+WARLOCK = {
+    [SPECS.GENERAL] = {
+        { -- Mortal Coil
+            spellID = 6789,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Dark Pact
+            spellID = 108416,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Unending Resolve
+            spellID = 104773,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Healthstone
+            spellID = 5512,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Call Observer
+            spellID = 201996,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.DESTRUCTION] = {
+        { -- Dimensional Rift
+            spellID = 387976,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Summon Infernal
+            spellID = 1122,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.DEMONOLOGY] = {
+        { -- Demonic Strength
+            spellID = 267171,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Fel Obelisk
+            spellID = 353601,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Summon demonic Tyrant
+            spellID = 265187,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.AFFLICTION] = {
+        { -- Summon Darkglare
+            spellID = 205180,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Oblivion
+            spellID = 417537,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+}
 
-
-
-
-
-
-
+WARRIOR = {
+    [SPECS.GENERAL] = {
+        { -- Impending Victory
+            spellID = 202168,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Rallying Cry
+            spellID = 97462,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Thunderous Roar
+            spellID = 384318,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Recklessness
+            spellID = 1719,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.ARMS] = {
+        { -- Die By the Sword
+            spellID = 118038,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Bladestorm
+            spellID = 227847,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Duel
+            spellID = 236273,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Colossus Smash
+            spellID = 167105,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Warbreaker
+            spellID = 262161,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        { -- Sharpen Blade
+            spellID = 198817,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+        },
+    [SPECS.FURY] = {
+        { -- Duel (Note: Listed under both Arms and Fury)
+            spellID = 236273,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Enraged Regeneration
+            spellID = 184364,
+            subType = SUB_TYPES.DEFENSIVE,
+            abilityType = TYPES.DEFENSIVE,
+        },
+        { -- Odyn´s Fury
+            spellID = 385059,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+    },
 }
