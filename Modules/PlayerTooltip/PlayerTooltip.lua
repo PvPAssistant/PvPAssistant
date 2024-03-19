@@ -16,6 +16,13 @@ function PvPAssistant.PLAYER_TOOLTIP:Init()
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, function(_, data)
         local tooltipEnabled = PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:IsEnabled()
         if not tooltipEnabled then return end
+
+        local alreadyDisplayed = GUTIL:TooltipContains({
+            textLeft = "PvPAssistant"
+        })
+
+        if alreadyDisplayed then return end
+
         local unit = select(2, GameTooltip:GetUnit())
         if unit and UnitIsPlayer(unit) then
             PvPAssistant.PLAYER_TOOLTIP.inspectPlayerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit(unit)
