@@ -47,15 +47,11 @@ function PvPAssistant.MAIN:Init()
 
 	PvPAssistant.MAIN:InitializeSlashCommands()
 	PvPAssistant.OPTIONS:Init()
-	PvPAssistant.MAIN_FRAME.FRAMES:Init()
-	PvPAssistant.MAIN_FRAME:InitMatchHistoryTooltipFrame()
 	PvPAssistant.PVPINFO.FRAMES:Init()
 	PvPAssistant.ARENA_GUIDE.FRAMES:Init()
 	PvPAssistant:InitializeMinimapButton()
 	PvPAssistant.PLAYER_TOOLTIP:Init()
 	PvPAssistant.SPELL_TOOLTIP:Init()
-
-	PvPAssistant.DB.CHARACTER_DATA:Init()
 
 	PvPAssistant.GGUI:InitializePopup {
 		backdropOptions = PvPAssistant.CONST.MAIN_FRAME_BACKDROP,
@@ -68,13 +64,12 @@ function PvPAssistant.MAIN:Init()
 	}
 
 	-- restore frame positions
-	PvPAssistant.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
 	PvPAssistant.ARENA_GUIDE.frame:RestoreSavedConfig(UIParent)
 end
 
 function PvPAssistant.MAIN:InitializeSlashCommands()
 	SLASH_PvPAssistant1 = "/PvPAssistant"
-	SLASH_PvPAssistant2 = "/al"
+	SLASH_PvPAssistant2 = "/pa"
 	SlashCmdList["PvPAssistant"] = function(input)
 		input = SecureCmdOptionParse(input)
 		if not input then return end
@@ -96,6 +91,11 @@ function PvPAssistant.MAIN:InitializeSlashCommands()
 		if command == "tooltips" and rest == "clear" then
 			print(f.l("PvPAssistant ") .. ": Player Tooltip Data Cleared")
 			PvPAssistant.DB.PLAYER_DATA:Clear()
+		end
+
+		if command == "characters" and rest == "clear" then
+			print(f.l("PvPAssistant ") .. ": Character Data Cleared")
+			PvPAssistant.DB.CHARACTER_DATA:Clear()
 		end
 
 		if command == "guide" then
@@ -126,6 +126,12 @@ function PvPAssistant.MAIN:ADDON_LOADED(addon_name)
 end
 
 function PvPAssistant.MAIN:PLAYER_ENTERING_WORLD()
+	PvPAssistant.DB.CHARACTER_DATA:Init() -- on addon load not yet accessible
+	PvPAssistant.MAIN_FRAME.FRAMES:Init() -- dep: character data
+	PvPAssistant.MAIN_FRAME:InitMatchHistoryTooltipFrame()
+	PvPAssistant.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
+
+
 	PvPAssistant.SPEC_LOOKUP:Init()
 
 	PvPAssistant.PVPINFO.FRAMES:UpdateDisplay()
