@@ -10,6 +10,7 @@ PvPAssistant.CONST.NEWS =
     f.l("\nPatch Notes:\n") ..
     f.white("- Fixed Errors in Ability and Arena Data\n") ..
     f.white("- Fixed Player Tooltip duplicating") ..
+    f.white("- Added a neat little Discord Button") ..
     f.bb("\nNeeds Testing:\n") ..
     f.white("- Solo Shuffle Match History\n") ..
     f.white("- RBG Match History\n") ..
