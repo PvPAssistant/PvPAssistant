@@ -15,6 +15,7 @@ PvPAssistant.CONST.NEWS =
     f.g("\nNeeds Data:\n") ..
     f.white("- Arena Quick Guide Strategies")
 
+PvPAssistant.CONST.DISCORD_INVITE = "https://discord.gg/BvZzctWZZ3"
 
 ---@enum PvPAssistant.Const.Frames
 PvPAssistant.CONST.FRAMES = {
@@ -254,6 +255,14 @@ PvPAssistant.CONST.RATING_ICON_MAP = {
 PvPAssistant.CONST.ASSETS = {
 
     BUTTONS = {
+        ---@type GGUI.ButtonTextureOptions
+        DISCORD_BUTTON = {
+            normal = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/DiscordButton',
+            disabled = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/DiscordButton',
+            highlight = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/DiscordButton',
+            pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/DiscordButton',
+            isAtlas = false,
+        },
         ---@type GGUI.ButtonTextureOptions
         TAB_BUTTON = {
             normal = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonNormal',

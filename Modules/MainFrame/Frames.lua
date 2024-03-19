@@ -124,6 +124,21 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
         }
     }
 
+    frame.content.discordButton = GGUI.Button {
+        parent = frame.content, anchorPoints = { { anchorParent = frame.content.optionsTab.button.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -6, } },
+        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DISCORD_BUTTON,
+        cleanTemplate = true,
+        sizeX = 20, sizeY = 20,
+        clickCallback = function()
+            GGUI:ShowPopup {
+                copyText = PvPAssistant.CONST.DISCORD_INVITE,
+                parent = frame.content, anchorParent = frame.content.discordButton.frame,
+                title = "Join our Discord!", sizeX = 250, sizeY = 100,
+                okButtonLabel = f.white("Ok"),
+            }
+        end
+    }
+
     ---@class PvPAssistant.MAIN_FRAME.OPTIONS_TAB.CONTENT
     frame.content.optionsTab.content = frame.content.optionsTab.content
     local optionsTab = frame.content.optionsTab
