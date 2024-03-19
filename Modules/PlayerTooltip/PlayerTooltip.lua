@@ -28,6 +28,12 @@ function PvPAssistant.PLAYER_TOOLTIP:Init()
             PvPAssistant.PLAYER_TOOLTIP.inspectPlayerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit(unit)
             INSPECTED_UNIT = unit;
             NotifyInspect(unit)
+
+            -- GUTIL:TooltipAddDoubleLineWithID({
+            --     gutilID = "test_gutilID",
+            --     textLeft = "Hello World",
+            --     textRight = f.r("non modified")
+            -- })
         end
     end)
 end
@@ -82,6 +88,15 @@ function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByInspectData(unit, pvpD
                 PvPAssistant.UTIL:ColorByRating(tostring(rating), rating))
         end
     end
+
+    -- GUTIL:TooltipUpdateDoubleLineByID({
+    --     gutilID = "test_gutilID",
+    --     updateLine = function(leftLine, rightLine)
+    --         if rightLine then
+    --             rightLine:SetText(f.g("Now its updated"))
+    --         end
+    --     end
+    -- })
 
     GameTooltip:Show()
 end
