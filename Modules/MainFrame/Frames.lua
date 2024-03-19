@@ -46,6 +46,34 @@ function PvpAssistant.MAIN_FRAME.FRAMES:Init()
         },
     }
 
+        --I just did a test here for you genju what you think?
+       ---@class PvPAssistant.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
+       frame.content.matchHistoryTab.content = frame.content.matchHistoryTab.content
+       local matchHistoryTab = frame.content.matchHistoryTab
+       ---@class PvPAssistant.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
+       matchHistoryTab.content = matchHistoryTab.content
+   
+       ---@class PvPAssistant.MAIN_FRAME.ABILITIES_TAB : GGUI.Tab
+       frame.content.abilitiesTab = GGUI.Tab {
+           parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
+           sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
+           buttonOptions = {
+               label = GUTIL:ColorizeText("Gear Catalogue", GUTIL.COLORS.WHITE),
+               parent = frame.content,
+               anchorParent = frame.content.matchHistoryTab.button.frame,
+               anchorA = "LEFT",
+               anchorB = "RIGHT",
+               adjustWidth = true,
+               sizeX = 15,
+               offsetX = 130,
+               buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+               fontOptions = {
+                   fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
+               },
+               scale = tabButtonScale,
+           }
+       }
+
     ---@class PvpAssistant.MAIN_FRAME.CONTENT : Frame
     frame.content = frame.content
     local tabContentOffsetY = -50
