@@ -55,6 +55,16 @@ function PvPAssistant.MAIN:Init()
 	PvPAssistant.PLAYER_TOOLTIP:Init()
 	PvPAssistant.SPELL_TOOLTIP:Init()
 
+	PvPAssistant.GGUI:InitializePopup {
+		backdropOptions = PvPAssistant.CONST.MAIN_FRAME_BACKDROP,
+		sizeX = 150, sizeY = 100,
+		buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+		buttonFontOptions = {
+			fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
+		},
+		hideCloseButton = true,
+	}
+
 	-- restore frame positions
 	PvPAssistant.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
 	PvPAssistant.ARENA_GUIDE.frame:RestoreSavedConfig(UIParent)
