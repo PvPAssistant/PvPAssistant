@@ -55,6 +55,8 @@ function PvPAssistant.MAIN:Init()
 	PvPAssistant.PLAYER_TOOLTIP:Init()
 	PvPAssistant.SPELL_TOOLTIP:Init()
 
+	PvPAssistant.DB.CHARACTER_DATA:Init()
+
 	PvPAssistant.GGUI:InitializePopup {
 		backdropOptions = PvPAssistant.CONST.MAIN_FRAME_BACKDROP,
 		sizeX = 150, sizeY = 100,
