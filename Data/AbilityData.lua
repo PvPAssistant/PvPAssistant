@@ -954,7 +954,7 @@ PvPAssistant.ABILITY_DATA = {
     },
 }
 DEATHKNIGHT = {
-    [SPECS.GENERAL] = {
+    DEATHKNIGHT = {
         { -- Anti-Magic Shell
             spellID = 48707,
             subType = SUB_TYPES.DEFENSIVE,
@@ -975,7 +975,7 @@ DEATHKNIGHT = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.UNHOLY] = {
         { -- Apocalypse
             spellID = 275699,
@@ -1002,14 +1002,14 @@ DEATHKNIGHT = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.FROST] = {
         { -- Pillar of frost
             spellID = 51271,
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
 }
 
 DEMONHUNTER = {
@@ -1039,8 +1039,8 @@ DEMONHUNTER = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-       },
-    [SPECS.GENERAL] = {
+    },
+    DEMONHUNTER = {
         { -- The Hunt
             spellID = 370965,
             subType = SUB_TYPES.OFFENSIVE,
@@ -1051,11 +1051,11 @@ DEMONHUNTER = {
             subType = SUB_TYPES.DEFENSIVE,
             abilityType = TYPES.DEFENSIVE,
         },
-        },
+    },
 }
 
 DRUID = {
-    [SPECS.GENERAL] = {
+    DRUID = {
         { -- Barkskin
             spellID = 22812,
             subType = SUB_TYPES.DEFENSIVE,
@@ -1076,7 +1076,7 @@ DRUID = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.RESTORATION] = {
         { -- Tranquility
             spellID = 740,
@@ -1088,7 +1088,7 @@ DRUID = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.FERAL] = {
         { -- Berserk
             spellID = 106951,
@@ -1110,8 +1110,8 @@ DRUID = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
-    [SPECS.MOONKIN] = {
+    },
+    [SPECS.BALANCE] = {
         { -- Fury of elune
             spellID = 202770,
             subType = SUB_TYPES.OFFENSIVE,
@@ -1132,7 +1132,7 @@ DRUID = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
 }
 EVOKER = {
     [SPECS.AUGMENTATION] = {
@@ -1156,7 +1156,7 @@ EVOKER = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.PRESERVATION] = {
         { -- Emerald Communion
             spellID = 370960,
@@ -1168,8 +1168,8 @@ EVOKER = {
             subType = SUB_TYPES.DEFENSIVE,
             abilityType = TYPES.DEFENSIVE,
         },
-        },
-    [SPECS.DEVISTATION] = {
+    },
+    [SPECS.DEVASTATION] = {
         { -- Time stop
             spellID = 378441,
             subType = SUB_TYPES.DEFENSIVE,
@@ -1200,8 +1200,8 @@ EVOKER = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
-    [SPECS.GENERAL] = {
+    },
+    EVOKER = {
         { -- Obsidian Scales
             spellID = 363916,
             subType = SUB_TYPES.DEFENSIVE,
@@ -1217,10 +1217,10 @@ EVOKER = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
 }
 HUNTER = {
-    [SPECS.GENERAL] = {
+    HUNTER = {
         { -- Aspect of the turtle
             spellID = 186265,
             subType = SUB_TYPES.DEFENSIVE,
@@ -1251,7 +1251,7 @@ HUNTER = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.BEAST_MASTERY] = {
         { -- Bestial Wrath
             spellID = 19574,
@@ -1268,7 +1268,7 @@ HUNTER = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.SURVIVAL] = {
         { -- Coordinated Assault
             spellID = 360952,
@@ -1290,7 +1290,7 @@ HUNTER = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.MARKSMANSHIP] = {
         { -- Rapid Fire
             spellID = 257044,
@@ -1303,19 +1303,19 @@ HUNTER = {
             abilityType = TYPES.OFFENSIVE,
         },
         { -- Trueshot
-           spellID = 288613,
-           subType = SUB_TYPES.OFFENSIVE,
-           abilityType = TYPES.OFFENSIVE,
+            spellID = 288613,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
         },
         { -- Volley
-          spellID = 260243,
-          subType = SUB_TYPES.OFFENSIVE,
-          abilityType = TYPES.OFFENSIVE,
-       },
-       },
+            spellID = 260243,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+    },
 }
 MAGE = {
-    [SPECS.GENERAL] = {
+    MAGE = {
         { -- Ice block
             spellID = 45438,
             subType = SUB_TYPES.DEFENSIVE,
@@ -1341,7 +1341,7 @@ MAGE = {
             subType = SUB_TYPES.DEFENSIVE,
             abilityType = TYPES.DEFENSIVE,
         },
-        },
+    },
     [SPECS.FIRE] = {
         { -- Blazing Barrier
             spellID = 235313,
@@ -1358,7 +1358,7 @@ MAGE = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.FROST] = {
         { -- Cold snap
             spellID = 235219,
@@ -1380,7 +1380,7 @@ MAGE = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.ARCANE] = {
         { -- Temporal Shield
             spellID = 198111,
@@ -1396,17 +1396,17 @@ MAGE = {
             spellID = 365350,
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
-        
+
         },
         { -- Presence of Mind
-           spellID = 205025,
-           subType = SUB_TYPES.OFFENSIVE,
-           abilityType = TYPES.OFFENSIVE,
-       },
-       }
+            spellID = 205025,
+            subType = SUB_TYPES.OFFENSIVE,
+            abilityType = TYPES.OFFENSIVE,
+        },
+    }
 }
 MONK = {
-    [SPECS.GENERAL] = {
+    MONK = {
         { -- dampen harm
             spellID = 122278,
             subType = SUB_TYPES.DEFENSIVE,
@@ -1422,7 +1422,7 @@ MONK = {
             subType = SUB_TYPES.DEFENSIVE,
             abilityType = TYPES.DEFENSIVE,
         },
-        },
+    },
     [SPECS.MISTWEAVER] = {
         { -- Life cocoon
             spellID = 116849,
@@ -1449,7 +1449,7 @@ MONK = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.WINDWALKER] = {
         { -- Ivoke Xuen, The white tiger
             spellID = 123904,
@@ -1471,10 +1471,10 @@ MONK = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
 }
 PALADIN = {
-    [SPECS.GENERAL] = {
+    PALADIN = {
         { -- Divine Shield
             spellID = 642,
             subType = SUB_TYPES.DEFENSIVE,
@@ -1510,7 +1510,7 @@ PALADIN = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.RETRIBUTION] = {
         { -- Shield of Vengeance
             spellID = 184662,
@@ -1537,7 +1537,7 @@ PALADIN = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.HOLY] = {
         { -- Aura Mastery
             spellID = 31821,
@@ -1554,10 +1554,10 @@ PALADIN = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
 }
 PRIEST = {
-    [SPECS.GENERAL] = {
+    PRIEST = {
         { -- Desperate Prayer
             spellID = 19236,
             subType = SUB_TYPES.DEFENSIVE,
@@ -1583,7 +1583,7 @@ PRIEST = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.HOLY] = {
         { -- Guardian Spirit
             spellID = 47788,
@@ -1610,7 +1610,7 @@ PRIEST = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.DISCIPLINE] = {
         { -- Pain suppression
             spellID = 33206,
@@ -1642,7 +1642,7 @@ PRIEST = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.SHADOW] = {
         { -- Dispersion
             spellID = 47585,
@@ -1674,10 +1674,10 @@ PRIEST = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
 }
 ROGUE = {
-    [SPECS.GENERAL] = {
+    ROGUE = {
         { -- Cheat death
             spellID = 31230,
             subType = SUB_TYPES.DEFENSIVE,
@@ -1708,14 +1708,14 @@ ROGUE = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.OUTLAW] = {
         { -- Adrenaline Rush
             spellID = 13750,
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.SUBTLETY] = {
         { -- Cold Blood
             spellID = 382245,
@@ -1747,7 +1747,7 @@ ROGUE = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.ASSASSINATION] = {
         { -- Deathmark
             spellID = 360194,
@@ -1759,10 +1759,10 @@ ROGUE = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
 }
 SHAMAN = {
-    [SPECS.GENERAL] = {
+    SHAMAN = {
         { -- Burrow
             spellID = 409293,
             subType = SUB_TYPES.DEFENSIVE,
@@ -1788,7 +1788,7 @@ SHAMAN = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.RESTORATION] = {
         { -- Earthen wall totem
             spellID = 198838,
@@ -1820,7 +1820,7 @@ SHAMAN = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.ELEMENTAL] = {
         { -- Ascendance
             spellID = 114050,
@@ -1837,7 +1837,7 @@ SHAMAN = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.ENHANCEMENT] = {
         { -- Ascendance
             spellID = 114051,
@@ -1859,10 +1859,10 @@ SHAMAN = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
 }
 WARLOCK = {
-    [SPECS.GENERAL] = {
+    WARLOCK = {
         { -- Mortal Coil
             spellID = 6789,
             subType = SUB_TYPES.DEFENSIVE,
@@ -1888,7 +1888,7 @@ WARLOCK = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.DESTRUCTION] = {
         { -- Dimensional Rift
             spellID = 387976,
@@ -1900,7 +1900,7 @@ WARLOCK = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.DEMONOLOGY] = {
         { -- Demonic Strength
             spellID = 267171,
@@ -1917,7 +1917,7 @@ WARLOCK = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.AFFLICTION] = {
         { -- Summon Darkglare
             spellID = 205180,
@@ -1929,11 +1929,11 @@ WARLOCK = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
 }
 
 WARRIOR = {
-    [SPECS.GENERAL] = {
+    WARRIOR = {
         { -- Impending Victory
             spellID = 202168,
             subType = SUB_TYPES.DEFENSIVE,
@@ -1954,7 +1954,7 @@ WARRIOR = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.ARMS] = {
         { -- Die By the Sword
             spellID = 118038,
@@ -1986,7 +1986,7 @@ WARRIOR = {
             subType = SUB_TYPES.OFFENSIVE,
             abilityType = TYPES.OFFENSIVE,
         },
-        },
+    },
     [SPECS.FURY] = {
         { -- Duel (Note: Listed under both Arms and Fury)
             spellID = 236273,
