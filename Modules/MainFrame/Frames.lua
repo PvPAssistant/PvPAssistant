@@ -291,7 +291,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         {
             label = GUTIL:ColorizeText("Date", GUTIL.COLORS.GREY),
             width = 135,
-            justifyOptions = { type = "H", align = "CENTER" },
+            justifyOptions = { type = "H", align = "LEFT" },
         },
         {
             label = GUTIL:ColorizeText("Map", GUTIL.COLORS.GREY),
@@ -520,21 +520,18 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     local dropdownSizeY = 25
     local dropdownScale = 1
 
-    matchHistoryTab.content.teamDisplayDropdown = GGUI.CustomDropdown {
-        parent = matchHistoryTab.content, anchorParent = abilitiesTab.button.frame,
-        anchorA = "LEFT", anchorB = "RIGHT", width = 110, offsetX = 10,
-        initialData = {
-            {
-                label = GUTIL:ColorizeText("Enemy Team", GUTIL.COLORS.WHITE),
-                value = PvPAssistant.CONST.DISPLAY_TEAMS.ENEMY_TEAM,
-            },
-            {
-                label = GUTIL:ColorizeText("My Team", GUTIL.COLORS.WHITE),
-                value = PvPAssistant.CONST.DISPLAY_TEAMS.PLAYER_TEAM
-            },
-        },
-        initialLabel = GUTIL:ColorizeText("My Team", GUTIL.COLORS.WHITE),
-        initialValue = PvPAssistant.CONST.DISPLAY_TEAMS.PLAYER_TEAM,
+    local characterDropdownData = PvPAssistant.MAIN_FRAME:GetCharacterDropdownData()
+
+    local playerDropdownData = GUTIL:Find(characterDropdownData, function(dropdownData)
+        return dropdownData.value == PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
+    end)
+
+    matchHistoryTab.content.characterDropdown = GGUI.CustomDropdown {
+        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.matchHistoryList.frame,
+        anchorA = "BOTTOMLEFT", anchorB = "TOPLEFT", width = 110, offsetX = 25, offsetY = 30,
+        initialData = PvPAssistant.MAIN_FRAME:GetCharacterDropdownData(),
+        initialLabel = playerDropdownData.label,
+        initialValue = playerDropdownData.value,
         clickCallback = function(self, label, value)
             PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
         end,
@@ -555,7 +552,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     }
 
     matchHistoryTab.content.pvpModeDropdown = GGUI.CustomDropdown {
-        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.teamDisplayDropdown.frame.frame,
+        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.characterDropdown.frame.frame,
         anchorA = "LEFT", anchorB = "RIGHT", width = 70, offsetX = 10,
         initialData = {
             {
@@ -778,17 +775,17 @@ function PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
     matchHistoryTab.content.matchHistoryList:Remove()
 
     local pvpModeFilter = PvPAssistant.MAIN_FRAME:GetSelectedModeFilter()
-    local displayedTeam = PvPAssistant.MAIN_FRAME:GetDisplayTeam()
+    local selectedCharacterUID = PvPAssistant.MAIN_FRAME:GetSelectedCharacterUID()
 
     local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
     local matchHistories = PvPAssistant.DB.MATCH_HISTORY:Get(playerUID)
 
     local filteredHistory = GUTIL:Filter(matchHistories or {},
         function(matchHistory)
-            if pvpModeFilter then
-                return matchHistory.pvpMode == pvpModeFilter
-            end
-            return true
+            local isSelectedCharacter = (matchHistory.player.name .. "-" .. matchHistory.player.realm) ==
+                selectedCharacterUID
+            local isSelectedMode = pvpModeFilter == nil or matchHistory.pvpMode == pvpModeFilter
+            return isSelectedCharacter and isSelectedMode
         end)
 
     local filteredHistory = GUTIL:Sort(filteredHistory, function(a, b)
@@ -817,25 +814,15 @@ function PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
             local mapAbbreviation = PvPAssistant.UTIL:GetMapAbbreviation(matchHistory.mapInfo.name)
             mapColumn.text:SetText(f.r(mapAbbreviation))
 
-            if displayedTeam == PvPAssistant.CONST.DISPLAY_TEAMS.PLAYER_TEAM or matchHistory.isSoloShuffle then
-                teamColumn:SetTeam(matchHistory.playerTeam)
-                if matchHistory.isRated then
-                    mmrColumn.text:SetText(matchHistory.playerTeam.ratingInfo.ratingMMR)
-                else
-                    mmrColumn.text:SetText(f.grey("-"))
-                end
-                damageColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(matchHistory.playerTeam.damage))
-                healingColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(matchHistory.playerTeam.healing))
+            -- TODO: Show all team icons always
+            teamColumn:SetTeam(matchHistory.playerTeam)
+            if matchHistory.isRated then
+                mmrColumn.text:SetText(matchHistory.playerTeam.ratingInfo.ratingMMR)
             else
-                teamColumn:SetTeam(matchHistory.enemyTeam)
-                if matchHistory.isRated then
-                    mmrColumn.text:SetText(matchHistory.enemyTeam.ratingInfo.ratingMMR)
-                else
-                    mmrColumn.text:SetText(f.grey("-"))
-                end
-                damageColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(matchHistory.enemyTeam.damage))
-                healingColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(matchHistory.enemyTeam.healing))
+                mmrColumn.text:SetText(f.grey("-"))
             end
+            damageColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(matchHistory.playerTeam.damage))
+            healingColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(matchHistory.playerTeam.healing))
 
             if matchHistory.isRated then
                 changeColumn.text:SetText(FormatValueWithSign(matchHistory.player.scoreData.ratingChange))

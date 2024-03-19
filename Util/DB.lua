@@ -23,6 +23,9 @@ PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP = {}
 ---@class PvPAssistant.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP
 PvPAssistant.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP = {}
 
+---@class PvPAssistant.DB.CHARACTER_DATA
+PvPAssistant.DB.CHARACTER_DATA = {}
+
 ---@alias PlayerUID string -- PlayerName-NormalizedServerName
 
 ---@class PvPAssistant.PlayerTooltipData.ModeData
@@ -37,14 +40,27 @@ PvPAssistant.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP = {}
 ---@class PvPAssistant.DB.PLAYER_DATA
 PvPAssistant.DB.PLAYER_DATA = {}
 
+---@class PvPAssistant.CharacterData
+---@field name string
+---@field realm string
+---@field class ClassFile
+
 ---@class PvPAssistantDB
 ---@field matchHistory PvPAssistantDB.Database
 ---@field playerData PvPAssistantDB.Database
 ---@field debugData PvPAssistantDB.Database
 ---@field tooltipOptions PvPAssistantDB.Database
+---@field characterData PvPAssistantDB.Database
 PvPAssistantDB = PvPAssistantDB or {}
 
 function PvPAssistant.DB:Init()
+    if not PvPAssistantDB.characterData then
+        PvPAssistantDB.characterData = {
+            version = 1,
+            ---@type table<PlayerUID, PvPAssistant.CharacterData>
+            data = {}
+        }
+    end
     if not PvPAssistantDB.matchHistory then
         PvPAssistantDB.matchHistory = {
             version = 2,
@@ -188,4 +204,47 @@ end
 function PvPAssistant.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:IsEnabled()
     return PvPAssistantDB.tooltipOptions.data.spellTooltip.enabled == nil or
         PvPAssistantDB.tooltipOptions.data.spellTooltip.enabled
+end
+
+function PvPAssistant.DB.CHARACTER_DATA:Clear()
+    wipe(PvPAssistantDB.characterData.data)
+end
+
+---@return PvPAssistant.CharacterData? characterData
+function PvPAssistant.DB.CHARACTER_DATA:Get(characterUID)
+    return PvPAssistantDB.characterData.data[characterUID]
+end
+
+---@param characterUID PlayerUID
+---@param characterData PvPAssistant.CharacterData
+function PvPAssistant.DB.CHARACTER_DATA:Save(characterUID, characterData)
+    PvPAssistantDB.characterData.data[characterUID] = characterData
+end
+
+---@param characterUID PlayerUID
+function PvPAssistant.DB.CHARACTER_DATA:GetClass(characterUID)
+    local characterData = self:Get(characterUID)
+    if characterData then
+        return characterData.class
+    end
+end
+
+---@return PvPAssistant.CharacterData[]
+function PvPAssistant.DB.CHARACTER_DATA:GetAll()
+    return PvPAssistantDB.characterData.data
+end
+
+function PvPAssistant.DB.CHARACTER_DATA:Init()
+    local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
+    local playerClass = select(2, UnitClass("player"))
+    local name, realm = strsplit("-", playerUID)
+
+    ---@type PvPAssistant.CharacterData
+    local characterData = {
+        name = name,
+        realm = realm,
+        class = playerClass,
+    }
+
+    self:Save(playerUID, characterData)
 end

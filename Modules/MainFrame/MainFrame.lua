@@ -3,6 +3,7 @@ local PvPAssistant = select(2, ...)
 
 local GGUI = PvPAssistant.GGUI
 local GUTIL = PvPAssistant.GUTIL
+local f = GUTIL:GetFormatter()
 
 ---@class PvPAssistant.MAIN_FRAME
 PvPAssistant.MAIN_FRAME = {}
@@ -24,12 +25,22 @@ function PvPAssistant.MAIN_FRAME:GetSelectedModeFilter()
     return mainFrame.content.matchHistoryTab.content.pvpModeDropdown.selectedValue
 end
 
----@return PvPAssistant.Const.DisplayTeams displayTeams
-function PvPAssistant.MAIN_FRAME:GetDisplayTeam()
+---@return PlayerUID selectedCharacterUID?
+function PvPAssistant.MAIN_FRAME:GetSelectedCharacterUID()
     local mainFrame = PvPAssistant.MAIN_FRAME.frame
     if not mainFrame then
         error("PvPAssistant Error: MainFrame not found")
     end
 
-    return mainFrame.content.matchHistoryTab.content.teamDisplayDropdown.selectedValue
+    return mainFrame.content.matchHistoryTab.content.characterDropdown.selectedValue
+end
+
+---@return GGUI.CustomDropdownData[] dropdownData
+function PvPAssistant.MAIN_FRAME:GetCharacterDropdownData()
+    return GUTIL:Map(PvPAssistant.DB.CHARACTER_DATA:GetAll(), function(characterData, characterUID)
+        return {
+            label = f.class(characterData.name, characterData.class),
+            value = characterUID,
+        }
+    end)
 end
