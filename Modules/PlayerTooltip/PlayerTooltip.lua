@@ -16,11 +16,24 @@ function PvPAssistant.PLAYER_TOOLTIP:Init()
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, function(_, data)
         local tooltipEnabled = PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:IsEnabled()
         if not tooltipEnabled then return end
+
+        local alreadyDisplayed = GUTIL:TooltipContains({
+            textLeft = "PvPAssistant"
+        })
+
+        if alreadyDisplayed then return end
+
         local unit = select(2, GameTooltip:GetUnit())
         if unit and UnitIsPlayer(unit) then
             PvPAssistant.PLAYER_TOOLTIP.inspectPlayerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit(unit)
             INSPECTED_UNIT = unit;
             NotifyInspect(unit)
+
+            -- GUTIL:TooltipAddDoubleLineWithID({
+            --     gutilID = "test_gutilID",
+            --     textLeft = "Hello World",
+            --     textRight = f.r("non modified")
+            -- })
         end
     end)
 end
@@ -75,6 +88,15 @@ function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByInspectData(unit, pvpD
                 PvPAssistant.UTIL:ColorByRating(tostring(rating), rating))
         end
     end
+
+    -- GUTIL:TooltipUpdateDoubleLineByID({
+    --     gutilID = "test_gutilID",
+    --     updateLine = function(leftLine, rightLine)
+    --         if rightLine then
+    --             rightLine:SetText(f.g("Now its updated"))
+    --         end
+    --     end
+    -- })
 
     GameTooltip:Show()
 end

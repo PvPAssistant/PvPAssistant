@@ -133,7 +133,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
             GGUI:ShowPopup {
                 copyText = PvPAssistant.CONST.DISCORD_INVITE,
                 parent = frame.content, anchorParent = frame.content.discordButton.frame,
-                title = "Join our Discord!", sizeX = 250, sizeY = 100,
+                title = "Join our Discord! (CTRL+C to Copy)", sizeX = 280, sizeY = 100,
                 okButtonLabel = f.white("Ok"),
             }
         end
