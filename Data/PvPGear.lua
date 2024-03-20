@@ -2,11 +2,9 @@
 local PvpAssistant = select(2, ...)
 
 local GUTIL = PvpAssistant.GUTIL
-local f = GUTIL:GetFormatter()
-
 ---@class PvpAssistant.Pvpgear
 PvpAssistant.PVPGEAR = {}
-
+  
 local vendorData = {
     -- Calderax <Conquest Quartermaster>
 vendorID = 199599,
@@ -288,7 +286,7 @@ vendorID = 199599,
      {itemID = 209257, requirements = {level = 70, currencyID = 1602, currencyAmount = 525}}, -- Verdant Gladiator's Drape
      {itemID = 209314, requirements = {level = 70, currencyID = 1602, currencyAmount = 525}}, -- Verdant Gladiator's Drape
      {itemID = 209104, requirements = {level = 70, currencyID = 1602, currencyAmount = 525}}, -- Verdant Gladiator's Cloak
-     {itemID = 209219, requirements = {level = 70, currencyID = 1602, currencyAmount = 525}},  -- Verdant Gladiator's Drape
+     {itemID = 209219, requirements = {level = 70, currencyID = 1602, currencyAmount = 525}}, -- Verdant Gladiator's Drape
      {itemID = 209106, requirements = {level = 70, currencyID = 1602, currencyAmount = 525}}, -- Verdant Gladiator's Shawl
      {itemID = 209162, requirements = {level = 70, currencyID = 1602, currencyAmount = 525}}, -- Verdant Gladiator's Drape
      {itemID = 209200, requirements = {level = 70, currencyID = 1602, currencyAmount = 525}}, -- Verdant Gladiator's Drape
@@ -331,6 +329,133 @@ vendorID = 199599,
      {itemID = 209543, requirements = {level = 70, currencyID = 1602, currencyAmount = 450}}, -- Verdant Gladiator's Shield
      {itemID = 209549, requirements = {level = 70, currencyID = 1602, currencyAmount = 450}}, -- Verdant Gladiator's Bulwark
      {itemID = 209542, requirements = {level = 70, currencyID = 1602, currencyAmount = 450}}, -- Verdant Gladiator's Censer
-   
     }
 }
+    
+local vendorData = {
+     -- Seltherex <Honor Quartermaster>
+     vendorID = 199601,
+     items = {
+    
+     {itemID = 209713, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Leather Helm
+     {itemID = 209698, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Plate Helm
+     {itemID = 209730, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Plate Headguard
+     {itemID = 209745, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Leather Mask
+     {itemID = 209712, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Chain Helm
+     {itemID = 209744, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Chain Headguard
+     {itemID = 209743, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Silk Cover
+     {itemID = 209711, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}},  -- Verdant Aspirant's Silk Hood
+
+     --Necklaces
+     {itemID = 209771, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Necklace
+     {itemID = 209773, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Pendant
+     {itemID = 209772, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Choker
+    
+     --Shoulders
+    
+     {itemID = 209718, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Leather Spaulders
+     {itemID = 209720, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Silk Mantle
+     {itemID = 209721, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Chain Spaulders
+     {itemID = 209751, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Leather Mantle
+     {itemID = 209752, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Plate Pauldrons
+     {itemID = 209754, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Chain Shoulderguards
+     {itemID = 209753, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Silk Shawl
+     {itemID = 209719, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}},  -- Verdant Aspirant's Plate Shoulders
+    
+    
+     --Belts
+     {itemID = 209723, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Silk Cord
+     {itemID = 209725, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Leather Belt
+     {itemID = 209722, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Plate Girdle
+     {itemID = 209758, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Leather Cord
+     {itemID = 209755, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Plate Greatbelt
+     {itemID = 209724, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Chain Belt
+     {itemID = 209757, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Chain Clasp
+     {itemID = 209756, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}},  -- Verdant Aspirant's Silk Belt
+    
+     --Legs
+     
+     {itemID = 209749, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Chain Wargreaves
+     {itemID = 209750, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Leather Leggings
+     {itemID = 209717, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Leather Breeches
+     {itemID = 209715, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Silk Leggings
+     {itemID = 209716, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Chain Leggings
+     {itemID = 209714, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Plate Legguards
+     {itemID = 209746, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Plate Wargreaves
+     {itemID = 209747, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}},  -- Verdant Aspirant's Silk Legwraps
+
+     --feet
+
+     {itemID = 209705, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Chain Sabatons
+     {itemID = 209703, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Plate Warboots
+     {itemID = 209706, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Leather Boots
+     {itemID = 209737, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Chain Stompers
+     {itemID = 209738, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Leather Footpads
+     {itemID = 209736, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Silk Footwraps
+     {itemID = 209704, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Silk Treads
+     {itemID = 209735, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}},  -- Verdant Aspirant's Plate Stompers
+    
+    
+     --Wrists
+    
+     {itemID = 209759, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Silk Bindings
+     {itemID = 209762, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Leather Armguards
+     {itemID = 209729, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Leather Wristwraps
+     {itemID = 209726, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Silk Wristwraps
+     {itemID = 209760, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Plate Armguards
+     {itemID = 209728, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Chain Wristwraps
+     {itemID = 209761, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Chain Bracer
+     {itemID = 209727, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}},  -- Verdant Aspirant's Plate Cuffs
+    
+     --Hands
+    
+     {itemID = 209707, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Leather Gloves
+     {itemID = 209742, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Chain Handguards
+     {itemID = 209740, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Plate Handguards
+     {itemID = 209710, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Chain Gauntlets
+     {itemID = 209709, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Silk Gloves
+     {itemID = 209739, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Leather Grips
+     {itemID = 209708, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Plate Gauntlets
+     {itemID = 209741, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}},  -- Verdant Aspirant's Silk Handwraps
+    
+     --Fingers
+     {itemID = 209770, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Signet
+     {itemID = 209768, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Ring
+     {itemID = 209769, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}},  -- Verdant Aspirant's Band
+
+     --Trinkets
+
+     {itemID = 209764, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Medallion
+     {itemID = 209765, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Insignia of Alacrity
+     {itemID = 209763, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Badge of Ferocity
+     {itemID = 209766, requirements = {level = 70, currencyID = 1792, currencyAmount = 700}}, -- Verdant Aspirant's Emblem
+     {itemID = 209767, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Sigil of Adaptation
+
+     --Cloaks
+     {itemID = 209776, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Cape
+     {itemID = 209775, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Drape
+     {itemID = 209777, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Greatcloak
+     {itemID = 209774, requirements = {level = 70, currencyID = 1792, currencyAmount = 525}}, -- Verdant Aspirant's Cloak
+
+     --One-Hands, Two-Hands, Ranged, Off Hand And Held in Off-Hand
+     {itemID = 210162, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Hammer
+     {itemID = 210149, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Battleaxe
+     {itemID = 210157, requirements = {level = 70, currencyID = 1792, currencyAmount = 1325}}, -- Verdant Aspirant's Scepter
+     {itemID = 210164, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Sword
+     {itemID = 210150, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Dagger
+     {itemID = 210151, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Mace
+     {itemID = 210163, requirements = {level = 70, currencyID = 1792, currencyAmount = 1325}}, -- Verdant Aspirant's Knife
+     {itemID = 210166, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}}, -- Verdant Aspirant's Blade
+     {itemID = 210156, requirements = {level = 70, currencyID = 1792, currencyAmount = 875}},  -- Verdant Aspirant's Warglaive
+     {itemID = 210153, requirements = {level = 70, currencyID = 1792, currencyAmount = 1750}}, -- Verdant Aspirant's Staff
+     {itemID = 210154, requirements = {level = 70, currencyID = 1792, currencyAmount = 1750}}, -- Verdant Aspirant's Greatsword
+     {itemID = 210152, requirements = {level = 70, currencyID = 1792, currencyAmount = 1750}}, -- Verdant Aspirant's Polearm
+     {itemID = 210161, requirements = {level = 70, currencyID = 1792, currencyAmount = 1750}},  -- Verdant Aspirant's Halberd
+     {itemID = 210160, requirements = {level = 70, currencyID = 1792, currencyAmount = 1750}}, -- Verdant Aspirant's Recurve
+     {itemID = 210317, requirements = {level = 70, currencyID = 1792, currencyAmount = 1325}}, -- Verdant Aspirant's Wand
+     {itemID = 210158, requirements = {level = 70, currencyID = 1792, currencyAmount = 425}}, -- Verdant Aspirant's Shield
+     {itemID = 210155, requirements = {level = 70, currencyID = 1792, currencyAmount = 425}},  -- Verdant Aspirant's Torch
+    }
+}
+
+
