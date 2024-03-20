@@ -47,7 +47,6 @@ function PvPAssistant.MAIN:Init()
 
 	PvPAssistant.MAIN:InitializeSlashCommands()
 	PvPAssistant.OPTIONS:Init()
-	PvPAssistant.PVPINFO.FRAMES:Init()
 	PvPAssistant.ARENA_GUIDE.FRAMES:Init()
 	PvPAssistant:InitializeMinimapButton()
 	PvPAssistant.PLAYER_TOOLTIP:Init()
@@ -133,8 +132,6 @@ function PvPAssistant.MAIN:PLAYER_ENTERING_WORLD()
 
 
 	PvPAssistant.SPEC_LOOKUP:Init()
-
-	---PvPAssistant.PVPINFO.FRAMES:UpdateDisplay()
 
 	PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 
