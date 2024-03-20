@@ -580,7 +580,11 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             },
             {
                 label = GUTIL:ColorizeText("RBG", GUTIL.COLORS.WHITE),
+<<<<<<< Updated upstream
                 value = PvPAssistant.CONST.PVP_MODES.BATTLEGROUND,
+=======
+                value = PvpAssistant.CONST.PVP_MODES.BATTLEGROUND,
+>>>>>>> Stashed changes
             },
         },
         initialLabel = GUTIL:ColorizeText("All", GUTIL.COLORS.WHITE),
