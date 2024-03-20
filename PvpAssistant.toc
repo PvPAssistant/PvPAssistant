@@ -1,4 +1,4 @@
-## Interface: 102000
+## Interface: 100206
 ## DefaultState: enabled
 
 ## Title: PvPAssistant
