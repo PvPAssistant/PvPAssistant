@@ -104,6 +104,32 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
     ---@class PvPAssistant.MAIN_FRAME.ABILITIES_TAB.CONTENT
     abilitiesTab.content = abilitiesTab.content
 
+    ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE_TAB : GGUI.Tab
+    frame.content.gearCatalogueTab = GGUI.Tab {
+        parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
+        sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
+        buttonOptions = {
+            label = GUTIL:ColorizeText("Ability Catalogue", GUTIL.COLORS.WHITE),
+            parent = frame.content,
+            anchorParent = frame.content.abilitiesTab.button.frame,
+            anchorA = "LEFT",
+            anchorB = "RIGHT",
+            adjustWidth = true,
+            sizeX = 15,
+            offsetX = 10,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            fontOptions = {
+                fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
+            },
+            scale = tabButtonScale,
+        }
+    }
+    ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE.CONTENT
+    frame.content.gearCatalogueTab.content = frame.content.gearCatalogueTab.content
+    local gearCatalogueTab = frame.content.gearCatalogueTab
+    ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE.CONTENT
+    gearCatalogueTab.content = gearCatalogueTab.content
+
     ---@class PvPAssistant.MAIN_FRAME.OPTIONS_TAB : GGUI.Tab
     frame.content.optionsTab = GGUI.Tab {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
@@ -145,7 +171,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
     ---@class PvPAssistant.MAIN_FRAME.OPTIONS_TAB.CONTENT
     optionsTab.content = optionsTab.content
 
-    GGUI.TabSystem { matchHistoryTab, abilitiesTab, optionsTab }
+    GGUI.TabSystem { matchHistoryTab, abilitiesTab, gearCatalogueTab, optionsTab }
 
     frame.content.closeButton = GGUI.Button {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
@@ -166,12 +192,13 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
 
     PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
+    PvPAssistant.MAIN_FRAME.FRAMES:InitGearCatalogue()
     PvPAssistant.OPTIONS:InitOptionsTab()
 
     frame:Hide()
 end
 
-function PvPAssistant.MAIN_FRAME:InitMatchHistoryTooltipFrame()
+function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTooltipFrame()
     local tooltipFrameX = 275
     local tooltipFrameY = 40
     local frameScale = 0.95
@@ -768,6 +795,171 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
     PvPAssistant.MAIN_FRAME:UpdateAbilityData()
 end
 
+function PvPAssistant.MAIN_FRAME.FRAMES:InitGearCatalogue()
+    local gearCatalogueTab = PvPAssistant.MAIN_FRAME.frame.content.gearCatalogueTab
+    ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE_TAB.CONTENT
+    gearCatalogueTab.content = gearCatalogueTab.content
+
+    gearCatalogueTab.content.wip = GGUI.Text {
+        parent = gearCatalogueTab.content, anchorPoints = { { anchorParent = gearCatalogueTab.content, offsetY = 60 } },
+        text = f.l("WORK IN PROGRESS")
+    }
+
+    -- TODO take a look at the InitAbilitiesCatalogueTab function above
+    --[[
+    ---@type GGUI.FrameList.ColumnOption[]
+    local columnOptions = {
+        {
+            label = f.grey("Class - Specialization"),
+            width = 180,
+            justifyOptions = { type = "H", align = "LEFT" },
+        },
+        {
+            label = f.grey("Spell"),
+            width = 150,
+            justifyOptions = { type = "H", align = "LEFT" },
+        },
+        {
+            label = f.grey("Type"),
+            width = 120,
+            justifyOptions = { type = "H", align = "CENTER" },
+        },
+        {
+            label = f.grey("Duration"),
+            width = 100,
+            justifyOptions = { type = "H", align = "CENTER" },
+        },
+        {
+            label = f.grey("Talent Upgrades"),
+            width = 130,
+            justifyOptions = { type = "H", align = "CENTER" },
+        },
+    }
+
+    ccCatalogueTab.content.abilityList = GGUI.FrameList {
+        parent = ccCatalogueTab.content, anchorParent = ccCatalogueTab.content.classFilterFrame.frame, anchorA = "TOP", anchorB = "BOTTOM",
+        sizeY = 450, showBorder = true, offsetY = -25, offsetX = -8,
+        columnOptions = columnOptions,
+        rowBackdrops = { PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A, PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B },
+        selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
+        rowConstructor = function(columns)
+            local classSpecColumn = columns[1]
+            local spellColumn = columns[2]
+            local typeColumn = columns[3]
+            local durationColumn = columns[4]
+            local upgradeColumn = columns[5]
+
+            local iconSize = 23
+            classSpecColumn.classIcon = GGUI.ClassIcon {
+                parent = classSpecColumn, anchorParent = classSpecColumn, enableMouse = false, sizeX = iconSize, sizeY = iconSize, anchorA = "LEFT", anchorB = "LEFT",
+            }
+
+            classSpecColumn.specIcon = GGUI.ClassIcon {
+                parent = classSpecColumn, anchorParent = classSpecColumn.classIcon.frame, enableMouse = false, sizeX = iconSize, sizeY = iconSize, anchorA = "LEFT", anchorB = "RIGHT",
+            }
+
+            classSpecColumn.className = GGUI.Text {
+                parent = classSpecColumn, anchorParent = classSpecColumn.specIcon.frame, justifyOptions = { type = "H", align = "LEFT" }, text = "",
+                anchorA = "LEFT", anchorB = "RIGHT", offsetX = 3, scale = 0.9
+            }
+
+            classSpecColumn.SetClass = function(self, class, specID)
+                classSpecColumn.classIcon:SetClass(class)
+                if specID then
+                    classSpecColumn.specIcon:Show()
+                    classSpecColumn.specIcon:SetClass(specID)
+                    local specName = select(2, GetSpecializationInfoByID(specID))
+                    classSpecColumn.className:SetText(f.class(
+                        tostring(LOCALIZED_CLASS_NAMES_MALE[class]) .. " - " .. tostring(specName),
+                        class))
+                else
+                    classSpecColumn.specIcon:Hide()
+                    classSpecColumn.className:SetText(f.class(LOCALIZED_CLASS_NAMES_MALE[class], class))
+                end
+            end
+
+            typeColumn.text = GGUI.Text {
+                parent = typeColumn, anchorParent = typeColumn, justifyOptions = { type = "H", align = "LEFT" },
+            }
+
+            spellColumn.icon = GGUI.SpellIcon {
+                parent = spellColumn, anchorParent = spellColumn, sizeX = iconSize, sizeY = iconSize, anchorA = "LEFT", anchorB = "LEFT",
+                initialSpellID = 179057 -- debug: chaos nova
+            }
+
+            spellColumn.spellName = GGUI.Text {
+                parent = spellColumn, anchorParent = spellColumn.icon.frame, justifyOptions = { type = "H", align = "LEFT" }, text = "?",
+                anchorA = "LEFT", anchorB = "RIGHT", offsetX = 3, wrap = true, fixedWidth = 150, scale = 0.9,
+            }
+
+            spellColumn.SetSpell = function(self, spellID)
+                spellColumn.icon:SetSpell(spellID)
+                local spellname = select(1, GetSpellInfo(spellID))
+                spellColumn.spellName:SetText(spellname)
+            end
+
+            durationColumn.text = GGUI.Text {
+                parent = durationColumn, anchorParent = durationColumn, text = "5 Seconds", justifyOptions = { type = "H", align = "CENTER" },
+            }
+
+            durationColumn.SetDuration = function(self, seconds)
+                if seconds then
+                    durationColumn.text:SetText(tostring(seconds) .. " Seconds")
+                else
+                    durationColumn.text:SetText("")
+                end
+            end
+            local numIcons = 5
+            local spacingX = 5
+            local upgradeIconSize = 20
+
+            upgradeColumn.icons = {}
+            local lastAnchor
+            for i = 1, numIcons do
+                local offsetX = spacingX
+                local anchorParent = lastAnchor
+                local anchorB = "RIGHT"
+                if i == 1 then
+                    offsetX = 5
+                    anchorB = "LEFT"
+                    anchorParent = upgradeColumn
+                end
+                local spellIcon = GGUI.SpellIcon {
+                    parent = upgradeColumn, anchorParent = anchorParent,
+                    anchorA = "LEFT", anchorB = anchorB, offsetX = offsetX, sizeX = upgradeIconSize, sizeY = upgradeIconSize
+                }
+                lastAnchor = spellIcon.frame
+
+                tinsert(upgradeColumn.icons, spellIcon)
+            end
+
+            upgradeColumn.setIcons = function(self, spellUpgrades)
+                if not spellUpgrades then
+                    -- just hide all
+                    table.foreach(upgradeColumn.icons, function(_, icon)
+                        icon:Hide()
+                    end)
+                    return
+                end
+                for i = 1, #spellUpgrades do
+                    local icon = upgradeColumn.icons[i]
+                    local spellUpgradeData = spellUpgrades and spellUpgrades[i]
+                    if not icon then
+                        return
+                    end
+                    if not spellUpgradeData then
+                        icon:Hide()
+                    else
+                        icon:SetSpell(spellUpgradeData.spellID)
+                        icon:Show()
+                    end
+                end
+            end
+        end
+    }
+    ]]
+end
+
 function PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
     local matchHistoryTab = PvPAssistant.MAIN_FRAME.frame.content.matchHistoryTab
     local matchHistoryList = matchHistoryTab.content.matchHistoryList
@@ -895,24 +1087,4 @@ function PvPAssistant.MAIN_FRAME:UpdateAbilityData()
     end
 
     abilityList:UpdateDisplay()
-end
-
-function PvPAssistant.MAIN_FRAME:FillDRData()
-    local drOverviewTab = PvPAssistant.MAIN_FRAME.frame.content.drOverviewTab
-    local drList = drOverviewTab.content.drList
-
-    for i = 1, 30 do
-        drList:Add(function(row)
-            local columns = row.columns
-            local specColumn = columns[1]
-            local spellColumn = columns[2]
-            local drColumn = columns[3]
-
-            specColumn.icon:SetClass("WARRIOR")
-            -- spellColumn.icon
-            drColumn.text:SetText("DR Info")
-        end)
-    end
-
-    drList:UpdateDisplay()
 end
