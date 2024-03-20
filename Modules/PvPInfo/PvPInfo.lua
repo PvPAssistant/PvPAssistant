@@ -4,8 +4,8 @@ local PvPAssistant = select(2, ...)
 local GGUI = PvPAssistant.GGUI
 local GUTIL = PvPAssistant.GUTIL
 
----@class PvPAssistant.PvPInfo
-PvPAssistant.PVPINFO = {}
+---@class PvPAssistant.PvPInfo : Frame
+PvPAssistant.PVPINFO = GUTIL:CreateRegistreeForEvents { "ADDON_LOADED" }
 
 ---@class PvPAssistant.PvPInfoFrame
 PvPAssistant.PVPINFO.frame = nil
@@ -19,6 +19,13 @@ PvPAssistant.PVPINFO.frame = nil
 ---@field weeklyPlayed number
 ---@field weeklyWon number
 ---@field cap number
+
+function PvPAssistant.PVPINFO:ADDON_LOADED(addonName)
+    if addonName == "Blizzard_PVPUI" then
+        self.FRAMES:Init()
+        self.FRAMES:UpdateDisplay()
+    end
+end
 
 ---@return table<PvPAssistant.Const.PVPModes, PvPAssistant.PVPINFO.PersonalRatingInfo>
 function PvPAssistant.PVPINFO:GetPersonalRatingInfo()
