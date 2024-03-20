@@ -172,7 +172,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
 end
 
 function PvPAssistant.MAIN_FRAME:InitMatchHistoryTooltipFrame()
-    local tooltipFrameX = 265
+    local tooltipFrameX = 275
     local tooltipFrameY = 40
     local frameScale = 0.95
     PvPAssistant.MAIN_FRAME.matchHistoryTooltipFrame = CreateFrame("Frame", nil, nil, "BackdropTemplate")
@@ -210,7 +210,7 @@ function PvPAssistant.MAIN_FRAME:InitMatchHistoryTooltipFrame()
         columnOptions = {
             {
                 label = f.grey("Player"),
-                width = 80,
+                width = 90,
                 justifyOptions = { type = "H", align = "LEFT" },
             },
             {
@@ -401,7 +401,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             showTooltip = true,
         }
 
-        local iconSizeSS = 13
+        local iconSizeSS = 15
 
         teamColumn.iconSS1 = GGUI.ClassIcon {
             parent = teamColumn, anchorParent = teamColumn, anchorA = "LEFT", anchorB = "LEFT", offsetX = 28, offsetY = 7,
@@ -815,7 +815,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
             mapColumn.text:SetText(f.r(mapAbbreviation))
 
             -- TODO: Show all team icons always
-            teamColumn:SetTeam(matchHistory.playerTeam)
+            teamColumn:SetTeam(matchHistory.playerTeam, matchHistory.isSoloShuffle)
             if matchHistory.isRated then
                 mmrColumn.text:SetText(matchHistory.playerTeam.ratingInfo.ratingMMR)
             else
@@ -844,7 +844,10 @@ function PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
             row.tooltipOptions = {
                 anchor = "ANCHOR_CURSOR",
                 owner = row.frame,
-                frame = matchHistory:FillTooltipFrame(),
+                frame = PvPAssistant.MAIN_FRAME.matchHistoryTooltipFrame,
+                frameUpdateCallback = function(tooltipFrame)
+                    matchHistory:UpdateTooltipFrame(tooltipFrame)
+                end
             }
         end)
     end
