@@ -173,6 +173,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
 end
 
 function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTooltipFrame()
+
     local tooltipFrameX = 275
     local tooltipFrameY = 40
     local frameScale = 0.95
