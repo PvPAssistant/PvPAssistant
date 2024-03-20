@@ -173,7 +173,6 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
 end
 
 function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTooltipFrame()
-
     local tooltipFrameX = 275
     local tooltipFrameY = 40
     local frameScale = 0.95
@@ -771,9 +770,9 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
 end
 
 function PvPAssistant.MAIN_FRAME.FRAMES:InitGearCatalogue()
-    local gearCatalogueTab = PvPAssistant.MAIN_FRAME.frame.content.gearCatalogueTab
-    ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE_TAB.CONTENT
-    gearCatalogueTab.content = gearCatalogueTab.content
+    -- local gearCatalogueTab = PvPAssistant.MAIN_FRAME.frame.content.gearCatalogueTab
+    -- ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE_TAB.CONTENT
+    -- gearCatalogueTab.content = gearCatalogueTab.content
 
     -- TODO take a look at the InitAbilitiesCatalogueTab function above
     --[[
