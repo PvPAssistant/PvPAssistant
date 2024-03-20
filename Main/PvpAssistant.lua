@@ -134,7 +134,7 @@ function PvPAssistant.MAIN:PLAYER_ENTERING_WORLD()
 
 	PvPAssistant.SPEC_LOOKUP:Init()
 
-	PvPAssistant.PVPINFO.FRAMES:UpdateDisplay()
+	---PvPAssistant.PVPINFO.FRAMES:UpdateDisplay()
 
 	PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 
