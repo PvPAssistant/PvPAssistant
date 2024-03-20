@@ -740,7 +740,7 @@ PvPAssistant.ABILITY_DATA = {
                 abilityType = TYPES.CC,
             },
         },
-        {   -- Psychic Horror
+        { -- Psychic Horror
             spellID = 64044,
             subType = SUB_TYPES.STUN,
             duration = 4,

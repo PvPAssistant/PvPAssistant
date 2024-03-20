@@ -10,6 +10,8 @@ PvPAssistant.CONST.NEWS =
     f.l("\nPatch Notes:\n") ..
     f.white("- Fixed PvP Queuing not available on first login\n") ..
     f.white("- Fixed Match History Tooltip\n") ..
+    f.white("- Match History now always shows all player's icons\n") ..
+    f.white("- Class Filter now shows tooltip on cursor\n") ..
     f.bb("\nNeeds Testing:\n") ..
     f.white("- Solo Shuffle Match History\n") ..
     f.white("- RBG Match History\n")

@@ -141,7 +141,14 @@ function PvPAssistant.UTIL:CreateClassFilterFrame(options)
     local classFilterFrame = GGUI.Frame {
         parent = parent, anchorParent = anchorPoint.anchorParent or parent,
         anchorA = anchorPoint.anchorA or "TOP", anchorB = anchorPoint.anchorB or "TOP", backdropOptions = PvPAssistant.CONST.CLASS_FILTER_FRAME_BACKDROP,
-        sizeX = 715, sizeY = 100, offsetY = anchorPoint.offsetY or 0, offsetX = anchorPoint.offsetX or 0
+        sizeX = 715, sizeY = 100, offsetY = anchorPoint.offsetY or 0, offsetX = anchorPoint.offsetX or 0,
+        tooltipOptions = {
+            anchor = "ANCHOR_CURSOR_RIGHT",
+            text = f.white("Toggle Class Filters off and on."
+                .. "\nshift+" .. CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.LEFT_MOUSE_BUTTON, 15, 20) .. ": Filter out everything else"
+                .. "\nalt+" .. CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.LEFT_MOUSE_BUTTON, 15, 20) .. ": Filter in everything else"),
+            scale = 0.7,
+        },
     }
 
     classFilterFrame.title = GGUI.Text {
@@ -150,13 +157,6 @@ function PvPAssistant.UTIL:CreateClassFilterFrame(options)
         fontOptions = {
             fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
             height = 15,
-        },
-        tooltipOptions = {
-            owner = classFilterFrame.frame,
-            anchor = "ANCHOR_CURSOR",
-            text = f.white("Toggle Class Filters off and on."
-                .. "\n\nSHIFT+" .. CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.LEFT_MOUSE_BUTTON, 15, 20) .. ": Filter out everything else"
-                .. "\n\nALT+" .. CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.LEFT_MOUSE_BUTTON, 15, 20) .. ": Filter in everything else"),
         },
     }
 
