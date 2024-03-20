@@ -127,7 +127,7 @@ end
 function PvPAssistant.MAIN:PLAYER_ENTERING_WORLD()
 	PvPAssistant.DB.CHARACTER_DATA:Init() -- on addon load not yet accessible
 	PvPAssistant.MAIN_FRAME.FRAMES:Init() -- dep: character data
-	PvPAssistant.MAIN_FRAME:InitMatchHistoryTooltipFrame()
+	PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTooltipFrame()
 	PvPAssistant.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
 
 
