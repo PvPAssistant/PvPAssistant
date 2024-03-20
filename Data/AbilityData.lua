@@ -306,7 +306,7 @@ PvPAssistant.ABILITY_DATA = {
                 severity = SEVERITY.MEDIUM
             },
         },
-        [SPECS.FROST] = {
+        [SPECS.FROST_DK] = {
             {
                 spellID = 279302, -- Frostwyrms Fury
                 abilityType = TYPES.CC,
@@ -710,7 +710,7 @@ PvPAssistant.ABILITY_DATA = {
                 abilityType = TYPES.CC,
                 passive = true,
             },
-            
+
             { -- Psychic Scream
                 spellID = 8122,
                 subType = SUB_TYPES.DISORIENT,
@@ -739,13 +739,14 @@ PvPAssistant.ABILITY_DATA = {
                 severity = SEVERITY.HIGH,
                 abilityType = TYPES.CC,
             },
-        },{ -- Psychic Horror
-        spellID = 64044,
-        subType = SUB_TYPES.STUN,
-        duration = 4,
-        severity = SEVERITY.HIGH,
-        abilityType = TYPES.CC,
-      },
+        },
+        {   -- Psychic Horror
+            spellID = 64044,
+            subType = SUB_TYPES.STUN,
+            duration = 4,
+            severity = SEVERITY.HIGH,
+            abilityType = TYPES.CC,
+        },
     },
     SHAMAN = {
         SHAMAN = {
