@@ -104,6 +104,32 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
     ---@class PvPAssistant.MAIN_FRAME.ABILITIES_TAB.CONTENT
     abilitiesTab.content = abilitiesTab.content
 
+    ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE_TAB : GGUI.Tab
+    frame.content.gearCatalogueTab = GGUI.Tab {
+        parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
+        sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
+        buttonOptions = {
+            label = GUTIL:ColorizeText("Ability Catalogue", GUTIL.COLORS.WHITE),
+            parent = frame.content,
+            anchorParent = frame.content.abilitiesTab.button.frame,
+            anchorA = "LEFT",
+            anchorB = "RIGHT",
+            adjustWidth = true,
+            sizeX = 15,
+            offsetX = 10,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            fontOptions = {
+                fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
+            },
+            scale = tabButtonScale,
+        }
+    }
+    ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE.CONTENT
+    frame.content.gearCatalogueTab.content = frame.content.gearCatalogueTab.content
+    local gearCatalogueTab = frame.content.gearCatalogueTab
+    ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE.CONTENT
+    gearCatalogueTab.content = gearCatalogueTab.content
+
     ---@class PvPAssistant.MAIN_FRAME.OPTIONS_TAB : GGUI.Tab
     frame.content.optionsTab = GGUI.Tab {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
@@ -145,7 +171,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
     ---@class PvPAssistant.MAIN_FRAME.OPTIONS_TAB.CONTENT
     optionsTab.content = optionsTab.content
 
-    GGUI.TabSystem { matchHistoryTab, abilitiesTab, optionsTab }
+    GGUI.TabSystem { matchHistoryTab, abilitiesTab, gearCatalogueTab, optionsTab }
 
     frame.content.closeButton = GGUI.Button {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
@@ -770,9 +796,14 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
 end
 
 function PvPAssistant.MAIN_FRAME.FRAMES:InitGearCatalogue()
-    -- local gearCatalogueTab = PvPAssistant.MAIN_FRAME.frame.content.gearCatalogueTab
-    -- ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE_TAB.CONTENT
-    -- gearCatalogueTab.content = gearCatalogueTab.content
+    local gearCatalogueTab = PvPAssistant.MAIN_FRAME.frame.content.gearCatalogueTab
+    ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE_TAB.CONTENT
+    gearCatalogueTab.content = gearCatalogueTab.content
+
+    gearCatalogueTab.content.wip = GGUI.Text {
+        parent = gearCatalogueTab.content, anchorPoints = { { anchorParent = gearCatalogueTab.content, offsetY = 60 } },
+        text = f.l("WORK IN PROGRESS")
+    }
 
     -- TODO take a look at the InitAbilitiesCatalogueTab function above
     --[[
