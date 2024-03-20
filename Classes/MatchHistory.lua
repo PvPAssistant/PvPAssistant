@@ -333,12 +333,14 @@ function PvPAssistant.MatchHistory:GetTooltipText()
     return tooltipText
 end
 
----@return Frame tooltipFrame
-function PvPAssistant.MatchHistory:FillTooltipFrame()
-    local tooltipFrame = PvPAssistant.MAIN_FRAME.matchHistoryTooltipFrame.contentFrame --[[@as GGUI.Frame]]
+---@param tFrame Frame
+function PvPAssistant.MatchHistory:UpdateTooltipFrame(tFrame)
+    local tooltipFrame = tFrame.contentFrame --[[@as GGUI.Frame]]
     local content = tooltipFrame.content --[[@as PvPAssistant.MAIN_FRAME.TooltipFrame.Content]]
 
     local playerList = content.playerList
+
+    playerList:Remove()
 
     content.modeText:SetText(f.white(PvPAssistant.CONST.PVP_MODES_NAMES[self.pvpMode] or "<?>"))
     content.mapText:SetText(f.bb(self.mapInfo.name))
@@ -366,7 +368,7 @@ function PvPAssistant.MatchHistory:FillTooltipFrame()
             local killColumn = columns[4]
 
             -- If i am the last player in my team show the separator line, otherwise hide
-            row:SetSeparatorLine(playerIndex == playerTeamSize)
+            row:SetSeparatorLine(playerIndex == playerTeamSize and not self.isSoloShuffle)
 
             playerColumn.text:SetText(f.class(player.name, player.class))
             dmgColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(player.scoreData.damageDone))
@@ -376,9 +378,6 @@ function PvPAssistant.MatchHistory:FillTooltipFrame()
     end
 
     playerList:UpdateDisplay()
-
-
-    return PvPAssistant.MAIN_FRAME.matchHistoryTooltipFrame
 end
 
 ---@class PvPAssistant.MatchHistory.Serialized
