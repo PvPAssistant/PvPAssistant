@@ -9,6 +9,7 @@ local f = PvPAssistant.GUTIL:GetFormatter()
 PvPAssistant.CONST.NEWS =
     f.l("\nPatch Notes:\n") ..
     f.white("- Fixed PvP Queuing not available on first login\n") ..
+    f.white("- Fixed Match History Tooltip\n") ..
     f.bb("\nNeeds Testing:\n") ..
     f.white("- Solo Shuffle Match History\n") ..
     f.white("- RBG Match History\n")
