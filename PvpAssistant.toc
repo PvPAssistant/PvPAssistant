@@ -9,9 +9,9 @@
 ## X-WoWI-ID: 
 ## IconTexture: Interface\Addons\PvPAssistant\Media\Images\logo1024
 ## SavedVariables: PvPAssistantDB, PvPAssistantGGUIConfig, PvPAssistantOptions, PvPAssistantLibIconDB
-## Dependencies: Blizzard_PVPUI, Blizzard_InspectUI
+## Dependencies: Blizzard_InspectUI
 ## OptionalDeps: DevTool
-## Version: 0.1.9
+## Version: 0.1.10
 
 embeds.xml
 Libs/Libs.lua   

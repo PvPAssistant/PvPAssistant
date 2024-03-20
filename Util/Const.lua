@@ -8,14 +8,10 @@ local f = PvPAssistant.GUTIL:GetFormatter()
 
 PvPAssistant.CONST.NEWS =
     f.l("\nPatch Notes:\n") ..
-    f.white("- Fixed Errors in Ability and Arena Data\n") ..
-    f.white("- Fixed Player Tooltip duplicating") ..
-    f.white("- Added a neat little Discord Button") ..
+    f.white("- Fixed PvP Queuing not available on first login\n") ..
     f.bb("\nNeeds Testing:\n") ..
     f.white("- Solo Shuffle Match History\n") ..
-    f.white("- RBG Match History\n") ..
-    f.g("\nNeeds Data:\n") ..
-    f.white("- Arena Quick Guide Strategies")
+    f.white("- RBG Match History\n")
 
 PvPAssistant.CONST.DISCORD_INVITE = "https://discord.gg/BvZzctWZZ3"
 
