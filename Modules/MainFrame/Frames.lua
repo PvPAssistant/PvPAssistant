@@ -109,7 +109,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
         buttonOptions = {
-            label = GUTIL:ColorizeText("Ability Catalogue", GUTIL.COLORS.WHITE),
+            label = GUTIL:ColorizeText("Gear Guide", GUTIL.COLORS.WHITE),
             parent = frame.content,
             anchorParent = frame.content.abilitiesTab.button.frame,
             anchorA = "LEFT",
