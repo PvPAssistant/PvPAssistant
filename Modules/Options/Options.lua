@@ -168,15 +168,9 @@ function PvPAssistant.OPTIONS:InitTooltipsTab(tooltipsTab)
                 optionsKey = PvPAssistant.CONST.PVP_MODES.SOLO_SHUFFLE,
             },
             {
-<<<<<<< Updated upstream
-                label = f.white("BG"),
-                disabledLabel = f.grey("BG"),
-                optionsKey = PvPAssistant.CONST.PVP_MODES.BATTLEGROUND,
-=======
                 label = f.white("RBG"),
                 disabledLabel = f.grey("RBG"),
-                optionsKey = PvpAssistant.CONST.PVP_MODES.BATTLEGROUND,
->>>>>>> Stashed changes
+                optionsKey = PvPAssistant.CONST.PVP_MODES.BATTLEGROUND,
             },
         },
     }
