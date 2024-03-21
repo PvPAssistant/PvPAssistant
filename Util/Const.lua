@@ -480,7 +480,8 @@ PvPAssistant.CONST.ABILITY_SUB_TYPES = {
 ---@enum PvPAssistant.AbilityTypes
 PvPAssistant.CONST.ABILITY_TYPES = {
     CC = "CC",
-    DEF = "DEF"
+    DEF = "DEF",
+    OFF = "OFF",
 }
 
 ---@enum PvPAssistant.PVPSeverity
@@ -489,10 +490,18 @@ PvPAssistant.CONST.PVP_SEVERITY = {
     MEDIUM = "MEDIUM",
     HIGH = "HIGH",
 }
+
 PvPAssistant.CONST.PVP_SEVERITY_RANK = {
     LOW = 1,
     MEDIUM = 2,
     HIGH = 3,
+}
+
+---@type table<PvPAssistant.AbilityTypes, number>
+PvPAssistant.CONST.PVP_ABILITY_SORT_RANK = {
+    CC = 3,
+    DEF = 2,
+    OFF = 1,
 }
 
 PvPAssistant.CONST.MAP_ABBREVIATIONS = {

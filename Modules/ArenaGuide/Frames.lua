@@ -267,6 +267,7 @@ function PvPAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
     local specAbilities = PvPAssistant.ABILITIES:GetAbilitiesForSpecs(specIDsEnemyTeam)
     local abilityList = content.enemyAbilityList --[[@as GGUI.FrameList]]
     abilityList:Remove()
+
     for specID, abilityDataList in pairs(specAbilities) do
         for _, abilityData in ipairs(abilityDataList) do
             abilityList:Add(function(row, columns)
@@ -279,6 +280,7 @@ function PvPAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
                 typeColumn.text:SetText(f.l(abilityData.subType))
 
                 row.spellSeverity = abilityData.severity
+                row.abilityType = abilityData.abilityType
                 local specInfo = { GetSpecializationInfoByID(specID) }
                 if specInfo[6] then
                     row.classID = specInfo[6]
@@ -296,14 +298,25 @@ function PvPAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
     end
 
     abilityList:UpdateDisplay(function(rowA, rowB)
-        if PvPAssistant.CONST.PVP_SEVERITY_RANK[rowA.spellSeverity] >
-            PvPAssistant.CONST.PVP_SEVERITY_RANK[rowB.spellSeverity] then
+        local typeARank = PvPAssistant.CONST.PVP_ABILITY_SORT_RANK[rowA.abilityType]
+        local typeBRank = PvPAssistant.CONST.PVP_ABILITY_SORT_RANK[rowB.abilityType]
+        local sevARank = PvPAssistant.CONST.PVP_SEVERITY_RANK[rowA.spellSeverity]
+        local sevBRank = PvPAssistant.CONST.PVP_SEVERITY_RANK[rowB.spellSeverity]
+        local classA = rowA.classID
+        local classB = rowB.classID
+
+        if classA > classB then
             return true
-        elseif PvPAssistant.CONST.PVP_SEVERITY_RANK[rowA.spellSeverity] <
-            PvPAssistant.CONST.PVP_SEVERITY_RANK[rowB.spellSeverity] then
+        elseif classA < classB then
             return false
         end
 
-        return rowA.classID > rowB.classID
+        if typeARank > typeBRank then
+            return true
+        elseif typeARank < typeBRank then
+            return false
+        end
+
+        return sevARank > sevBRank
     end)
 end
