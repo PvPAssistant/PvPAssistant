@@ -23,7 +23,7 @@ function PvPAssistant:InitializeMinimapButton()
 		type = "data source",
 		label = "PvPAssistant",
 		tocname = "PvPAssistant",
-		icon = "Interface\\Addons\\PvPAssistant\\Media\\Images\\logo1024",
+		icon = "Interface\\Addons\\PvPAssistant\\Media\\Images\\icon1337",
 		OnClick = function()
 			local mainFrame = GGUI:GetFrame(PvPAssistant.MAIN.FRAMES, PvPAssistant.CONST.FRAMES.MAIN_FRAME)
 			if mainFrame then
