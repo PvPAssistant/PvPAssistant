@@ -258,10 +258,10 @@ PvPAssistant.CONST.ASSETS = {
     BUTTONS = {
         ---@type GGUI.ButtonTextureOptions
         DISCORD_BUTTON = {
-            normal = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/DiscordButton',
-            disabled = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/DiscordButton',
-            highlight = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/DiscordButton',
-            pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/DiscordButton',
+            normal = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
+            disabled = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
+            highlight = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
+            pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
             isAtlas = false,
         },
         ---@type GGUI.ButtonTextureOptions
