@@ -6,7 +6,7 @@ local debug = PvPAssistant.DEBUG:GetDebugPrint()
 
 ---@class PvPAssistant.ArenaGuide : Frame
 PvPAssistant.ARENA_GUIDE = GUTIL:CreateRegistreeForEvents({ "GROUP_ROSTER_UPDATE", "ARENA_PREP_OPPONENT_SPECIALIZATIONS",
-    "PLAYER_JOINED_PVP_MATCH", "PVP_MATCH_STATE_CHANGED" })
+    "PVP_MATCH_STATE_CHANGED" })
 
 ---@type GGUI.Frame
 PvPAssistant.ARENA_GUIDE.frame = nil
