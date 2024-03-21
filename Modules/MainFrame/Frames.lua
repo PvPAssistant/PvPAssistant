@@ -993,7 +993,17 @@ function PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
             end
 
             if matchHistory.isRated then
-                changeColumn.text:SetText(FormatValueWithSign(matchHistory.player.scoreData.ratingChange))
+                -- colorize ratingChange by value
+                local ratingChange = matchHistory.player.scoreData.ratingChange or 0
+                local ratingChangeText
+                if ratingChange > 0 then
+                    ratingChangeText = f.g(FormatValueWithSign(matchHistory.player.scoreData.ratingChange))
+                elseif ratingChange < 0 then
+                    ratingChangeText = f.r(FormatValueWithSign(matchHistory.player.scoreData.ratingChange))
+                else
+                    ratingChangeText = f.white(FormatValueWithSign(matchHistory.player.scoreData.ratingChange))
+                end
+                changeColumn.text:SetText(ratingChangeText)
                 ratingColumn.text:SetText(matchHistory.player.scoreData.rating)
                 ratingColumn:SetIconByRating(matchHistory.player.scoreData.rating)
             else
