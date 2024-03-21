@@ -44,3 +44,12 @@ function PvPAssistant.MAIN_FRAME:GetCharacterDropdownData()
         }
     end)
 end
+
+---@param a PvPAssistant.Player
+---@param b PvPAssistant.Player
+function PvPAssistant.MAIN_FRAME.SortPlayerBySpecRole(a, b)
+    local prioA = PvPAssistant.CONST.SPEC_ROLE_SORT_PRIORITY[PvPAssistant.CONST.SPEC_ROLE_MAP[a.specID]]
+    local prioB = PvPAssistant.CONST.SPEC_ROLE_SORT_PRIORITY[PvPAssistant.CONST.SPEC_ROLE_MAP[b.specID]]
+
+    return prioA > prioB
+end

@@ -475,18 +475,22 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             end
 
             if matchHistory.isSoloShuffle then
-                for i, player in pairs(GUTIL:Concat { playerTeam.players, enemyTeam.players }) do
+                local sortedPlayers = GUTIL:Sort(GUTIL:Concat { playerTeam.players, enemyTeam.players },
+                    PvPAssistant.MAIN_FRAME.SortPlayerBySpecRole)
+                for i, player in pairs(sortedPlayers) do
                     local icon = playersColumn.iconsSoloShuffle[i]
                     icon:Show()
                     icon:SetClass(player.specID)
                 end
             else
-                for i, player in ipairs(playerTeam.players) do
+                local sortedPlayerTeam = GUTIL:Sort(playerTeam.players, PvPAssistant.MAIN_FRAME.SortPlayerBySpecRole)
+                local sortedEnemyTeam = GUTIL:Sort(enemyTeam.players, PvPAssistant.MAIN_FRAME.SortPlayerBySpecRole)
+                for i, player in ipairs(sortedPlayerTeam) do
                     local icon = playersColumn.iconsP[i]
                     icon:Show()
                     icon:SetClass(player.specID)
                 end
-                for i, player in ipairs(enemyTeam.players) do
+                for i, player in ipairs(sortedEnemyTeam) do
                     local icon = playersColumn.iconsE[i]
                     icon:Show()
                     icon:SetClass(player.specID)

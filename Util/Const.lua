@@ -396,6 +396,64 @@ PvPAssistant.CONST.SPEC_IDS = {
     FURY = 72,
     PROTECTION = 73,
 }
+---@enum PvPAssistant.SpecRole
+PvPAssistant.CONST.SPEC_ROLE = {
+    TANK = "TANK",
+    HEALER = "HEALER",
+    RANGED_DAMAGE = "RANGED_DAMAGE",
+    MELEE_DAMAGE = "MELEE_DAMAGE",
+}
+
+---@type table<PvPAssistant.SpecRole, number>
+PvPAssistant.CONST.SPEC_ROLE_SORT_PRIORITY = {
+    HEALER = 4,
+    TANK = 3,
+    RANGED_DAMAGE = 2,
+    MELEE_DAMAGE = 1,
+}
+
+---@type table<number, PvPAssistant.SpecRole>
+PvPAssistant.CONST.SPEC_ROLE_MAP = {
+    [250] = PvPAssistant.CONST.SPEC_ROLE.TANK,           -- BLOOD
+    [251] = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,   -- FROST_DK
+    [252] = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,   -- UNHOLY
+    [577] = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,   -- HAVOC
+    [581] = PvPAssistant.CONST.SPEC_ROLE.TANK,           -- VENGEANCE
+    [102] = PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE,  -- BALANCE
+    [103] = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,   -- FERAL
+    [104] = PvPAssistant.CONST.SPEC_ROLE.TANK,           -- GUARDIAN
+    [105] = PvPAssistant.CONST.SPEC_ROLE.HEALER,         -- RESTORATION_DRUID
+    [1467] = PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE, -- DEVASTATION
+    [1468] = PvPAssistant.CONST.SPEC_ROLE.HEALER,        -- PRESERVATION
+    [1473] = PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE, -- AUGMENTATION
+    [253] = PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE,  -- BEAST_MASTERY
+    [254] = PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE,  -- MARKSMANSHIP
+    [255] = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,   -- SURVIVAL
+    [62] = PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE,   -- ARCANE
+    [63] = PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE,   -- FIRE
+    [64] = PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE,   -- FROST
+    [268] = PvPAssistant.CONST.SPEC_ROLE.TANK,           -- BREWMASTER
+    [270] = PvPAssistant.CONST.SPEC_ROLE.HEALER,         -- MISTWEAVER
+    [269] = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,   -- WINDWALKER
+    [65] = PvPAssistant.CONST.SPEC_ROLE.HEALER,          -- HOLY_PALADIN
+    [66] = PvPAssistant.CONST.SPEC_ROLE.TANK,            -- PROTECTION_PALADIN
+    [70] = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,    -- RETRIBUTION
+    [256] = PvPAssistant.CONST.SPEC_ROLE.HEALER,         -- DISCIPLINE
+    [257] = PvPAssistant.CONST.SPEC_ROLE.HEALER,         -- HOLY
+    [258] = PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE,  -- SHADOW
+    [259] = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,   -- ASSASSINATION
+    [260] = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,   -- OUTLAW
+    [261] = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,   -- SUBTLETY
+    [262] = PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE,  -- ELEMENTAL
+    [263] = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,   -- ENHANCEMENT
+    [264] = PvPAssistant.CONST.SPEC_ROLE.HEALER,         -- RESTORATION
+    [265] = PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE,  -- AFFLICTION
+    [266] = PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE,  -- DEMONOLOGY
+    [267] = PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE,  -- DESTRUCTION
+    [71] = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,    -- ARMS
+    [72] = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,    -- FURY
+    [73] = PvPAssistant.CONST.SPEC_ROLE.TANK,            -- PROTECTION
+}
 
 ---@enum PvPAssistant.AbilitySubTypes
 PvPAssistant.CONST.ABILITY_SUB_TYPES = {
