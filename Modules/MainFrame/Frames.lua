@@ -348,8 +348,8 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     }
     local listScale = 0.997
     matchHistoryTab.content.matchHistoryList = GGUI.FrameList {
-        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.matchHistoryTitle.frame, offsetX = 0, hideScrollbar = true,
-        anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -60, rowHeight = 30,
+        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.matchHistoryTitle.frame, offsetX = -10, hideScrollbar = false,
+        anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -70, rowHeight = 30,
         rowBackdrops = { PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A, PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
         sizeY = 470, columnOptions = columnOptions, rowConstructor = function(columns)
@@ -394,7 +394,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             parent = playersColumn, anchorPoints = { { anchorParent = playersColumn } },
             text = f.r("vs")
         }
-        local iconSize = 25
+        local iconSize = 20
         playersColumn.iconP1 = GGUI.ClassIcon {
             parent = playersColumn, anchorParent = playersColumn.vs.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -iconSpacingX,
             initialClass = "WARLOCK", sizeX = iconSize, sizeY = iconSize,
@@ -428,7 +428,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         }
 
         playersColumn.iconSS1 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn, anchorA = "LEFT", anchorB = "LEFT", offsetX = 36,
+            parent = playersColumn, anchorParent = playersColumn, anchorA = "LEFT", anchorB = "LEFT", offsetX = 50,
             initialClass = "WARLOCK", sizeX = iconSize, sizeY = iconSize,
             showTooltip = true,
         }
