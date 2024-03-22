@@ -140,7 +140,7 @@ function PvPAssistant.UTIL:CreateClassFilterFrame(options)
     ---@class PvPAssistant.History.ClassFilterFrame : GGUI.Frame
     local classFilterFrame = GGUI.Frame {
         parent = parent, anchorParent = anchorPoint.anchorParent or parent,
-        anchorA = anchorPoint.anchorA or "TOP", anchorB = anchorPoint.anchorB or "TOP", backdropOptions = PvPAssistant.CONST.CLASS_FILTER_FRAME_BACKDROP,
+        anchorA = anchorPoint.anchorA or "TOP", anchorB = anchorPoint.anchorB or "TOP", backdropOptions = PvPAssistant.CONST.FILTER_FRAME_BACKDROP,
         sizeX = 715, sizeY = 100, offsetY = anchorPoint.offsetY or 0, offsetX = anchorPoint.offsetX or 0,
         tooltipOptions = {
             anchor = "ANCHOR_CURSOR_RIGHT",

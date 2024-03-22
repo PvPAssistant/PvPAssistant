@@ -55,7 +55,7 @@ function PvPAssistant.MAIN:Init()
 	PvPAssistant.GGUI:InitializePopup {
 		backdropOptions = PvPAssistant.CONST.MAIN_FRAME_BACKDROP,
 		sizeX = 150, sizeY = 100,
-		buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+		buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
 		buttonFontOptions = {
 			fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
 		},

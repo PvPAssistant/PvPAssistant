@@ -72,7 +72,7 @@ function PvPAssistant.OPTIONS:InitOptionsTab()
             },
             adjustWidth = true,
             sizeX = 15,
-            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
             },
@@ -98,7 +98,7 @@ function PvPAssistant.OPTIONS:InitOptionsTab()
             },
             adjustWidth = true,
             sizeX = 20,
-            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
             },

@@ -173,7 +173,7 @@ PvPAssistant.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP = {
 }
 
 ---@type GGUI.BackdropOptions
-PvPAssistant.CONST.CLASS_FILTER_FRAME_BACKDROP = {
+PvPAssistant.CONST.FILTER_FRAME_BACKDROP = {
     bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024x128",
     colorR = 0.176,
     colorG = 0.176,
@@ -265,7 +265,7 @@ PvPAssistant.CONST.ASSETS = {
             isAtlas = false,
         },
         ---@type GGUI.ButtonTextureOptions
-        TAB_BUTTON = {
+        MAIN_BUTTON = {
             normal = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonNormal',
             disabled = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonDisabled',
             highlight = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonHighlighted',
