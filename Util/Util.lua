@@ -117,8 +117,8 @@ function PvPAssistant.UTIL:CreateLogo(parent, anchorPoints, scale)
 
     parent.logoIcon = GGUI.Text {
         parent = parent,
-        anchorPoints = { { anchorParent = parent.titleLogo.frame, anchorA = "RIGHT", anchorB = "LEFT" }, offsetY = 2 },
-        text = PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.LOGO_1024, 0.028 * scale)
+        anchorPoints = { { anchorParent = parent.titleLogo.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -5 } },
+        text = PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.LOGO, 0.05 * scale)
     }
 
     return parent.titleLogo, parent.logoIcon

@@ -38,7 +38,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
 
     frame.content.updateText = GGUI.Text {
         parent = frame.content, anchorPoints = { { anchorParent = frame.content.titleLogo.frame, anchorA = "BOTTOMRIGHT", anchorB = "TOPRIGHT", offsetY = 5 } },
-        text = f.bb("*Update Beta" .. C_AddOns.GetAddOnMetadata(addonName, "version")),
+        text = f.l("*Update Beta" .. C_AddOns.GetAddOnMetadata(addonName, "version")),
         tooltipOptions = {
             owner = frame.frame,
             anchor = "ANCHOR_TOPLEFT",

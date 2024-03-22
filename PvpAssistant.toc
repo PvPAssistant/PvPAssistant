@@ -7,7 +7,7 @@
 ## X-Curse-Project-ID: 955365
 ## X-Wago-ID: vNAex9No
 ## X-WoWI-ID: 
-## IconTexture: Interface\Addons\PvPAssistant\Media\Images\logo1024
+## IconTexture: Interface\Addons\PvPAssistant\Media\Images\icon1337
 ## SavedVariables: PvPAssistantDB, PvPAssistantGGUIConfig, PvPAssistantOptions, PvPAssistantLibIconDB
 ## Dependencies: Blizzard_InspectUI
 ## OptionalDeps: DevTool
