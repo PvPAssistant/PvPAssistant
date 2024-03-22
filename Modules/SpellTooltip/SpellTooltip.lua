@@ -41,8 +41,7 @@ end
 
 ---@param abilityData PvPAssistant.AbilityData
 function PvPAssistant.SPELL_TOOLTIP:UpdateSpellTooltipByAbilityData(abilityData)
-    GameTooltip:AddLine(PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.LOGO_1024, 0.028 * 0.5) ..
-        f.l(" PvPAssistant"))
+    GameTooltip:AddLine(f.bb("PvPAssistant"))
 
     if abilityData.abilityType and PvPAssistant.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Get(PvPAssistant.CONST.SPELL_TOOLTIP_OPTIONS.TYPE) then
         GameTooltip:AddDoubleLine(f.white("Type: "), f.l(abilityData.abilityType))
