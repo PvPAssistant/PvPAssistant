@@ -40,7 +40,7 @@ function PvPAssistant.ARENA_GUIDE.FRAMES:Init()
         parent = content, anchorParent = content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
         offsetX = -8, offsetY = -8,
         label = f.white("x"),
-        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
         fontOptions = {
             fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
         },

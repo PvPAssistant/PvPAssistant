@@ -64,7 +64,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
             anchorB = "RIGHT",
             adjustWidth = true,
             sizeX = 15,
-            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
             },
@@ -91,7 +91,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
             adjustWidth = true,
             sizeX = 15,
             offsetX = 10,
-            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
             },
@@ -117,7 +117,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
             adjustWidth = true,
             sizeX = 15,
             offsetX = 10,
-            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
             },
@@ -177,7 +177,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
         parent = frame.content, anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
         offsetX = -8, offsetY = -8,
         label = f.white("X"),
-        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.TAB_BUTTON,
+        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
         fontOptions = {
             fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
         },
@@ -618,7 +618,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
         parent = abilitiesTab.content,
         anchorPoint = { anchorParent = abilitiesTab.content, anchorA = "TOP", anchorB = "TOP" },
         clickCallback = function(_, _)
-            PvPAssistant.MAIN_FRAME:UpdateAbilityData()
+            PvPAssistant.MAIN_FRAME.FRAMES:UpdateAbilityData()
         end
     })
 
@@ -656,7 +656,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
 
     abilitiesTab.content.abilityList = GGUI.FrameList {
         parent = abilitiesTab.content, anchorParent = abilitiesTab.content.classFilterFrame.frame, anchorA = "TOP", anchorB = "BOTTOM",
-        sizeY = 430, showBorder = true, offsetY = -45, offsetX = -8,
+        sizeY = 430, showBorder = true, offsetY = -55, offsetX = -8,
         columnOptions = columnOptions,
         rowBackdrops = { PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A, PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
@@ -776,21 +776,165 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
         end
     }
 
-    abilitiesTab.content.tankFilterButton = GGUI.ToggleButton {
-        parent = abilitiesTab.content,
-        cleanTemplate = true,
-        anchorPoints = { { anchorParent = abilitiesTab.content.abilityList.frame, anchorA = "BOTTOMLEFT", anchorB = "TOPLEFT", offsetY = 20 } },
-        sizeX = 30, sizeY = 30,
-        buttonTextureOptions = {
-            isAtlas = true,
-            normal = "UI-LFG-RoleIcon-Tank",
-            highlight = "UI-LFG-RoleIcon-Tank",
-            disabled = "UI-LFG-RoleIcon-Tank",
-            pushed = "UI-LFG-RoleIcon-Tank",
-        }
+    abilitiesTab.content.typeFilterFrame = GGUI.Frame {
+        parent = abilitiesTab.content, anchorParent = abilitiesTab.content.classFilterFrame.frame,
+        anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT", backdropOptions = PvPAssistant.CONST.FILTER_FRAME_BACKDROP,
+        sizeX = 130, sizeY = 50, offsetY = 10, offsetX = 0,
     }
 
-    PvPAssistant.MAIN_FRAME:UpdateAbilityData()
+    abilitiesTab.typeFilters = {}
+
+    local typeFilterButtonSize = 35
+
+    abilitiesTab.content.defFilterButton = GGUI.ToggleButton {
+        cleanTemplate = true,
+        parent = abilitiesTab.content.typeFilterFrame.content,
+        anchorPoints = { { anchorParent = abilitiesTab.content.typeFilterFrame.content, anchorA = "LEFT", anchorB = "LEFT", offsetY = 0, offsetX = 7 } },
+        sizeX = typeFilterButtonSize, sizeY = typeFilterButtonSize,
+        tooltipOptions = {
+            text = f.bb("Defensive Abilities"),
+            anchor = "ANCHOR_CURSOR"
+        },
+        buttonTextureOptions = {
+            isAtlas = true,
+            normal = 'Warfronts-BaseMapIcons-Alliance-Armory-Minimap',
+            highlight = 'Warfronts-BaseMapIcons-Alliance-Armory-Minimap',
+            disabled = 'Warfronts-BaseMapIcons-Alliance-Armory-Minimap',
+            pushed = 'Warfronts-BaseMapIcons-Alliance-Armory-Minimap',
+        },
+        optionsTable = abilitiesTab.typeFilters,
+        optionsKey = PvPAssistant.CONST.ABILITY_TYPES.DEF,
+        onToggleCallback = function()
+            self:UpdateAbilityData()
+        end
+    }
+
+    abilitiesTab.content.offFilterButton = GGUI.ToggleButton {
+        cleanTemplate = true,
+        parent = abilitiesTab.content.typeFilterFrame.content,
+        anchorPoints = { { anchorParent = abilitiesTab.content.defFilterButton.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = 5 } },
+        sizeX = typeFilterButtonSize, sizeY = typeFilterButtonSize,
+        tooltipOptions = {
+            text = f.r("Offensive Abilities"),
+            anchor = "ANCHOR_CURSOR_RIGHT"
+        },
+        buttonTextureOptions = {
+            isAtlas = true,
+            normal = 'Warfronts-BaseMapIcons-Horde-Barracks-Minimap',
+            highlight = 'Warfronts-BaseMapIcons-Horde-Barracks-Minimap',
+            disabled = 'Warfronts-BaseMapIcons-Horde-Barracks-Minimap',
+            pushed = 'Warfronts-BaseMapIcons-Horde-Barracks-Minimap',
+        },
+        optionsTable = abilitiesTab.typeFilters,
+        optionsKey = PvPAssistant.CONST.ABILITY_TYPES.OFF,
+        onToggleCallback = function()
+            self:UpdateAbilityData()
+        end
+    }
+
+    abilitiesTab.content.ccFilterButton = GGUI.ToggleButton {
+        cleanTemplate = true,
+        parent = abilitiesTab.content.typeFilterFrame.content,
+        anchorPoints = { { anchorParent = abilitiesTab.content.offFilterButton.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = 6 } },
+        sizeX = typeFilterButtonSize - 5, sizeY = typeFilterButtonSize - 5,
+        tooltipOptions = {
+            text = f.l("Crowd Control Abilities"),
+            anchor = "ANCHOR_CURSOR"
+        },
+        buttonTextureOptions = {
+            isAtlas = true,
+            normal = 'Vehicle-Trap-Gold',
+            highlight = 'Vehicle-Trap-Gold',
+            disabled = 'Vehicle-Trap-Gold',
+            pushed = 'Vehicle-Trap-Gold',
+        },
+        optionsTable = abilitiesTab.typeFilters,
+        optionsKey = PvPAssistant.CONST.ABILITY_TYPES.CC,
+        onToggleCallback = function()
+            self:UpdateAbilityData()
+        end
+    }
+
+    abilitiesTab.content.roleFilterFrame = GGUI.Frame {
+        parent = abilitiesTab.content, anchorParent = abilitiesTab.content.typeFilterFrame.frame,
+        anchorA = "LEFT", anchorB = "RIGHT", backdropOptions = PvPAssistant.CONST.FILTER_FRAME_BACKDROP,
+        sizeX = 130, sizeY = 50, offsetX = 3,
+    }
+
+    abilitiesTab.roleFilters = {}
+
+    local rolefilterButtonSize = 30
+
+    abilitiesTab.content.tankFilterButton = GGUI.ToggleButton {
+        cleanTemplate = true,
+        parent = abilitiesTab.content.roleFilterFrame.content,
+        anchorPoints = { { anchorParent = abilitiesTab.content.roleFilterFrame.content, anchorA = "LEFT", anchorB = "LEFT", offsetY = 0, offsetX = 16 } },
+        sizeX = rolefilterButtonSize, sizeY = rolefilterButtonSize,
+        tooltipOptions = {
+            text = f.bb("Tank Specs"),
+            anchor = "ANCHOR_CURSOR"
+        },
+        buttonTextureOptions = {
+            isAtlas = true,
+            normal = 'UI-Frame-TankIcon',
+            highlight = 'UI-Frame-TankIcon',
+            disabled = 'UI-Frame-TankIcon',
+            pushed = 'UI-Frame-TankIcon',
+        },
+        optionsTable = abilitiesTab.roleFilters,
+        optionsKey = PvPAssistant.CONST.SPEC_ROLE.TANK,
+        onToggleCallback = function()
+            self:UpdateAbilityData()
+        end
+    }
+
+    abilitiesTab.content.healerFilterButton = GGUI.ToggleButton {
+        cleanTemplate = true,
+        parent = abilitiesTab.content.roleFilterFrame.content,
+        anchorPoints = { { anchorParent = abilitiesTab.content.tankFilterButton.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = 5 } },
+        sizeX = rolefilterButtonSize, sizeY = rolefilterButtonSize,
+        tooltipOptions = {
+            text = f.g("Healer Specs"),
+            anchor = "ANCHOR_CURSOR_RIGHT"
+        },
+        buttonTextureOptions = {
+            isAtlas = true,
+            normal = 'UI-Frame-HealerIcon',
+            highlight = 'UI-Frame-HealerIcon',
+            disabled = 'UI-Frame-HealerIcon',
+            pushed = 'UI-Frame-HealerIcon',
+        },
+        optionsTable = abilitiesTab.roleFilters,
+        optionsKey = PvPAssistant.CONST.SPEC_ROLE.HEALER,
+        onToggleCallback = function()
+            self:UpdateAbilityData()
+        end
+    }
+
+    abilitiesTab.content.ddFilterButton = GGUI.ToggleButton {
+        cleanTemplate = true,
+        parent = abilitiesTab.content.roleFilterFrame.content,
+        anchorPoints = { { anchorParent = abilitiesTab.content.healerFilterButton.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = 5 } },
+        sizeX = rolefilterButtonSize, sizeY = rolefilterButtonSize,
+        tooltipOptions = {
+            text = f.r("Damage Specs"),
+            anchor = "ANCHOR_CURSOR"
+        },
+        buttonTextureOptions = {
+            isAtlas = true,
+            normal = 'UI-Frame-DpsIcon',
+            highlight = 'UI-Frame-DpsIcon',
+            disabled = 'UI-Frame-DpsIcon',
+            pushed = 'UI-Frame-DpsIcon',
+        },
+        optionsTable = abilitiesTab.roleFilters,
+        optionsKey = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE,
+        onToggleCallback = function()
+            self:UpdateAbilityData()
+        end
+    }
+
+    PvPAssistant.MAIN_FRAME.FRAMES:UpdateAbilityData()
 end
 
 function PvPAssistant.MAIN_FRAME.FRAMES:InitGearCatalogue()
@@ -1051,40 +1195,52 @@ function PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
     matchHistoryList:UpdateDisplay()
 end
 
-function PvPAssistant.MAIN_FRAME:UpdateAbilityData()
+function PvPAssistant.MAIN_FRAME.FRAMES:UpdateAbilityData()
     local ccCatalogueTab = PvPAssistant.MAIN_FRAME.frame.content
         .abilitiesTab --[[@as PvPAssistant.MAIN_FRAME.ABILITIES_TAB]]
     local abilityList = ccCatalogueTab.content.abilityList
+    local typeFilters = PvPAssistant.MAIN_FRAME:GetAbilityTypeFilters()
+    local roleFilters = PvPAssistant.MAIN_FRAME:GetSpecRoleFilters()
     abilityList:Remove()
     for classFile, specData in pairs(PvPAssistant.ABILITY_DATA) do
         if not ccCatalogueTab.activeClassFilters[classFile] then
             for specID, spells in pairs(specData) do
-                for _, abilityData in ipairs(spells) do
-                    abilityList:Add(function(row, columns)
-                        local classOrSpecColumn = columns[1]
-                        local spellColumn = columns[2]
-                        local typeColumn = columns[3]
-                        local durationColumn = columns[4]
-                        local upgradeColumn = columns[5]
+                local specRole = PvPAssistant.CONST.SPEC_ROLE_MAP[specID]
+                -- to generalized to DD (filter filters melee)
+                if specRole == PvPAssistant.CONST.SPEC_ROLE.RANGED_DAMAGE then
+                    specRole = PvPAssistant.CONST.SPEC_ROLE.MELEE_DAMAGE
+                end
+                if roleFilters[specRole] then
+                    for _, abilityData in ipairs(spells) do
+                        local abilityType = abilityData.abilityType
+                        if typeFilters[abilityType] then
+                            abilityList:Add(function(row, columns)
+                                local classOrSpecColumn = columns[1]
+                                local spellColumn = columns[2]
+                                local typeColumn = columns[3]
+                                local durationColumn = columns[4]
+                                local upgradeColumn = columns[5]
 
-                        if classFile ~= specID then
-                            classOrSpecColumn:SetClass(classFile, specID)
-                        else
-                            classOrSpecColumn:SetClass(classFile)
+                                if classFile ~= specID then
+                                    classOrSpecColumn:SetClass(classFile, specID)
+                                else
+                                    classOrSpecColumn:SetClass(classFile)
+                                end
+                                spellColumn:SetSpell(abilityData.spellID) -- Hammer of justice
+                                typeColumn.text:SetText(f.l(tostring(abilityData.abilityType) ..
+                                    "-" .. tostring(abilityData.subType)))
+                                durationColumn:SetDuration(abilityData.duration)
+
+                                upgradeColumn:setIcons(abilityData.talentUpgrades)
+
+                                row.tooltipOptions = {
+                                    anchor = "ANCHOR_RIGHT",
+                                    owner = row.frame,
+                                    spellID = abilityData.spellID
+                                }
+                            end)
                         end
-                        spellColumn:SetSpell(abilityData.spellID) -- Hammer of justice
-                        typeColumn.text:SetText(f.l(tostring(abilityData.abilityType) ..
-                            "-" .. tostring(abilityData.subType)))
-                        durationColumn:SetDuration(abilityData.duration)
-
-                        upgradeColumn:setIcons(abilityData.talentUpgrades)
-
-                        row.tooltipOptions = {
-                            anchor = "ANCHOR_RIGHT",
-                            owner = row.frame,
-                            spellID = abilityData.spellID
-                        }
-                    end)
+                    end
                 end
             end
         end
