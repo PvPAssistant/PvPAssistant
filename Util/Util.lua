@@ -111,7 +111,7 @@ function PvPAssistant.UTIL:CreateLogo(parent, anchorPoints, scale)
     parent.titleLogo = GGUI.Text {
         parent = parent,
         anchorPoints = anchorPoints,
-        text = GUTIL:ColorizeText(" PvPAssistant", GUTIL.COLORS.LEGENDARY),
+        text = f.bb("PvPAssistant"),
         scale = 1.7 * scale,
     }
 
