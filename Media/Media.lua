@@ -18,7 +18,7 @@ function PvPAssistant.MEDIA:GetAsTextIcon(image, scale)
 end
 
 PvPAssistant.MEDIA.IMAGES = {
-    LOGO_1024 = { file = "logo1024.blp", dimensions = { x = 1024, y = 1024 } },
+    LOGO = { file = "Icon512.tga", dimensions = { x = 512, y = 512 } },
     RANK1 = { file = "rank1.blp", dimensions = { x = 256, y = 256 } },
     RANK2 = { file = "rank2.blp", dimensions = { x = 256, y = 256 } },
     COMBATANT = { file = "rank3.blp", dimensions = { x = 256, y = 256 } },
