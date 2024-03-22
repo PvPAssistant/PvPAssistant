@@ -656,7 +656,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
 
     abilitiesTab.content.abilityList = GGUI.FrameList {
         parent = abilitiesTab.content, anchorParent = abilitiesTab.content.classFilterFrame.frame, anchorA = "TOP", anchorB = "BOTTOM",
-        sizeY = 450, showBorder = true, offsetY = -25, offsetX = -8,
+        sizeY = 430, showBorder = true, offsetY = -45, offsetX = -8,
         columnOptions = columnOptions,
         rowBackdrops = { PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A, PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
@@ -775,6 +775,30 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
             end
         end
     }
+
+    abilitiesTab.content.ccFilterButton = GGUI.ToggleButton {
+        debug = true,
+        parent = abilitiesTab.content,
+        cleanTemplate = true,
+        anchorPoints = { { anchorParent = abilitiesTab.content.abilityList.frame, anchorA = "BOTTOMLEFT", anchorB = "TOPLEFT", offsetY = 20 } },
+        sizeX = 30, sizeY = 30,
+        buttonTextureOptions = {
+            isAtlas = true,
+            normal = "UI-LFG-RoleIcon-Tank",
+            highlight = "UI-LFG-RoleIcon-Tank",
+            disabled = "UI-LFG-RoleIcon-Tank",
+            pushed = "UI-LFG-RoleIcon-Tank",
+        }
+    }
+
+
+    -- DevTool:AddData({
+    --         normaltexturescale = abilitiesTab.content.ccFilterButton.button:GetNormalTexture():GetScale(),
+    --         highlighttexturescale = abilitiesTab.content.ccFilterButton.button:GetHighlightTexture():GetScale(),
+    --     },
+    --     "debug")
+
+
 
     PvPAssistant.MAIN_FRAME:UpdateAbilityData()
 end
