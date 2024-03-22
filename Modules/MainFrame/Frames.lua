@@ -165,6 +165,23 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
         end
     }
 
+    frame.content.DONATE_BUTTON = GGUI.Button {
+        parent = frame.content, anchorPoints = { { anchorParent = frame.content.optionsTab.button.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -30, } },
+        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DONATE_BUTTON, -- Updated to use the new DonateButton textures
+        cleanTemplate = true,
+        sizeX = 20, sizeY = 20,
+        clickCallback = function()
+            GGUI:ShowPopup {
+                copyText = PvPAssistant.CONST.DISCORD_INVITE,
+                parent = frame.content, anchorParent = frame.content.DONATE_BUTTON.frame, -- Ensure this references the correct button
+                title = "Support our Patreon! (CTRL+C to Copy)", sizeX = 280, sizeY = 100,
+                okButtonLabel = f.white("Ok"),
+            }
+        end
+    }
+
+
+
     ---@class PvPAssistant.MAIN_FRAME.OPTIONS_TAB.CONTENT
     frame.content.optionsTab.content = frame.content.optionsTab.content
     local optionsTab = frame.content.optionsTab
