@@ -7,14 +7,10 @@ PvPAssistant.CONST = {}
 local f = PvPAssistant.GUTIL:GetFormatter()
 
 PvPAssistant.CONST.NEWS =
-    f.l("\nPatch Notes:\n") ..
-    f.white("- Fixed PvP Queuing not available on first login\n") ..
-    f.white("- Fixed Match History Tooltip\n") ..
-    f.white("- Match History now always shows all player's icons\n") ..
-    f.white("- Class Filter now shows tooltip on cursor\n") ..
-    f.bb("\nNeeds Testing:\n") ..
-    f.white("- Solo Shuffle Match History\n") ..
-    f.white("- RBG Match History\n")
+    f.l("Patch Notes:\n") ..
+    f.white("- Ability Catalogue: Added Ability Types and Class Role Filters\n") ..
+    f.white("- Arena Guide: Changed the Sort Order of Enemy Abilities\n") ..
+    f.white("- Introduced new Icons (Work in Progress)")
 
 PvPAssistant.CONST.DISCORD_INVITE = "https://discord.gg/BvZzctWZZ3"
 
