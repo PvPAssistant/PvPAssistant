@@ -13,7 +13,7 @@ PvPAssistant.CONST.NEWS =
     f.white("- Introduced new Icons (Work in Progress)")
 
 PvPAssistant.CONST.DISCORD_INVITE = "https://discord.gg/BvZzctWZZ3"
-PvPAssistant.CONST.DISCORD_INVITE = "TEST CODE?"
+PvPAssistant.CONST.DONATE_URL = "https://ko-fi.com/arenlogs"
 
 ---@enum PvPAssistant.Const.Frames
 PvPAssistant.CONST.FRAMES = {
