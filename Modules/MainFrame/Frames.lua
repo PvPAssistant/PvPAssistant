@@ -776,8 +776,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
         end
     }
 
-    abilitiesTab.content.ccFilterButton = GGUI.ToggleButton {
-        debug = true,
+    abilitiesTab.content.tankFilterButton = GGUI.ToggleButton {
         parent = abilitiesTab.content,
         cleanTemplate = true,
         anchorPoints = { { anchorParent = abilitiesTab.content.abilityList.frame, anchorA = "BOTTOMLEFT", anchorB = "TOPLEFT", offsetY = 20 } },
@@ -790,15 +789,6 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
             pushed = "UI-LFG-RoleIcon-Tank",
         }
     }
-
-
-    -- DevTool:AddData({
-    --         normaltexturescale = abilitiesTab.content.ccFilterButton.button:GetNormalTexture():GetScale(),
-    --         highlighttexturescale = abilitiesTab.content.ccFilterButton.button:GetHighlightTexture():GetScale(),
-    --     },
-    --     "debug")
-
-
 
     PvPAssistant.MAIN_FRAME:UpdateAbilityData()
 end
