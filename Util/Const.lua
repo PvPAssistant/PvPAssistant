@@ -43,7 +43,7 @@ PvPAssistant.CONST.PVP_MODES_NAMES = {
     SOLO_SHUFFLE = "Shuffle",
     TWOS = "2v2",
     THREES = "3v3",
-    RATED_BATTLEGROUND = "RBG",
+    BATTLEGROUND = "RBG",
 }
 
 PvPAssistant.CONST.PVP_MODES_BRACKET_IDS = {
