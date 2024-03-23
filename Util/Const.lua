@@ -13,6 +13,7 @@ PvPAssistant.CONST.NEWS =
     f.white("- Introduced new Icons (Work in Progress)")
 
 PvPAssistant.CONST.DISCORD_INVITE = "https://discord.gg/BvZzctWZZ3"
+PvPAssistant.CONST.DONATE_URL = "https://ko-fi.com/arenlogs"
 
 ---@enum PvPAssistant.Const.Frames
 PvPAssistant.CONST.FRAMES = {
@@ -42,7 +43,7 @@ PvPAssistant.CONST.PVP_MODES_NAMES = {
     SOLO_SHUFFLE = "Shuffle",
     TWOS = "2v2",
     THREES = "3v3",
-    RATED_BATTLEGROUND = "RBG",
+    BATTLEGROUND = "RBG",
 }
 
 PvPAssistant.CONST.PVP_MODES_BRACKET_IDS = {
@@ -258,6 +259,15 @@ PvPAssistant.CONST.ASSETS = {
             disabled = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
             highlight = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
             pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
+            isAtlas = false,
+        },
+
+          ---@type GGUI.ButtonTextureOptions 
+          DONATE_BUTTON = {
+            normal = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Donate',
+            disabled = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Donate',
+            highlight = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Donate',
+            pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Donate',
             isAtlas = false,
         },
         ---@type GGUI.ButtonTextureOptions
