@@ -11,7 +11,7 @@ PvPAssistantGGUIConfig = PvPAssistantGGUIConfig or {}
 
 ---@class PvPAssistant.Main : Frame
 PvPAssistant.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD",
-	"PLAYER_JOINED_PVP_MATCH", "PVP_MATCH_COMPLETE" })
+	"PLAYER_JOINED_PVP_MATCH" })
 
 PvPAssistant.MAIN.FRAMES = {}
 
@@ -153,15 +153,4 @@ function PvPAssistant.MAIN:PLAYER_JOINED_PVP_MATCH()
 
 		PvPAssistant.MAIN.enableCombatLog = true
 	end
-end
-
-function PvPAssistant.MAIN:PVP_MATCH_COMPLETE()
-	debug("PvPAssistant: PvP Match Completed")
-	debug("LoggingCombat: " .. tostring(LoggingCombat(false)))
-
-	debug("PvPAssistant: Saving Match Data...")
-	local matchHistory = PvPAssistant.MatchHistory:CreateFromEndScreen()
-	PvPAssistant.DB.MATCH_HISTORY:Save(matchHistory)
-
-	PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 end
