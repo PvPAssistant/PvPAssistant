@@ -63,9 +63,11 @@ function PvPAssistant.DB:Init()
     end
     if not PvPAssistantDB.matchHistory then
         PvPAssistantDB.matchHistory = {
-            version = 2,
+            version = 3,
             ---@type table<PlayerUID, PvPAssistant.MatchHistory.Serialized[]>
-            data = {}
+            data = {},
+            ---@type table<PlayerUID, PvPAssistant.MatchHistory.Serialized[]>
+            tempShuffleData = {}
         }
     end
 
@@ -117,10 +119,16 @@ function PvPAssistant.DB:HandleMigrations()
 end
 
 function PvPAssistant.DB.MATCH_HISTORY:HandleMigrations()
-    -- sub 1 -> 2 Just wipe
+    -- 1 -> 2 Just wipe
     if PvPAssistantDB.matchHistory.version <= 1 then
         self:Clear()
         PvPAssistantDB.matchHistory.version = 2
+    end
+
+    -- 2 -> 3 Introduce tempShuffleData
+    if PvPAssistantDB.matchHistory.version <= 2 then
+        PvPAssistantDB.matchHistory.tempShuffleData = {}
+        PvPAssistantDB.matchHistory.version = 3
     end
 end
 
@@ -139,8 +147,30 @@ function PvPAssistant.DB.MATCH_HISTORY:Save(matchHistory, playerUID)
     tinsert(PvPAssistantDB.matchHistory.data[playerUID], matchHistory:Serialize())
 end
 
+---@param playerUID PlayerUID
+---@return PvPAssistant.MatchHistory.Serialized[]
+function PvPAssistant.DB.MATCH_HISTORY:GetShuffleMatches(playerUID)
+    PvPAssistantDB.matchHistory.tempShuffleData[playerUID] = PvPAssistantDB.matchHistory.tempShuffleData[playerUID] or {}
+    return PvPAssistantDB.matchHistory.tempShuffleData[playerUID]
+end
+
+---@param matchHistory PvPAssistant.MatchHistory
+---@param playerUID PlayerUID?
+function PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(matchHistory, playerUID)
+    playerUID = playerUID or PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
+    PvPAssistantDB.matchHistory.tempShuffleData[playerUID] = PvPAssistantDB.matchHistory.tempShuffleData[playerUID] or {}
+    tinsert(PvPAssistantDB.matchHistory.tempShuffleData[playerUID], matchHistory:Serialize())
+end
+
 function PvPAssistant.DB.MATCH_HISTORY:Clear()
     wipe(PvPAssistantDB.matchHistory.data)
+    self:ClearShuffleData()
+end
+
+function PvPAssistant.DB.MATCH_HISTORY:ClearShuffleData()
+    if PvPAssistantDB.matchHistory.tempShuffleData then
+        wipe(PvPAssistantDB.matchHistory.tempShuffleData)
+    end
 end
 
 ---@param playerUID PlayerUID

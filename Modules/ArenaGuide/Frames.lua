@@ -203,10 +203,10 @@ end
 function PvPAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
     local content = PvPAssistant.ARENA_GUIDE.frame.content
 
-    PvPAssistant.ARENA_GUIDE:UpdateArenaSpecIDs()
+    local arenaSpecIDs = PvPAssistant.DATA_COLLECTION:GetArenaSpecIDs()
 
     if debug then
-        PvPAssistant.ARENA_GUIDE.specIDs = {
+        arenaSpecIDs = {
             PLAYER_TEAM = {
                 PvPAssistant.CONST.SPEC_IDS.FURY,
                 PvPAssistant.CONST.SPEC_IDS.RETRIBUTION,
@@ -220,8 +220,8 @@ function PvPAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
         }
     end
 
-    local specIDsPlayerTeam = PvPAssistant.ARENA_GUIDE.specIDs.PLAYER_TEAM
-    local specIDsEnemyTeam = PvPAssistant.ARENA_GUIDE.specIDs.ENEMY_TEAM
+    local specIDsPlayerTeam = arenaSpecIDs.PLAYER_TEAM
+    local specIDsEnemyTeam = arenaSpecIDs.ENEMY_TEAM
 
     table.foreach(content.playerTeamIcons2, function(_, icon) icon:Hide() end)
     table.foreach(content.playerTeamIcons3, function(_, icon) icon:Hide() end)
