@@ -208,6 +208,7 @@ end
 ---@field win boolean
 ---@field season number
 ---@field player PvPAssistant.Player
+---@field pvpMatchState Enum.PvPMatchState
 
 ---@return PvPAssistant.MatchHistory.Serialized
 function PvPAssistant.MatchHistory:Serialize()
@@ -226,6 +227,7 @@ function PvPAssistant.MatchHistory:Serialize()
         win = self.win,
         season = self.season,
         player = self.player,
+        pvpMatchState = self.pvpMatchState,
     }
 
     return serialized
@@ -248,5 +250,6 @@ function PvPAssistant.MatchHistory:Deserialize(serializedData)
     matchHistory.win = serializedData.win
     matchHistory.season = serializedData.season
     matchHistory.player = serializedData.player
+    matchHistory.pvpMatchState = serializedData.pvpMatchState
     return matchHistory
 end
