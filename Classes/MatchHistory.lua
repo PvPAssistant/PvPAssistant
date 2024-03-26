@@ -62,6 +62,8 @@ function PvPAssistant.MatchHistory:new()
     self.season = nil
     ---@type PvPAssistant.Player
     self.player = nil
+    ---@type Enum.PvPMatchState
+    self.pvpMatchState = nil
 end
 
 ---@param player PvPAssistant.Player

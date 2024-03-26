@@ -178,6 +178,7 @@ function PvPAssistant.DATA_COLLECTION:CreateMatchHistoryFromEndScore()
         (matchHistory.isArena and highestTeamSize <= 3 and PvPAssistant.CONST.PVP_MODES.THREES)
     matchHistory.player = player
     matchHistory.timestamp = (C_DateAndTime.GetServerTimeLocal() * 1000) - matchHistory.duration
+    matchHistory.pvpMatchState = C_PvP.GetActiveMatchState()
     return matchHistory
 end
 
