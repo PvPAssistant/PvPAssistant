@@ -63,7 +63,7 @@ function PvPAssistant.DB:Init()
     end
     if not PvPAssistantDB.matchHistory then
         PvPAssistantDB.matchHistory = {
-            version = 3,
+            version = 4,
             ---@type table<PlayerUID, PvPAssistant.MatchHistory.Serialized[]>
             data = {},
             ---@type table<PlayerUID, PvPAssistant.MatchHistory.Serialized[]>
@@ -125,10 +125,10 @@ function PvPAssistant.DB.MATCH_HISTORY:HandleMigrations()
         PvPAssistantDB.matchHistory.version = 2
     end
 
-    -- 2 -> 3 Introduce tempShuffleData
-    if PvPAssistantDB.matchHistory.version <= 2 then
+    -- 2 -> 3 Introduce tempShuffleData or wipe it
+    if PvPAssistantDB.matchHistory.version <= 3 then
         PvPAssistantDB.matchHistory.tempShuffleData = {}
-        PvPAssistantDB.matchHistory.version = 3
+        PvPAssistantDB.matchHistory.version = 4
     end
 end
 

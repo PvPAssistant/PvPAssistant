@@ -7,7 +7,7 @@ local debug = PvPAssistant.DEBUG:GetDebugPrint()
 
 ---@class PvPAssistant.DataCollection : Frame
 PvPAssistant.DATA_COLLECTION = GUTIL:CreateRegistreeForEvents { "PVP_MATCH_COMPLETE", "PLAYER_JOINED_PVP_MATCH", "GROUP_ROSTER_UPDATE", "ARENA_PREP_OPPONENT_SPECIALIZATIONS",
-    "PVP_MATCH_STATE_CHANGED" }
+    "PVP_MATCH_STATE_CHANGED", "UPDATE_BATTLEFIELD_SCORE" }
 
 ---@class PvPAssistant.DATA_COLLECTION.ArenaSpecIDs
 PvPAssistant.DATA_COLLECTION.arenaSpecIDs = {
@@ -256,11 +256,11 @@ function PvPAssistant.DATA_COLLECTION:PVP_MATCH_STATE_CHANGED()
     if state == Enum.PvPMatchState.PostRound then
         debug("PVP_MATCH_STATE_CHANGED: PostRound")
         -- DEBUG TODO Remove after testing
-        if C_PvP.IsSoloShuffle() then
-            local intermediateShuffleMatchHistory = self:CreateMatchHistoryFromEndScore()
-            local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
-            PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
-        end
+        -- if C_PvP.IsSoloShuffle() then
+        --     local intermediateShuffleMatchHistory = self:CreateMatchHistoryFromEndScore()
+        --     local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
+        --     PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
+        -- end
         --
         PvPAssistant.DATA_COLLECTION:ResetSpecIDs()
     end
@@ -272,5 +272,14 @@ function PvPAssistant.DATA_COLLECTION:PVP_MATCH_STATE_CHANGED()
     end
     if state == Enum.PvPMatchState.Complete then
         debug("PVP_MATCH_STATE_CHANGED: Complete")
+    end
+end
+
+--- Test for shuffle intermediate match history data collection
+function PvPAssistant.DATA_COLLECTION:UPDATE_BATTLEFIELD_SCORE()
+    if C_PvP.IsSoloShuffle() then
+        local intermediateShuffleMatchHistory = self:CreateMatchHistoryFromEndScore()
+        local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
+        PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
     end
 end
