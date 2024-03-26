@@ -20,6 +20,7 @@ Util/Const.lua
 Util/Util.lua
 Util/DB.lua
 Util/SpecLookup.lua
+Util/DataCollection.lua
 
 Data/AbilityData.lua
 Data/ArenaStrategies.lua

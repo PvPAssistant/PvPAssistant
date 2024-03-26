@@ -10,6 +10,7 @@ PvPAssistantDEBUG = PvPAssistant.DEBUG
 
 local DevTool = DevTool
 
+---@deprecated
 function PvPAssistant.DEBUG:CreateHistoryDummyData()
     wipe(PvPAssistantHistoryDB)
     --- 2v2s
@@ -132,6 +133,7 @@ function PvPAssistant.DEBUG:CreateHistoryDummyData()
     end
 end
 
+---@deprecated
 function PvPAssistant.DEBUG:CreatePlayerDummyData()
     PvPAssistant.DB.PLAYER_DATA:Clear()
 
@@ -183,7 +185,7 @@ function PvPAssistant.DEBUG:DebugTable(t, label)
 end
 
 function PvPAssistant.DEBUG:RetrieveMatchData()
-    local matchHistory = PvPAssistant.MatchHistory:CreateFromEndScreen()
+    local matchHistory = PvPAssistant.DATA_COLLECTION:CreateMatchHistoryFromEndScore()
 end
 
 function PvPAssistant.DEBUG:GetSpecializationIDByUnit(unit)
@@ -195,8 +197,8 @@ function PvPAssistant.DEBUG:InspectSpecLookup()
 end
 
 function PvPAssistant.DEBUG:UpdateAndInspectArenaSpecs()
-    PvPAssistant.ARENA_GUIDE:UpdateArenaSpecIDs()
-    self:DebugTable(PvPAssistant.ARENA_GUIDE.specIDs, "ManualDebugSpecIDs")
+    PvPAssistant.DATA_COLLECTION:UpdateArenaSpecIDs()
+    self:DebugTable(PvPAssistant.DATA_COLLECTION.arenaSpecIDs, "ManualDebugSpecIDs")
 end
 
 function PvPAssistant.DEBUG:GetDebugPrint()
@@ -205,4 +207,46 @@ function PvPAssistant.DEBUG:GetDebugPrint()
             print(f.l("AL Debug: ") .. tostring(text))
         end
     end
+end
+
+function PvPAssistant.DEBUG:GatherDebugAPIDataFromMatchEnd()
+    local playerSpecializationID = GetSpecialization()
+    local apiData = {
+        GetNumArenaOpponentSpecs = GetNumArenaOpponentSpecs() or "nil",
+        IsRatedArena = C_PvP.IsRatedArena(),
+        IsMatchConsideredArena = C_PvP.IsMatchConsideredArena(),
+        GetBattlefieldArenaFaction = GetBattlefieldArenaFaction() or "nil",
+        GetBattlefieldTeamInfo_0 = { GetBattlefieldTeamInfo(0) or "nil" },
+        GetBattlefieldTeamInfo_1 = { GetBattlefieldTeamInfo(1) or "nil" },
+        GetNumArenaOpponents = GetNumArenaOpponents() or "nil",
+        IsSoloShuffle = C_PvP.IsSoloShuffle(),
+
+        CanDisplayDamage = C_PvP.CanDisplayDamage(),
+        CanDisplayDeaths = C_PvP.CanDisplayDeaths(),
+        CanDisplayHealing = C_PvP.CanDisplayHealing(),
+        CanDisplayHonorableKills = C_PvP.CanDisplayHonorableKills(),
+        CanDisplayKillingBlows = C_PvP.CanDisplayKillingBlows(),
+        CanPlayerUseRatedPVPUI = { C_PvP.CanPlayerUseRatedPVPUI() },
+        DoesMatchOutcomeAffectRating = C_PvP.DoesMatchOutcomeAffectRating(),
+        GetActiveMatchBracket = C_PvP.GetActiveMatchBracket() or "nil",
+        GetActiveMatchDuration = C_PvP.GetActiveMatchDuration() or "nil",
+        GetActiveMatchState = C_PvP.GetActiveMatchState() or "nil",
+        GetActiveMatchWinner = C_PvP.GetActiveMatchWinner() or "nil",
+        GetCustomVictoryStatID = C_PvP.GetCustomVictoryStatID() or "nil",
+        GetGlobalPvpScalingInfoForSpecID = C_PvP.GetGlobalPvpScalingInfoForSpecID(playerSpecializationID) or "nil",
+        GetMatchPVPStatColumns = C_PvP.GetMatchPVPStatColumns() or "nil",
+        GetPVPActiveMatchPersonalRatedInfo = C_PvP.GetPVPActiveMatchPersonalRatedInfo() or "nil",
+        GetPVPSeasonRewardAchievementID = C_PvP.GetPVPSeasonRewardAchievementID() or "nil",
+        GetScoreInfoByPlayerGuid_Player = C_PvP.GetScoreInfoByPlayerGuid(UnitGUID("player")) or "nil",
+        GetSeasonBestInfo = { C_PvP.GetSeasonBestInfo() or "nil" },
+        GetTeamInfo_0 = C_PvP.GetTeamInfo(0) or "nil",
+        GetTeamInfo_1 = C_PvP.GetTeamInfo(1) or "nil",
+        IsActiveMatchRegistered = C_PvP.IsActiveMatchRegistered(),
+        IsMatchFactional = C_PvP.IsMatchFactional(),
+        IsPVPMap = C_PvP.IsPVPMap(),
+        IsRatedMap = C_PvP.IsRatedMap(),
+    }
+
+    PvPAssistant.DEBUG:DebugTable(apiData, "GatheredAPIData " .. (GetTimePreciseSec() * 1000))
+    PvPAssistant.DB.DEBUG:Add(apiData)
 end
