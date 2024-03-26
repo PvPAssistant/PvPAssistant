@@ -131,9 +131,9 @@ function PvPAssistant.DB.MATCH_HISTORY:HandleMigrations()
         PvPAssistantDB.matchHistory.version = 4
     end
 
-    if PvPAssistantDB.matchHistory.version == 4 then
+    if PvPAssistantDB.matchHistory.version <= 5 then
         wipe(PvPAssistantDB.matchHistory.tempShuffleData)
-        PvPAssistantDB.matchHistory.version = 5
+        PvPAssistantDB.matchHistory.version = 6
 
         -- normalize realm names
         for _, matches in pairs(PvPAssistantDB.matchHistory.data) do
@@ -143,11 +143,11 @@ function PvPAssistant.DB.MATCH_HISTORY:HandleMigrations()
                 match.player.realm = string.gsub(match.player.realm, " ", "") -- normalize realm name
 
                 for _, player in ipairs(match.playerTeam.players) do
-                    player.realm = string.gsub(match.player.realm, " ", "") -- normalize realm name
+                    player.realm = string.gsub(player.realm, " ", "") -- normalize realm name
                 end
 
                 for _, player in ipairs(match.enemyTeam.players) do
-                    player.realm = string.gsub(match.player.realm, " ", "") -- normalize realm name
+                    player.realm = string.gsub(player.realm, " ", "") -- normalize realm name
                 end
             end
         end
