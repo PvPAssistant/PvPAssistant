@@ -49,7 +49,7 @@ function PvPAssistant.DATA_COLLECTION:CreateMatchHistoryFromEndScore()
 
     -- for comparison
     local playerName, _ = UnitName("player")
-    local playerRealm = GetRealmName()
+    local playerRealm = GetNormalizedRealmName()
 
     local numPlayers = GetNumBattlefieldScores()
 
@@ -86,6 +86,7 @@ function PvPAssistant.DATA_COLLECTION:CreateMatchHistoryFromEndScore()
     local player = nil
     for _, pvpScore in ipairs(pvpScores) do
         local name, realm = strsplit("-", pvpScore.name)
+        realm = string.gsub(realm, " ", "") -- normalize realm name
         realm = realm or playerRealm
 
         local specDescriptor = pvpScore.talentSpec .. " " .. pvpScore.className
