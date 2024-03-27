@@ -174,7 +174,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
             GGUI:ShowPopup {
                 copyText = PvPAssistant.CONST.DONATE_URL,
                 parent = frame.content, anchorParent = frame.content.DONATE_BUTTON.frame, -- Ensure this references the correct button
-                title = "Support our Patreon! (CTRL+C to Copy)", sizeX = 280, sizeY = 100,
+                title = "Kofi donation page! (CTRL+C to Copy)", sizeX = 280, sizeY = 100,
                 okButtonLabel = f.white("Ok"),
             }
         end
