@@ -10,12 +10,9 @@ local debug = PvPAssistant.DEBUG:GetDebugPrint()
 PvPAssistantGGUIConfig = PvPAssistantGGUIConfig or {}
 
 ---@class PvPAssistant.Main : Frame
-PvPAssistant.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD",
-	"PLAYER_JOINED_PVP_MATCH", "PVP_MATCH_COMPLETE" })
+PvPAssistant.MAIN = GUTIL:CreateRegistreeForEvents({ "ADDON_LOADED", "PLAYER_ENTERING_WORLD" })
 
 PvPAssistant.MAIN.FRAMES = {}
-
-PvPAssistant.MAIN.enableCombatLog = false
 
 function PvPAssistant:InitializeMinimapButton()
 	local LibIcon = LibStub("LibDBIcon-1.0")
@@ -48,6 +45,7 @@ function PvPAssistant.MAIN:Init()
 	PvPAssistant.MAIN:InitializeSlashCommands()
 	PvPAssistant.OPTIONS:Init()
 	PvPAssistant.ARENA_GUIDE.FRAMES:Init()
+	PvPAssistant.ARENA_GUIDE:Init()
 	PvPAssistant:InitializeMinimapButton()
 	PvPAssistant.PLAYER_TOOLTIP:Init()
 	PvPAssistant.SPELL_TOOLTIP:Init()
@@ -135,33 +133,5 @@ function PvPAssistant.MAIN:PLAYER_ENTERING_WORLD()
 
 	PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 
-	PvPAssistant.MAIN.enableCombatLog = false
-end
-
----@class SpecializationInfo
----@field id number
----@field name string
----@field description string
----@field icon string
----@field role string
----@field class ClassFile
-
-function PvPAssistant.MAIN:PLAYER_JOINED_PVP_MATCH()
-	if not PvPAssistant.MAIN.enableCombatLog then
-		debug("PvPAssistant: Joined PvP Match")
-		debug("LoggingCombat: " .. tostring(LoggingCombat(true)))
-
-		PvPAssistant.MAIN.enableCombatLog = true
-	end
-end
-
-function PvPAssistant.MAIN:PVP_MATCH_COMPLETE()
-	debug("PvPAssistant: PvP Match Completed")
-	debug("LoggingCombat: " .. tostring(LoggingCombat(false)))
-
-	debug("PvPAssistant: Saving Match Data...")
-	local matchHistory = PvPAssistant.MatchHistory:CreateFromEndScreen()
-	PvPAssistant.DB.MATCH_HISTORY:Save(matchHistory)
-
-	PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
+	PvPAssistant.DATA_COLLECTION.enableCombatLog = false
 end

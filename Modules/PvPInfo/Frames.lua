@@ -15,11 +15,11 @@ function PvPAssistant.PVPINFO.FRAMES:Init()
     if not PVPUIFrame then
         error("PVPUIFrame not found")
     end
-    local sizeX, sizeY = 300, PVPUIFrame:GetHeight()
+    local sizeX, sizeY = 285, PVPUIFrame:GetHeight() -100
     PvPAssistant.PVPINFO.frame = GGUI.Frame {
         parent = PVPUIFrame, anchorParent = PVPUIFrame,
         anchorA = "TOPLEFT", anchorB = "TOPRIGHT", offsetX = 0, offsetY = 0, sizeX = sizeX, sizeY = sizeY,
-        moveable = true, frameConfigTable = PvPAssistantGGUIConfig, frameID = PvPAssistant.CONST.FRAMES.PVPINFO,
+        moveable = false, frameConfigTable = PvPAssistantGGUIConfig, frameID = PvPAssistant.CONST.FRAMES.PVPINFO,
         frameTable = PvPAssistant.MAIN.FRAMES,
         backdropOptions = PvPAssistant.CONST.PVPINFO_BACKDROP
     }

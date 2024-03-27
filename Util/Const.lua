@@ -43,7 +43,7 @@ PvPAssistant.CONST.PVP_MODES_NAMES = {
     SOLO_SHUFFLE = "Shuffle",
     TWOS = "2v2",
     THREES = "3v3",
-    RATED_BATTLEGROUND = "RBG",
+    BATTLEGROUND = "RBG",
 }
 
 PvPAssistant.CONST.PVP_MODES_BRACKET_IDS = {
@@ -264,10 +264,12 @@ PvPAssistant.CONST.ASSETS = {
 
           ---@type GGUI.ButtonTextureOptions 
           DONATE_BUTTON = {
+          Style/DonateButtom
             normal = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Kofi',
             disabled = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Kofi',
             highlight = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Kofi',
             pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Kofi',
+         
             isAtlas = false,
         },
         ---@type GGUI.ButtonTextureOptions
