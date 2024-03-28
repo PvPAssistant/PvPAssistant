@@ -7,7 +7,7 @@ local debug = PvPAssistant.DEBUG:GetDebugPrint()
 
 ---@class PvPAssistant.DataCollection : Frame
 PvPAssistant.DATA_COLLECTION = GUTIL:CreateRegistreeForEvents { "PVP_MATCH_COMPLETE", "PLAYER_JOINED_PVP_MATCH", "GROUP_ROSTER_UPDATE", "ARENA_PREP_OPPONENT_SPECIALIZATIONS",
-    "PVP_MATCH_STATE_CHANGED", "UPDATE_BATTLEFIELD_SCORE" }
+    "PVP_MATCH_STATE_CHANGED" } -- "UPDATE_BATTLEFIELD_SCORE"
 
 ---@class PvPAssistant.DATA_COLLECTION.ArenaSpecIDs
 PvPAssistant.DATA_COLLECTION.arenaSpecIDs = {
@@ -26,6 +26,10 @@ function PvPAssistant.DATA_COLLECTION:PVP_MATCH_COMPLETE()
 
     debug("PvPAssistant: Saving Match Data...")
     local matchHistory = self:CreateMatchHistoryFromEndScore()
+
+    debug("Gathered Match History: " .. tostring(matchHistory))
+    PvPAssistant.DEBUG:DebugTable(matchHistory, "DebugMatchHistory")
+
     PvPAssistant.DB.MATCH_HISTORY:Save(matchHistory)
 
     PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
@@ -86,8 +90,8 @@ function PvPAssistant.DATA_COLLECTION:CreateMatchHistoryFromEndScore()
     local player = nil
     for _, pvpScore in ipairs(pvpScores) do
         local name, realm = strsplit("-", pvpScore.name)
-        realm = string.gsub(realm, " ", "") -- normalize realm name
         realm = realm or playerRealm
+        realm = string.gsub(realm, " ", "") -- normalize realm name
 
         local specDescriptor = pvpScore.talentSpec .. " " .. pvpScore.className
         ---@type PvPAssistant.Player
@@ -277,10 +281,10 @@ function PvPAssistant.DATA_COLLECTION:PVP_MATCH_STATE_CHANGED()
 end
 
 --- Test for shuffle intermediate match history data collection
-function PvPAssistant.DATA_COLLECTION:UPDATE_BATTLEFIELD_SCORE()
-    if C_PvP.IsSoloShuffle() then
-        local intermediateShuffleMatchHistory = self:CreateMatchHistoryFromEndScore()
-        local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
-        PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
-    end
-end
+-- function PvPAssistant.DATA_COLLECTION:UPDATE_BATTLEFIELD_SCORE()
+--     if C_PvP.IsSoloShuffle() then
+--         local intermediateShuffleMatchHistory = self:CreateMatchHistoryFromEndScore()
+--         local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
+--         PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
+--     end
+-- end
