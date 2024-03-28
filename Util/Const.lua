@@ -264,10 +264,12 @@ PvPAssistant.CONST.ASSETS = {
 
           ---@type GGUI.ButtonTextureOptions 
           DONATE_BUTTON = {
-            normal = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Donate',
-            disabled = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Donate',
-            highlight = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Donate',
-            pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Donate',
+          Style/DonateButtom
+            normal = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Kofi',
+            disabled = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Kofi',
+            highlight = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Kofi',
+            pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButtom/Kofi',
+         
             isAtlas = false,
         },
         ---@type GGUI.ButtonTextureOptions
