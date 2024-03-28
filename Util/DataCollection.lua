@@ -21,13 +21,13 @@ PvPAssistant.DATA_COLLECTION.enableCombatLog = false
 PvPAssistant.DATA_COLLECTION.arenaSpecIDUpdateCallbacks = {}
 
 function PvPAssistant.DATA_COLLECTION:PVP_MATCH_COMPLETE()
-    print("PvPAssistant: PvP Match Completed")
-    print("LoggingCombat: " .. tostring(LoggingCombat(false)))
+    debug("PvPAssistant: PvP Match Completed")
+    debug("LoggingCombat: " .. tostring(LoggingCombat(false)))
 
-    print("PvPAssistant: Saving Match Data...")
+    debug("PvPAssistant: Saving Match Data...")
     local matchHistory = self:CreateMatchHistoryFromEndScore()
 
-    print("Gathered Match History: " .. tostring(matchHistory))
+    debug("Gathered Match History: " .. tostring(matchHistory))
     PvPAssistant.DEBUG:DebugTable(matchHistory, "DebugMatchHistory")
 
     PvPAssistant.DB.MATCH_HISTORY:Save(matchHistory)
