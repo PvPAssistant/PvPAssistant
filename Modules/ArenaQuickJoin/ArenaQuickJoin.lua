@@ -1,3 +1,5 @@
+local PvPAssistant = select(2, ...)
+
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("PLAYER_LOGIN")
 frame:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -78,7 +80,9 @@ local joinMacroButton, configureMacroButton, selectedBracketButton
 frame:SetScript("OnEvent", function(_, eventName, ...)
     if eventName == "PLAYER_LOGIN" then
         do
-            joinMacroButton = CreateFrame("Button", "PvPAssistant_ArenaQuickJoinMacroButton", UIParent, "SecureActionButtonTemplate, SecureHandlerStateTemplate, ActionButtonTemplate")
+            local parent = PvPAssistant.MAIN_FRAME.frame.frame
+
+            joinMacroButton = CreateFrame("Button", "PvPAssistant_ArenaQuickJoinMacroButton", parent, "SecureActionButtonTemplate, SecureHandlerStateTemplate, ActionButtonTemplate")
             
             function joinMacroButton:Active(style)
                 if style == "show" then
@@ -104,8 +108,9 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                 self.icon:SetTexture("Interface\\Icons\\" .. texture)
             end
 
-            joinMacroButton:SetPoint("CENTER")
+            joinMacroButton:SetPoint("TOP", parent, "TOP", 255, -35)
             joinMacroButton:SetSize(45, 45)
+            joinMacroButton:SetScale(.6)
             joinMacroButton:RegisterForClicks('AnyUp', 'AnyDown')
             joinMacroButton:SetTexture("achievement_bg_killxenemies_generalsroom")
             joinMacroButton:SetAttribute("type", "macro")
@@ -137,24 +142,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
             end
 
             joinMacroButton:SetScript("OnEnter", function(self)
-                local centerX, centerY = self:GetCenter()
-                local screenWidth, screenHeight = GetScreenWidth()/2, GetScreenHeight()/2
-                local anchor = "ANCHOR_"
-
-                if centerX > screenWidth and centerY > screenHeight then
-                    anchor = anchor .. "BOTTOMLEFT"
-                elseif centerX <= screenWidth and centerY > screenHeight then
-                    anchor = anchor .. "BOTTOMRIGHT"
-                elseif centerX > screenWidth and centerY <= screenHeight then
-                    anchor = anchor .. "LEFT"
-                elseif centerX <= screenWidth and centerY <= screenHeight then
-                    anchor = anchor .. "RIGHT"
-                else
-                    anchor = anchor .. "CURSOR"
-                end
-
-                GameTooltip:SetOwner(self, anchor)
-
+                GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
                 showAndUpdateTooltip()
             end)
 
