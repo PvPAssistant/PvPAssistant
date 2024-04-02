@@ -548,18 +548,9 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     local dropdownSizeY = 25
     local dropdownScale = 1
 
-    local characterDropdownData = PvPAssistant.MAIN_FRAME:GetCharacterDropdownData()
-
-    local playerDropdownData = GUTIL:Find(characterDropdownData, function(dropdownData)
-        return dropdownData.value == PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
-    end)
-
     matchHistoryTab.content.characterDropdown = GGUI.CustomDropdown {
         parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.matchHistoryList.frame,
         anchorA = "BOTTOMLEFT", anchorB = "TOPLEFT", width = 110, offsetX = 25, offsetY = 30,
-        initialData = PvPAssistant.MAIN_FRAME:GetCharacterDropdownData(),
-        initialLabel = playerDropdownData.label,
-        initialValue = playerDropdownData.value,
         clickCallback = function(self, label, value)
             PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
         end,
@@ -624,6 +615,23 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             scale = dropdownScale,
         }
     }
+end
+
+function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryCharacterDropdownData()
+    local matchHistoryTab = PvPAssistant.MAIN_FRAME.frame.content.matchHistoryTab
+    local characterDropdown = matchHistoryTab.content.characterDropdown
+
+    local characterDropdownData = PvPAssistant.MAIN_FRAME:GetCharacterDropdownData()
+
+    local playerDropdownData = GUTIL:Find(characterDropdownData, function(dropdownData)
+        return dropdownData.value == PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
+    end)
+
+    characterDropdown:SetData({
+        data = characterDropdownData,
+        initialLabel = playerDropdownData.label,
+        initialValue = playerDropdownData.value
+    })
 end
 
 function PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
