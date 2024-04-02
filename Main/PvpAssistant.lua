@@ -49,6 +49,8 @@ function PvPAssistant.MAIN:Init()
 	PvPAssistant:InitializeMinimapButton()
 	PvPAssistant.PLAYER_TOOLTIP:Init()
 	PvPAssistant.SPELL_TOOLTIP:Init()
+	PvPAssistant.MAIN_FRAME.FRAMES:Init()
+	PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTooltipFrame()
 
 	PvPAssistant.GGUI:InitializePopup {
 		backdropOptions = PvPAssistant.CONST.MAIN_FRAME_BACKDROP,
@@ -123,14 +125,12 @@ function PvPAssistant.MAIN:ADDON_LOADED(addon_name)
 end
 
 function PvPAssistant.MAIN:PLAYER_ENTERING_WORLD()
-	PvPAssistant.DB.CHARACTER_DATA:Init() -- on addon load not yet accessible
-	PvPAssistant.MAIN_FRAME.FRAMES:Init() -- dep: character data
-	PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTooltipFrame()
+	PvPAssistant.DB.CHARACTER_DATA:Init()
 	PvPAssistant.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
-
 
 	PvPAssistant.SPEC_LOOKUP:Init()
 
+	PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryCharacterDropdownData()
 	PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
 
 	PvPAssistant.DATA_COLLECTION.enableCombatLog = false
