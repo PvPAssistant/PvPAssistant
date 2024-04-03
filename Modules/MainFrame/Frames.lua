@@ -338,37 +338,33 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     ---@type GGUI.FrameList.ColumnOption[]
     local columnOptions = {
         {
-            width = 20,
+            label = f.grey("Date"),
+            width = 135,
             justifyOptions = { type = "H", align = "CENTER" },
         },
         {
-            label = GUTIL:ColorizeText("Date", GUTIL.COLORS.GREY),
-            width = 135,
-            justifyOptions = { type = "H", align = "LEFT" },
-        },
-        {
-            label = GUTIL:ColorizeText("Map", GUTIL.COLORS.GREY),
+            label = f.grey("Map"),
             width = 65,
             justifyOptions = { type = "H", align = "CENTER" },
         },
         {
-            label = GUTIL:ColorizeText("Players", GUTIL.COLORS.GREY),
-            width = 250,
+            label = f.grey("Players"),
+            width = 200,
             justifyOptions = { type = "H", align = "CENTER" },
         },
         {
-            label = GUTIL:ColorizeText("Mmr", GUTIL.COLORS.GREY),
-            width = 70,
+            label = f.grey("Win(s)"),
+            width = 120,
             justifyOptions = { type = "H", align = "CENTER" },
         },
         {
-            label = GUTIL:ColorizeText("Change", GUTIL.COLORS.GREY),
-            width = 70,
+            label = f.grey("Mmr"),
+            width = 80,
             justifyOptions = { type = "H", align = "CENTER" },
         },
         {
-            label = GUTIL:ColorizeText("Rating", GUTIL.COLORS.GREY),
-            width = 100,
+            label = f.grey("Rating"),
+            width = 110,
             justifyOptions = { type = "H", align = "CENTER" },
         },
     }
@@ -379,33 +375,45 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         rowBackdrops = { PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A, PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
         sizeY = 470, columnOptions = columnOptions, rowConstructor = function(columns)
-        local winColumn = columns[1]
-        local dateColumn = columns[2]
-        local mapColumn = columns[3]
-        local playersColumn = columns[4]
+        local dateColumn = columns[1]
+        local mapColumn = columns[2]
+        local playersColumn = columns[3]
+        local winColumn = columns[4]
         local mmrColumn = columns[5]
-        local changeColumn = columns[6]
-        local ratingColumn = columns[7]
+        local ratingColumn = columns[6]
 
         winColumn.text = GGUI.Text {
             parent = winColumn, anchorPoints = { { anchorParent = winColumn } },
         }
-        local winIconScale = 0.15
-        function winColumn:SetWin(win)
-            if win then
-                winColumn.text:SetText(PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.GREEN_DOT, winIconScale))
-            else
-                winColumn.text:SetText(PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.RED_DOT, winIconScale))
-            end
-        end
+        winColumn.textShuffle = GGUI.Text {
+            parent = winColumn, anchorPoints = { { anchorParent = winColumn, anchorA = "LEFT", anchorB = "LEFT" } },
+        }
+        local winIconSize = 20
+        function winColumn:SetWin(win, shuffleWins)
+            if not shuffleWins then
+                if win then
+                    winColumn.text:SetText(CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.CHECKMARK, winIconSize, winIconSize,
+                        0.5))
+                else
+                    winColumn.text:SetText(CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.CROSS, winIconSize, winIconSize,
+                        0.5))
+                end
 
-        function winColumn:SetShuffleWins(wins)
-            if wins >= 6 then
-                winColumn.text:SetText(f.g(wins))
-            elseif wins >= 3 then
-                winColumn.text:SetText(f.l(wins))
+                winColumn.textShuffle:SetText("")
             else
-                winColumn.text:SetText(f.r(wins))
+                local shuffleWinText = ""
+                for i = 1, 6 do
+                    if i <= shuffleWins then
+                        shuffleWinText = shuffleWinText ..
+                            CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.CHECKMARK, winIconSize, winIconSize, 0.5)
+                    else
+                        shuffleWinText = shuffleWinText ..
+                            CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.CROSS, winIconSize, winIconSize, 0.5)
+                    end
+                end
+
+                winColumn.textShuffle:SetText(shuffleWinText)
+                winColumn.text:SetText("")
             end
         end
 
@@ -453,8 +461,9 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
             showTooltip = true,
         }
 
+        local shuffleIconsOffsetX = 25
         playersColumn.iconSS1 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn, anchorA = "LEFT", anchorB = "LEFT", offsetX = 50,
+            parent = playersColumn, anchorParent = playersColumn, anchorA = "LEFT", anchorB = "LEFT", offsetX = shuffleIconsOffsetX,
             initialClass = "WARLOCK", sizeX = iconSize, sizeY = iconSize,
             showTooltip = true,
         }
@@ -525,9 +534,6 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         end
         mmrColumn.text = GGUI.Text {
             parent = mmrColumn, anchorParent = mmrColumn, justifyOptions = { type = "H", align = "CENTER" }
-        }
-        changeColumn.text = GGUI.Text {
-            parent = changeColumn, anchorParent = changeColumn, justifyOptions = { type = "H", align = "CENTER" }
         }
         ratingColumn.text = GGUI.Text {
             parent = ratingColumn, anchorParent = ratingColumn, justifyOptions = { type = "H", align = "CENTER" },
@@ -1010,13 +1016,12 @@ function PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
     for _, matchHistory in pairs(filteredHistory) do
         matchHistoryList:Add(function(row)
             local columns = row.columns
-            local winColumn = columns[1]
-            local dateColumn = columns[2]
-            local mapColumn = columns[3]
-            local playersColumn = columns[4]
+            local dateColumn = columns[1]
+            local mapColumn = columns[2]
+            local playersColumn = columns[3]
+            local winColumn = columns[4]
             local mmrColumn = columns[5]
-            local changeColumn = columns[6]
-            local ratingColumn = columns[7]
+            local ratingColumn = columns[6]
 
             local matchHistory = PvPAssistant.MatchHistory:Deserialize(matchHistory)
 
@@ -1045,18 +1050,17 @@ function PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
                 else
                     ratingChangeText = f.white(FormatValueWithSign(matchHistory.player.scoreData.ratingChange))
                 end
-                changeColumn.text:SetText(ratingChangeText)
-                ratingColumn.text:SetText(matchHistory.player.scoreData.rating)
+                ratingColumn.text:SetText(matchHistory.player.scoreData.rating .. " (" .. ratingChangeText .. ")")
                 ratingColumn:SetIconByRating(matchHistory.player.scoreData.rating)
             else
-                changeColumn.text:SetText(f.grey("-"))
                 ratingColumn.text:SetText(f.grey("-"))
                 ratingColumn:SetIconByRating(nil)
             end
 
             if matchHistory.isSoloShuffle then
-                winColumn:SetShuffleWins((matchHistory.player.scoreData.stats and matchHistory.player.scoreData.stats[1].pvpStatValue) or
-                    0)
+                local shuffleWins = (matchHistory.player.scoreData.stats and matchHistory.player.scoreData.stats[1].pvpStatValue) or
+                    0
+                winColumn:SetWin(matchHistory.win, shuffleWins)
             else
                 winColumn:SetWin(matchHistory.win)
             end
