@@ -5,6 +5,13 @@ local GGUI = PvPAssistant.GGUI
 local GUTIL = PvPAssistant.GUTIL
 local f = GUTIL:GetFormatter()
 
+---@class PvPAssistant
+local PvPAssistant = select(2, ...)
+
+local GGUI = PvPAssistant.GGUI
+local GUTIL = PvPAssistant.GUTIL
+local f = GUTIL:GetFormatter()
+
 ---@class PvPAssistant.PvPInfo
 PvPAssistant.PVPINFO = PvPAssistant.PVPINFO
 
