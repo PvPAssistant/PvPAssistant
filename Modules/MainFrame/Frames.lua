@@ -325,8 +325,6 @@ end
 function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
     ---@class PvPAssistant.MAIN_FRAME.MATCH_HISTORY_TAB
     local matchHistoryTab = PvPAssistant.MAIN_FRAME.frame.content.matchHistoryTab
-    ---@type PvPAssistant.MAIN_FRAME.ABILITIES_TAB
-    local abilitiesTab = PvPAssistant.MAIN_FRAME.frame.content.abilitiesTab
     ---@class PvPAssistant.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
     matchHistoryTab.content = matchHistoryTab.content
 
