@@ -340,7 +340,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTab()
         {
             label = f.grey("Date"),
             width = 135,
-            justifyOptions = { type = "H", align = "LEFT" },
+            justifyOptions = { type = "H", align = "CENTER" },
         },
         {
             label = f.grey("Map"),
