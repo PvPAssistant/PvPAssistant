@@ -3,6 +3,7 @@ local PvPAssistant = select(2, ...)
 local addonName = ...
 
 local GUTIL = PvPAssistant.GUTIL
+local f = GUTIL:GetFormatter()
 
 ---@class PvPAssistant.ADDON_UPDATE_NOTIFIER : Frame
 PvPAssistant.ADDON_UPDATE_NOTIFIER = GUTIL:CreateRegistreeForEvents({ "PLAYER_ENTERING_WORLD", "CHAT_MSG_ADDON",
@@ -31,13 +32,11 @@ function PvPAssistant.ADDON_UPDATE_NOTIFIER:SendMessage()
 end
 
 function PvPAssistant.ADDON_UPDATE_NOTIFIER:CheckVersion(otherVersion)
-    local ownVersion = self.ADDON_VERSION:gsub("[^%d]", "")
-    otherVersion = otherVersion:gsub("[^%d]", "")
-    local updateAvailable = tonumber(otherVersion) > tonumber(ownVersion)
+    local updateAvailable = GUTIL:CompareVersionStrings(self.ADDON_VERSION, otherVersion) < 0
 
     if not self.ReceivedUpdateNotification and updateAvailable then
         self.ReceivedUpdateNotification = true
-        print(string.format("%s: a new version is available!", addonName))
+        print(string.format("%s: New Version available: %s", f.bb(addonName), f.g(otherVersion)))
     end
 end
 
