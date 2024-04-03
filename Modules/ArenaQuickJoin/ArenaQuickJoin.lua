@@ -1,3 +1,4 @@
+---@type PvPAssistant
 local PvPAssistant = select(2, ...)
 
 local frame = CreateFrame("Frame")
@@ -62,14 +63,17 @@ local function ShowTooltipStateInfo(selectedBracketButton)
         GameTooltip:AddLine(("Close the %s frame."):format(DUNGEONS_BUTTON))
     elseif groupSizeButton ~= selectedBracketButton then
         if ConquestJoinButton:IsEnabled() then
-            GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode("Click to open the PvP Rated tab, \nto select a bracket that matches your group size."))
+            GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode(
+                "Click to open the PvP Rated tab, \nto select a bracket that matches your group size."))
         else
-            GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode(("Cannot join the selected bracket. The %s button is disabled."):format(BATTLEFIELD_JOIN)))
+            GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode(("Cannot join the selected bracket. The %s button is disabled.")
+                :format(BATTLEFIELD_JOIN)))
         end
     else
         local bracketName = GetSelectedBracketName(selectedBracketButton)
         if bracketName then
-            GameTooltip:AddLine(GREEN_FONT_COLOR:WrapTextInColorCode(("Click to queue to %s."):format(BLUE_FONT_COLOR:WrapTextInColorCode(bracketName))))
+            GameTooltip:AddLine(GREEN_FONT_COLOR:WrapTextInColorCode(("Click to queue to %s."):format(BLUE_FONT_COLOR
+                :WrapTextInColorCode(bracketName))))
         end
     end
 
@@ -80,10 +84,11 @@ local joinMacroButton, configureMacroButton, selectedBracketButton
 frame:SetScript("OnEvent", function(_, eventName, ...)
     if eventName == "PLAYER_LOGIN" then
         do
-            local parent = PvPAssistant.MAIN_FRAME.frame.frame
+            local parent = PvPAssistant.MAIN_FRAME:GetParentFrame()
 
-            joinMacroButton = CreateFrame("Button", "PvPAssistant_ArenaQuickJoinMacroButton", parent, "SecureActionButtonTemplate, SecureHandlerStateTemplate, ActionButtonTemplate")
-            
+            joinMacroButton = CreateFrame("Button", "PvPAssistant_ArenaQuickJoinMacroButton", parent,
+                "SecureActionButtonTemplate, SecureHandlerStateTemplate, ActionButtonTemplate")
+
             function joinMacroButton:Active(style)
                 if style == "show" then
                     self:SetAlpha(1)
@@ -108,7 +113,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                 self.icon:SetTexture("Interface\\Icons\\" .. texture)
             end
 
-            joinMacroButton:SetPoint("TOP", parent, "TOP", 255, -35)
+            joinMacroButton:SetPoint("TOP", parent, "TOP", 275, -35)
             joinMacroButton:SetSize(45, 45)
             joinMacroButton:SetScale(.6)
             joinMacroButton:RegisterForClicks('AnyUp', 'AnyDown')
@@ -116,7 +121,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
             joinMacroButton:SetAttribute("type", "macro")
             joinMacroButton:Inactive("grayout")
         end
-        
+
         local _, isLoaded = IsAddOnLoaded(PVPUI_ADDON_NAME)
 
         if not isLoaded then
@@ -150,7 +155,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
         end
     elseif eventName == "ADDON_LOADED" then
         local arg1 = ...
-        
+
         if arg1 ~= PVPUI_ADDON_NAME then
             return
         end

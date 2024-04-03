@@ -14,6 +14,10 @@ PvPAssistant.MAIN_FRAME.frame = nil
 ---@type Frame
 PvPAssistant.MAIN_FRAME.matchHistoryTooltipFrame = nil
 
+---@return Frame
+function PvPAssistant.MAIN_FRAME:GetParentFrame()
+    return PvPAssistant.MAIN_FRAME.frame.frame
+end
 
 ---@return PvPAssistant.Const.PVPModes? pvpMode
 function PvPAssistant.MAIN_FRAME:GetSelectedModeFilter()
