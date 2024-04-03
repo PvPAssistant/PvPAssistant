@@ -12,10 +12,8 @@ PvPAssistant.ARENA_GUIDE = PvPAssistant.ARENA_GUIDE
 ---@class PvPAssistant.ArenaGuide.Frames
 PvPAssistant.ARENA_GUIDE.FRAMES = {}
 
-local debug = false
-
 function PvPAssistant.ARENA_GUIDE.FRAMES:Init()
-    local sizeX = 320
+    local sizeX = 350
     local sizeY = 445
     PvPAssistant.ARENA_GUIDE.frame = GGUI.Frame {
         parent = UIParent, anchorParent = UIParent,
@@ -139,7 +137,7 @@ function PvPAssistant.ARENA_GUIDE.FRAMES:Init()
             },
             {
                 -- spell
-                width = 120,
+                width = 150,
                 justifyOptions = { type = "H", align = "LEFT" },
             },
             {
@@ -205,7 +203,7 @@ function PvPAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
 
     local arenaSpecIDs = PvPAssistant.DATA_COLLECTION:GetArenaSpecIDs()
 
-    if debug then
+    if PvPAssistant.ARENA_GUIDE.debug then
         arenaSpecIDs = {
             PLAYER_TEAM = {
                 PvPAssistant.CONST.SPEC_IDS.FURY,
@@ -215,7 +213,7 @@ function PvPAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
             ENEMY_TEAM = {
                 PvPAssistant.CONST.SPEC_IDS.HOLY_PALADIN,
                 PvPAssistant.CONST.SPEC_IDS.BLOOD,
-                PvPAssistant.CONST.SPEC_IDS.ASSASSINATION
+                PvPAssistant.CONST.SPEC_IDS.HOLY
             },
         }
     end

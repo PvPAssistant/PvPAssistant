@@ -7,6 +7,9 @@ local debug = PvPAssistant.DEBUG:GetDebugPrint()
 ---@class PvPAssistant.ArenaGuide : Frame
 PvPAssistant.ARENA_GUIDE = {}
 
+--- if enabled will fake a 3v3 team
+PvPAssistant.ARENA_GUIDE.debug = true
+
 ---@type GGUI.Frame
 PvPAssistant.ARENA_GUIDE.frame = nil
 

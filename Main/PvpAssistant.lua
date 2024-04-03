@@ -98,7 +98,7 @@ function PvPAssistant.MAIN:InitializeSlashCommands()
         end
 
         if command == "guide" then
-            if C_PvP.IsArena() then
+            if C_PvP.IsArena() or PvPAssistant.ARENA_GUIDE.debug then
                 PvPAssistant.ARENA_GUIDE.frame:Show()
                 PvPAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
             else
