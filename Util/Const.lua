@@ -317,6 +317,8 @@ PvPAssistant.CONST.ATLAS = {
     RIGHT_MOUSE_BUTTON = "newplayertutorial-icon-mouse-rightbutton",
     MIDDLE_MOUSE_BUTTON = "newplayertutorial-icon-mouse-middlebutton",
     OPTIONS_ICON = "mechagon-projects",
+    CHECKMARK = "common-icon-checkmark",
+    CROSS = "common-icon-redx",
 }
 
 PvPAssistant.CONST.SPEC_ID_LIST = {
