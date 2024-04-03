@@ -15,7 +15,7 @@ function PvPAssistant.SPEC_LOOKUP:Init()
 
         PvPAssistant.SPEC_LOOKUP.lookupTable[specNameM .. " " .. className] = specID
         PvPAssistant.SPEC_LOOKUP.lookupTable[specNameF .. " " .. className] =
-        specID                                                                       -- if its the same its just overwriting
+            specID -- if its the same its just overwriting
     end
 end
 

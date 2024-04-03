@@ -5,6 +5,13 @@ local GGUI = PvPAssistant.GGUI
 local GUTIL = PvPAssistant.GUTIL
 local f = GUTIL:GetFormatter()
 
+---@class PvPAssistant
+local PvPAssistant = select(2, ...)
+
+local GGUI = PvPAssistant.GGUI
+local GUTIL = PvPAssistant.GUTIL
+local f = GUTIL:GetFormatter()
+
 ---@class PvPAssistant.PvPInfo
 PvPAssistant.PVPINFO = PvPAssistant.PVPINFO
 
@@ -15,7 +22,7 @@ function PvPAssistant.PVPINFO.FRAMES:Init()
     if not PVPUIFrame then
         error("PVPUIFrame not found")
     end
-    local sizeX, sizeY = 285, PVPUIFrame:GetHeight() -100
+    local sizeX, sizeY = 285, PVPUIFrame:GetHeight() - 100
     PvPAssistant.PVPINFO.frame = GGUI.Frame {
         parent = PVPUIFrame, anchorParent = PVPUIFrame,
         anchorA = "TOPLEFT", anchorB = "TOPRIGHT", offsetX = 0, offsetY = 0, sizeX = sizeX, sizeY = sizeY,
