@@ -41,3 +41,4 @@ Modules/SpellTooltip/SpellTooltip.lua
 Modules/ArenaGuide/ArenaGuide.lua
 Modules/ArenaGuide/Frames.lua
 Modules/AddonUpdateNotifier/AddonUpdateNotifier.lua
+Modules/ArenaQuickJoin/ArenaQuickJoin.lua
