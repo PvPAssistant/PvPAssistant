@@ -152,9 +152,6 @@ function PvPAssistant.MatchHistory:UpdateTooltipFrame(tFrame)
     local tooltipFrame = tFrame.contentFrame --[[@as GGUI.Frame]]
     local content = tooltipFrame.content --[[@as PvPAssistant.MAIN_FRAME.TooltipFrame.Content]]
 
-    -- debug test
-    tooltipFrame.frame.hookFrame:Show()
-
     local playerList = content.playerList
 
     playerList:Remove()
