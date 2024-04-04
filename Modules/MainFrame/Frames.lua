@@ -841,7 +841,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
             pushed = 'Warfronts-BaseMapIcons-Alliance-Armory-Minimap',
         },
         optionsTable = abilitiesTab.typeFilters,
-        optionsKey = PvPAssistant.CONST.ABILITY_TYPES.DEF,
+        optionsKey = PvPAssistant.CONST.ABILITY_TYPES.DEFENSIVE,
         onToggleCallback = function()
             self:UpdateAbilityData()
         end
@@ -864,7 +864,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:InitAbilitiesCatalogueTab()
             pushed = 'Warfronts-BaseMapIcons-Horde-Barracks-Minimap',
         },
         optionsTable = abilitiesTab.typeFilters,
-        optionsKey = PvPAssistant.CONST.ABILITY_TYPES.OFF,
+        optionsKey = PvPAssistant.CONST.ABILITY_TYPES.OFFENSIVE,
         onToggleCallback = function()
             self:UpdateAbilityData()
         end

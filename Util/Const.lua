@@ -484,13 +484,15 @@ PvPAssistant.CONST.ABILITY_SUB_TYPES = {
     KNOCKBACK = "KNOCKBACK",
     DISPEL = "DISPEL",
     BUFF = "BUFF",
+    DEFENSIVE = "DEFENSIVE", -- TODO: Remove Placeholder for subtypes like "IMMUNITY" on def spells
+    OFFENSIVE = "OFFENSIVE"  -- TODO: Remove Placeholder for subtypes like "BURST" on def spells
 }
 
 ---@enum PvPAssistant.AbilityTypes
 PvPAssistant.CONST.ABILITY_TYPES = {
     CC = "CC",
-    DEF = "DEF",
-    OFF = "OFF",
+    DEFENSIVE = "DEFENSIVE",
+    OFFENSIVE = "OFFENSIVE",
 }
 
 ---@enum PvPAssistant.PVPSeverity
