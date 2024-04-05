@@ -86,64 +86,66 @@ PvPAssistant.CONST.BACKDROPS = {
 
 ---@type GGUI.BackdropOptions
 PvPAssistant.CONST.PVPINFO_BACKDROP = {
-    borderOptions = {
+    backdropInfo = {
+        bgFile = "Interface/Buttons/WHITE8x8",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
         insets = { left = 0, right = 0, top = 0, bottom = 0 },
     },
-    bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
-    colorR = 0.2,
-    colorG = 0.2,
-    colorB = 0.2,
-    colorA = 0.8,
+    backdropRGBA = {
+        0,
+        0,
+        0.05,
+        0.5,
+    }
 }
 ---@type GGUI.BackdropOptions
 PvPAssistant.CONST.ARENA_GUIDE_BACKDROP = {
-    borderOptions = {
+    backdropInfo = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
         insets = { left = 0, right = 0, top = 0, bottom = 0 },
+        bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
     },
-    bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
-    colorR = 0.2,
-    colorG = 0.2,
-    colorB = 0.2,
-    colorA = 1,
+    backdropRGBA = {
+        0.2, 0.2, 0.2, 1
+    }
 }
 ---@type GGUI.BackdropOptions
 PvPAssistant.CONST.MAIN_FRAME_BACKDROP = {
-    borderOptions = {
+    backdropInfo = {
+        bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
         insets = { left = 0, right = 0, top = 0, bottom = 0 },
     },
-    bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
-    colorR = 0.2,
-    colorG = 0.2,
-    colorB = 0.2,
-    colorA = 1,
+    backdropRGBA = {
+        0.2, 0.2, 0.2, 1
+    },
 }
 ---@type GGUI.BackdropOptions
 PvPAssistant.CONST.TOOLTIP_FRAME_BACKDROP = {
-    bgFile = "Interface\\Buttons\\WHITE8X8",
-    colorR = 0.816,
-    colorG = 0.863,
-    colorB = 0.961,
-    colorA = 0.08,
+    backdropInfo = {
+        bgFile = "Interface\\Buttons\\WHITE8X8",
+    },
+    backdropRGBA = {
+        0.816, 0.863, 0.961, 0.08
+    },
 }
 ---@type GGUI.BackdropOptions
 PvPAssistant.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A = {
-    bgFile = "Interface\\Buttons\\WHITE8X8",
-    colorR = 0.816,
-    colorG = 0.863,
-    colorB = 0.961,
-    colorA = 0.08,
+    backdropInfo = {
+        bgFile = "Interface\\Buttons\\WHITE8X8",
+    },
+    backdropRGBA = {
+        0.816, 0.863, 0.961, 0.08
+    },
 }
 
 ---@type GGUI.BackdropOptions
 PvPAssistant.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP = {
-    bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
-    borderOptions = {
+    backdropInfo = {
+        bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
         insets = {
             top = 0,
             bottom = 0,
@@ -151,75 +153,86 @@ PvPAssistant.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP = {
             right = 0,
         },
     },
-    colorR = 0.3,
-    colorG = 0.3,
-    colorB = 0.32,
-    colorA = 1,
+    backdropRGBA = {
+        0.3,
+        0.3,
+        0.32,
+        1,
+    },
 }
 
 ---@type GGUI.BackdropOptions
 PvPAssistant.CONST.HISTORY_FRAME_INNER_BORDER_BACKDROP = {
-    borderOptions = {
+    backdropInfo = {
         edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
         edgeSize = 16,
     },
-    colorR = 0,
-    colorG = 0,
-    colorB = 0,
-    colorA = 0,
+    backdropRGBA = {
+        0, 0, 0, 0,
+    },
 }
 
 ---@type GGUI.BackdropOptions
 PvPAssistant.CONST.FILTER_FRAME_BACKDROP = {
-    bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024x128",
-    colorR = 0.176,
-    colorG = 0.176,
-    colorB = 0.184,
-    colorA = 1,
+    backdropInfo = {
+        bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024x128",
+    },
+    backdropRGBA = {
+        0.176,
+        0.176,
+        0.184,
+        1,
+    },
 }
 
 ---@type GGUI.BackdropOptions
 PvPAssistant.CONST.STRAGETY_TEXT_BACKDROP = {
-    bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024x128",
-    colorR = 0.176,
-    colorG = 0.176,
-    colorB = 0.184,
-    colorA = 1,
+    backdropInfo = {
+        bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024x128",
+    },
+    backdropRGBA = {
+        0.176,
+        0.176,
+        0.184,
+        1,
+    },
 }
 
 ---@type GGUI.BackdropOptions
 PvPAssistant.CONST.HISTORY_TITLE_BACKDROP = {
-    borderOptions = {
+    backdropInfo = {
         edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
         edgeSize = 32,
         insets = { left = 5, right = 5, top = 5, bottom = 5 },
-        colorR = 1,
-        colorG = 1,
-        colorB = 1,
-        colorA = 1,
+        bgFile = "Interface\\Buttons\\WHITE8X8",
+        tile = true,
+        tileSize = 32,
     },
-    bgFile = "Interface\\Buttons\\WHITE8X8",
-    tile = true,
-    tileSize = 32,
-    colorR = 0,
-    colorG = 0,
-    colorB = 0,
-    colorA = 0.8,
+    borderRGBA = { 1, 1, 1, 1 },
+    backdropRGBA = { 0, 0, 0, 0.8 },
 }
 ---@type GGUI.BackdropOptions
 PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B = {
-    bgFile = "Interface\\Buttons\\WHITE8X8",
-    colorR = 0.816,
-    colorG = 0.863,
-    colorB = 0.961,
-    colorA = 0.08,
+    backdropInfo = {
+        bgFile = "Interface\\Buttons\\WHITE8X8",
+    },
+    backdropRGBA = {
+        0.816,
+        0.863,
+        0.961,
+        0.08,
+    },
 }
 PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A = {
-    bgFile = "Interface\\Buttons\\WHITE8X8",
-    colorR = 0.2,
-    colorG = 0.2,
-    colorB = 0.2,
-    colorA = 1,
+    backdropInfo = {
+        bgFile = "Interface\\Buttons\\WHITE8X8",
+    },
+    backdropRGBA = {
+        0.2,
+        0.2,
+        0.2,
+        1,
+    },
 }
 
 PvPAssistant.CONST.RATING_ICON_MAP = {
