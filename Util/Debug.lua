@@ -172,7 +172,7 @@ function PvPAssistant.DEBUG:CreatePlayerDummyData()
 end
 
 ---@return PvPAssistant
-function PvPAssistant.DEBUG:RUN()
+function PvPAssistant.DEBUG:Get()
     return PvPAssistant
 end
 
