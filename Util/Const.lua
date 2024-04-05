@@ -95,8 +95,8 @@ PvPAssistant.CONST.PVPINFO_BACKDROP = {
     backdropRGBA = {
         0,
         0,
-        0.3,
-        0.2,
+        0.05,
+        0.5,
     }
 }
 ---@type GGUI.BackdropOptions

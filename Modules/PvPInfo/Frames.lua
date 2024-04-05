@@ -22,11 +22,21 @@ function PvPAssistant.PVPINFO.FRAMES:Init()
     if not PVPUIFrame then
         error("PVPUIFrame not found")
     end
-    local sizeX, sizeY = 285, PVPUIFrame:GetHeight() - 100
+    local sizeX, sizeY = 285, 160
+
+    ---@type GGUI.AnchorPoint[]
+    local anchorPoints = { { anchorParent = PVPUIFrame, anchorA = "TOPLEFT", anchorB = "TOPRIGHT" } }
+
+    if RaiderIO_ProfileTooltip then
+        anchorPoints = { {
+            anchorParent = RaiderIO_ProfileTooltip,
+            anchorA = "TOPLEFT",
+            anchorB = "BOTTOMLEFT"
+        } }
+    end
     PvPAssistant.PVPINFO.frame = GGUI.Frame {
-        parent = PVPUIFrame, anchorParent = PVPUIFrame,
-        anchorA = "TOPLEFT", anchorB = "TOPRIGHT", offsetX = 0, offsetY = 0, sizeX = sizeX, sizeY = sizeY,
-        moveable = false, frameConfigTable = PvPAssistantGGUIConfig, frameID = PvPAssistant.CONST.FRAMES.PVPINFO,
+        parent = PVPUIFrame, anchorPoints = anchorPoints, sizeX = sizeX, sizeY = sizeY,
+        frameConfigTable = PvPAssistantGGUIConfig, frameID = PvPAssistant.CONST.FRAMES.PVPINFO,
         frameTable = PvPAssistant.MAIN.FRAMES,
         backdropOptions = PvPAssistant.CONST.PVPINFO_BACKDROP
     }
@@ -34,26 +44,9 @@ function PvPAssistant.PVPINFO.FRAMES:Init()
     local content = PvPAssistant.PVPINFO.frame.content
 
 
-    content.titleLogo = PvPAssistant.UTIL:CreateLogo(content,
-        {
-            {
-                anchorParent = content,
-                anchorA = "TOP",
-                anchorB = "TOP",
-                offsetX = 5,
-                offsetY = -10,
-            }
-        })
-
-
-    content.honorValue = GGUI.Text {
-        parent = content, anchorPoints = { { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = -50, } },
-        scale = 1.3,
-    }
-
-    content.ratedPvPHeader = GGUI.Text {
-        parent = content, anchorPoints = { { anchorParent = content.honorValue.frame, anchorA = "TOP", anchorB = "BOTTOM", offsetY = -20, } },
-        scale = 1.3, text = f.l("Rated PvP")
+    content.titleText = GGUI.Text {
+        parent = content, anchorPoints = { { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = -8 } },
+        text = f.bb("PvPAssistant"),
     }
 
     content.ratingList = GGUI.FrameList {
@@ -106,23 +99,16 @@ function PvPAssistant.PVPINFO.FRAMES:Init()
         end,
         disableScrolling = true,
         parent = content,
-        sizeY = 300,
-        anchorPoints = { { anchorParent = content.ratedPvPHeader.frame, anchorA = "TOP", anchorB = "BOTTOM", offsetY = -30, offsetX = 0, } },
+        sizeY = 130,
+        anchorPoints = { { anchorParent = content, anchorA = "TOP", anchorB = "TOP", offsetY = -45, offsetX = 0, } },
         hideScrollbar = true,
-        rowBackdrops = { PvPAssistant.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} },
-        selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
     }
 end
 
 function PvPAssistant.PVPINFO.FRAMES:UpdateDisplay()
     local ratingList = PvPAssistant.PVPINFO.frame.content.ratingList --[[@as GGUI.FrameList]]
-    local honorValue = PvPAssistant.PVPINFO.frame.content.honorValue --[[@as GGUI.Text]]
     local personalRatedInfo = PvPAssistant.PVPINFO:GetPersonalRatingInfo()
-    local maxHonor = UnitHonorMax("player") or 0
-    local curHonor = UnitHonor("player") or 0
-    local honorLevel = UnitHonorLevel("player") or 0
 
-    honorValue:SetText(f.patreon("Honor Level " .. honorLevel .. "\n\n") .. f.r(curHonor .. " / " .. maxHonor))
     ratingList:Remove()
     for mode, ratedInfo in GUTIL:OrderedPairs(personalRatedInfo, function(a, b) return a > b end) do
         ratingList:Add(function(row, columns)
@@ -131,8 +117,7 @@ function PvPAssistant.PVPINFO.FRAMES:UpdateDisplay()
             local scoreColumn = columns[3]
             local seasonBestColumn = columns[4]
 
-            typeColumn.text:SetText(CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.TOOLTIP_SWORD) ..
-                "  " .. PvPAssistant.CONST.PVP_MODES_NAMES[mode])
+            typeColumn.text:SetText(PvPAssistant.CONST.PVP_MODES_NAMES[mode])
             ratingColumn.text:SetText(f.l(ratedInfo.rating or 0))
             local seasonWon = ratedInfo.seasonWon or 0
             local seasonLost = (ratedInfo.seasonPlayed or 0) - seasonWon
