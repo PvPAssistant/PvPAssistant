@@ -24,7 +24,7 @@ Util/DataCollection.lua
 
 Data/AbilityData.lua
 Data/ArenaStrategies.lua
-Data/PvPData.lua
+PvPData/PvPData.lua
 
 Classes/MatchHistory.lua
 
