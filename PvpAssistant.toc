@@ -40,3 +40,5 @@ Modules/PlayerTooltip/PlayerTooltip.lua
 Modules/SpellTooltip/SpellTooltip.lua
 Modules/ArenaGuide/ArenaGuide.lua
 Modules/ArenaGuide/Frames.lua
+Modules/PlayerRecommendation/PlayerRecommendation.lua
+Modules/PlayerRecommendation/Frames.lua
