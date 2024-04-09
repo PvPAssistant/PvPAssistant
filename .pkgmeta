@@ -7,6 +7,7 @@ externals:
   Libs/LibDBIcon-1.0: https://repos.curseforge.com/wow/libdbicon-1-0/trunk
   Libs/GUTIL: https://github.com/derfloh205/GUTIL.git
   Libs/GGUI: https://github.com/derfloh205/GGUI.git
+  Data/PvPData.lua: https://github.com/PvPAssistant/PvPData.git
 
 ignore:
   - Libs/LibStub.lua

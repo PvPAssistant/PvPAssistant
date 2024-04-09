@@ -253,3 +253,25 @@ function PvPAssistant.UTIL:CreateClassFilterFrame(options)
 
     return classFilterFrame, activeClassFiltersTable
 end
+
+function PvPAssistant.UTIL:CamelCaseToDashSeparated(str)
+    local result = ""
+    local prevCharWasUpperCase = false
+
+    for i = 1, #str do
+        local char = string.sub(str, i, i)
+        if char:match("%u") then -- Check if the character is uppercase
+            if not prevCharWasUpperCase then
+                result = result .. "-" .. char:lower()
+            else
+                result = result .. char:lower()
+            end
+            prevCharWasUpperCase = true
+        else
+            result = result .. char
+            prevCharWasUpperCase = false
+        end
+    end
+
+    return result
+end

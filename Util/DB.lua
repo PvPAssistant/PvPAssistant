@@ -28,18 +28,6 @@ PvPAssistant.DB.CHARACTER_DATA = {}
 
 ---@alias PlayerUID string -- PlayerName-NormalizedServerName
 
----@class PvPAssistant.PlayerTooltipData.ModeData
----@field rating number
----@field win number
----@field loss number
----@field exp number
-
----@class PvPAssistant.PlayerTooltipData
----@field ratingData table<PvPAssistant.Const.PVPModes, PvPAssistant.PlayerTooltipData.ModeData>
-
----@class PvPAssistant.DB.PLAYER_DATA
-PvPAssistant.DB.PLAYER_DATA = {}
-
 ---@class PvPAssistant.CharacterData
 ---@field name string
 ---@field realm string
@@ -47,7 +35,6 @@ PvPAssistant.DB.PLAYER_DATA = {}
 
 ---@class PvPAssistantDB
 ---@field matchHistory PvPAssistantDB.Database
----@field playerData PvPAssistantDB.Database
 ---@field debugData PvPAssistantDB.Database
 ---@field tooltipOptions PvPAssistantDB.Database
 ---@field characterData PvPAssistantDB.Database
@@ -71,12 +58,8 @@ function PvPAssistant.DB:Init()
         }
     end
 
-    if not PvPAssistantDB.playerData then
-        PvPAssistantDB.playerData = {
-            version = 1,
-            ---@type table<PlayerUID, table<PvPAssistant.Const.PVPModes, InspectArenaData | InspectPVPData>>
-            data = {}
-        }
+    if PvPAssistantDB.playerData then
+        PvPAssistantDB.playerData = nil
     end
 
     if not PvPAssistantDB.debugData then
@@ -195,22 +178,6 @@ function PvPAssistant.DB.MATCH_HISTORY:ClearShuffleData()
     end
 end
 
----@param playerUID PlayerUID
----@return table<PvPAssistant.Const.PVPModes, InspectArenaData | InspectPVPData>?
-function PvPAssistant.DB.PLAYER_DATA:Get(playerUID)
-    return PvPAssistantDB.playerData.data[playerUID]
-end
-
----@param playerUID PlayerUID
----@param playerPvPData table<PvPAssistant.Const.PVPModes, InspectArenaData | InspectPVPData>
-function PvPAssistant.DB.PLAYER_DATA:Save(playerUID, playerPvPData)
-    PvPAssistantDB.playerData.data[playerUID] = playerPvPData
-end
-
-function PvPAssistant.DB.PLAYER_DATA:Clear()
-    wipe(PvPAssistantDB.playerData.data)
-end
-
 ---@param data table
 function PvPAssistant.DB.DEBUG:Add(data)
     tinsert(PvPAssistantDB.debugData.data, data)
@@ -240,7 +207,7 @@ function PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Get(mode)
     return PvPAssistantDB.tooltipOptions.data.playerTooltip[mode]
 end
 
----@param mode
+---@param mode PvPAssistant.OPTIONS.SPELL_TOOLTIP.KEYS
 ---@return boolean enabled
 function PvPAssistant.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Get(mode)
     return PvPAssistantDB.tooltipOptions.data.spellTooltip[mode]
