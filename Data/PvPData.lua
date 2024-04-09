@@ -2,7 +2,7 @@
 local PvPAssistant = select(2, ...)
 
 --- 2v2,3v3,rbg,shuffle-1,shuffle-2,shuffle-3,shuffle-4
-PvPAssistant.PvPData = {
+PvPAssistant.PvPDATA = {
 	["Opp-tichondrius"] = {1916,2245,0,2250,0,543},
 	["Robbo-tichondrius"] = {2159,2259,0,2242,0,1626},
 	["Wobbo-moon-guard"] = {2165,2073,0,2096,0,2518},
