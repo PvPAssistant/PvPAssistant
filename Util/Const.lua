@@ -53,6 +53,17 @@ PvPAssistant.CONST.PVP_MODES_BRACKET_IDS = {
     BATTLEGROUND = 4,
 }
 
+--- 2v2,3v3,rbg,shuffle-1,shuffle-2,shuffle-3,shuffle-4 (shuffles are per spec of that player)
+PvPAssistant.CONST.PVP_DATA_BRACKET_ORDER = {
+    "TWOS",
+    "THREES",
+    "BATTLEGROUND",
+    "SOLO_SHUFFLE_1",
+    "SOLO_SHUFFLE_2",
+    "SOLO_SHUFFLE_3",
+    "SOLO_SHUFFLE_4",
+}
+
 PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA = { 1, 1, 1, 0.1 }
 
 ---@type table<string, GGUI.BackdropOptions>
