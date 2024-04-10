@@ -84,7 +84,7 @@ local joinMacroButton, configureMacroButton, selectedBracketButton
 frame:SetScript("OnEvent", function(_, eventName, ...)
     if eventName == "PLAYER_LOGIN" then
         do
-            local eventsRegistered
+            local isEventsRegistered
             local parent = PvPAssistant.MAIN_FRAME:GetParentFrame()
             
             joinMacroButton = CreateFrame("Button", "PvPAssistant_ArenaQuickJoinMacroButton", parent,
@@ -96,7 +96,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                 frame:RegisterEvent("PLAYER_REGEN_ENABLED")
                 frame:RegisterEvent("GROUP_ROSTER_UPDATE")
                 frame:RegisterEvent("MODIFIER_STATE_CHANGED")
-                eventsRegistered = true
+                isEventsRegistered = true
             end
         
             local function UnregisterEvents()
@@ -105,7 +105,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                 frame:UnregisterEvent("PLAYER_REGEN_ENABLED")
                 frame:UnregisterEvent("GROUP_ROSTER_UPDATE")
                 frame:UnregisterEvent("MODIFIER_STATE_CHANGED")
-                eventsRegistered = false
+                isEventsRegistered = false
             end
 
             function joinMacroButton:Active(style)
@@ -122,7 +122,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                     if isLoaded then
                         self:Active("normal")
                     end
-                    if not eventsRegistered then
+                    if not isEventsRegistered then
                         RegisterEvents()
                     end
                 end
