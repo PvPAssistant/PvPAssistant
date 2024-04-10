@@ -62,3 +62,8 @@ end
 function PvPAssistant.MATCH_HISTORY:GetSelectedCharacterUID()
     return self.matchHistoryTab.content.characterDropdown.selectedValue
 end
+
+---@return number specID?
+function PvPAssistant.MATCH_HISTORY:GetSelectedSpecID()
+    return self.matchHistoryTab.content.specDropdown.selectedValue
+end
