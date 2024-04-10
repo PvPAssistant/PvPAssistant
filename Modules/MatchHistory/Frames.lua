@@ -5,7 +5,7 @@ local GGUI = PvPAssistant.GGUI
 local GUTIL = PvPAssistant.GUTIL
 local f = GUTIL:GetFormatter()
 
----@class MATCH_HISTORY
+---@class PvPAssistant.MATCH_HISTORY
 PvPAssistant.MATCH_HISTORY = PvPAssistant.MATCH_HISTORY
 
 ---@class PvPAssistant.MATCH_HISTORY.FRAMES

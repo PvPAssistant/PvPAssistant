@@ -6,7 +6,7 @@ local GGUI = PvPAssistant.GGUI
 local GUTIL = PvPAssistant.GUTIL
 local f = GUTIL:GetFormatter()
 
----@class MAIN_FRAME
+---@class PvPAssistant.MAIN_FRAME
 PvPAssistant.MAIN_FRAME = PvPAssistant.MAIN_FRAME
 
 ---@class PvPAssistant.MAIN_FRAME.FRAMES
@@ -50,56 +50,13 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
 
     ---@class PvPAssistant.MAIN_FRAME.CONTENT : Frame
     frame.content = frame.content
-    local tabContentOffsetY = -50
 
     frame.content.matchHistoryTab = PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
     frame.content.abilitiesTab = PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
+    frame.content.gearGuideTab = PvPAssistant.GEAR_GUIDE.FRAMES:InitGearGuideTab()
+    frame.content.optionsTab = PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
 
-    ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE_TAB : GGUI.Tab
-    frame.content.gearCatalogueTab = GGUI.Tab {
-        parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
-        sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
-        buttonOptions = {
-            label = GUTIL:ColorizeText("Gear Guide", GUTIL.COLORS.WHITE),
-            parent = frame.content,
-            anchorParent = frame.content.abilitiesTab.button.frame,
-            anchorA = "LEFT",
-            anchorB = "RIGHT",
-            adjustWidth = true,
-            sizeX = 15,
-            offsetX = 10,
-            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
-            fontOptions = {
-                fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
-            },
-            scale = tabButtonScale,
-        }
-    }
-    ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE.CONTENT
-    frame.content.gearCatalogueTab.content = frame.content.gearCatalogueTab.content
-    local gearCatalogueTab = frame.content.gearCatalogueTab
-    ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE.CONTENT
-    gearCatalogueTab.content = gearCatalogueTab.content
-
-    ---@class PvPAssistant.MAIN_FRAME.OPTIONS_TAB : GGUI.Tab
-    frame.content.optionsTab = GGUI.Tab {
-        parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
-        sizeX = sizeX, sizeY = sizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
-        buttonOptions = {
-            label = CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.OPTIONS_ICON, 18, 18, 0, -1),
-            anchorPoints = { {
-                anchorParent = frame.content,
-                anchorA = "TOPRIGHT",
-                anchorB = "TOPRIGHT",
-                offsetY = -8,
-                offsetX = -35,
-            } },
-            parent = frame.content,
-            sizeX = 20, sizeY = 20,
-            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.OPTIONS_BUTTON,
-            scale = tabButtonScale,
-        }
-    }
+    GGUI.TabSystem { frame.content.matchHistoryTab, frame.content.abilitiesTab, frame.content.gearGuideTab, frame.content.optionsTab }
 
     frame.content.discordButton = GGUI.Button {
         parent = frame.content, anchorPoints = { { anchorParent = frame.content.optionsTab.button.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -6, } },
@@ -131,16 +88,6 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
         end
     }
 
-
-
-    ---@class PvPAssistant.MAIN_FRAME.OPTIONS_TAB.CONTENT
-    frame.content.optionsTab.content = frame.content.optionsTab.content
-    local optionsTab = frame.content.optionsTab
-    ---@class PvPAssistant.MAIN_FRAME.OPTIONS_TAB.CONTENT
-    optionsTab.content = optionsTab.content
-
-    GGUI.TabSystem { frame.content.matchHistoryTab, frame.content.abilitiesTab, gearCatalogueTab, optionsTab }
-
     frame.content.closeButton = GGUI.Button {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
         offsetX = -8, offsetY = -8,
@@ -156,19 +103,5 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
         end
     }
 
-    PvPAssistant.MAIN_FRAME.FRAMES:InitGearCatalogue()
-    PvPAssistant.OPTIONS:InitOptionsTab()
-
     frame:Hide()
-end
-
-function PvPAssistant.MAIN_FRAME.FRAMES:InitGearCatalogue()
-    local gearCatalogueTab = PvPAssistant.MAIN_FRAME.frame.content.gearCatalogueTab
-    ---@class PvPAssistant.MAIN_FRAME.GEAR_CATALOGUE_TAB.CONTENT
-    gearCatalogueTab.content = gearCatalogueTab.content
-
-    gearCatalogueTab.content.wip = GGUI.Text {
-        parent = gearCatalogueTab.content, anchorPoints = { { anchorParent = gearCatalogueTab.content, offsetY = 60 } },
-        text = f.l("WORK IN PROGRESS")
-    }
 end

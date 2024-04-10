@@ -5,7 +5,7 @@ local GGUI = PvPAssistant.GGUI
 local GUTIL = PvPAssistant.GUTIL
 local f = GUTIL:GetFormatter()
 
----@class ABILITY_CATALOGUE
+---@class PvPAssistant.ABILITY_CATALOGUE
 PvPAssistant.ABILITY_CATALOGUE = PvPAssistant.ABILITY_CATALOGUE
 
 ---@class PvPAssistant.ABILITY_CATALOGUE.FRAMES
