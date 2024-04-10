@@ -94,7 +94,7 @@ function PvPAssistant.MAIN:InitializeSlashCommands()
 
         if command == "characters" and rest == "clear" then
             print(f.l("PvPAssistant ") .. ": Character Data Cleared")
-            PvPAssistant.DB.CHARACTER_DATA:Clear()
+            PvPAssistant.DB.CHARACTERS:Clear()
         end
 
         if command == "guide" then
@@ -125,7 +125,7 @@ function PvPAssistant.MAIN:ADDON_LOADED(addon_name)
 end
 
 function PvPAssistant.MAIN:PLAYER_ENTERING_WORLD()
-    PvPAssistant.DB.CHARACTER_DATA:Init()
+    PvPAssistant.DB.CHARACTERS:Init()
     PvPAssistant.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
 
     PvPAssistant.SPEC_LOOKUP:Init()

@@ -18,9 +18,14 @@ Libs/Libs.lua
 Util/Debug.lua
 Util/Const.lua
 Util/Util.lua
-Util/DB.lua
 Util/SpecLookup.lua
 Util/DataCollection.lua
+
+DB/DB.lua
+DB/MatchHistoryDB.lua
+DB/TooltipOptionsDB.lua
+DB/CharactersDB.lua
+DB/DebugDB.lua
 
 Data/AbilityData.lua
 Data/ArenaStrategies.lua

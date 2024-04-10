@@ -248,5 +248,5 @@ function PvPAssistant.DEBUG:GatherDebugAPIDataFromMatchEnd()
     }
 
     PvPAssistant.DEBUG:DebugTable(apiData, "GatheredAPIData " .. (GetTimePreciseSec() * 1000))
-    PvPAssistant.DB.DEBUG:Add(apiData)
+    PvPAssistant.DB.DEBUG:Save(apiData)
 end
