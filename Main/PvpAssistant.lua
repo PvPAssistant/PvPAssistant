@@ -87,17 +87,12 @@ function PvPAssistant.MAIN:InitializeSlashCommands()
             PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
         end
 
-        if command == "tooltips" and rest == "clear" then
-            print(f.l("PvPAssistant ") .. ": Player Tooltip Data Cleared")
-            PvPAssistant.DB.PLAYER_DATA:Clear()
-        end
-
         if command == "characters" and rest == "clear" then
             print(f.l("PvPAssistant ") .. ": Character Data Cleared")
             PvPAssistant.DB.CHARACTERS:Clear()
         end
 
-        if command == "guide" then
+        if command == "arenaguide" then
             if C_PvP.IsArena() or PvPAssistant.ARENA_GUIDE.debug then
                 PvPAssistant.ARENA_GUIDE.frame:Show()
                 PvPAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
@@ -107,8 +102,9 @@ function PvPAssistant.MAIN:InitializeSlashCommands()
         end
 
         if command == "debug" then
-            PvPAssistantOptions.enableDebug = not PvPAssistantOptions.enableDebug
-            print(f.l("PvPAssistant ") .. ": Toggle Debug Mode " .. tostring(PvPAssistantOptions.enableDebug))
+            local debugEnabled = PvPAssistant.DB.GENERAL_OPTIONS:Get("DEBUG")
+            PvPAssistant.DB.GENERAL_OPTIONS:Save("DEBUG", not debugEnabled)
+            print(f.l("PvPAssistant ") .. ": Toggle Debug Mode " .. tostring(debugEnabled))
         end
 
         if command == "" then

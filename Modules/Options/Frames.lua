@@ -123,9 +123,9 @@ function PvPAssistant.OPTIONS.FRAMES:InitArenaGuideTab(arenaGuideTab)
             text = f.white("Enable the " .. f.e("Arena Quick Guide")),
         },
         tooltip = f.white("If enabled, the " .. f.l("PvPAssistant ") .. f.e("\nArena Quick Guide") .. " will appear in arena matches to give you useful information and hints"),
-        initialValue = PvPAssistantOptions.arenaGuideEnable,
+        initialValue = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_GUIDE_ENABLED"),
         clickCallback = function(_, checked)
-            PvPAssistantOptions.arenaGuideEnable = checked
+            PvPAssistant.DB.GENERAL_OPTIONS:Save("ARENA_GUIDE_ENABLED", checked)
         end
     }
 end

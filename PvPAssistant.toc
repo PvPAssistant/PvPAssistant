@@ -8,7 +8,7 @@
 ## X-Wago-ID: vNAex9No
 ## X-WoWI-ID: 
 ## IconTexture: Interface\Addons\PvPAssistant\Media\Images\icon1337
-## SavedVariables: PvPAssistantDB, PvPAssistantGGUIConfig, PvPAssistantOptions, PvPAssistantLibIconDB
+## SavedVariables: PvPAssistantDB, PvPAssistantGGUIConfig, PvPAssistantLibIconDB
 ## Dependencies: Blizzard_InspectUI
 ## OptionalDeps: DevTool
 ## Version: 1.0.2
@@ -25,6 +25,7 @@ DB/DB.lua
 DB/MatchHistoryDB.lua
 DB/TooltipOptionsDB.lua
 DB/CharactersDB.lua
+DB/GeneralOptionsDB.lua
 DB/DebugDB.lua
 
 Data/AbilityData.lua

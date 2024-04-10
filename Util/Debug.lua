@@ -179,7 +179,7 @@ end
 ---@param t table
 ---@param label string?
 function PvPAssistant.DEBUG:DebugTable(t, label)
-    if DevTool and PvPAssistantOptions.enableDebug then
+    if DevTool and PvPAssistant.DB.GENERAL_OPTIONS:Get("DEBUG") then
         DevTool:AddData(t, label)
     end
 end
@@ -203,7 +203,7 @@ end
 
 function PvPAssistant.DEBUG:GetDebugPrint()
     return function(text)
-        if PvPAssistantOptions.enableDebug then
+        if PvPAssistant.DB.GENERAL_OPTIONS:Get("DEBUG") then
             print(f.l("AL Debug: ") .. tostring(text))
         end
     end
