@@ -84,7 +84,7 @@ local joinMacroButton, configureMacroButton, selectedBracketButton
 frame:SetScript("OnEvent", function(_, eventName, ...)
     if eventName == "PLAYER_LOGIN" then
         do
-            local isEventsRegistered
+            local isEventsRegistered, isButtonGrayedOut
             local parent = PvPAssistant.MAIN_FRAME:GetParentFrame()
             
             joinMacroButton = CreateFrame("Button", "PvPAssistant_ArenaQuickJoinMacroButton", parent,
@@ -115,6 +115,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                     -- NOTE: Can't be called during combat.
                     self:RegisterForClicks('AnyUp', 'AnyDown')
                     self.icon:SetDesaturated(false)
+                    isButtonGrayedOut = false
                 else
                     -- NOTE: Can't be called during combat.
                     self:Show()
@@ -136,6 +137,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                     -- NOTE: We're using RegisterForClicks as opposed to Disable because when it's truly disabled OnEnter and OnLeave aren't fired.
                     self:RegisterForClicks()
                     self.icon:SetDesaturated(true)
+                    isButtonGrayedOut = true
                 else
                     -- NOTE: Can't be called during combat.
                     self:Hide()
@@ -147,6 +149,10 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
             function joinMacroButton:IsActivated()
                 local _, isLoaded = IsAddOnLoaded(PVPUI_ADDON_NAME)
                 return isLoaded and self:IsVisible()
+            end
+
+            function joinMacroButton:IsGrayedOut()
+                return isButtonGrayedOut
             end
 
             function joinMacroButton:SetTexture(texture)
