@@ -62,6 +62,14 @@ function PvPAssistant.DB.CHARACTERS:GetClass(characterUID)
     end
 end
 
+---@return number classID
+function PvPAssistant.DB.CHARACTERS:GetClassID(characterUID)
+    local class = self:GetClass(characterUID)
+    if class then
+        return PvPAssistant.CONST.CLASS_ID[class]
+    end
+end
+
 ---@return PvPAssistant.CharacterData[]
 function PvPAssistant.DB.CHARACTERS:GetAll()
     return PvPAssistantDB.characterData.data

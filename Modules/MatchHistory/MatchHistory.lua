@@ -10,7 +10,7 @@ PvPAssistant.MATCH_HISTORY = {}
 ---@type Frame
 PvPAssistant.MATCH_HISTORY.matchHistoryTooltipFrame = nil
 
-function PvPAssistant.MATCH_HISTORY:InitMatchHistoryCharacterDropdownData()
+function PvPAssistant.MATCH_HISTORY:InitMatchHistoryDropdownData()
     local matchHistoryTab = PvPAssistant.MAIN_FRAME.frame.content.matchHistoryTab
     local characterDropdown = matchHistoryTab.content.characterDropdown
 
@@ -25,6 +25,8 @@ function PvPAssistant.MATCH_HISTORY:InitMatchHistoryCharacterDropdownData()
         initialLabel = playerDropdownData.label,
         initialValue = playerDropdownData.value
     })
+
+    self.FRAMES:UpdateSpecializationDropdown()
 end
 
 ---@return GGUI.CustomDropdownData[] dropdownData
@@ -54,4 +56,9 @@ function PvPAssistant.MATCH_HISTORY:GetSelectedModeFilter()
     end
 
     return self.matchHistoryTab.content.pvpModeDropdown.selectedValue
+end
+
+---@return PlayerUID selectedCharacterUID?
+function PvPAssistant.MATCH_HISTORY:GetSelectedCharacterUID()
+    return self.matchHistoryTab.content.characterDropdown.selectedValue
 end
