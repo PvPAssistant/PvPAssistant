@@ -575,13 +575,17 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateSpecializationDropdown()
     local specDropdown = PvPAssistant.MATCH_HISTORY.matchHistoryTab.content.specDropdown
 
     local selectedCharacterUID = PvPAssistant.MATCH_HISTORY:GetSelectedCharacterUID()
-    local isCharacter = selectedCharacterUID == PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
 
     local specIconSize = 20
     local specIconOffsetY = -1
 
     ---@type GGUI.CustomDropdownData[]
-    local dropdownData = {}
+    local dropdownData = {
+        {
+            label = f.white("All"),
+            value = nil,
+        }
+    }
 
     local classID = PvPAssistant.DB.CHARACTERS:GetClassID(selectedCharacterUID)
     for i = 1, 4 do
@@ -605,20 +609,9 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateSpecializationDropdown()
         end
     end
 
-    if isCharacter then
-        local specID = PvPAssistant.UTIL:GetSpecializationIDByUnit("player")
-        local specInfo = { GetSpecializationInfoByID(specID) }
-        local specIcon = specInfo[4]
-        specDropdown:SetData({
-            data = dropdownData,
-            initialLabel = GUTIL:IconToText(specIcon, specIconSize, specIconSize, 0, specIconOffsetY),
-            initialValue = specID
-        })
-    else
-        specDropdown:SetData({
-            data = dropdownData,
-            initialLabel = dropdownData[1].label,
-            initialValue = dropdownData[1].value
-        })
-    end
+    specDropdown:SetData({
+        data = dropdownData,
+        initialLabel = f.white("All"),
+        initialValue = nil
+    })
 end
