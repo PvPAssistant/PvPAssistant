@@ -32,9 +32,18 @@ Media/Media.lua
 
 Main/PvPAssistant.lua
 
+
+Modules/MatchHistory/MatchHistory.lua
+Modules/MatchHistory/Frames.lua
+Modules/AbilityCatalogue/AbilityCatalogue.lua
+Modules/AbilityCatalogue/Frames.lua
+Modules/GearGuide/GearGuide.lua
+Modules/GearGuide/Frames.lua
 Modules/Options/Options.lua
+Modules/Options/Frames.lua
 Modules/MainFrame/MainFrame.lua
 Modules/MainFrame/Frames.lua
+
 Modules/PvPInfo/PvPInfo.lua
 Modules/PvPInfo/Frames.lua
 Modules/PlayerTooltip/PlayerTooltip.lua

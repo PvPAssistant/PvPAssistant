@@ -32,7 +32,7 @@ function PvPAssistant.DATA_COLLECTION:PVP_MATCH_COMPLETE()
 
     PvPAssistant.DB.MATCH_HISTORY:Save(matchHistory)
 
-    PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
+    PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
 end
 
 function PvPAssistant.DATA_COLLECTION:PLAYER_JOINED_PVP_MATCH()
