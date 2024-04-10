@@ -557,3 +557,20 @@ PvPAssistant.CONST.GENERAL_OPTION = {
     DEBUG = "DEBUG",
     ARENA_GUIDE_ENABLED = "ARENA_GUIDE_ENABLED"
 }
+
+---@type table<ClassFile, number>
+PvPAssistant.CONST.CLASS_ID = {
+    WARRIOR = 1,
+    PALADIN = 2,
+    HUNTER = 3,
+    ROGUE = 4,
+    PRIEST = 5,
+    DEATHKNIGHT = 6,
+    SHAMAN = 7,
+    MAGE = 8,
+    WARLOCK = 9,
+    MONK = 10,
+    DRUID = 11,
+    DEMONHUNTER = 12,
+    EVOKER = 13,
+}

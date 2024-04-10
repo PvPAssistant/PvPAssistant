@@ -126,7 +126,7 @@ function PvPAssistant.MAIN:PLAYER_ENTERING_WORLD()
 
     PvPAssistant.SPEC_LOOKUP:Init()
 
-    PvPAssistant.MATCH_HISTORY:InitMatchHistoryCharacterDropdownData()
+    PvPAssistant.MATCH_HISTORY:InitMatchHistoryDropdownData()
     PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
 
     PvPAssistant.DATA_COLLECTION.enableCombatLog = false
