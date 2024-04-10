@@ -143,11 +143,6 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                 end
             end
 
-            function joinMacroButton:CanBeActivated()
-                local _, isLoaded = IsAddOnLoaded(PVPUI_ADDON_NAME)
-                return isLoaded and not InCombat()
-            end
-
             function joinMacroButton:IsActivated()
                 local _, isLoaded = IsAddOnLoaded(PVPUI_ADDON_NAME)
                 return isLoaded and self:IsVisible()
