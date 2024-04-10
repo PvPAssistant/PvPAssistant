@@ -1,6 +1,5 @@
 ---@class PvPAssistant
 local PvPAssistant = select(2, ...)
-local addonName = select(1, ...)
 
 local GGUI = PvPAssistant.GGUI
 local GUTIL = PvPAssistant.GUTIL
@@ -147,6 +146,8 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
             },
         }
     }
+
+    PvPAssistant.MATCH_HISTORY.matchHistoryTab = frame.content.matchHistoryTab
 
     ---@class PvPAssistant.MAIN_FRAME.MATCH_HISTORY_TAB
     local matchHistoryTab = PvPAssistant.MAIN_FRAME.frame.content.matchHistoryTab
@@ -458,12 +459,12 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
 end
 
 function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
-    local matchHistoryTab = PvPAssistant.MAIN_FRAME.frame.content.matchHistoryTab
+    local matchHistoryTab = PvPAssistant.MATCH_HISTORY.matchHistoryTab
     local matchHistoryList = matchHistoryTab.content.matchHistoryList
 
     matchHistoryTab.content.matchHistoryList:Remove()
 
-    local pvpModeFilter = PvPAssistant.MAIN_FRAME:GetSelectedModeFilter()
+    local pvpModeFilter = PvPAssistant.MATCH_HISTORY:GetSelectedModeFilter()
     local selectedCharacterUID = PvPAssistant.MATCH_HISTORY:GetSelectedCharacterUID()
 
     local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
@@ -550,10 +551,5 @@ end
 
 ---@return PlayerUID selectedCharacterUID?
 function PvPAssistant.MATCH_HISTORY:GetSelectedCharacterUID()
-    local mainFrame = PvPAssistant.MAIN_FRAME.frame
-    if not mainFrame then
-        error("PvPAssistant Error: MainFrame not found")
-    end
-
-    return mainFrame.content.matchHistoryTab.content.characterDropdown.selectedValue
+    return self.matchHistoryTab.content.characterDropdown.selectedValue
 end

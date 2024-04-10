@@ -1,7 +1,6 @@
 ---@class PvPAssistant
 local PvPAssistant = select(2, ...)
 
-local GGUI = PvPAssistant.GGUI
 local GUTIL = PvPAssistant.GUTIL
 local f = GUTIL:GetFormatter()
 
@@ -45,4 +44,14 @@ function PvPAssistant.MATCH_HISTORY.SortPlayerBySpecRole(a, b)
     local prioB = PvPAssistant.CONST.SPEC_ROLE_SORT_PRIORITY[PvPAssistant.CONST.SPEC_ROLE_MAP[b.specID]]
 
     return prioA > prioB
+end
+
+---@return PvPAssistant.Const.PVPModes? pvpMode
+function PvPAssistant.MATCH_HISTORY:GetSelectedModeFilter()
+    local mainFrame = PvPAssistant.MAIN_FRAME.frame
+    if not mainFrame then
+        error("PvPAssistant Error: MainFrame not found")
+    end
+
+    return self.matchHistoryTab.content.pvpModeDropdown.selectedValue
 end

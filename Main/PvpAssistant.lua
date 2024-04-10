@@ -52,7 +52,7 @@ function PvPAssistant.MAIN:Init()
     PvPAssistant.MAIN_FRAME.FRAMES:Init()
     PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
 
-    PvPAssistant.GGUI:InitializePopup {
+    GGUI:InitializePopup {
         backdropOptions = PvPAssistant.CONST.MAIN_FRAME_BACKDROP,
         sizeX = 150, sizeY = 100,
         buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,

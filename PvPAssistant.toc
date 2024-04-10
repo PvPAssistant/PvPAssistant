@@ -36,6 +36,8 @@ Modules/Options/Options.lua
 
 Modules/MatchHistory/MatchHistory.lua
 Modules/MatchHistory/Frames.lua
+Modules/AbilityCatalogue/AbilityCatalogue.lua
+Modules/AbilityCatalogue/Frames.lua
 Modules/MainFrame/MainFrame.lua
 Modules/MainFrame/Frames.lua
 
