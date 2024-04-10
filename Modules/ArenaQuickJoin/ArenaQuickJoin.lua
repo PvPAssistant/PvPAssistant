@@ -80,10 +80,11 @@ local function ShowTooltipStateInfo(self, selectedBracketButton)
     GameTooltip:Show()
 end
 
-local joinMacroButton, configureMacroButton, selectedBracketButton, eventsRegistered
+local joinMacroButton, configureMacroButton, selectedBracketButton
 frame:SetScript("OnEvent", function(_, eventName, ...)
     if eventName == "PLAYER_LOGIN" then
         do
+            local eventsRegistered
             local parent = PvPAssistant.MAIN_FRAME:GetParentFrame()
             
             joinMacroButton = CreateFrame("Button", "PvPAssistant_ArenaQuickJoinMacroButton", parent,
