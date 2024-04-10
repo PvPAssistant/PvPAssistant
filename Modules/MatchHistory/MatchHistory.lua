@@ -27,6 +27,7 @@ function PvPAssistant.MATCH_HISTORY:InitMatchHistoryDropdownData()
     })
 
     self.FRAMES:UpdateSpecializationDropdown()
+    self.FRAMES:UpdateMapDropdown()
 end
 
 ---@return GGUI.CustomDropdownData[] dropdownData
@@ -37,6 +38,46 @@ function PvPAssistant.MATCH_HISTORY:GetCharacterDropdownData()
             value = characterUID,
         }
     end)
+end
+
+---@return GGUI.CustomDropdownData[] dropdownData
+function PvPAssistant.MATCH_HISTORY:GetMapDropdownData()
+    local selectedCharacterUID = self:GetSelectedCharacterUID()
+    local matchHistories = PvPAssistant.DB.MATCH_HISTORY:Get(selectedCharacterUID)
+
+    ---@type GGUI.CustomDropdownData[]
+    local dropdownData = {
+        {
+            label = f.white("All"),
+            value = nil
+        }
+    }
+
+    local mappedIDs = {}
+
+    for _, matchHistory in ipairs(matchHistories) do
+        local instanceID = matchHistory.mapInfo.instanceID
+
+        if not mappedIDs[instanceID] then
+            local mapAbbreviation = PvPAssistant.UTIL:GetMapAbbreviation(matchHistory.mapInfo.name)
+
+            ---@type GGUI.CustomDropdownData
+            local dData = {
+                label = f.r(mapAbbreviation),
+                value = instanceID,
+                tooltipOptions = {
+                    anchor = "ANCHOR_CURSOR_RIGHT",
+                    text = f.r(matchHistory.mapInfo.name)
+                }
+            }
+
+            tinsert(dropdownData, dData)
+
+            mappedIDs[instanceID] = true
+        end
+    end
+
+    return dropdownData
 end
 
 ---@param a PvPAssistant.Player
@@ -66,4 +107,9 @@ end
 ---@return number specID?
 function PvPAssistant.MATCH_HISTORY:GetSelectedSpecID()
     return self.matchHistoryTab.content.specDropdown.selectedValue
+end
+
+---@return number instanceID?
+function PvPAssistant.MATCH_HISTORY:GetSelectedMapInstanceID()
+    return self.matchHistoryTab.content.mapDropdown.selectedValue
 end

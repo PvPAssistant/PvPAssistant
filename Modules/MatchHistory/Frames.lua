@@ -395,6 +395,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
         anchorA = "BOTTOMLEFT", anchorB = "BOTTOMLEFT", width = 110, offsetX = 25, offsetY = 5,
         clickCallback = function(self, label, value)
             PvPAssistant.MATCH_HISTORY.FRAMES:UpdateSpecializationDropdown()
+            PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMapDropdown()
             PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
         end,
         buttonOptions = {
@@ -496,6 +497,33 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
         },
     }
 
+    matchHistoryTab.content.mapDropdown = GGUI.CustomDropdown {
+        parent = filterFrame.content, anchorParent = matchHistoryTab.content.pvpModeDropdown.frame.frame,
+        anchorA = "LEFT", anchorB = "RIGHT", width = 70, offsetX = 10,
+        clickCallback = function(self, label, value)
+            PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
+        end,
+        buttonOptions = {
+            parent = filterFrame.content,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DROPDOWN,
+            fontOptions = {
+                fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
+            },
+            sizeY = dropdownSizeY,
+            scale = dropdownScale,
+        },
+        arrowOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DROPDOWN_ARROW_OPTIONS,
+        selectionFrameOptions = {
+            backdropOptions = PvPAssistant.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP,
+            scale = dropdownScale,
+        },
+        labelOptions = {
+            text = f.white("Map"),
+            anchorA = "BOTTOM", anchorB = "TOP",
+            offsetY = 3,
+        },
+    }
+
     return matchHistoryTab
 end
 
@@ -508,6 +536,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
     local pvpModeFilter = PvPAssistant.MATCH_HISTORY:GetSelectedModeFilter()
     local selectedCharacterUID = PvPAssistant.MATCH_HISTORY:GetSelectedCharacterUID()
     local selectedSpecID = PvPAssistant.MATCH_HISTORY:GetSelectedSpecID()
+    local selectedInstanceID = PvPAssistant.MATCH_HISTORY:GetSelectedMapInstanceID()
 
     local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
     local matchHistories = PvPAssistant.DB.MATCH_HISTORY:Get(playerUID)
@@ -518,7 +547,8 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
                 selectedCharacterUID
             local isSelectedMode = pvpModeFilter == nil or matchHistory.pvpMode == pvpModeFilter
             local isSelectedSpec = selectedSpecID == nil or matchHistory.player.specID == selectedSpecID
-            return isSelectedCharacter and isSelectedMode and isSelectedSpec
+            local isSelectedMap = selectedInstanceID == nil or matchHistory.mapInfo.instanceID == selectedInstanceID
+            return isSelectedCharacter and isSelectedMode and isSelectedSpec and isSelectedMap
         end)
 
     local filteredHistory = GUTIL:Sort(filteredHistory, function(a, b)
@@ -634,5 +664,17 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateSpecializationDropdown()
         data = dropdownData,
         initialLabel = f.white("All"),
         initialValue = nil
+    })
+end
+
+function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMapDropdown()
+    local mapDropdown = PvPAssistant.MATCH_HISTORY.matchHistoryTab.content.mapDropdown
+
+    local dropdownData = PvPAssistant.MATCH_HISTORY:GetMapDropdownData()
+
+    mapDropdown:SetData({
+        data = dropdownData,
+        initialLabel = f.white("All"),
+        initialValue = nil,
     })
 end
