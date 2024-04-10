@@ -50,7 +50,7 @@ function PvPAssistant.MAIN:Init()
     PvPAssistant.PLAYER_TOOLTIP:Init()
     PvPAssistant.SPELL_TOOLTIP:Init()
     PvPAssistant.MAIN_FRAME.FRAMES:Init()
-    PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTooltipFrame()
+    PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
 
     PvPAssistant.GGUI:InitializePopup {
         backdropOptions = PvPAssistant.CONST.MAIN_FRAME_BACKDROP,
@@ -84,7 +84,7 @@ function PvPAssistant.MAIN:InitializeSlashCommands()
         if command == "history" and rest == "clear" then
             print(f.l("PvPAssistant") .. ": Match History Cleared")
             PvPAssistant.DB.MATCH_HISTORY:Clear()
-            PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
+            PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
         end
 
         if command == "tooltips" and rest == "clear" then
@@ -130,8 +130,8 @@ function PvPAssistant.MAIN:PLAYER_ENTERING_WORLD()
 
     PvPAssistant.SPEC_LOOKUP:Init()
 
-    PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryCharacterDropdownData()
-    PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
+    PvPAssistant.MATCH_HISTORY:InitMatchHistoryCharacterDropdownData()
+    PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
 
     PvPAssistant.DATA_COLLECTION.enableCombatLog = false
 end
