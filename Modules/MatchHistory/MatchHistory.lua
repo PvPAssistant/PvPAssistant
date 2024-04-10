@@ -29,7 +29,7 @@ end
 
 ---@return GGUI.CustomDropdownData[] dropdownData
 function PvPAssistant.MATCH_HISTORY:GetCharacterDropdownData()
-    return GUTIL:Map(PvPAssistant.DB.CHARACTER_DATA:GetAll(), function(characterData, characterUID)
+    return GUTIL:Map(PvPAssistant.DB.CHARACTERS:GetAll(), function(characterData, characterUID)
         return {
             label = f.class(characterData.name, characterData.class),
             value = characterUID,
