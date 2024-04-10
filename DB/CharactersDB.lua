@@ -22,7 +22,9 @@ function PvPAssistant.DB.CHARACTERS:Init()
             data = {}
         }
     end
+end
 
+function PvPAssistant.DB.CHARACTERS:InitData()
     local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
     local playerClass = select(2, UnitClass("player"))
     local name, realm = strsplit("-", playerUID)

@@ -121,7 +121,7 @@ function PvPAssistant.MAIN:ADDON_LOADED(addon_name)
 end
 
 function PvPAssistant.MAIN:PLAYER_ENTERING_WORLD()
-    PvPAssistant.DB.CHARACTERS:Init()
+    PvPAssistant.DB.CHARACTERS:InitData()
     PvPAssistant.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
 
     PvPAssistant.SPEC_LOOKUP:Init()
