@@ -50,9 +50,9 @@ function PvPAssistant.MAIN:Init()
     PvPAssistant.PLAYER_TOOLTIP:Init()
     PvPAssistant.SPELL_TOOLTIP:Init()
     PvPAssistant.MAIN_FRAME.FRAMES:Init()
-    PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryTooltipFrame()
+    PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
 
-    PvPAssistant.GGUI:InitializePopup {
+    GGUI:InitializePopup {
         backdropOptions = PvPAssistant.CONST.MAIN_FRAME_BACKDROP,
         sizeX = 150, sizeY = 100,
         buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
@@ -84,20 +84,15 @@ function PvPAssistant.MAIN:InitializeSlashCommands()
         if command == "history" and rest == "clear" then
             print(f.l("PvPAssistant") .. ": Match History Cleared")
             PvPAssistant.DB.MATCH_HISTORY:Clear()
-            PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
-        end
-
-        if command == "tooltips" and rest == "clear" then
-            print(f.l("PvPAssistant ") .. ": Player Tooltip Data Cleared")
-            PvPAssistant.DB.PLAYER_DATA:Clear()
+            PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
         end
 
         if command == "characters" and rest == "clear" then
             print(f.l("PvPAssistant ") .. ": Character Data Cleared")
-            PvPAssistant.DB.CHARACTER_DATA:Clear()
+            PvPAssistant.DB.CHARACTERS:Clear()
         end
 
-        if command == "guide" then
+        if command == "arenaguide" then
             if C_PvP.IsArena() or PvPAssistant.ARENA_GUIDE.debug then
                 PvPAssistant.ARENA_GUIDE.frame:Show()
                 PvPAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
@@ -107,8 +102,9 @@ function PvPAssistant.MAIN:InitializeSlashCommands()
         end
 
         if command == "debug" then
-            PvPAssistantOptions.enableDebug = not PvPAssistantOptions.enableDebug
-            print(f.l("PvPAssistant ") .. ": Toggle Debug Mode " .. tostring(PvPAssistantOptions.enableDebug))
+            local debugEnabled = PvPAssistant.DB.GENERAL_OPTIONS:Get("DEBUG")
+            PvPAssistant.DB.GENERAL_OPTIONS:Save("DEBUG", not debugEnabled)
+            print(f.l("PvPAssistant ") .. ": Toggle Debug Mode " .. tostring(debugEnabled))
         end
 
         if command == "" then
@@ -125,13 +121,13 @@ function PvPAssistant.MAIN:ADDON_LOADED(addon_name)
 end
 
 function PvPAssistant.MAIN:PLAYER_ENTERING_WORLD()
-    PvPAssistant.DB.CHARACTER_DATA:Init()
+    PvPAssistant.DB.CHARACTERS:Init()
     PvPAssistant.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
 
     PvPAssistant.SPEC_LOOKUP:Init()
 
-    PvPAssistant.MAIN_FRAME.FRAMES:InitMatchHistoryCharacterDropdownData()
-    PvPAssistant.MAIN_FRAME.FRAMES:UpdateMatchHistory()
+    PvPAssistant.MATCH_HISTORY:InitMatchHistoryCharacterDropdownData()
+    PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
 
     PvPAssistant.DATA_COLLECTION.enableCombatLog = false
 end
