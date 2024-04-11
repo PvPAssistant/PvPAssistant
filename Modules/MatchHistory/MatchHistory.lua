@@ -148,14 +148,37 @@ function PvPAssistant.MATCH_HISTORY:UpdateTooltipFrame(tFrame, matchHistory)
             local dmgColumn = columns[2]
             local healColumn = columns[3]
             local killColumn = columns[4]
+            local ratingColumn = columns[5]
 
             -- If i am the last player in my team show the separator line, otherwise hide
             row:SetSeparatorLine(playerIndex == playerTeamSize and not matchHistory.isSoloShuffle)
 
-            playerColumn.text:SetText(f.class(player.name, player.class))
+            local iconSize = 18
+
+            local specIcon = GUTIL:IconToText(select(4, GetSpecializationInfoByID(player.specID)), iconSize)
+            local raceIcon = CreateAtlasMarkup(PvPAssistant.RACE_LOOKUP:GetIcon(player.scoreData.raceName), iconSize,
+                iconSize)
+
+            playerColumn.text:SetText(raceIcon .. " " .. specIcon .. "  " .. f.class(player.name, player.class))
             dmgColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(player.scoreData.damageDone))
             healColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(player.scoreData.healingDone))
             killColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(player.scoreData.killingBlows))
+            local ratingText = ratingColumn.text --[[@as GGUI.Text]]
+            if matchHistory.isRated then
+                if player.scoreData.ratingChange > 0 then
+                    ratingText:SetText(PvPAssistant.UTIL:ColorByRating(tostring(player.scoreData.rating),
+                            player.scoreData.rating) ..
+                        " (" .. f.g(FormatValueWithSign(player.scoreData.ratingChange)) .. ")")
+                else
+                    ratingText:SetText(PvPAssistant.UTIL:ColorByRating(tostring(player.scoreData.rating),
+                            player.scoreData.rating) ..
+                        " (" .. f.r(FormatValueWithSign(player.scoreData.ratingChange)) .. ")")
+                end
+                ratingText.text:SetJustifyH("LEFT")
+            else
+                ratingText.text:SetJustifyH("CENTER")
+                ratingText:SetText(f.grey("-"))
+            end
         end)
     end
 

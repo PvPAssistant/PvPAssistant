@@ -15,7 +15,7 @@ PvPAssistant.MATCH_HISTORY.FRAMES = {}
 PvPAssistant.MATCH_HISTORY.matchHistoryTab = nil
 
 function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
-    local tooltipFrameX = 305
+    local tooltipFrameX = 425
     local tooltipFrameY = 40
     local frameScale = 0.95
     PvPAssistant.MATCH_HISTORY.tooltipFrame = CreateFrame("Frame", nil, nil, "BackdropTemplate")
@@ -62,7 +62,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
         columnOptions = {
             {
                 label = f.grey("Player"),
-                width = 120,
+                width = 150,
                 justifyOptions = { type = "H", align = "LEFT" },
             },
             {
@@ -79,6 +79,11 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
                 label = f.grey("Kills"),
                 width = 60,
                 justifyOptions = { type = "H", align = "CENTER" },
+            },
+            {
+                label = f.grey("Rating"),
+                width = 90,
+                justifyOptions = { type = "H", align = "CENTER" },
             }
         },
         rowConstructor = function(columns)
@@ -86,6 +91,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
             local DmgColumn = columns[2]
             local healColumn = columns[3]
             local killColumn = columns[4]
+            local ratingColumn = columns[5]
 
             playerColumn.text = GGUI.Text {
                 parent = playerColumn, anchorParent = playerColumn,
@@ -102,8 +108,12 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
                 text = "",
             }
             killColumn.text = GGUI.Text {
-                parent = killColumn, anchorParent = killColumn, offsetX = 5,
+                parent = killColumn, anchorParent = killColumn,
                 text = "", justifyOptions = { type = "H", align = "CENTER" },
+            }
+            ratingColumn.text = GGUI.Text {
+                parent = ratingColumn, anchorPoints = { { anchorParent = ratingColumn, anchorA = "LEFT", anchorB = "LEFT" } },
+                text = "", justifyOptions = { type = "H", align = "CENTER" }, fixedWidth = 90,
             }
         end,
         disableScrolling = true,
