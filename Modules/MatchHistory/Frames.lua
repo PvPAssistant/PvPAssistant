@@ -15,7 +15,7 @@ PvPAssistant.MATCH_HISTORY.FRAMES = {}
 PvPAssistant.MATCH_HISTORY.matchHistoryTab = nil
 
 function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
-    local tooltipFrameX = 275
+    local tooltipFrameX = 305
     local tooltipFrameY = 40
     local frameScale = 0.95
     PvPAssistant.MATCH_HISTORY.tooltipFrame = CreateFrame("Frame", nil, nil, "BackdropTemplate")
@@ -62,7 +62,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
         columnOptions = {
             {
                 label = f.grey("Player"),
-                width = 90,
+                width = 120,
                 justifyOptions = { type = "H", align = "LEFT" },
             },
             {
@@ -613,7 +613,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
                 owner = row.frame,
                 frame = PvPAssistant.MATCH_HISTORY.tooltipFrame,
                 frameUpdateCallback = function(tooltipFrame)
-                    matchHistory:UpdateTooltipFrame(tooltipFrame)
+                    PvPAssistant.MATCH_HISTORY:UpdateTooltipFrame(tooltipFrame, matchHistory)
                 end
             }
         end)

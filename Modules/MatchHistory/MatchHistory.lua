@@ -113,3 +113,51 @@ end
 function PvPAssistant.MATCH_HISTORY:GetSelectedMapInstanceID()
     return self.matchHistoryTab.content.mapDropdown.selectedValue
 end
+
+---@param tFrame Frame
+---@param matchHistory PvPAssistant.MatchHistory
+function PvPAssistant.MATCH_HISTORY:UpdateTooltipFrame(tFrame, matchHistory)
+    local tooltipFrame = tFrame.contentFrame --[[@as GGUI.Frame]]
+    local content = tooltipFrame.content --[[@as PvPAssistant.MAIN_FRAME.TooltipFrame.Content]]
+
+    local playerList = content.playerList
+
+    playerList:Remove()
+
+    content.modeText:SetText(f.white(PvPAssistant.CONST.PVP_MODES_NAMES[matchHistory.pvpMode] or "<?>"))
+    content.mapText:SetText(f.bb(matchHistory.mapInfo.name))
+    if matchHistory.isSoloShuffle then
+        local wins = matchHistory.player.scoreData.stats[1] and matchHistory.player.scoreData.stats[1].pvpStatValue
+        if wins and wins > 0 then
+            content.winText:SetText(f.g(wins .. " Wins"))
+        else
+            content.winText:SetText(f.r("0 Wins"))
+        end
+    else
+        if matchHistory.win then
+            content.winText:SetText(f.g("Win"))
+        else
+            content.winText:SetText(f.r("Loss"))
+        end
+    end
+
+    local playerTeamSize = #matchHistory.playerTeam.players
+    for playerIndex, player in ipairs(GUTIL:Concat { matchHistory.playerTeam.players, matchHistory.enemyTeam.players }) do
+        playerList:Add(function(row, columns)
+            local playerColumn = columns[1]
+            local dmgColumn = columns[2]
+            local healColumn = columns[3]
+            local killColumn = columns[4]
+
+            -- If i am the last player in my team show the separator line, otherwise hide
+            row:SetSeparatorLine(playerIndex == playerTeamSize and not matchHistory.isSoloShuffle)
+
+            playerColumn.text:SetText(f.class(player.name, player.class))
+            dmgColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(player.scoreData.damageDone))
+            healColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(player.scoreData.healingDone))
+            killColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(player.scoreData.killingBlows))
+        end)
+    end
+
+    playerList:UpdateDisplay()
+end
