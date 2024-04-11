@@ -14,7 +14,9 @@
 ## Version: 1.0.2
 
 embeds.xml
-Libs/Libs.lua   
+
+Init/GLibs.lua   
+
 Util/Debug.lua
 Util/Const.lua
 Util/Util.lua
@@ -36,7 +38,9 @@ Classes/MatchHistory.lua
 
 Media/Media.lua
 
-Main/PvPAssistant.lua
+Init/Init.lua
+Init/Minimap.lua
+Init/Slash.lua
 
 
 Modules/MatchHistory/MatchHistory.lua

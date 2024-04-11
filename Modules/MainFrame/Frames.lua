@@ -18,7 +18,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
     ---@class PvPAssistant.MAIN_FRAME.FRAME : GGUI.Frame
     local frame = GGUI.Frame {
         moveable = true, frameID = PvPAssistant.CONST.FRAMES.MAIN_FRAME,
-        sizeX = sizeX, sizeY = sizeY, frameConfigTable = PvPAssistantGGUIConfig, frameTable = PvPAssistant.MAIN.FRAMES,
+        sizeX = sizeX, sizeY = sizeY, frameConfigTable = PvPAssistantGGUIConfig,
         backdropOptions = PvPAssistant.CONST.MAIN_FRAME_BACKDROP, globalName = PvPAssistant.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME
     }
 

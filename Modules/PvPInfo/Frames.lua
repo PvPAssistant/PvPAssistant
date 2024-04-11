@@ -37,7 +37,6 @@ function PvPAssistant.PVPINFO.FRAMES:Init()
     PvPAssistant.PVPINFO.frame = GGUI.Frame {
         parent = PVPUIFrame, anchorPoints = anchorPoints, sizeX = sizeX, sizeY = sizeY,
         frameConfigTable = PvPAssistantGGUIConfig, frameID = PvPAssistant.CONST.FRAMES.PVPINFO,
-        frameTable = PvPAssistant.MAIN.FRAMES,
         backdropOptions = PvPAssistant.CONST.PVPINFO_BACKDROP
     }
 

@@ -19,7 +19,6 @@ function PvPAssistant.ARENA_GUIDE.FRAMES:Init()
         parent = UIParent, anchorParent = UIParent,
         sizeX = sizeX, sizeY = sizeY,
         frameConfigTable = PvPAssistantGGUIConfig, frameID = PvPAssistant.CONST.FRAMES.ARENA_GUIDE,
-        frameTable = PvPAssistant.MAIN.FRAMES,
         backdropOptions = PvPAssistant.CONST.ARENA_GUIDE_BACKDROP,
         moveable = true, hide = true,
     }
