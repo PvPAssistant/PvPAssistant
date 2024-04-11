@@ -15,7 +15,7 @@ PvPAssistant.ARENA_GUIDE.frame = nil
 
 function PvPAssistant.ARENA_GUIDE:Init()
     PvPAssistant.DATA_COLLECTION:RegisterForArenaSpecIDUpdate(function()
-        if not UnitAffectingCombat("player") and PvPAssistantOptions.arenaGuideEnable then
+        if not UnitAffectingCombat("player") and PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_GUIDE_ENABLED") then
             PvPAssistant.ARENA_GUIDE.frame:Show()
             PvPAssistant.ARENA_GUIDE.FRAMES:UpdateDisplay()
         end

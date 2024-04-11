@@ -8,19 +8,27 @@
 ## X-Wago-ID: vNAex9No
 ## X-WoWI-ID: 
 ## IconTexture: Interface\Addons\PvPAssistant\Media\Images\icon1337
-## SavedVariables: PvPAssistantDB, PvPAssistantGGUIConfig, PvPAssistantOptions, PvPAssistantLibIconDB
+## SavedVariables: PvPAssistantDB, PvPAssistantGGUIConfig, PvPAssistantLibIconDB
 ## Dependencies: Blizzard_InspectUI
 ## OptionalDeps: DevTool
 ## Version: 1.0.2
 
 embeds.xml
-Libs/Libs.lua   
+
+Init/GLibs.lua   
+
 Util/Debug.lua
 Util/Const.lua
 Util/Util.lua
-Util/DB.lua
 Util/SpecLookup.lua
 Util/DataCollection.lua
+
+DB/DB.lua
+DB/MatchHistoryDB.lua
+DB/TooltipOptionsDB.lua
+DB/CharactersDB.lua
+DB/GeneralOptionsDB.lua
+DB/DebugDB.lua
 
 Data/AbilityData.lua
 Data/ArenaStrategies.lua
@@ -30,11 +38,22 @@ Classes/MatchHistory.lua
 
 Media/Media.lua
 
-Main/PvPAssistant.lua
+Init/Init.lua
+Init/Minimap.lua
+Init/Slash.lua
 
+
+Modules/MatchHistory/MatchHistory.lua
+Modules/MatchHistory/Frames.lua
+Modules/AbilityCatalogue/AbilityCatalogue.lua
+Modules/AbilityCatalogue/Frames.lua
+Modules/GearGuide/GearGuide.lua
+Modules/GearGuide/Frames.lua
 Modules/Options/Options.lua
+Modules/Options/Frames.lua
 Modules/MainFrame/MainFrame.lua
 Modules/MainFrame/Frames.lua
+
 Modules/PvPInfo/PvPInfo.lua
 Modules/PvPInfo/Frames.lua
 Modules/PlayerTooltip/PlayerTooltip.lua
