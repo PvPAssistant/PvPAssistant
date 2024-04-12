@@ -21,6 +21,7 @@ Util/Debug.lua
 Util/Const.lua
 Util/Util.lua
 Util/SpecLookup.lua
+Util/RaceLookup.lua
 Util/DataCollection.lua
 
 DB/DB.lua
