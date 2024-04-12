@@ -88,6 +88,14 @@ function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByInspectData(unit, pvpD
                 PvPAssistant.UTIL:ColorByRating(tostring(rating), rating))
         end
     end
+    -- Does this need On / Off switch ? as it only displays after the player has set a note
+    local unitGUID = UnitGUID(unit)
+    local recommendationData = PvPAssistant.DB.RECOMMENDATION_DATA:Get(unitGUID)
+    if recommendationData then
+        GameTooltip:AddDoubleLine(f.white("Your Rating"),
+            string.format("|A:Professions-ChatIcon-Quality-Tier%d:16:16|a", recommendationData.rating))
+        GameTooltip:AddDoubleLine(f.white("Note"), f.white(recommendationData.note))
+    end
 
     -- GUTIL:TooltipUpdateDoubleLineByID({
     --     gutilID = "test_gutilID",
