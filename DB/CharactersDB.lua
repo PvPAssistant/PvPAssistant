@@ -22,7 +22,9 @@ function PvPAssistant.DB.CHARACTERS:Init()
             data = {}
         }
     end
+end
 
+function PvPAssistant.DB.CHARACTERS:InitData()
     local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
     local playerClass = select(2, UnitClass("player"))
     local name, realm = strsplit("-", playerUID)
@@ -57,6 +59,14 @@ function PvPAssistant.DB.CHARACTERS:GetClass(characterUID)
     local characterData = self:Get(characterUID)
     if characterData then
         return characterData.class
+    end
+end
+
+---@return number classID
+function PvPAssistant.DB.CHARACTERS:GetClassID(characterUID)
+    local class = self:GetClass(characterUID)
+    if class then
+        return PvPAssistant.CONST.CLASS_ID[class]
     end
 end
 

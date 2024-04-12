@@ -11,11 +11,11 @@ PvPAssistant.MATCH_HISTORY = PvPAssistant.MATCH_HISTORY
 ---@class PvPAssistant.MATCH_HISTORY.FRAMES
 PvPAssistant.MATCH_HISTORY.FRAMES = {}
 
----@type PvPAssistant.MAIN_FRAME.MATCH_HISTORY_TAB
+---@type PvPAssistant.MATCH_HISTORY.MATCH_HISTORY_TAB
 PvPAssistant.MATCH_HISTORY.matchHistoryTab = nil
 
 function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
-    local tooltipFrameX = 275
+    local tooltipFrameX = 425
     local tooltipFrameY = 40
     local frameScale = 0.95
     PvPAssistant.MATCH_HISTORY.tooltipFrame = CreateFrame("Frame", nil, nil, "BackdropTemplate")
@@ -62,7 +62,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
         columnOptions = {
             {
                 label = f.grey("Player"),
-                width = 90,
+                width = 150,
                 justifyOptions = { type = "H", align = "LEFT" },
             },
             {
@@ -79,6 +79,11 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
                 label = f.grey("Kills"),
                 width = 60,
                 justifyOptions = { type = "H", align = "CENTER" },
+            },
+            {
+                label = f.grey("Rating"),
+                width = 90,
+                justifyOptions = { type = "H", align = "CENTER" },
             }
         },
         rowConstructor = function(columns)
@@ -86,6 +91,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
             local DmgColumn = columns[2]
             local healColumn = columns[3]
             local killColumn = columns[4]
+            local ratingColumn = columns[5]
 
             playerColumn.text = GGUI.Text {
                 parent = playerColumn, anchorParent = playerColumn,
@@ -102,8 +108,12 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
                 text = "",
             }
             killColumn.text = GGUI.Text {
-                parent = killColumn, anchorParent = killColumn, offsetX = 5,
+                parent = killColumn, anchorParent = killColumn,
                 text = "", justifyOptions = { type = "H", align = "CENTER" },
+            }
+            ratingColumn.text = GGUI.Text {
+                parent = ratingColumn, anchorPoints = { { anchorParent = ratingColumn, anchorA = "LEFT", anchorB = "LEFT" } },
+                text = "", justifyOptions = { type = "H", align = "CENTER" }, fixedWidth = 90,
             }
         end,
         disableScrolling = true,
@@ -121,12 +131,12 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
     PvPAssistant.MATCH_HISTORY.tooltipFrame:Hide()
 end
 
----@return PvPAssistant.MAIN_FRAME.MATCH_HISTORY_TAB matchHistoryTab
+---@return PvPAssistant.MATCH_HISTORY.MATCH_HISTORY_TAB matchHistoryTab
 function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
     ---@class PvPAssistant.MAIN_FRAME.FRAME : GGUI.Frame
     local frame = PvPAssistant.MAIN_FRAME.frame
 
-    ---@class PvPAssistant.MAIN_FRAME.MATCH_HISTORY_TAB : GGUI.Tab
+    ---@class PvPAssistant.MATCH_HISTORY.MATCH_HISTORY_TAB : GGUI.Tab
     frame.content.matchHistoryTab = GGUI.Tab {
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = PvPAssistant.MAIN_FRAME.tabContentSizeX, sizeY = PvPAssistant.MAIN_FRAME.tabContentSizeY, offsetY = PvPAssistant.MAIN_FRAME.tabContentOffsetY, canBeEnabled = true,
@@ -149,15 +159,18 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
 
     PvPAssistant.MATCH_HISTORY.matchHistoryTab = frame.content.matchHistoryTab
 
-    ---@class PvPAssistant.MAIN_FRAME.MATCH_HISTORY_TAB
+    ---@class PvPAssistant.MATCH_HISTORY.MATCH_HISTORY_TAB : GGUI.Tab
     local matchHistoryTab = PvPAssistant.MAIN_FRAME.frame.content.matchHistoryTab
-    ---@class PvPAssistant.MAIN_FRAME.MATCH_HISTORY_TAB.CONTENT
+    ---@class PvPAssistant.MATCH_HISTORY.MATCH_HISTORY_TAB.CONTENT : Frame
     matchHistoryTab.content = matchHistoryTab.content
 
-    matchHistoryTab.content.matchHistoryTitle = GGUI.Text {
-        parent = matchHistoryTab.content, anchorPoints = { { anchorParent = matchHistoryTab.content, anchorA = "TOP", anchorB = "TOP", offsetY = -20 } },
-        scale = 1.5, text = f.white("Match History")
+    matchHistoryTab.content.filterFrame = GGUI.Frame {
+        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content,
+        anchorA = "TOP", anchorB = "TOP", backdropOptions = PvPAssistant.CONST.FILTER_FRAME_BACKDROP,
+        sizeX = 715, sizeY = 50, offsetY = -10, offsetX = 0,
     }
+
+    local filterFrame = matchHistoryTab.content.filterFrame
 
     ---@type GGUI.FrameList.ColumnOption[]
     local columnOptions = {
@@ -194,8 +207,8 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
     }
     local listScale = 0.997
     matchHistoryTab.content.matchHistoryList = GGUI.FrameList {
-        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.matchHistoryTitle.frame, offsetX = -10, hideScrollbar = false,
-        anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -70, rowHeight = 30,
+        parent = matchHistoryTab.content, anchorParent = filterFrame.frame, offsetX = -10, hideScrollbar = false,
+        anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -30, rowHeight = 30,
         rowBackdrops = { PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A, PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
         sizeY = 470, columnOptions = columnOptions, rowConstructor = function(columns)
@@ -388,13 +401,15 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
     local dropdownScale = 1
 
     matchHistoryTab.content.characterDropdown = GGUI.CustomDropdown {
-        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.matchHistoryList.frame,
-        anchorA = "BOTTOMLEFT", anchorB = "TOPLEFT", width = 110, offsetX = 25, offsetY = 30,
+        parent = filterFrame.content, anchorParent = filterFrame.content,
+        anchorA = "BOTTOMLEFT", anchorB = "BOTTOMLEFT", width = 110, offsetX = 25, offsetY = 5,
         clickCallback = function(self, label, value)
+            PvPAssistant.MATCH_HISTORY.FRAMES:UpdateSpecializationDropdown()
+            PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMapDropdown()
             PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
         end,
         buttonOptions = {
-            parent = matchHistoryTab.content,
+            parent = filterFrame.content,
             buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DROPDOWN,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
@@ -406,11 +421,43 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
         selectionFrameOptions = {
             backdropOptions = PvPAssistant.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP,
             scale = dropdownScale,
-        }
+        },
+        labelOptions = {
+            text = f.white("Character"),
+            anchorA = "BOTTOM", anchorB = "TOP",
+            offsetY = 3,
+        },
+    }
+
+    matchHistoryTab.content.specDropdown = GGUI.CustomDropdown {
+        parent = filterFrame.content, anchorParent = matchHistoryTab.content.characterDropdown.frame.frame,
+        anchorA = "LEFT", anchorB = "RIGHT", width = 55, offsetX = 10,
+        clickCallback = function(self, label, value)
+            PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
+        end,
+        buttonOptions = {
+            parent = filterFrame.content,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DROPDOWN,
+            fontOptions = {
+                fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
+            },
+            sizeY = dropdownSizeY,
+            scale = dropdownScale,
+        },
+        arrowOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DROPDOWN_ARROW_OPTIONS,
+        selectionFrameOptions = {
+            backdropOptions = PvPAssistant.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP,
+            scale = dropdownScale,
+        },
+        labelOptions = {
+            text = f.white("Spec"),
+            anchorA = "BOTTOM", anchorB = "TOP",
+            offsetY = 3,
+        },
     }
 
     matchHistoryTab.content.pvpModeDropdown = GGUI.CustomDropdown {
-        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content.characterDropdown.frame.frame,
+        parent = filterFrame.content, anchorParent = matchHistoryTab.content.specDropdown.frame.frame,
         anchorA = "LEFT", anchorB = "RIGHT", width = 70, offsetX = 10,
         initialData = {
             {
@@ -440,7 +487,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
             PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
         end,
         buttonOptions = {
-            parent = matchHistoryTab.content,
+            parent = filterFrame.content,
             buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DROPDOWN,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
@@ -452,7 +499,39 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
         selectionFrameOptions = {
             backdropOptions = PvPAssistant.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP,
             scale = dropdownScale,
-        }
+        },
+        labelOptions = {
+            text = f.white("Mode"),
+            anchorA = "BOTTOM", anchorB = "TOP",
+            offsetY = 3,
+        },
+    }
+
+    matchHistoryTab.content.mapDropdown = GGUI.CustomDropdown {
+        parent = filterFrame.content, anchorParent = matchHistoryTab.content.pvpModeDropdown.frame.frame,
+        anchorA = "LEFT", anchorB = "RIGHT", width = 70, offsetX = 10,
+        clickCallback = function(self, label, value)
+            PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
+        end,
+        buttonOptions = {
+            parent = filterFrame.content,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DROPDOWN,
+            fontOptions = {
+                fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
+            },
+            sizeY = dropdownSizeY,
+            scale = dropdownScale,
+        },
+        arrowOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DROPDOWN_ARROW_OPTIONS,
+        selectionFrameOptions = {
+            backdropOptions = PvPAssistant.CONST.DROPDOWN_SELECTION_FRAME_BACKDROP,
+            scale = dropdownScale,
+        },
+        labelOptions = {
+            text = f.white("Map"),
+            anchorA = "BOTTOM", anchorB = "TOP",
+            offsetY = 3,
+        },
     }
 
     return matchHistoryTab
@@ -466,6 +545,8 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
 
     local pvpModeFilter = PvPAssistant.MATCH_HISTORY:GetSelectedModeFilter()
     local selectedCharacterUID = PvPAssistant.MATCH_HISTORY:GetSelectedCharacterUID()
+    local selectedSpecID = PvPAssistant.MATCH_HISTORY:GetSelectedSpecID()
+    local selectedInstanceID = PvPAssistant.MATCH_HISTORY:GetSelectedMapInstanceID()
 
     local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
     local matchHistories = PvPAssistant.DB.MATCH_HISTORY:Get(playerUID)
@@ -475,7 +556,9 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
             local isSelectedCharacter = (matchHistory.player.name .. "-" .. matchHistory.player.realm) ==
                 selectedCharacterUID
             local isSelectedMode = pvpModeFilter == nil or matchHistory.pvpMode == pvpModeFilter
-            return isSelectedCharacter and isSelectedMode
+            local isSelectedSpec = selectedSpecID == nil or matchHistory.player.specID == selectedSpecID
+            local isSelectedMap = selectedInstanceID == nil or matchHistory.mapInfo.instanceID == selectedInstanceID
+            return isSelectedCharacter and isSelectedMode and isSelectedSpec and isSelectedMap
         end)
 
     local filteredHistory = GUTIL:Sort(filteredHistory, function(a, b)
@@ -540,7 +623,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
                 owner = row.frame,
                 frame = PvPAssistant.MATCH_HISTORY.tooltipFrame,
                 frameUpdateCallback = function(tooltipFrame)
-                    matchHistory:UpdateTooltipFrame(tooltipFrame)
+                    PvPAssistant.MATCH_HISTORY:UpdateTooltipFrame(tooltipFrame, matchHistory)
                 end
             }
         end)
@@ -549,7 +632,59 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
     matchHistoryList:UpdateDisplay()
 end
 
----@return PlayerUID selectedCharacterUID?
-function PvPAssistant.MATCH_HISTORY:GetSelectedCharacterUID()
-    return self.matchHistoryTab.content.characterDropdown.selectedValue
+function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateSpecializationDropdown()
+    local specDropdown = PvPAssistant.MATCH_HISTORY.matchHistoryTab.content.specDropdown
+
+    local selectedCharacterUID = PvPAssistant.MATCH_HISTORY:GetSelectedCharacterUID()
+
+    local specIconSize = 20
+    local specIconOffsetY = -1
+
+    ---@type GGUI.CustomDropdownData[]
+    local dropdownData = {
+        {
+            label = f.white("All"),
+            value = nil,
+        }
+    }
+
+    local classID = PvPAssistant.DB.CHARACTERS:GetClassID(selectedCharacterUID)
+    for i = 1, 4 do
+        local specID = GetSpecializationInfoForClassID(classID, i)
+
+        if specID then
+            local specInfo = { GetSpecializationInfoByID(specID) }
+            local specName = specInfo[2]
+            local specIcon = specInfo[4]
+            local class = specInfo[6]
+            ---@type GGUI.CustomDropdownData
+            local data = {
+                label = GUTIL:IconToText(specIcon, specIconSize, specIconSize, 0, specIconOffsetY),
+                value = specID,
+                tooltipOptions = {
+                    text = f.class(specName, class),
+                    anchor = "ANCHOR_CURSOR",
+                },
+            }
+            tinsert(dropdownData, data)
+        end
+    end
+
+    specDropdown:SetData({
+        data = dropdownData,
+        initialLabel = f.white("All"),
+        initialValue = nil
+    })
+end
+
+function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMapDropdown()
+    local mapDropdown = PvPAssistant.MATCH_HISTORY.matchHistoryTab.content.mapDropdown
+
+    local dropdownData = PvPAssistant.MATCH_HISTORY:GetMapDropdownData()
+
+    mapDropdown:SetData({
+        data = dropdownData,
+        initialLabel = f.white("All"),
+        initialValue = nil,
+    })
 end
