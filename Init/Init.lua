@@ -51,6 +51,7 @@ function PvPAssistant.INIT:PLAYER_ENTERING_WORLD()
     PvPAssistant.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
 
     PvPAssistant.SPEC_LOOKUP:Init()
+    PvPAssistant.RACE_LOOKUP:Init()
 
     PvPAssistant.MATCH_HISTORY:InitMatchHistoryDropdownData()
     PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
