@@ -90,7 +90,7 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
 
     abilitiesTab.content.abilityList = GGUI.FrameList {
         parent = abilitiesTab.content, anchorParent = abilitiesTab.content.classFilterFrame.frame, anchorA = "TOP", anchorB = "BOTTOM",
-        sizeY = 430, showBorder = true, offsetY = -55, offsetX = -8,
+        sizeY = 430, showBorder = true, offsetY = -55, offsetX = -30,
         columnOptions = columnOptions,
         rowBackdrops = { PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A, PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },

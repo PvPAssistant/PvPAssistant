@@ -54,15 +54,18 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
     frame.content.matchHistoryTab = PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
     frame.content.abilitiesTab = PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
     frame.content.gearGuideTab = PvPAssistant.GEAR_GUIDE.FRAMES:InitGearGuideTab()
-    frame.content.optionsTab = PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
 
-    GGUI.TabSystem { frame.content.matchHistoryTab, frame.content.abilitiesTab, frame.content.gearGuideTab, frame.content.optionsTab }
+    frame.content.utilButtonFrame = GGUI.Frame {
+        parent = frame.content, anchorPoints = { { anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT", offsetX = -17, offsetY = -53 } },
+        sizeX = 100, sizeY = 100,
+    }
 
     frame.content.discordButton = GGUI.Button {
-        parent = frame.content, anchorPoints = { { anchorParent = frame.content.optionsTab.button.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -6, } },
-        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DISCORD_BUTTON,
         cleanTemplate = true,
-        sizeX = 20, sizeY = 20,
+        parent = frame.content.utilButtonFrame.content,
+        anchorPoints = { { anchorParent = frame.content.utilButtonFrame.content, anchorA = "TOPLEFT", anchorB = "TOPLEFT", offsetX = 0, } },
+        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DISCORD_BUTTON,
+        sizeX = PvPAssistant.MAIN_FRAME.utilButtonSize, sizeY = PvPAssistant.MAIN_FRAME.utilButtonSize,
         clickCallback = function()
             GGUI:ShowPopup {
                 copyText = PvPAssistant.CONST.DISCORD_INVITE,
@@ -73,35 +76,23 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
         end
     }
 
-    frame.content.DONATE_BUTTON = GGUI.Button {
-        parent = frame.content, anchorPoints = { { anchorParent = frame.content.optionsTab.button.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -30, } },
-        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DONATE_BUTTON, -- Updated to use the new DonateButton textures
-        cleanTemplate = true,
-        sizeX = 20, sizeY = 20,
-        clickCallback = function()
-            GGUI:ShowPopup {
-                copyText = PvPAssistant.CONST.DONATE_URL,
-                parent = frame.content, anchorParent = frame.content.DONATE_BUTTON.frame, -- Ensure this references the correct button
-                title = "Kofi donation page! (CTRL+C to Copy)", sizeX = 280, sizeY = 100,
-                okButtonLabel = f.white("Ok"),
-            }
-        end
-    }
-
     frame.content.closeButton = GGUI.Button {
-        parent = frame.content, anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT",
-        offsetX = -8, offsetY = -8,
+        parent = frame.content.utilButtonFrame.content, anchorPoints = { { anchorParent = frame.content.discordButton.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = 5, } },
         label = f.white("X"),
         buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
         fontOptions = {
             fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
         },
-        sizeX = 20,
-        sizeY = 20,
+        sizeX = PvPAssistant.MAIN_FRAME.utilButtonSize,
+        sizeY = PvPAssistant.MAIN_FRAME.utilButtonSize,
         clickCallback = function()
             frame:Hide()
         end
     }
+
+    frame.content.optionsTab = PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
+
+    GGUI.TabSystem { frame.content.matchHistoryTab, frame.content.abilitiesTab, frame.content.gearGuideTab, frame.content.optionsTab }
 
     frame:Hide()
 end

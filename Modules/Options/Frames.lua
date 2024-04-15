@@ -18,19 +18,18 @@ function PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
 
     ---@class PvPAssistant.OPTIONS.OPTIONS_TAB : GGUI.Tab
     frame.content.optionsTab = GGUI.Tab {
-        parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
+        parent = frame.content, anchorParent = frame.content, anchorA = "TOPLEFT", anchorB = "TOPLEFT",
         sizeX = PvPAssistant.MAIN_FRAME.tabContentSizeX, sizeY = PvPAssistant.MAIN_FRAME.tabContentSizeY, offsetY = PvPAssistant.MAIN_FRAME.tabContentOffsetY, canBeEnabled = true,
         buttonOptions = {
             label = CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.OPTIONS_ICON, 18, 18, 0, -1),
             anchorPoints = { {
-                anchorParent = frame.content,
-                anchorA = "TOPRIGHT",
-                anchorB = "TOPRIGHT",
-                offsetY = -8,
-                offsetX = -35,
+                anchorParent = frame.content.closeButton.frame,
+                anchorA = "TOP",
+                anchorB = "BOTTOM",
+                offsetY = -5,
             } },
             parent = frame.content,
-            sizeX = 20, sizeY = 20,
+            sizeX = PvPAssistant.MAIN_FRAME.utilButtonSize, sizeY = PvPAssistant.MAIN_FRAME.utilButtonSize,
             buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.OPTIONS_BUTTON,
         }
     }
