@@ -27,19 +27,19 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
     -- makes it closeable on Esc
     tinsert(UISpecialFrames, PvPAssistant.CONST.PVP_LOOKUP_FRAME_GLOBAL_NAME)
 
-    frame.content.titleLogo = PvPAssistant.UTIL:CreateLogo(frame.content,
+    frame.content.title = PvPAssistant.UTIL:CreateLogo(frame.content,
         {
             {
                 anchorParent = frame.content,
                 anchorA = "TOPLEFT",
                 anchorB = "TOPLEFT",
-                offsetX = 30,
+                offsetX = 15,
                 offsetY = -15,
             }
         })
 
     frame.content.updateText = GGUI.Text {
-        parent = frame.content, anchorPoints = { { anchorParent = frame.content.titleLogo.frame, anchorA = "BOTTOMRIGHT", anchorB = "TOPRIGHT", offsetY = 5 } },
+        parent = frame.content, anchorPoints = { { anchorParent = frame.content.title.frame, anchorA = "BOTTOMRIGHT", anchorB = "TOPRIGHT", offsetY = 5 } },
         text = f.l("*Update Beta" .. C_AddOns.GetAddOnMetadata(addonName, "version")),
         tooltipOptions = {
             owner = frame.frame,

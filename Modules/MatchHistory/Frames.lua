@@ -143,13 +143,13 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
         buttonOptions = {
             label = GUTIL:ColorizeText("Match History", GUTIL.COLORS.WHITE),
             parent = frame.content,
-            anchorParent = frame.content.titleLogo.frame,
-            offsetY = 1,
-            offsetX = 27,
-            anchorA = "LEFT",
-            anchorB = "RIGHT",
-            adjustWidth = true,
-            sizeX = 15,
+            anchorParent = frame.content.title.frame,
+            offsetY = -5,
+            offsetX = 0,
+            anchorA = "TOPLEFT",
+            anchorB = "BOTTOMLEFT",
+            sizeX = PvPAssistant.MAIN_FRAME.tabButtonSizeX,
+            sizeY = PvPAssistant.MAIN_FRAME.tabButtonSizeY,
             buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
@@ -167,7 +167,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
     matchHistoryTab.content.filterFrame = GGUI.Frame {
         parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content,
         anchorA = "TOP", anchorB = "TOP", backdropOptions = PvPAssistant.CONST.FILTER_FRAME_BACKDROP,
-        sizeX = 715, sizeY = 50, offsetY = -10, offsetX = 0,
+        sizeX = 430, sizeY = 85, offsetY = 0, offsetX = 20,
     }
 
     local filterFrame = matchHistoryTab.content.filterFrame
@@ -207,7 +207,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
     }
     local listScale = 0.997
     matchHistoryTab.content.matchHistoryList = GGUI.FrameList {
-        parent = matchHistoryTab.content, anchorParent = filterFrame.frame, offsetX = -10, hideScrollbar = false,
+        parent = matchHistoryTab.content, anchorParent = filterFrame.frame, offsetX = -30, hideScrollbar = false,
         anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -30, rowHeight = 30,
         rowBackdrops = { PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A, PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },

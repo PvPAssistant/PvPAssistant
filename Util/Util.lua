@@ -105,7 +105,7 @@ end
 ---@param parent Frame
 ---@param anchorPoints GGUI.AnchorPoint[]
 ---@param scale number?
----@return GGUI.Text, GGUI.Text
+---@return GGUI.Text
 function PvPAssistant.UTIL:CreateLogo(parent, anchorPoints, scale)
     scale = scale or 1
     parent.titleLogo = GGUI.Text {
@@ -115,13 +115,7 @@ function PvPAssistant.UTIL:CreateLogo(parent, anchorPoints, scale)
         scale = 1.7 * scale,
     }
 
-    parent.logoIcon = GGUI.Text {
-        parent = parent,
-        anchorPoints = { { anchorParent = parent.titleLogo.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -5 } },
-        text = PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.LOGO, 0.05 * scale)
-    }
-
-    return parent.titleLogo, parent.logoIcon
+    return parent.titleLogo
 end
 
 ---@class PvPAssistant.ClassFilterFrameOptions
@@ -141,7 +135,7 @@ function PvPAssistant.UTIL:CreateClassFilterFrame(options)
     local classFilterFrame = GGUI.Frame {
         parent = parent, anchorParent = anchorPoint.anchorParent or parent,
         anchorA = anchorPoint.anchorA or "TOP", anchorB = anchorPoint.anchorB or "TOP", backdropOptions = PvPAssistant.CONST.FILTER_FRAME_BACKDROP,
-        sizeX = 715, sizeY = 100, offsetY = anchorPoint.offsetY or 0, offsetX = anchorPoint.offsetX or 0,
+        sizeX = 430, sizeY = 85, offsetY = anchorPoint.offsetY or 0, offsetX = anchorPoint.offsetX or 0,
         tooltipOptions = {
             anchor = "ANCHOR_CURSOR_RIGHT",
             text = f.white("Toggle Class Filters off and on."
@@ -151,23 +145,16 @@ function PvPAssistant.UTIL:CreateClassFilterFrame(options)
         },
     }
 
-    classFilterFrame.title = GGUI.Text {
-        parent = classFilterFrame.frame, anchorParent = classFilterFrame.content,
-        anchorA = "TOP", anchorB = "TOP", text = "Class Filtering", offsetY = -15,
-        fontOptions = {
-            fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
-            height = 15,
-        },
-    }
-
     classFilterFrame.frame:SetFrameLevel(parent:GetFrameLevel() + 10)
 
     ---@type GGUI.ClassIcon[]
     classFilterFrame.classFilterButtons = {}
 
-    local classFilterIconSize = 35
-    local classFilterIconOffsetX = 45
-    local classFilterIconOffsetY = -10
+    local classFilterIconSize = 30
+    local classFilterIconOffsetXRow1 = 10
+    local classFilterIconOffsetYRow1 = 20
+    local classFilterIconOffsetXRow2 = 10
+    local classFilterIconOffsetYRow2 = -20
     local classFilterIconSpacingX = 14
     local function CreateClassFilterIcon(classFile, anchorParent, offX, offY, anchorA, anchorB)
         local classFilterIcon = GGUI.ClassIcon {
@@ -236,6 +223,7 @@ function PvPAssistant.UTIL:CreateClassFilterFrame(options)
         end
         return classFile
     end)
+    local iconsFirstRow = 8
     local currentAnchor = classFilterFrame.frame
     for i, classFile in pairs(classFiles) do
         local anchorB = "RIGHT"
@@ -243,8 +231,14 @@ function PvPAssistant.UTIL:CreateClassFilterFrame(options)
         local offY = 0
         if i == 1 then
             anchorB = "LEFT"
-            offX = classFilterIconOffsetX
-            offY = classFilterIconOffsetY
+            offX = classFilterIconOffsetXRow1
+            offY = classFilterIconOffsetYRow1
+        end
+        if i == iconsFirstRow then
+            anchorB = "LEFT"
+            offX = classFilterIconOffsetXRow2
+            offY = classFilterIconOffsetYRow2
+            currentAnchor = classFilterFrame.frame
         end
         local classFilterIcon = CreateClassFilterIcon(classFile, currentAnchor, offX, offY, "LEFT", anchorB)
         tinsert(classFilterFrame.classFilterButtons, classFilterIcon)

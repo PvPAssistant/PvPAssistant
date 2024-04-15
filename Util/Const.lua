@@ -197,6 +197,19 @@ PvPAssistant.CONST.FILTER_FRAME_BACKDROP = {
 }
 
 ---@type GGUI.BackdropOptions
+PvPAssistant.CONST.SUB_FILTER_FRAME_BACKDROP = {
+    backdropInfo = {
+        bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024x128",
+    },
+    backdropRGBA = {
+        0.3,
+        0.3,
+        0.32,
+        1,
+    },
+}
+
+---@type GGUI.BackdropOptions
 PvPAssistant.CONST.STRAGETY_TEXT_BACKDROP = {
     backdropInfo = {
         bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024x128",

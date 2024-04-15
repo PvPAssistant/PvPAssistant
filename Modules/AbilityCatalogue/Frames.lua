@@ -24,11 +24,11 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
             label = GUTIL:ColorizeText("Ability Catalogue", GUTIL.COLORS.WHITE),
             parent = frame.content,
             anchorParent = frame.content.matchHistoryTab.button.frame,
-            anchorA = "LEFT",
-            anchorB = "RIGHT",
-            adjustWidth = true,
-            sizeX = 15,
-            offsetX = 10,
+            anchorA = "TOPLEFT",
+            anchorB = "BOTTOMLEFT",
+            sizeX = PvPAssistant.MAIN_FRAME.tabButtonSizeX,
+            sizeY = PvPAssistant.MAIN_FRAME.tabButtonSizeY,
+            offsetX = 0, offsetY = -5,
             buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
@@ -50,7 +50,7 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
 
     local classFilterFrame, classFilterTable = PvPAssistant.UTIL:CreateClassFilterFrame({
         parent = abilitiesTab.content,
-        anchorPoint = { anchorParent = abilitiesTab.content, anchorA = "TOP", anchorB = "TOP" },
+        anchorPoint = { anchorParent = abilitiesTab.content, anchorA = "TOP", anchorB = "TOP", offsetX = 20 },
         clickCallback = function(_, _)
             PvPAssistant.ABILITY_CATALOGUE.FRAMES:UpdateAbilityData()
         end
@@ -212,30 +212,27 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
 
     abilitiesTab.content.typeFilterFrame = GGUI.Frame {
         parent = abilitiesTab.content, anchorParent = abilitiesTab.content.classFilterFrame.frame,
-        anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT", backdropOptions = PvPAssistant.CONST.FILTER_FRAME_BACKDROP,
-        sizeX = 130, sizeY = 50, offsetY = 10, offsetX = 0,
+        anchorA = "TOPRIGHT", anchorB = "TOPRIGHT", backdropOptions = PvPAssistant.CONST.SUB_FILTER_FRAME_BACKDROP,
+        sizeX = 110, sizeY = 70, offsetY = -7, offsetX = -9,
     }
+
+    abilitiesTab.content.typeFilterFrame:SetFrameLevel(abilitiesTab.content.classFilterFrame.frame:GetFrameLevel() + 1)
 
     abilitiesTab.typeFilters = {}
 
-    local typeFilterButtonSize = 35
+    local typeFilterButtonSize = 28
 
     abilitiesTab.content.defFilterButton = GGUI.ToggleButton {
-        cleanTemplate = true,
         parent = abilitiesTab.content.typeFilterFrame.content,
-        anchorPoints = { { anchorParent = abilitiesTab.content.typeFilterFrame.content, anchorA = "LEFT", anchorB = "LEFT", offsetY = 0, offsetX = 7 } },
+        anchorPoints = { { anchorParent = abilitiesTab.content.typeFilterFrame.content, anchorA = "TOPLEFT", anchorB = "TOPLEFT", offsetY = -3, offsetX = 8 } },
         sizeX = typeFilterButtonSize, sizeY = typeFilterButtonSize,
+        labelOn = f.bb("DEF"),
+        labelOff = f.grey("DEF"),
         tooltipOptions = {
-            text = f.bb("Defensive Abilities"),
+            text = f.white("Toggle ") .. f.bb("Defensive Abilities"),
             anchor = "ANCHOR_CURSOR"
         },
-        buttonTextureOptions = {
-            isAtlas = true,
-            normal = 'Warfronts-BaseMapIcons-Alliance-Armory-Minimap',
-            highlight = 'Warfronts-BaseMapIcons-Alliance-Armory-Minimap',
-            disabled = 'Warfronts-BaseMapIcons-Alliance-Armory-Minimap',
-            pushed = 'Warfronts-BaseMapIcons-Alliance-Armory-Minimap',
-        },
+        hideBackground = true,
         optionsTable = abilitiesTab.typeFilters,
         optionsKey = PvPAssistant.CONST.ABILITY_TYPES.DEFENSIVE,
         onToggleCallback = function()
@@ -244,21 +241,16 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
     }
 
     abilitiesTab.content.offFilterButton = GGUI.ToggleButton {
-        cleanTemplate = true,
         parent = abilitiesTab.content.typeFilterFrame.content,
         anchorPoints = { { anchorParent = abilitiesTab.content.defFilterButton.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = 5 } },
         sizeX = typeFilterButtonSize, sizeY = typeFilterButtonSize,
+        labelOn = f.r("OFF"),
+        labelOff = f.grey("OFF"),
         tooltipOptions = {
-            text = f.r("Offensive Abilities"),
+            text = f.white("Toggle ") .. f.r("Offensive Abilities"),
             anchor = "ANCHOR_CURSOR_RIGHT"
         },
-        buttonTextureOptions = {
-            isAtlas = true,
-            normal = 'Warfronts-BaseMapIcons-Horde-Barracks-Minimap',
-            highlight = 'Warfronts-BaseMapIcons-Horde-Barracks-Minimap',
-            disabled = 'Warfronts-BaseMapIcons-Horde-Barracks-Minimap',
-            pushed = 'Warfronts-BaseMapIcons-Horde-Barracks-Minimap',
-        },
+        hideBackground = true,
         optionsTable = abilitiesTab.typeFilters,
         optionsKey = PvPAssistant.CONST.ABILITY_TYPES.OFFENSIVE,
         onToggleCallback = function()
@@ -267,21 +259,16 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
     }
 
     abilitiesTab.content.ccFilterButton = GGUI.ToggleButton {
-        cleanTemplate = true,
         parent = abilitiesTab.content.typeFilterFrame.content,
         anchorPoints = { { anchorParent = abilitiesTab.content.offFilterButton.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = 6 } },
-        sizeX = typeFilterButtonSize - 5, sizeY = typeFilterButtonSize - 5,
+        sizeX = typeFilterButtonSize, sizeY = typeFilterButtonSize,
+        labelOn = f.l("CC"),
+        labelOff = f.grey("CC"),
         tooltipOptions = {
-            text = f.l("Crowd Control Abilities"),
+            text = f.white("Toggle ") .. f.l("Crowd Control Abilities"),
             anchor = "ANCHOR_CURSOR"
         },
-        buttonTextureOptions = {
-            isAtlas = true,
-            normal = 'Vehicle-Trap-Gold',
-            highlight = 'Vehicle-Trap-Gold',
-            disabled = 'Vehicle-Trap-Gold',
-            pushed = 'Vehicle-Trap-Gold',
-        },
+        hideBackground = true,
         optionsTable = abilitiesTab.typeFilters,
         optionsKey = PvPAssistant.CONST.ABILITY_TYPES.CC,
         onToggleCallback = function()
@@ -289,23 +276,18 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
         end
     }
 
-    abilitiesTab.content.roleFilterFrame = GGUI.Frame {
-        parent = abilitiesTab.content, anchorParent = abilitiesTab.content.typeFilterFrame.frame,
-        anchorA = "LEFT", anchorB = "RIGHT", backdropOptions = PvPAssistant.CONST.FILTER_FRAME_BACKDROP,
-        sizeX = 130, sizeY = 50, offsetX = 3,
-    }
-
     abilitiesTab.roleFilters = {}
 
-    local rolefilterButtonSize = 30
+    local rolefilterButtonSize = 25
+    local roleFilterButtonOffsetY = -8
 
     abilitiesTab.content.tankFilterButton = GGUI.ToggleButton {
         cleanTemplate = true,
-        parent = abilitiesTab.content.roleFilterFrame.content,
-        anchorPoints = { { anchorParent = abilitiesTab.content.roleFilterFrame.content, anchorA = "LEFT", anchorB = "LEFT", offsetY = 0, offsetX = 16 } },
+        parent = abilitiesTab.content.typeFilterFrame.content,
+        anchorPoints = { { anchorParent = abilitiesTab.content.defFilterButton.frame, anchorA = "TOP", anchorB = "BOTTOM", offsetY = roleFilterButtonOffsetY } },
         sizeX = rolefilterButtonSize, sizeY = rolefilterButtonSize,
         tooltipOptions = {
-            text = f.bb("Tank Specs"),
+            text = f.white("Toggle ") .. f.bb("Tank Specs"),
             anchor = "ANCHOR_CURSOR"
         },
         buttonTextureOptions = {
@@ -324,11 +306,11 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
 
     abilitiesTab.content.healerFilterButton = GGUI.ToggleButton {
         cleanTemplate = true,
-        parent = abilitiesTab.content.roleFilterFrame.content,
-        anchorPoints = { { anchorParent = abilitiesTab.content.tankFilterButton.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = 5 } },
+        parent = abilitiesTab.content.typeFilterFrame.content,
+        anchorPoints = { { anchorParent = abilitiesTab.content.offFilterButton.frame, anchorA = "TOP", anchorB = "BOTTOM", offsetY = roleFilterButtonOffsetY } },
         sizeX = rolefilterButtonSize, sizeY = rolefilterButtonSize,
         tooltipOptions = {
-            text = f.g("Healer Specs"),
+            text = f.white("Toggle ") .. f.g("Healer Specs"),
             anchor = "ANCHOR_CURSOR_RIGHT"
         },
         buttonTextureOptions = {
@@ -347,11 +329,11 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
 
     abilitiesTab.content.ddFilterButton = GGUI.ToggleButton {
         cleanTemplate = true,
-        parent = abilitiesTab.content.roleFilterFrame.content,
-        anchorPoints = { { anchorParent = abilitiesTab.content.healerFilterButton.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = 5 } },
+        parent = abilitiesTab.content.typeFilterFrame.content,
+        anchorPoints = { { anchorParent = abilitiesTab.content.ccFilterButton.frame, anchorA = "TOP", anchorB = "BOTTOM", offsetY = roleFilterButtonOffsetY } },
         sizeX = rolefilterButtonSize, sizeY = rolefilterButtonSize,
         tooltipOptions = {
-            text = f.r("Damage Specs"),
+            text = f.white("Toggle ") .. f.r("Damage Specs"),
             anchor = "ANCHOR_CURSOR"
         },
         buttonTextureOptions = {
