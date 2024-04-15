@@ -5,8 +5,12 @@ enable-nolib-creation: no
 externals:
   Libs/LibStub: https://repos.curseforge.com/wow/libstub/trunk
   Libs/LibDBIcon-1.0: https://repos.curseforge.com/wow/libdbicon-1-0/trunk
-  Libs/GUTIL: https://github.com/derfloh205/GUTIL.git
-  Libs/GGUI: https://github.com/derfloh205/GGUI.git
+    Libs/GUTIL: 
+    url: https://github.com/derfloh205/GUTIL.git
+    tag: 2.0
+  Libs/GGUI: 
+    url: https://github.com/derfloh205/GGUI.git
+    tag: 2.1
   PvPData: https://github.com/PvPAssistant/PvPData.git
 
 ignore:
