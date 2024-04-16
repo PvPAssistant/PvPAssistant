@@ -48,6 +48,8 @@ function PvPAssistant.ARENA_QUICK_JOIN:Init()
         text = f.white("Quick Join"),
         hide = not PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_BUTTON_TEXT_ENABLED"),
     }
+
+    PvPAssistant.ARENA_QUICK_JOIN.frame:RestoreSavedConfig(UIParent)
 end
 
 local function InCombat()

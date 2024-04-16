@@ -191,6 +191,21 @@ function PvPAssistant.OPTIONS.FRAMES:InitQuickJoinTab(quickJoinTab)
             PvPAssistant.ARENA_QUICK_JOIN.frame.content.bottomTitle:SetVisible(checked)
         end
     }
+
+    content.resetPositionButton = GGUI.Button {
+        parent = content, anchorPoints = { { anchorParent = content.enableQuickJoinCheckbox.frame, anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT" } },
+        label = f.white(PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.REVERT, 0.2) .. " Reset Button Position"),
+        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
+        sizeX = 15,
+        adjustWidth = true,
+        tooltipOptions = {
+            anchor = "ANCHOR_CURSOR_RIGHT",
+            text = f.white("Resets the Button to the middle of the screen")
+        },
+        clickCallback = function()
+            PvPAssistant.ARENA_QUICK_JOIN.frame:ResetPosition()
+        end
+    }
 end
 
 ---@param tooltipsTab PvPAssistant.OPTIONS.TooltipsTab
