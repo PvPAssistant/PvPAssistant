@@ -97,7 +97,7 @@ local function ShowTooltipStateInfo(self, selectedBracketButton)
                 GameTooltip:AddLine("Open the PvP Quick Match tab.")
             end
         elseif isFrameVisible then
-            GameTooltip:AddLine(("Close the %s frame."):format(DUNGEONS_BUTTON))
+            GameTooltip:AddLine("Close the PvP UI.")
         elseif groupSizeButton ~= selectedBracketButton then
             if ConquestJoinButton:IsEnabled() then
                 GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode(
