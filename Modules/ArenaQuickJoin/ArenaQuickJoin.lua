@@ -203,6 +203,8 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
             joinMacroButton:SetScale(0.7)
             joinMacroButton:SetTexture("achievement_bg_killxenemies_generalsroom")
             joinMacroButton:SetAttribute("type", "macro")
+
+            joinMacroButton:Active()
         end
 
         do
