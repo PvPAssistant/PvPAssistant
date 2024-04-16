@@ -9,7 +9,10 @@ local f = GUTIL:GetFormatter()
 PvPAssistant.ARENA_QUICK_JOIN = {}
 
 ---@type PvPAssistant.ARENA_QUICK_JOIN.FRAME
-PvPAssistant.ARENA_QUICK_JOIN.frame = nil
+PvPAssistant.ARENA_QUICK_JOIN.positionAnchor = nil
+
+---@type PvPAssistant.ARENA_QUICK_JOIN.BUTTON
+PvPAssistant.ARENA_QUICK_JOIN.button = nil
 
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("PLAYER_LOGIN")
@@ -26,30 +29,33 @@ local IsAltKeyDown = IsAltKeyDown
 
 function PvPAssistant.ARENA_QUICK_JOIN:Init()
     ---@class PvPAssistant.ARENA_QUICK_JOIN.FRAME : GGUI.Frame
-    PvPAssistant.ARENA_QUICK_JOIN.frame = GGUI.Frame {
+    PvPAssistant.ARENA_QUICK_JOIN.positionAnchor = GGUI.Frame {
         parent = UIParent, moveable = true, frameConfigTable = PvPAssistantGGUIConfig,
         frameID = PvPAssistant.CONST.FRAMES.ARENA_QUICK_JOIN_BUTTON_BOX,
-        sizeX = 80, sizeY = 80,
-        hide = not PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_ENABLED"),
+        sizeX = 20, sizeY = 20,
+        hide = not PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_MOVE_ENABLED"),
     }
 
     ---@class PvPAssistant.ARENA_QUICK_JOIN.FRAME.CONTENT : Frame
-    PvPAssistant.ARENA_QUICK_JOIN.frame.content = PvPAssistant.ARENA_QUICK_JOIN.frame.content
+    PvPAssistant.ARENA_QUICK_JOIN.positionAnchor.content = PvPAssistant.ARENA_QUICK_JOIN.positionAnchor.content
 
-    PvPAssistant.ARENA_QUICK_JOIN.frame.content.topTitle = GGUI.Text {
-        parent = PvPAssistant.ARENA_QUICK_JOIN.frame.content,
-        anchorPoints = { { anchorParent = PvPAssistant.ARENA_QUICK_JOIN.frame.content, anchorA = "TOP", anchorB = "TOP", offsetY = -10 } },
-        text = f.white("Arena"),
-        hide = not PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_BUTTON_TEXT_ENABLED"),
-    }
-    PvPAssistant.ARENA_QUICK_JOIN.frame.content.bottomTitle = GGUI.Text {
-        parent = PvPAssistant.ARENA_QUICK_JOIN.frame.content,
-        anchorPoints = { { anchorParent = PvPAssistant.ARENA_QUICK_JOIN.frame.content, anchorA = "BOTTOM", anchorB = "BOTTOM", offsetY = 10 } },
-        text = f.white("Quick Join"),
-        hide = not PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_BUTTON_TEXT_ENABLED"),
+    PvPAssistant.ARENA_QUICK_JOIN.positionAnchor.content.moveIcon = GGUI.Text {
+        parent = PvPAssistant.ARENA_QUICK_JOIN.positionAnchor.content,
+        anchorPoints = { { anchorParent = PvPAssistant.ARENA_QUICK_JOIN.positionAnchor.content } },
+        text = PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.MOVEABLE, 0.3, 0, -1)
     }
 
-    PvPAssistant.ARENA_QUICK_JOIN.frame:RestoreSavedConfig(UIParent)
+    PvPAssistant.ARENA_QUICK_JOIN.positionAnchor:RestoreSavedConfig(UIParent)
+end
+
+function PvPAssistant.ARENA_QUICK_JOIN:UpdateVisibility()
+    local enabled = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_ENABLED")
+    local labelEnabled = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_BUTTON_LABEL_ENABLED")
+    local moveEnabled = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_MOVE_ENABLED")
+
+    PvPAssistant.ARENA_QUICK_JOIN.button:SetActive(enabled)
+    PvPAssistant.ARENA_QUICK_JOIN.label:SetVisible(enabled and labelEnabled)
+    PvPAssistant.ARENA_QUICK_JOIN.positionAnchor:SetVisible(enabled and moveEnabled)
 end
 
 local function InCombat()
@@ -119,15 +125,25 @@ local function ShowTooltipStateInfo(self, selectedBracketButton)
     GameTooltip:Show()
 end
 
-local joinMacroButton, configureMacroButton, selectedBracketButton
+local configureMacroButton, selectedBracketButton
 frame:SetScript("OnEvent", function(_, eventName, ...)
     if eventName == "PLAYER_LOGIN" then
         do
             local isEventsRegistered, isButtonGrayedOut
 
-            joinMacroButton = CreateFrame("Button", "PvPAssistant_ArenaQuickJoinMacroButton",
-                PvPAssistant.ARENA_QUICK_JOIN.frame.content,
+            ---@class PvPAssistant.ARENA_QUICK_JOIN.BUTTON : Button
+            PvPAssistant.ARENA_QUICK_JOIN.button = CreateFrame("Button",
+                "PvPAssistant_ArenaQuickPvPAssistant.ARENA_QUICK_JOIN.button",
+                UIParent,
                 "SecureActionButtonTemplate, SecureHandlerStateTemplate, ActionButtonTemplate")
+
+
+            PvPAssistant.ARENA_QUICK_JOIN.label = GGUI.Text {
+                parent = UIParent,
+                anchorPoints = { { anchorParent = PvPAssistant.ARENA_QUICK_JOIN.button, anchorA = "TOP", anchorB = "BOTTOM", offsetY = -3 } },
+                text = f.white("Arena\nQuick Join"),
+                hide = not PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_BUTTON_LABEL_ENABLED"),
+            }
 
             local function RegisterEvents()
                 frame:RegisterEvent("ADDON_LOADED")
@@ -147,7 +163,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                 isEventsRegistered = false
             end
 
-            function joinMacroButton:Active(style)
+            function PvPAssistant.ARENA_QUICK_JOIN.button:Active(style)
                 if style == "show" then
                     self:SetAlpha(1)
                 elseif style == "normal" then
@@ -168,7 +184,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                 end
             end
 
-            function joinMacroButton:Inactive(style)
+            function PvPAssistant.ARENA_QUICK_JOIN.button:Inactive(style)
                 if style == "hide" then
                     self:SetAlpha(0)
                 elseif style == "grayout" then
@@ -185,33 +201,46 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                 end
             end
 
-            function joinMacroButton:IsActivated()
+            function PvPAssistant.ARENA_QUICK_JOIN.button:SetActive(active)
+                if active then
+                    self:Active()
+                else
+                    self:Inactive()
+                end
+            end
+
+            function PvPAssistant.ARENA_QUICK_JOIN.button:IsActivated()
                 local _, isLoaded = IsAddOnLoaded(PVPUI_ADDON_NAME)
                 return isLoaded and self:IsVisible()
             end
 
-            function joinMacroButton:IsGrayedOut()
+            function PvPAssistant.ARENA_QUICK_JOIN.button:IsGrayedOut()
                 return isButtonGrayedOut
             end
 
-            function joinMacroButton:SetTexture(texture)
+            function PvPAssistant.ARENA_QUICK_JOIN.button:SetTexture(texture)
                 self.icon:SetTexture("Interface\\Icons\\" .. texture)
             end
 
-            joinMacroButton:SetPoint("CENTER", PvPAssistant.ARENA_QUICK_JOIN.frame.content, "CENTER", 0, 0)
-            joinMacroButton:SetSize(45, 45)
-            joinMacroButton:SetScale(0.7)
-            joinMacroButton:SetTexture("achievement_bg_killxenemies_generalsroom")
-            joinMacroButton:SetAttribute("type", "macro")
+            PvPAssistant.ARENA_QUICK_JOIN.button:SetPoint("TOP", PvPAssistant.ARENA_QUICK_JOIN.positionAnchor.content,
+                "BOTTOM", 0,
+                0)
+            PvPAssistant.ARENA_QUICK_JOIN.button:SetSize(45, 45)
+            PvPAssistant.ARENA_QUICK_JOIN.button:SetScale(0.7)
+            PvPAssistant.ARENA_QUICK_JOIN.button:SetTexture("achievement_bg_killxenemies_generalsroom")
+            PvPAssistant.ARENA_QUICK_JOIN.button:SetAttribute("type", "macro")
 
-            joinMacroButton:Active()
+            PvPAssistant.ARENA_QUICK_JOIN.button:SetActive(PvPAssistant.DB.GENERAL_OPTIONS:Get(
+                "ARENA_QUICK_JOIN_ENABLED"))
+
+            PvPAssistant.ARENA_QUICK_JOIN:UpdateVisibility()
         end
 
         do
             local tooltipHandle
 
             local tooltip = function()
-                ShowTooltipStateInfo(joinMacroButton, selectedBracketButton)
+                ShowTooltipStateInfo(PvPAssistant.ARENA_QUICK_JOIN.button, selectedBracketButton)
             end
 
             local showAndUpdateTooltip = function()
@@ -225,12 +254,12 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                 GameTooltip:Hide()
             end
 
-            joinMacroButton:SetScript("OnEnter", function(self)
+            PvPAssistant.ARENA_QUICK_JOIN.button:SetScript("OnEnter", function(self)
                 GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 0)
                 showAndUpdateTooltip()
             end)
 
-            joinMacroButton:SetScript("OnLeave", hideTooltip)
+            PvPAssistant.ARENA_QUICK_JOIN.button:SetScript("OnLeave", hideTooltip)
         end
     elseif eventName == "ADDON_LOADED" then
         local arg1 = ...
@@ -281,24 +310,24 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
         end
 
         if not InCombat() then
-            configureMacroButton(joinMacroButton)
+            configureMacroButton(PvPAssistant.ARENA_QUICK_JOIN.button)
         end
-    elseif joinMacroButton:IsActivated() then
+    elseif PvPAssistant.ARENA_QUICK_JOIN.button:IsActivated() then
         if eventName == "GROUP_ROSTER_UPDATE" then
-            joinMacroButton:SetFrameRef("GroupSizeButton", GetGroupSizeButton())
+            PvPAssistant.ARENA_QUICK_JOIN.button:SetFrameRef("GroupSizeButton", GetGroupSizeButton())
         elseif eventName == "PLAYER_REGEN_DISABLED" then
-            joinMacroButton:Inactive("grayout")
+            PvPAssistant.ARENA_QUICK_JOIN.button:Inactive("grayout")
         elseif eventName == "PLAYER_REGEN_ENABLED" then
             if configureMacroButton then
-                configureMacroButton(joinMacroButton)
+                configureMacroButton(PvPAssistant.ARENA_QUICK_JOIN.button)
             end
-            joinMacroButton:Active("normal")
+            PvPAssistant.ARENA_QUICK_JOIN.button:Active("normal")
         elseif eventName == "MODIFIER_STATE_CHANGED" then
             local key, down = ...
             if down == 1 and (key == "LALT" or key == "RALT") then
-                joinMacroButton:SetTexture("achievement_bg_winwsg")
+                PvPAssistant.ARENA_QUICK_JOIN.button:SetTexture("achievement_bg_winwsg")
             else
-                joinMacroButton:SetTexture("achievement_bg_killxenemies_generalsroom")
+                PvPAssistant.ARENA_QUICK_JOIN.button:SetTexture("achievement_bg_killxenemies_generalsroom")
             end
         end
     end
