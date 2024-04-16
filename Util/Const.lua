@@ -538,8 +538,8 @@ PvPAssistant.CONST.PVP_SEVERITY_RANK = {
 ---@type table<PvPAssistant.AbilityTypes, number>
 PvPAssistant.CONST.PVP_ABILITY_SORT_RANK = {
     CC = 3,
-    DEF = 2,
-    OFF = 1,
+    DEFENSIVE = 2,
+    OFFENSIVE = 1,
 }
 
 PvPAssistant.CONST.MAP_ABBREVIATIONS = {
