@@ -11,7 +11,7 @@
 ## SavedVariables: PvPAssistantDB, PvPAssistantGGUIConfig, PvPAssistantLibIconDB
 ## Dependencies: Blizzard_InspectUI
 ## OptionalDeps: DevTool
-## Version: 1.0.3
+## Version: 2.0.0
 
 embeds.xml
 
