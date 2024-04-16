@@ -19,8 +19,6 @@ function PvPAssistant.RACE_LOOKUP:Init()
             tinsert(PvPAssistant.RACE_LOOKUP.lookupTable[raceInfo.raceName], raceInfo.clientFileString)
         end
     end
-
-    DevTool:AddData(PvPAssistant.RACE_LOOKUP, "RaceLookup")
 end
 
 ---@param localizedRaceName string
