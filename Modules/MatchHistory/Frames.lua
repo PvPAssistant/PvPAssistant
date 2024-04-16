@@ -548,16 +548,16 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
     local selectedSpecID = PvPAssistant.MATCH_HISTORY:GetSelectedSpecID()
     local selectedInstanceID = PvPAssistant.MATCH_HISTORY:GetSelectedMapInstanceID()
 
-    local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
-    local matchHistories = PvPAssistant.DB.MATCH_HISTORY:Get(playerUID)
+    local matchHistories = PvPAssistant.DB.MATCH_HISTORY:Get(selectedCharacterUID)
 
     local filteredHistory = GUTIL:Filter(matchHistories or {},
         function(matchHistory)
-            local isSelectedCharacter = (matchHistory.player.name .. "-" .. matchHistory.player.realm) ==
-                selectedCharacterUID
+            local matchHistoryCharacterUID = matchHistory.player.name .. "-" .. matchHistory.player.realm
+            local isSelectedCharacter = matchHistoryCharacterUID == selectedCharacterUID
             local isSelectedMode = pvpModeFilter == nil or matchHistory.pvpMode == pvpModeFilter
             local isSelectedSpec = selectedSpecID == nil or matchHistory.player.specID == selectedSpecID
             local isSelectedMap = selectedInstanceID == nil or matchHistory.mapInfo.instanceID == selectedInstanceID
+
             return isSelectedCharacter and isSelectedMode and isSelectedSpec and isSelectedMap
         end)
 
