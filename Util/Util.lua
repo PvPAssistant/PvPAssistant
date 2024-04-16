@@ -122,6 +122,7 @@ end
 ---@field parent Frame
 ---@field anchorPoint GGUI.AnchorPoint?
 ---@field clickCallback? fun(ClassFile, boolean)
+---@field onRevertCallback? fun()
 
 ---@param options PvPAssistant.ClassFilterFrameOptions
 ---@return GGUI.Frame classFilterFrame
@@ -164,6 +165,11 @@ function PvPAssistant.UTIL:CreateClassFilterFrame(options)
             showTooltip = true,
         }
 
+        function classFilterIcon:Revert()
+            activeClassFiltersTable[classFile] = false
+            classFilterIcon:Saturate()
+        end
+
         classFilterIcon.frame:SetScript("OnClick", function()
             if IsShiftKeyDown() then
                 -- if shift clicked -> toggle all off except current class
@@ -202,7 +208,7 @@ function PvPAssistant.UTIL:CreateClassFilterFrame(options)
                         options.clickCallback(classFile, true)
                     end
                 else
-                    activeClassFiltersTable[classFile] = nil
+                    activeClassFiltersTable[classFile] = false
                     classFilterIcon:Saturate()
                     -- reload list with new filters
                     if options.clickCallback then
@@ -244,6 +250,22 @@ function PvPAssistant.UTIL:CreateClassFilterFrame(options)
         tinsert(classFilterFrame.classFilterButtons, classFilterIcon)
         currentAnchor = classFilterIcon.frame
     end
+
+    classFilterFrame.content.revertButton = GGUI.Button {
+        parent = classFilterFrame.content,
+        anchorPoints = { { anchorParent = currentAnchor, anchorA = "LEFT", anchorB = "RIGHT", offsetX = classFilterIconSpacingX, offsetY = 1 } },
+        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
+        label = PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.REVERT, 0.3, 0, -1),
+        sizeX = classFilterIconSize - 1, sizeY = classFilterIconSize - 1,
+        clickCallback = function()
+            for _, filterButton in ipairs(classFilterFrame.classFilterButtons) do
+                filterButton:Revert()
+            end
+            if options.onRevertCallback then
+                options.onRevertCallback()
+            end
+        end
+    }
 
     return classFilterFrame, activeClassFiltersTable
 end

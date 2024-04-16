@@ -29,4 +29,5 @@ PvPAssistant.MEDIA.IMAGES = {
     OPTIONS_ICON = { file = "Buttons/OptionsButton/OptionsIcon.blp", dimensions = { x = 64, y = 64 } },
     DISCORD_TRANSPARENT = { file = "Buttons/DiscordButton/DiscordTransparent.blp", dimensions = { x = 64, y = 64 } },
     CLOSE_X = { file = "Buttons/CloseButton/CloseX.blp", dimensions = { x = 64, y = 64 } },
+    REVERT = { file = "Buttons/RevertButton/Revert.blp", dimensions = { x = 64, y = 64 } },
 }

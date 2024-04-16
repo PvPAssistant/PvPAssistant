@@ -53,8 +53,30 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
         anchorPoint = { anchorParent = abilitiesTab.content, anchorA = "TOP", anchorB = "TOP", offsetX = 0 },
         clickCallback = function(_, _)
             PvPAssistant.ABILITY_CATALOGUE.FRAMES:UpdateAbilityData()
-        end
+        end,
+        onRevertCallback = function()
+            for _, toggleButton in ipairs(abilitiesTab.toggleButtons) do
+                toggleButton:SetToggle(true);
+            end
+            PvPAssistant.ABILITY_CATALOGUE.FRAMES:UpdateAbilityData()
+        end,
     })
+
+    classFilterFrame.content.helpText = GGUI.Text {
+        parent = classFilterFrame.content,
+        anchorPoints = { { anchorParent = classFilterFrame.content, anchorA = "BOTTOMLEFT", anchorB = "TOPLEFT", offsetX = 5, offsetY = -1 } },
+        justifyOptions = { type = "H", align = "LEFT" },
+        fontOptions = {
+            fontFile = PvPAssistant.CONST.FONT_FILES.MONOSPACE,
+            height = 10,
+        },
+        scale = 0.9,
+        text =
+            f.white(
+                "Shift+" .. CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.LEFT_MOUSE_BUTTON, 15, 20) .. ": Filter Other Classes Out\n" ..
+                "Alt  +" .. CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.LEFT_MOUSE_BUTTON, 15, 20) .. ": Filter Other Classes In"
+            ),
+    }
 
     abilitiesTab.content.classFilterFrame = classFilterFrame
     abilitiesTab.activeClassFilters = classFilterTable
@@ -342,6 +364,15 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
         onToggleCallback = function()
             self:UpdateAbilityData()
         end
+    }
+
+    abilitiesTab.toggleButtons = {
+        abilitiesTab.content.defFilterButton,
+        abilitiesTab.content.offFilterButton,
+        abilitiesTab.content.ccFilterButton,
+        abilitiesTab.content.tankFilterButton,
+        abilitiesTab.content.healerFilterButton,
+        abilitiesTab.content.ddFilterButton,
     }
 
     PvPAssistant.ABILITY_CATALOGUE.FRAMES:UpdateAbilityData()
