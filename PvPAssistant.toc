@@ -9,7 +9,6 @@
 ## X-WoWI-ID: 
 ## IconTexture: Interface\Addons\PvPAssistant\Media\Images\icon1337
 ## SavedVariables: PvPAssistantDB, PvPAssistantGGUIConfig, PvPAssistantLibIconDB
-## Dependencies: Blizzard_InspectUI
 ## OptionalDeps: DevTool
 ## Version: 2.0.0
 
