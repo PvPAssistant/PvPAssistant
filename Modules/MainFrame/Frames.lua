@@ -56,7 +56,7 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
     frame.content.gearGuideTab = PvPAssistant.GEAR_GUIDE.FRAMES:InitGearGuideTab()
 
     frame.content.utilButtonFrame = GGUI.Frame {
-        parent = frame.content, anchorPoints = { { anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT", offsetX = -12, offsetY = -57 } },
+        parent = frame.content, anchorPoints = { { anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT", offsetX = -20, offsetY = -57 } },
         sizeX = 120, sizeY = 70,
     }
 

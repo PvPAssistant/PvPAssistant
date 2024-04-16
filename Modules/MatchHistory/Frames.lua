@@ -167,7 +167,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
     matchHistoryTab.content.filterFrame = GGUI.Frame {
         parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content,
         anchorA = "TOP", anchorB = "TOP", backdropOptions = PvPAssistant.CONST.FILTER_FRAME_BACKDROP,
-        sizeX = 430, sizeY = 85, offsetY = 0, offsetX = 20,
+        sizeX = 430, sizeY = 85, offsetY = 0, offsetX = 0,
     }
 
     local filterFrame = matchHistoryTab.content.filterFrame

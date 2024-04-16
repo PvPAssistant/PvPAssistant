@@ -50,7 +50,7 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
 
     local classFilterFrame, classFilterTable = PvPAssistant.UTIL:CreateClassFilterFrame({
         parent = abilitiesTab.content,
-        anchorPoint = { anchorParent = abilitiesTab.content, anchorA = "TOP", anchorB = "TOP", offsetX = 20 },
+        anchorPoint = { anchorParent = abilitiesTab.content, anchorA = "TOP", anchorB = "TOP", offsetX = 0 },
         clickCallback = function(_, _)
             PvPAssistant.ABILITY_CATALOGUE.FRAMES:UpdateAbilityData()
         end
