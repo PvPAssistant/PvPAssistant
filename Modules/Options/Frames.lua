@@ -101,12 +101,40 @@ function PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
         }
     }
 
+    ---@class PvPAssistant.OPTIONS.QuickJoinTab : GGUI.Tab
+    optionsTab.content.quickJoinTab = GGUI.Tab {
+        parent = optionsTab.content, anchorParent = optionsTab.content, anchorA = "TOP", anchorB = "TOP",
+        sizeX = tabSizeX, sizeY = tabSizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
+        backdropOptions = PvPAssistant.CONST.BACKDROPS.OPTIONS_TAB,
+        buttonOptions = {
+            label = GUTIL:ColorizeText("Quick Join", GUTIL.COLORS.WHITE),
+            parent = optionsTab.content,
+            anchorPoints =
+            {
+                {
+                    anchorParent = optionsTab.content.tooltipsTab.button.frame,
+                    anchorA = "LEFT",
+                    anchorB = "RIGHT",
+                    offsetX = 3,
+                }
+            },
+            sizeX = PvPAssistant.MAIN_FRAME.tabButtonSizeX,
+            sizeY = PvPAssistant.MAIN_FRAME.tabButtonSizeY,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
+            fontOptions = {
+                fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
+            },
+        }
+    }
+
     local arenaGuideTab = optionsTab.content.arenaGuideTab
+    local quickJoinTab = optionsTab.content.quickJoinTab
     local tooltipsTab = optionsTab.content.tooltipsTab
 
-    GGUI.TabSystem { arenaGuideTab, tooltipsTab }
+    GGUI.TabSystem { arenaGuideTab, quickJoinTab, tooltipsTab }
 
     PvPAssistant.OPTIONS.FRAMES:InitArenaGuideTab(arenaGuideTab)
+    PvPAssistant.OPTIONS.FRAMES:InitQuickJoinTab(quickJoinTab)
     PvPAssistant.OPTIONS.FRAMES:InitTooltipsTab(tooltipsTab)
 
     return optionsTab
@@ -126,6 +154,41 @@ function PvPAssistant.OPTIONS.FRAMES:InitArenaGuideTab(arenaGuideTab)
         initialValue = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_GUIDE_ENABLED"),
         clickCallback = function(_, checked)
             PvPAssistant.DB.GENERAL_OPTIONS:Save("ARENA_GUIDE_ENABLED", checked)
+        end
+    }
+end
+
+---@param quickJoinTab PvPAssistant.OPTIONS.QuickJoinTab
+function PvPAssistant.OPTIONS.FRAMES:InitQuickJoinTab(quickJoinTab)
+    ---@class PvPAssistant.OPTIONS.QuickJoinTab.Content : Frame
+    local content = quickJoinTab.content
+
+    content.enableQuickJoinCheckbox = GGUI.Checkbox {
+        parent = content, anchorParent = content, anchorA = "TOPLEFT", anchorB = "TOPLEFT", offsetX = 10, offsetY = -10,
+        labelOptions = {
+            text = f.white("Enable the " .. f.e("Arena Quick Join Button")),
+        },
+        tooltip = f.white("If enabled, a button will be shown to quickly queue for arena matches"),
+        initialValue = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_ENABLED"),
+        clickCallback = function(_, checked)
+            PvPAssistant.DB.GENERAL_OPTIONS:Save("ARENA_QUICK_JOIN_ENABLED", checked)
+
+            PvPAssistant.ARENA_QUICK_JOIN.frame:SetVisible(checked)
+        end
+    }
+
+    content.enableQuickJoinCheckbox = GGUI.Checkbox {
+        parent = content, anchorParent = content.enableQuickJoinCheckbox.frame, anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT",
+        labelOptions = {
+            text = f.white("Show a descriptive button text"),
+        },
+        tooltip = f.white("If enabled, the button will be labeled"),
+        initialValue = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_BUTTON_TEXT_ENABLED"),
+        clickCallback = function(_, checked)
+            PvPAssistant.DB.GENERAL_OPTIONS:Save("ARENA_QUICK_JOIN_BUTTON_TEXT_ENABLED", checked)
+
+            PvPAssistant.ARENA_QUICK_JOIN.frame.content.topTitle:SetVisible(checked)
+            PvPAssistant.ARENA_QUICK_JOIN.frame.content.bottomTitle:SetVisible(checked)
         end
     }
 end
