@@ -17,7 +17,8 @@ PvPAssistant.MAIN_FRAME.tabContentOffsetY = -50
 PvPAssistant.MAIN_FRAME.tabButtonSizeX = 110
 PvPAssistant.MAIN_FRAME.tabButtonSizeY = 25
 
-PvPAssistant.MAIN_FRAME.utilButtonSize = 35
+PvPAssistant.MAIN_FRAME.utilButtonSizeX = 55
+PvPAssistant.MAIN_FRAME.utilButtonSizeY = 30
 
 ---@return Frame
 function PvPAssistant.MAIN_FRAME:GetParentFrame()

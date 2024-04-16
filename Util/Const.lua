@@ -298,16 +298,6 @@ PvPAssistant.CONST.ASSETS = {
             pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
             isAtlas = false,
         },
-
-        ---@type GGUI.ButtonTextureOptions
-        DONATE_BUTTON = {
-            normal = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButton/Kofi',
-            disabled = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButton/Kofi',
-            highlight = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButton/Kofi',
-            pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButton/Kofi',
-
-            isAtlas = false,
-        },
         ---@type GGUI.ButtonTextureOptions
         MAIN_BUTTON = {
             normal = 'Interface/addons/PvPAssistant/Media/Buttons/TabButton/TabButtonNormal',

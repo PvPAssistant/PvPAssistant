@@ -56,16 +56,16 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
     frame.content.gearGuideTab = PvPAssistant.GEAR_GUIDE.FRAMES:InitGearGuideTab()
 
     frame.content.utilButtonFrame = GGUI.Frame {
-        parent = frame.content, anchorPoints = { { anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT", offsetX = -17, offsetY = -53 } },
-        sizeX = 100, sizeY = 100,
+        parent = frame.content, anchorPoints = { { anchorParent = frame.content, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT", offsetX = -12, offsetY = -57 } },
+        sizeX = 120, sizeY = 70,
     }
 
     frame.content.discordButton = GGUI.Button {
-        cleanTemplate = true,
         parent = frame.content.utilButtonFrame.content,
         anchorPoints = { { anchorParent = frame.content.utilButtonFrame.content, anchorA = "TOPLEFT", anchorB = "TOPLEFT", offsetX = 0, } },
-        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.DISCORD_BUTTON,
-        sizeX = PvPAssistant.MAIN_FRAME.utilButtonSize, sizeY = PvPAssistant.MAIN_FRAME.utilButtonSize,
+        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
+        label = PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.DISCORD_TRANSPARENT, 0.3, 0, -1),
+        sizeX = PvPAssistant.MAIN_FRAME.utilButtonSizeX, sizeY = PvPAssistant.MAIN_FRAME.utilButtonSizeY,
         clickCallback = function()
             GGUI:ShowPopup {
                 copyText = PvPAssistant.CONST.DISCORD_INVITE,
@@ -77,14 +77,14 @@ function PvPAssistant.MAIN_FRAME.FRAMES:Init()
     }
 
     frame.content.closeButton = GGUI.Button {
-        parent = frame.content.utilButtonFrame.content, anchorPoints = { { anchorParent = frame.content.discordButton.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = 5, } },
-        label = f.white("X"),
+        parent = frame.content.utilButtonFrame.content, anchorPoints = { { anchorParent = frame.content.utilButtonFrame.frame, anchorA = "TOPRIGHT", anchorB = "TOPRIGHT", offsetX = 0, } },
         buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
+        label = PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.CLOSE_X, 0.27, 0, -1),
         fontOptions = {
             fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
         },
-        sizeX = PvPAssistant.MAIN_FRAME.utilButtonSize,
-        sizeY = PvPAssistant.MAIN_FRAME.utilButtonSize,
+        sizeX = PvPAssistant.MAIN_FRAME.utilButtonSizeX,
+        sizeY = PvPAssistant.MAIN_FRAME.utilButtonSizeY,
         clickCallback = function()
             frame:Hide()
         end

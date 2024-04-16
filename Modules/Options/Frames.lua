@@ -21,15 +21,15 @@ function PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
         parent = frame.content, anchorParent = frame.content, anchorA = "TOPLEFT", anchorB = "TOPLEFT",
         sizeX = PvPAssistant.MAIN_FRAME.tabContentSizeX, sizeY = PvPAssistant.MAIN_FRAME.tabContentSizeY, offsetY = PvPAssistant.MAIN_FRAME.tabContentOffsetY, canBeEnabled = true,
         buttonOptions = {
-            label = CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.OPTIONS_ICON, 18, 18, 0, -1),
+            label = PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.OPTIONS_ICON, 0.35, 0, 0),
             anchorPoints = { {
-                anchorParent = frame.content.closeButton.frame,
-                anchorA = "TOP",
-                anchorB = "BOTTOM",
-                offsetY = -5,
+                anchorParent = frame.content.utilButtonFrame.frame,
+                anchorA = "BOTTOMRIGHT",
+                anchorB = "BOTTOMRIGHT",
+                offsetY = 0,
             } },
             parent = frame.content,
-            sizeX = PvPAssistant.MAIN_FRAME.utilButtonSize, sizeY = PvPAssistant.MAIN_FRAME.utilButtonSize,
+            sizeX = PvPAssistant.MAIN_FRAME.utilButtonSizeX, sizeY = PvPAssistant.MAIN_FRAME.utilButtonSizeY,
             buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.OPTIONS_BUTTON,
         }
     }
