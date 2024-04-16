@@ -257,6 +257,10 @@ function PvPAssistant.UTIL:CreateClassFilterFrame(options)
         buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
         label = PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.REVERT, 0.3, 0, -1),
         sizeX = classFilterIconSize - 1, sizeY = classFilterIconSize - 1,
+        tooltipOptions = {
+            anchor = "ANCHOR_CURSOR_RIGHT",
+            text = f.l("Revert Filters"),
+        },
         clickCallback = function()
             for _, filterButton in ipairs(classFilterFrame.classFilterButtons) do
                 filterButton:Revert()
