@@ -205,10 +205,10 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
             justifyOptions = { type = "H", align = "CENTER" },
         },
     }
-    local listScale = 0.997
+    local listScale = 1
     matchHistoryTab.content.matchHistoryList = GGUI.FrameList {
-        parent = matchHistoryTab.content, anchorParent = filterFrame.frame, offsetX = -30, hideScrollbar = false,
-        anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -30, rowHeight = 30,
+        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content, offsetX = -10, hideScrollbar = false,
+        anchorA = "TOP", anchorB = "TOP", scale = listScale, offsetY = -120, rowHeight = 30,
         rowBackdrops = { PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A, PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
         sizeY = 470, columnOptions = columnOptions, rowConstructor = function(columns)
@@ -402,7 +402,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
 
     matchHistoryTab.content.characterDropdown = GGUI.CustomDropdown {
         parent = filterFrame.content, anchorParent = filterFrame.content,
-        anchorA = "BOTTOMLEFT", anchorB = "BOTTOMLEFT", width = 110, offsetX = 25, offsetY = 5,
+        anchorA = "LEFT", anchorB = "LEFT", width = 110, offsetX = 45, offsetY = -3,
         clickCallback = function(self, label, value)
             PvPAssistant.MATCH_HISTORY.FRAMES:UpdateSpecializationDropdown()
             PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMapDropdown()

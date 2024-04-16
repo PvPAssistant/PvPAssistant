@@ -63,12 +63,12 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
     local columnOptions = {
         {
             label = f.grey("Class - Specialization"),
-            width = 180,
-            justifyOptions = { type = "H", align = "LEFT" },
+            width = 190,
+            justifyOptions = { type = "H", align = "CENTER" },
         },
         {
             label = f.grey("Spell"),
-            width = 150,
+            width = 170,
             justifyOptions = { type = "H", align = "LEFT" },
         },
         {
@@ -89,8 +89,8 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
     }
 
     abilitiesTab.content.abilityList = GGUI.FrameList {
-        parent = abilitiesTab.content, anchorParent = abilitiesTab.content.classFilterFrame.frame, anchorA = "TOP", anchorB = "BOTTOM",
-        sizeY = 430, showBorder = true, offsetY = -55, offsetX = -30,
+        parent = abilitiesTab.content, anchorParent = abilitiesTab.content, anchorA = "TOP", anchorB = "TOP",
+        sizeY = 470, offsetY = -120, offsetX = -10, rowHeight = 30,
         columnOptions = columnOptions,
         rowBackdrops = { PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A, PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
@@ -103,29 +103,23 @@ function PvPAssistant.ABILITY_CATALOGUE.FRAMES:InitAbilitiesCatalogueTab()
 
             local iconSize = 23
             classSpecColumn.classIcon = GGUI.ClassIcon {
-                parent = classSpecColumn, anchorParent = classSpecColumn, enableMouse = false, sizeX = iconSize, sizeY = iconSize, anchorA = "LEFT", anchorB = "LEFT",
-            }
-
-            classSpecColumn.specIcon = GGUI.ClassIcon {
-                parent = classSpecColumn, anchorParent = classSpecColumn.classIcon.frame, enableMouse = false, sizeX = iconSize, sizeY = iconSize, anchorA = "LEFT", anchorB = "RIGHT",
+                parent = classSpecColumn, enableMouse = false, sizeX = iconSize, sizeY = iconSize,
+                anchorPoints = { { anchorParent = classSpecColumn, anchorA = "LEFT", anchorB = "LEFT", offsetX = 5 } },
             }
 
             classSpecColumn.className = GGUI.Text {
-                parent = classSpecColumn, anchorParent = classSpecColumn.specIcon.frame, justifyOptions = { type = "H", align = "LEFT" }, text = "",
-                anchorA = "LEFT", anchorB = "RIGHT", offsetX = 3, scale = 0.9
+                parent = classSpecColumn, anchorParent = classSpecColumn.classIcon.frame, justifyOptions = { type = "H", align = "LEFT" }, text = "",
+                anchorA = "LEFT", anchorB = "RIGHT", offsetX = 10, scale = 0.9
             }
 
             classSpecColumn.SetClass = function(self, class, specID)
-                classSpecColumn.classIcon:SetClass(class)
+                classSpecColumn.classIcon:SetClass(specID or class)
                 if specID then
-                    classSpecColumn.specIcon:Show()
-                    classSpecColumn.specIcon:SetClass(specID)
                     local specName = select(2, GetSpecializationInfoByID(specID))
                     classSpecColumn.className:SetText(f.class(
                         tostring(LOCALIZED_CLASS_NAMES_MALE[class]) .. " - " .. tostring(specName),
                         class))
                 else
-                    classSpecColumn.specIcon:Hide()
                     classSpecColumn.className:SetText(f.class(LOCALIZED_CLASS_NAMES_MALE[class], class))
                 end
             end
