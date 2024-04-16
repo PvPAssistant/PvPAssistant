@@ -197,6 +197,19 @@ PvPAssistant.CONST.FILTER_FRAME_BACKDROP = {
 }
 
 ---@type GGUI.BackdropOptions
+PvPAssistant.CONST.SUB_FILTER_FRAME_BACKDROP = {
+    backdropInfo = {
+        bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024x128",
+    },
+    backdropRGBA = {
+        0.3,
+        0.3,
+        0.32,
+        1,
+    },
+}
+
+---@type GGUI.BackdropOptions
 PvPAssistant.CONST.STRAGETY_TEXT_BACKDROP = {
     backdropInfo = {
         bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024x128",
@@ -283,16 +296,6 @@ PvPAssistant.CONST.ASSETS = {
             disabled = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
             highlight = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
             pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
-            isAtlas = false,
-        },
-
-        ---@type GGUI.ButtonTextureOptions
-        DONATE_BUTTON = {
-            normal = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButton/Kofi',
-            disabled = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButton/Kofi',
-            highlight = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButton/Kofi',
-            pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButton/Kofi',
-
             isAtlas = false,
         },
         ---@type GGUI.ButtonTextureOptions
