@@ -18,7 +18,7 @@ function PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
 
     ---@class PvPAssistant.OPTIONS.OPTIONS_TAB : GGUI.Tab
     frame.content.optionsTab = GGUI.Tab {
-        parent = frame.content, anchorParent = frame.content, anchorA = "TOPLEFT", anchorB = "TOPLEFT",
+        parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = PvPAssistant.MAIN_FRAME.tabContentSizeX, sizeY = PvPAssistant.MAIN_FRAME.tabContentSizeY, offsetY = PvPAssistant.MAIN_FRAME.tabContentOffsetY, canBeEnabled = true,
         buttonOptions = {
             label = PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.OPTIONS_ICON, 0.35, 0, 0),
@@ -34,9 +34,9 @@ function PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
         }
     }
 
-    local tabSizeX = 650
+    local tabSizeX = 710
     local tabSizeY = 450
-    local tabContentOffsetY = -80
+    local tabContentOffsetY = -130
 
     local optionsTab = PvPAssistant.MAIN_FRAME.frame.content.optionsTab
     ---@class PvPAssistant.OPTIONS.OPTIONS_TAB.CONTENT
@@ -61,12 +61,12 @@ function PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
                     anchorParent = optionsTab.content,
                     anchorA = "TOPLEFT",
                     anchorB = "TOPLEFT",
-                    offsetX = 55,
-                    offsetY = -53,
+                    offsetX = 25,
+                    offsetY = -103,
                 }
             },
-            adjustWidth = true,
-            sizeX = 15,
+            sizeX = PvPAssistant.MAIN_FRAME.tabButtonSizeX,
+            sizeY = PvPAssistant.MAIN_FRAME.tabButtonSizeY,
             buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
@@ -88,11 +88,11 @@ function PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
                     anchorParent = optionsTab.content.arenaGuideTab.button.frame,
                     anchorA = "LEFT",
                     anchorB = "RIGHT",
-                    offsetX = 1,
+                    offsetX = 3,
                 }
             },
-            adjustWidth = true,
-            sizeX = 20,
+            sizeX = PvPAssistant.MAIN_FRAME.tabButtonSizeX,
+            sizeY = PvPAssistant.MAIN_FRAME.tabButtonSizeY,
             buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
