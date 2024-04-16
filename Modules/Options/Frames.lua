@@ -173,27 +173,40 @@ function PvPAssistant.OPTIONS.FRAMES:InitQuickJoinTab(quickJoinTab)
         clickCallback = function(_, checked)
             PvPAssistant.DB.GENERAL_OPTIONS:Save("ARENA_QUICK_JOIN_ENABLED", checked)
 
-            PvPAssistant.ARENA_QUICK_JOIN.frame:SetVisible(checked)
+            PvPAssistant.ARENA_QUICK_JOIN:UpdateVisibility()
         end
     }
 
-    content.enableQuickJoinCheckbox = GGUI.Checkbox {
+    content.enableButtonLabelCheckbox = GGUI.Checkbox {
         parent = content, anchorParent = content.enableQuickJoinCheckbox.frame, anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT",
         labelOptions = {
-            text = f.white("Show a descriptive button text"),
+            text = f.white("Show Button Label"),
         },
         tooltip = f.white("If enabled, the button will be labeled"),
-        initialValue = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_BUTTON_TEXT_ENABLED"),
+        initialValue = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_BUTTON_LABEL_ENABLED"),
         clickCallback = function(_, checked)
-            PvPAssistant.DB.GENERAL_OPTIONS:Save("ARENA_QUICK_JOIN_BUTTON_TEXT_ENABLED", checked)
+            PvPAssistant.DB.GENERAL_OPTIONS:Save("ARENA_QUICK_JOIN_BUTTON_LABEL_ENABLED", checked)
 
-            PvPAssistant.ARENA_QUICK_JOIN.frame.content.topTitle:SetVisible(checked)
-            PvPAssistant.ARENA_QUICK_JOIN.frame.content.bottomTitle:SetVisible(checked)
+            PvPAssistant.ARENA_QUICK_JOIN:UpdateVisibility()
+        end
+    }
+
+    content.enablePositionAnchorCheckbox = GGUI.Checkbox {
+        parent = content, anchorParent = content.enableButtonLabelCheckbox.frame, anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT",
+        labelOptions = {
+            text = f.white("Show Button Position Anchor"),
+        },
+        tooltip = f.white("If enabled, displays the position anchor that can be dragged to move the button"),
+        initialValue = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_MOVE_ENABLED"),
+        clickCallback = function(_, checked)
+            PvPAssistant.DB.GENERAL_OPTIONS:Save("ARENA_QUICK_JOIN_MOVE_ENABLED", checked)
+
+            PvPAssistant.ARENA_QUICK_JOIN:UpdateVisibility()
         end
     }
 
     content.resetPositionButton = GGUI.Button {
-        parent = content, anchorPoints = { { anchorParent = content.enableQuickJoinCheckbox.frame, anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT" } },
+        parent = content, anchorPoints = { { anchorParent = content.enablePositionAnchorCheckbox.frame, anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT" } },
         label = f.white(PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.REVERT, 0.2) .. " Reset Button Position"),
         buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
         sizeX = 15,
@@ -203,7 +216,7 @@ function PvPAssistant.OPTIONS.FRAMES:InitQuickJoinTab(quickJoinTab)
             text = f.white("Resets the Button to the middle of the screen")
         },
         clickCallback = function()
-            PvPAssistant.ARENA_QUICK_JOIN.frame:ResetPosition()
+            PvPAssistant.ARENA_QUICK_JOIN.positionAnchor:ResetPosition()
         end
     }
 end
