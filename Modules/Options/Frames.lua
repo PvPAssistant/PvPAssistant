@@ -28,6 +28,7 @@ function PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
                 anchorB = "BOTTOMRIGHT",
                 offsetY = 0,
             } },
+            hideBackground = true,
             parent = frame.content,
             sizeX = PvPAssistant.MAIN_FRAME.utilButtonSizeX, sizeY = PvPAssistant.MAIN_FRAME.utilButtonSizeY,
             buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.OPTIONS_BUTTON,
