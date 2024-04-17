@@ -211,7 +211,56 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
         anchorA = "TOP", anchorB = "TOP", scale = listScale, offsetY = -120, rowHeight = 30,
         rowBackdrops = { PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A, PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
-        sizeY = 470, columnOptions = columnOptions, rowConstructor = function(columns)
+        sizeY = 470, columnOptions = columnOptions, rowConstructor = function(columns, row)
+        row:CreateSubFrameList {
+            rowBackdrops = { PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A, PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B },
+            selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
+            hideScrollbar = true, disableScrolling = true,
+            offsetX = 10,
+            scale = 0.95,
+            columnOptions = {
+                {
+                    width = 190, -- Date
+                },
+                {
+                    width = 200, -- Players
+                },
+                {
+                    width = 100, -- Damage
+                },
+                {
+                    width = 100, -- Heal
+                },
+                {
+                    width = 100, -- Win/Lose
+                },
+            },
+            rowConstructor = function(columns, row)
+                local dateColumn = columns[1]
+                local playersColumn = columns[2]
+                local dmgColumn = columns[3]
+                local healColumn = columns[4]
+                local resultColumn = columns[5]
+
+                dateColumn.text = GGUI.Text {
+                    text = "2:00", anchorPoints = { { anchorParent = dateColumn } }, parent = dateColumn,
+                }
+
+                PvPAssistant.MATCH_HISTORY.FRAMES:CreatePlayersFrameListColumn(playersColumn)
+
+                dmgColumn.text = GGUI.Text {
+                    text = "Text3", anchorPoints = { { anchorParent = dmgColumn } }, parent = dmgColumn,
+                }
+                healColumn.text = GGUI.Text {
+                    text = "Text4", anchorPoints = { { anchorParent = healColumn } }, parent = healColumn,
+                }
+                resultColumn.text = GGUI.Text {
+                    text = "Text5", anchorPoints = { { anchorParent = resultColumn } }, parent = resultColumn,
+                }
+            end,
+        }
+
+        -- Columns
         local dateColumn = columns[1]
         local mapColumn = columns[2]
         local playersColumn = columns[3]
@@ -260,115 +309,9 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
         mapColumn.text = GGUI.Text {
             parent = mapColumn, anchorParent = mapColumn, justifyOptions = { type = "H", align = "CENTER" }
         }
-        local iconSpacingX = 5
-        playersColumn.vs = GGUI.Text {
-            parent = playersColumn, anchorPoints = { { anchorParent = playersColumn } },
-            text = f.r("vs")
-        }
-        local iconSize = 20
-        playersColumn.iconP1 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn.vs.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -iconSpacingX,
-            initialClass = "WARLOCK", sizeX = iconSize, sizeY = iconSize,
-            showTooltip = true,
-        }
-        playersColumn.iconP2 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn.iconP1.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -iconSpacingX,
-            initialClass = "WARRIOR", sizeX = iconSize, sizeY = iconSize,
-            showTooltip = true,
-        }
-        playersColumn.iconP3 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn.iconP2.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -iconSpacingX,
-            initialClass = "MONK", sizeX = iconSize, sizeY = iconSize,
-            showTooltip = true,
-        }
 
-        playersColumn.iconE1 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn.vs.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
-            initialClass = "WARLOCK", sizeX = iconSize, sizeY = iconSize,
-            showTooltip = true,
-        }
-        playersColumn.iconE2 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn.iconE1.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
-            initialClass = "WARRIOR", sizeX = iconSize, sizeY = iconSize,
-            showTooltip = true,
-        }
-        playersColumn.iconE3 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn.iconE2.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
-            initialClass = "MONK", sizeX = iconSize, sizeY = iconSize,
-            showTooltip = true,
-        }
+        PvPAssistant.MATCH_HISTORY.FRAMES:CreatePlayersFrameListColumn(playersColumn)
 
-        local shuffleIconsOffsetX = 25
-        playersColumn.iconSS1 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn, anchorA = "LEFT", anchorB = "LEFT", offsetX = shuffleIconsOffsetX,
-            initialClass = "WARLOCK", sizeX = iconSize, sizeY = iconSize,
-            showTooltip = true,
-        }
-        playersColumn.iconSS2 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn.iconSS1.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
-            initialClass = "WARRIOR", sizeX = iconSize, sizeY = iconSize,
-            showTooltip = true,
-        }
-        playersColumn.iconSS3 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn.iconSS2.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
-            initialClass = "MONK", sizeX = iconSize, sizeY = iconSize,
-            showTooltip = true,
-        }
-        playersColumn.iconSS4 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn.iconSS3.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
-            initialClass = "WARLOCK", sizeX = iconSize, sizeY = iconSize,
-            showTooltip = true,
-        }
-        playersColumn.iconSS5 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn.iconSS4.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
-            initialClass = "WARRIOR", sizeX = iconSize, sizeY = iconSize,
-            showTooltip = true,
-        }
-        playersColumn.iconSS6 = GGUI.ClassIcon {
-            parent = playersColumn, anchorParent = playersColumn.iconSS5.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
-            initialClass = "MONK", sizeX = iconSize, sizeY = iconSize,
-            showTooltip = true,
-        }
-
-        playersColumn.iconsSoloShuffle = { playersColumn.iconSS1, playersColumn.iconSS2, playersColumn.iconSS3,
-            playersColumn.iconSS4,
-            playersColumn.iconSS5, playersColumn.iconSS6 }
-        playersColumn.iconsP = { playersColumn.iconP1, playersColumn.iconP2, playersColumn.iconP3 }
-        playersColumn.iconsE = { playersColumn.iconE1, playersColumn.iconE2, playersColumn.iconE3 }
-
-        ---@param matchHistory PvPAssistant.MatchHistory
-        playersColumn.SetPlayers = function(self, matchHistory)
-            self.vs:SetVisible(not matchHistory.isSoloShuffle)
-            local playerTeam = matchHistory.playerTeam
-            local enemyTeam = matchHistory.enemyTeam
-
-            for _, icon in pairs(GUTIL:Concat { playersColumn.iconsP, playersColumn.iconsE, playersColumn.iconsSoloShuffle }) do
-                icon:Hide()
-            end
-
-            if matchHistory.isSoloShuffle then
-                local sortedPlayers = GUTIL:Sort(GUTIL:Concat { playerTeam.players, enemyTeam.players },
-                    PvPAssistant.MATCH_HISTORY.SortPlayerBySpecRole)
-                for i, player in pairs(sortedPlayers) do
-                    local icon = playersColumn.iconsSoloShuffle[i]
-                    icon:Show()
-                    icon:SetClass(player.specID)
-                end
-            else
-                local sortedPlayerTeam = GUTIL:Sort(playerTeam.players, PvPAssistant.MATCH_HISTORY.SortPlayerBySpecRole)
-                local sortedEnemyTeam = GUTIL:Sort(enemyTeam.players, PvPAssistant.MATCH_HISTORY.SortPlayerBySpecRole)
-                for i, player in ipairs(sortedPlayerTeam) do
-                    local icon = playersColumn.iconsP[i]
-                    icon:Show()
-                    icon:SetClass(player.specID)
-                end
-                for i, player in ipairs(sortedEnemyTeam) do
-                    local icon = playersColumn.iconsE[i]
-                    icon:Show()
-                    icon:SetClass(player.specID)
-                end
-            end
-        end
         mmrColumn.text = GGUI.Text {
             parent = mmrColumn, anchorParent = mmrColumn, justifyOptions = { type = "H", align = "CENTER" }
         }
@@ -537,6 +480,119 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
     return matchHistoryTab
 end
 
+---@param playersColumn Frame
+function PvPAssistant.MATCH_HISTORY.FRAMES:CreatePlayersFrameListColumn(playersColumn)
+    local iconSpacingX = 5
+    playersColumn.vs = GGUI.Text {
+        parent = playersColumn, anchorPoints = { { anchorParent = playersColumn } },
+        text = f.r("vs")
+    }
+    local iconSize = 20
+    playersColumn.iconP1 = GGUI.ClassIcon {
+        parent = playersColumn, anchorParent = playersColumn.vs.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -iconSpacingX,
+        initialClass = "WARLOCK", sizeX = iconSize, sizeY = iconSize,
+        showTooltip = true,
+    }
+    playersColumn.iconP2 = GGUI.ClassIcon {
+        parent = playersColumn, anchorParent = playersColumn.iconP1.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -iconSpacingX,
+        initialClass = "WARRIOR", sizeX = iconSize, sizeY = iconSize,
+        showTooltip = true,
+    }
+    playersColumn.iconP3 = GGUI.ClassIcon {
+        parent = playersColumn, anchorParent = playersColumn.iconP2.frame, anchorA = "RIGHT", anchorB = "LEFT", offsetX = -iconSpacingX,
+        initialClass = "MONK", sizeX = iconSize, sizeY = iconSize,
+        showTooltip = true,
+    }
+
+    playersColumn.iconE1 = GGUI.ClassIcon {
+        parent = playersColumn, anchorParent = playersColumn.vs.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
+        initialClass = "WARLOCK", sizeX = iconSize, sizeY = iconSize,
+        showTooltip = true,
+    }
+    playersColumn.iconE2 = GGUI.ClassIcon {
+        parent = playersColumn, anchorParent = playersColumn.iconE1.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
+        initialClass = "WARRIOR", sizeX = iconSize, sizeY = iconSize,
+        showTooltip = true,
+    }
+    playersColumn.iconE3 = GGUI.ClassIcon {
+        parent = playersColumn, anchorParent = playersColumn.iconE2.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
+        initialClass = "MONK", sizeX = iconSize, sizeY = iconSize,
+        showTooltip = true,
+    }
+
+    local shuffleIconsOffsetX = 25
+    playersColumn.iconSS1 = GGUI.ClassIcon {
+        parent = playersColumn, anchorParent = playersColumn, anchorA = "LEFT", anchorB = "LEFT", offsetX = shuffleIconsOffsetX,
+        initialClass = "WARLOCK", sizeX = iconSize, sizeY = iconSize,
+        showTooltip = true,
+    }
+    playersColumn.iconSS2 = GGUI.ClassIcon {
+        parent = playersColumn, anchorParent = playersColumn.iconSS1.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
+        initialClass = "WARRIOR", sizeX = iconSize, sizeY = iconSize,
+        showTooltip = true,
+    }
+    playersColumn.iconSS3 = GGUI.ClassIcon {
+        parent = playersColumn, anchorParent = playersColumn.iconSS2.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
+        initialClass = "MONK", sizeX = iconSize, sizeY = iconSize,
+        showTooltip = true,
+    }
+    playersColumn.iconSS4 = GGUI.ClassIcon {
+        parent = playersColumn, anchorParent = playersColumn.iconSS3.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
+        initialClass = "WARLOCK", sizeX = iconSize, sizeY = iconSize,
+        showTooltip = true,
+    }
+    playersColumn.iconSS5 = GGUI.ClassIcon {
+        parent = playersColumn, anchorParent = playersColumn.iconSS4.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
+        initialClass = "WARRIOR", sizeX = iconSize, sizeY = iconSize,
+        showTooltip = true,
+    }
+    playersColumn.iconSS6 = GGUI.ClassIcon {
+        parent = playersColumn, anchorParent = playersColumn.iconSS5.frame, anchorA = "LEFT", anchorB = "RIGHT", offsetX = iconSpacingX,
+        initialClass = "MONK", sizeX = iconSize, sizeY = iconSize,
+        showTooltip = true,
+    }
+
+    playersColumn.iconsSoloShuffle = { playersColumn.iconSS1, playersColumn.iconSS2, playersColumn.iconSS3,
+        playersColumn.iconSS4,
+        playersColumn.iconSS5, playersColumn.iconSS6 }
+    playersColumn.iconsP = { playersColumn.iconP1, playersColumn.iconP2, playersColumn.iconP3 }
+    playersColumn.iconsE = { playersColumn.iconE1, playersColumn.iconE2, playersColumn.iconE3 }
+
+    ---@param matchHistory PvPAssistant.MatchHistory
+    playersColumn.SetPlayers = function(self, matchHistory)
+        self.vs:SetVisible(not matchHistory.isSoloShuffle)
+        local playerTeam = matchHistory.playerTeam
+        local enemyTeam = matchHistory.enemyTeam
+
+        for _, icon in pairs(GUTIL:Concat { playersColumn.iconsP, playersColumn.iconsE, playersColumn.iconsSoloShuffle }) do
+            icon:Hide()
+        end
+
+        if matchHistory.isSoloShuffle then
+            local sortedPlayers = GUTIL:Sort(GUTIL:Concat { playerTeam.players, enemyTeam.players },
+                PvPAssistant.MATCH_HISTORY.SortPlayerBySpecRole)
+            for i, player in pairs(sortedPlayers) do
+                local icon = playersColumn.iconsSoloShuffle[i]
+                icon:Show()
+                icon:SetClass(player.specID)
+            end
+        else
+            local sortedPlayerTeam = GUTIL:Sort(playerTeam.players, PvPAssistant.MATCH_HISTORY.SortPlayerBySpecRole)
+            local sortedEnemyTeam = GUTIL:Sort(enemyTeam.players, PvPAssistant.MATCH_HISTORY.SortPlayerBySpecRole)
+            for i, player in ipairs(sortedPlayerTeam) do
+                local icon = playersColumn.iconsP[i]
+                icon:Show()
+                icon:SetClass(player.specID)
+            end
+            for i, player in ipairs(sortedEnemyTeam) do
+                local icon = playersColumn.iconsE[i]
+                icon:Show()
+                icon:SetClass(player.specID)
+            end
+        end
+    end
+end
+
 function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
     local matchHistoryTab = PvPAssistant.MATCH_HISTORY.matchHistoryTab
     local matchHistoryList = matchHistoryTab.content.matchHistoryList
@@ -614,7 +670,33 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
                 local shuffleWins = (matchHistory.player.scoreData.stats and matchHistory.player.scoreData.stats[1].pvpStatValue) or
                     0
                 winColumn:SetWin(matchHistory.win, shuffleWins)
+
+                row.subFrameList:Remove()
+
+                for i = 1, 6 do
+                    row.subFrameList:Add(function(row, columns)
+                        local dateColumn = columns[1]
+                        local playersColumn = columns[2]
+                        local dmgColumn = columns[3]
+                        local healColumn = columns[4]
+                        local resultColumn = columns[5]
+
+                        dateColumn.text:SetText(formattedDate)
+                        dmgColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(1234567))
+                        healColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(7654321))
+                        resultColumn.text:SetText(CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.CHECKMARK, 20,
+                            20,
+                            0.5))
+
+                        playersColumn:SetPlayers(matchHistory)
+                    end)
+                end
+
+                row.subFrameListEnabled = true
+
+                row.subFrameList:UpdateDisplay()
             else
+                row.subFrameListEnabled = false
                 winColumn:SetWin(matchHistory.win)
             end
 
