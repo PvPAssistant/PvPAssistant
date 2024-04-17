@@ -261,12 +261,24 @@ function PvPAssistant.DATA_COLLECTION:PVP_MATCH_STATE_CHANGED()
     if state == Enum.PvPMatchState.PostRound then
         debug("PVP_MATCH_STATE_CHANGED: PostRound")
         -- DEBUG TODO Remove after testing
-        -- if C_PvP.IsSoloShuffle() then
-        --     local intermediateShuffleMatchHistory = self:CreateMatchHistoryFromEndScore()
-        --     local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
-        --     PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
-        -- end
-        --
+        if C_PvP.IsSoloShuffle() then
+            local intermediateShuffleMatchHistory = self:CreateMatchHistoryFromEndScore()
+            if not intermediateShuffleMatchHistory then
+                return
+            end
+            local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
+            PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
+            local arenaSpecIDs = self:GetArenaSpecIDs()
+            local date = date("!*t", intermediateShuffleMatchHistory.timestamp / 1000) -- use ! because it is already localized time and divide by 1000 because date constructor needs seconds
+            local formattedDate = string.format("%02d.%02d.%d %02d:%02d", date.day, date.month, date.year, date.hour,
+                date.min)
+            PvPAssistant.DB.DEBUG:Save({
+                shuffleMatchHistory = intermediateShuffleMatchHistory,
+                date = formattedDate,
+                arenaSpecIDs = CopyTable(arenaSpecIDs)
+            })
+        end
+
         PvPAssistant.DATA_COLLECTION:ResetSpecIDs()
     end
     if state == Enum.PvPMatchState.Inactive then
