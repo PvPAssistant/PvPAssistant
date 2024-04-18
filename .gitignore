@@ -1,1 +1,4 @@
 .vscode
+.release/
+Libs/
+!Libs/classic.lua
