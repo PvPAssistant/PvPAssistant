@@ -128,6 +128,12 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
         rowBackdrops = { PvPAssistant.CONST.TOOLTIP_FRAME_ROW_BACKDROP_A, {} }
     }
 
+    content.expandHint = GGUI.Text {
+        parent = content, anchorPoints = { { anchorParent = content.playerList.frame, anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT", offsetX = 10, offsetY = -5 } },
+        text = f.g("(click to show individual shuffle matches)"),
+        hide = true,
+    }
+
     PvPAssistant.MATCH_HISTORY.tooltipFrame:Hide()
 end
 
