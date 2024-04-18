@@ -14,6 +14,7 @@ PvPAssistant.DB = {}
 ---@field tooltipOptions PvPAssistantDB.Database
 ---@field characterData PvPAssistantDB.Database
 ---@field generalOptions PvPAssistantDB.Database
+---@field recommendationData PvPAssistantDB.Database
 PvPAssistantDB = PvPAssistantDB or {}
 
 function PvPAssistant.DB:Init()
@@ -22,7 +23,7 @@ function PvPAssistant.DB:Init()
     self.CHARACTERS:Init()
     self.TOOLTIP_OPTIONS:Init()
     self.GENERAL_OPTIONS:Init()
-
+    self.RECOMMENDATION_DATA:Init()
 
     PvPAssistant.DB:Migrate()
     PvPAssistant.DB:CleanUp()
@@ -34,6 +35,7 @@ function PvPAssistant.DB:Migrate()
     self.CHARACTERS:Migrate()
     self.TOOLTIP_OPTIONS:Migrate()
     self.GENERAL_OPTIONS:Migrate()
+    self.RECOMMENDATION_DATA:Migrate()
 end
 
 --- Cleanup old unused DBs / Saved Variables
