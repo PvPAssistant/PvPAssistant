@@ -21,6 +21,7 @@ PvPAssistant.CONST.FRAMES = {
     MAIN_FRAME = "MAIN_FRAME",
     PVPINFO = "PVPINFO",
     ARENA_GUIDE = "ARENA_GUIDE",
+    ARENA_QUICK_JOIN_BUTTON_BOX = "ARENA_QUICK_JOIN_BUTTON_BOX",
 }
 
 ---@enum PvPAssistant.Const.DisplayTeams
@@ -134,6 +135,22 @@ PvPAssistant.CONST.MAIN_FRAME_BACKDROP = {
         0.2, 0.2, 0.2, 1
     },
 }
+
+---@type GGUI.BackdropOptions
+PvPAssistant.CONST.ARENA_QUICK_JOIN_BUTTON_BOX_BACKDROP = {
+    backdropInfo = {
+        bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024",
+        edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
+        edgeSize = 12,
+        insets = { left = 0, right = 0, top = 0, bottom = 0 },
+    },
+    backdropRGBA = {
+        0.3,
+        0.3,
+        0.32,
+        1,
+    },
+}
 ---@type GGUI.BackdropOptions
 PvPAssistant.CONST.TOOLTIP_FRAME_BACKDROP = {
     backdropInfo = {
@@ -192,6 +209,19 @@ PvPAssistant.CONST.FILTER_FRAME_BACKDROP = {
         0.176,
         0.176,
         0.184,
+        1,
+    },
+}
+
+---@type GGUI.BackdropOptions
+PvPAssistant.CONST.SUB_FILTER_FRAME_BACKDROP = {
+    backdropInfo = {
+        bgFile = "Interface/addons/PvPAssistant/Media/Backgrounds/bgRoundedWhite1024x128",
+    },
+    backdropRGBA = {
+        0.3,
+        0.3,
+        0.32,
         1,
     },
 }
@@ -283,16 +313,6 @@ PvPAssistant.CONST.ASSETS = {
             disabled = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
             highlight = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
             pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DiscordButton/Discordgray',
-            isAtlas = false,
-        },
-
-        ---@type GGUI.ButtonTextureOptions
-        DONATE_BUTTON = {
-            normal = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButton/Kofi',
-            disabled = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButton/Kofi',
-            highlight = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButton/Kofi',
-            pushed = 'Interface/addons/PvPAssistant/Media/Buttons/DonateButton/Kofi',
-
             isAtlas = false,
         },
         ---@type GGUI.ButtonTextureOptions
@@ -535,8 +555,8 @@ PvPAssistant.CONST.PVP_SEVERITY_RANK = {
 ---@type table<PvPAssistant.AbilityTypes, number>
 PvPAssistant.CONST.PVP_ABILITY_SORT_RANK = {
     CC = 3,
-    DEF = 2,
-    OFF = 1,
+    DEFENSIVE = 2,
+    OFFENSIVE = 1,
 }
 
 PvPAssistant.CONST.MAP_ABBREVIATIONS = {
@@ -555,7 +575,10 @@ PvPAssistant.CONST.SPELL_TOOLTIP_OPTIONS = {
 ---@enum PvPAssistant.GENERAL_OPTION
 PvPAssistant.CONST.GENERAL_OPTION = {
     DEBUG = "DEBUG",
-    ARENA_GUIDE_ENABLED = "ARENA_GUIDE_ENABLED"
+    ARENA_GUIDE_ENABLED = "ARENA_GUIDE_ENABLED",
+    ARENA_QUICK_JOIN_ENABLED = "ARENA_QUICK_JOIN_ENABLED",
+    ARENA_QUICK_JOIN_BUTTON_LABEL_ENABLED = "ARENA_QUICK_JOIN_BUTTON_LABEL_ENABLED",
+    ARENA_QUICK_JOIN_MOVE_ENABLED = "ARENA_QUICK_JOIN_MOVE_ENABLED",
 }
 
 ---@type table<ClassFile, number>

@@ -21,23 +21,23 @@ function PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
         parent = frame.content, anchorParent = frame.content, anchorA = "TOP", anchorB = "TOP",
         sizeX = PvPAssistant.MAIN_FRAME.tabContentSizeX, sizeY = PvPAssistant.MAIN_FRAME.tabContentSizeY, offsetY = PvPAssistant.MAIN_FRAME.tabContentOffsetY, canBeEnabled = true,
         buttonOptions = {
-            label = CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.OPTIONS_ICON, 18, 18, 0, -1),
+            label = PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.OPTIONS_ICON, 0.35, 0, 0),
             anchorPoints = { {
-                anchorParent = frame.content,
-                anchorA = "TOPRIGHT",
-                anchorB = "TOPRIGHT",
-                offsetY = -8,
-                offsetX = -35,
+                anchorParent = frame.content.utilButtonFrame.frame,
+                anchorA = "BOTTOMRIGHT",
+                anchorB = "BOTTOMRIGHT",
+                offsetY = 0,
             } },
+            hideBackground = true,
             parent = frame.content,
-            sizeX = 20, sizeY = 20,
+            sizeX = PvPAssistant.MAIN_FRAME.utilButtonSizeX, sizeY = PvPAssistant.MAIN_FRAME.utilButtonSizeY,
             buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.OPTIONS_BUTTON,
         }
     }
 
-    local tabSizeX = 650
+    local tabSizeX = 710
     local tabSizeY = 450
-    local tabContentOffsetY = -80
+    local tabContentOffsetY = -130
 
     local optionsTab = PvPAssistant.MAIN_FRAME.frame.content.optionsTab
     ---@class PvPAssistant.OPTIONS.OPTIONS_TAB.CONTENT
@@ -62,12 +62,12 @@ function PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
                     anchorParent = optionsTab.content,
                     anchorA = "TOPLEFT",
                     anchorB = "TOPLEFT",
-                    offsetX = 55,
-                    offsetY = -53,
+                    offsetX = 25,
+                    offsetY = -103,
                 }
             },
-            adjustWidth = true,
-            sizeX = 15,
+            sizeX = PvPAssistant.MAIN_FRAME.tabButtonSizeX,
+            sizeY = PvPAssistant.MAIN_FRAME.tabButtonSizeY,
             buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
@@ -89,11 +89,37 @@ function PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
                     anchorParent = optionsTab.content.arenaGuideTab.button.frame,
                     anchorA = "LEFT",
                     anchorB = "RIGHT",
-                    offsetX = 1,
+                    offsetX = 3,
                 }
             },
-            adjustWidth = true,
-            sizeX = 20,
+            sizeX = PvPAssistant.MAIN_FRAME.tabButtonSizeX,
+            sizeY = PvPAssistant.MAIN_FRAME.tabButtonSizeY,
+            buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
+            fontOptions = {
+                fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
+            },
+        }
+    }
+
+    ---@class PvPAssistant.OPTIONS.QuickJoinTab : GGUI.Tab
+    optionsTab.content.quickJoinTab = GGUI.Tab {
+        parent = optionsTab.content, anchorParent = optionsTab.content, anchorA = "TOP", anchorB = "TOP",
+        sizeX = tabSizeX, sizeY = tabSizeY, offsetY = tabContentOffsetY, canBeEnabled = true,
+        backdropOptions = PvPAssistant.CONST.BACKDROPS.OPTIONS_TAB,
+        buttonOptions = {
+            label = GUTIL:ColorizeText("Quick Join", GUTIL.COLORS.WHITE),
+            parent = optionsTab.content,
+            anchorPoints =
+            {
+                {
+                    anchorParent = optionsTab.content.tooltipsTab.button.frame,
+                    anchorA = "LEFT",
+                    anchorB = "RIGHT",
+                    offsetX = 3,
+                }
+            },
+            sizeX = PvPAssistant.MAIN_FRAME.tabButtonSizeX,
+            sizeY = PvPAssistant.MAIN_FRAME.tabButtonSizeY,
             buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
@@ -102,11 +128,13 @@ function PvPAssistant.OPTIONS.FRAMES:InitOptionsTab()
     }
 
     local arenaGuideTab = optionsTab.content.arenaGuideTab
+    local quickJoinTab = optionsTab.content.quickJoinTab
     local tooltipsTab = optionsTab.content.tooltipsTab
 
-    GGUI.TabSystem { arenaGuideTab, tooltipsTab }
+    GGUI.TabSystem { arenaGuideTab, quickJoinTab, tooltipsTab }
 
     PvPAssistant.OPTIONS.FRAMES:InitArenaGuideTab(arenaGuideTab)
+    PvPAssistant.OPTIONS.FRAMES:InitQuickJoinTab(quickJoinTab)
     PvPAssistant.OPTIONS.FRAMES:InitTooltipsTab(tooltipsTab)
 
     return optionsTab
@@ -126,6 +154,69 @@ function PvPAssistant.OPTIONS.FRAMES:InitArenaGuideTab(arenaGuideTab)
         initialValue = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_GUIDE_ENABLED"),
         clickCallback = function(_, checked)
             PvPAssistant.DB.GENERAL_OPTIONS:Save("ARENA_GUIDE_ENABLED", checked)
+        end
+    }
+end
+
+---@param quickJoinTab PvPAssistant.OPTIONS.QuickJoinTab
+function PvPAssistant.OPTIONS.FRAMES:InitQuickJoinTab(quickJoinTab)
+    ---@class PvPAssistant.OPTIONS.QuickJoinTab.Content : Frame
+    local content = quickJoinTab.content
+
+    content.enableQuickJoinCheckbox = GGUI.Checkbox {
+        parent = content, anchorParent = content, anchorA = "TOPLEFT", anchorB = "TOPLEFT", offsetX = 10, offsetY = -10,
+        labelOptions = {
+            text = f.white("Enable the " .. f.e("Arena Quick Join Button")),
+        },
+        tooltip = f.white("If enabled, a button will be shown to quickly queue for arena matches"),
+        initialValue = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_ENABLED"),
+        clickCallback = function(_, checked)
+            PvPAssistant.DB.GENERAL_OPTIONS:Save("ARENA_QUICK_JOIN_ENABLED", checked)
+
+            PvPAssistant.ARENA_QUICK_JOIN:UpdateVisibility()
+        end
+    }
+
+    content.enableButtonLabelCheckbox = GGUI.Checkbox {
+        parent = content, anchorParent = content.enableQuickJoinCheckbox.frame, anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT",
+        labelOptions = {
+            text = f.white("Show Button Label"),
+        },
+        tooltip = f.white("If enabled, the button will be labeled"),
+        initialValue = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_BUTTON_LABEL_ENABLED"),
+        clickCallback = function(_, checked)
+            PvPAssistant.DB.GENERAL_OPTIONS:Save("ARENA_QUICK_JOIN_BUTTON_LABEL_ENABLED", checked)
+
+            PvPAssistant.ARENA_QUICK_JOIN:UpdateVisibility()
+        end
+    }
+
+    content.enablePositionAnchorCheckbox = GGUI.Checkbox {
+        parent = content, anchorParent = content.enableButtonLabelCheckbox.frame, anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT",
+        labelOptions = {
+            text = f.white("Show Button Position Anchor"),
+        },
+        tooltip = f.white("If enabled, displays the position anchor that can be dragged to move the button"),
+        initialValue = PvPAssistant.DB.GENERAL_OPTIONS:Get("ARENA_QUICK_JOIN_MOVE_ENABLED"),
+        clickCallback = function(_, checked)
+            PvPAssistant.DB.GENERAL_OPTIONS:Save("ARENA_QUICK_JOIN_MOVE_ENABLED", checked)
+
+            PvPAssistant.ARENA_QUICK_JOIN:UpdateVisibility()
+        end
+    }
+
+    content.resetPositionButton = GGUI.Button {
+        parent = content, anchorPoints = { { anchorParent = content.enablePositionAnchorCheckbox.frame, anchorA = "TOPLEFT", anchorB = "BOTTOMLEFT" } },
+        label = f.white(PvPAssistant.MEDIA:GetAsTextIcon(PvPAssistant.MEDIA.IMAGES.REVERT, 0.2) .. " Reset Button Position"),
+        buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
+        sizeX = 15,
+        adjustWidth = true,
+        tooltipOptions = {
+            anchor = "ANCHOR_CURSOR_RIGHT",
+            text = f.white("Resets the Button to the middle of the screen")
+        },
+        clickCallback = function()
+            PvPAssistant.ARENA_QUICK_JOIN.positionAnchor:ResetPosition()
         end
     }
 end

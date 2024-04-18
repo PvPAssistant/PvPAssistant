@@ -22,8 +22,10 @@ function PvPAssistant.INIT:Init()
     PvPAssistant.MINIMAP:Init()
     PvPAssistant.PLAYER_TOOLTIP:Init()
     PvPAssistant.SPELL_TOOLTIP:Init()
+    PvPAssistant.LFG_LEADER_TOOLTIP:Init()
     PvPAssistant.MAIN_FRAME.FRAMES:Init()
     PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
+    PvPAssistant.ARENA_QUICK_JOIN:Init()
 
     GGUI:InitializePopup {
         backdropOptions = PvPAssistant.CONST.MAIN_FRAME_BACKDROP,

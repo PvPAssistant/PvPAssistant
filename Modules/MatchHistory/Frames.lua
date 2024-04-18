@@ -143,13 +143,13 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
         buttonOptions = {
             label = GUTIL:ColorizeText("Match History", GUTIL.COLORS.WHITE),
             parent = frame.content,
-            anchorParent = frame.content.titleLogo.frame,
-            offsetY = 1,
-            offsetX = 27,
-            anchorA = "LEFT",
-            anchorB = "RIGHT",
-            adjustWidth = true,
-            sizeX = 15,
+            anchorParent = frame.content.title.frame,
+            offsetY = -5,
+            offsetX = 0,
+            anchorA = "TOPLEFT",
+            anchorB = "BOTTOMLEFT",
+            sizeX = PvPAssistant.MAIN_FRAME.tabButtonSizeX,
+            sizeY = PvPAssistant.MAIN_FRAME.tabButtonSizeY,
             buttonTextureOptions = PvPAssistant.CONST.ASSETS.BUTTONS.MAIN_BUTTON,
             fontOptions = {
                 fontFile = PvPAssistant.CONST.FONT_FILES.ROBOTO,
@@ -167,7 +167,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
     matchHistoryTab.content.filterFrame = GGUI.Frame {
         parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content,
         anchorA = "TOP", anchorB = "TOP", backdropOptions = PvPAssistant.CONST.FILTER_FRAME_BACKDROP,
-        sizeX = 715, sizeY = 50, offsetY = -10, offsetX = 0,
+        sizeX = 430, sizeY = 85, offsetY = 0, offsetX = 0,
     }
 
     local filterFrame = matchHistoryTab.content.filterFrame
@@ -205,10 +205,10 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
             justifyOptions = { type = "H", align = "CENTER" },
         },
     }
-    local listScale = 0.997
+    local listScale = 1
     matchHistoryTab.content.matchHistoryList = GGUI.FrameList {
-        parent = matchHistoryTab.content, anchorParent = filterFrame.frame, offsetX = -10, hideScrollbar = false,
-        anchorA = "TOP", anchorB = "BOTTOM", scale = listScale, offsetY = -30, rowHeight = 30,
+        parent = matchHistoryTab.content, anchorParent = matchHistoryTab.content, offsetX = -10, hideScrollbar = false,
+        anchorA = "TOP", anchorB = "TOP", scale = listScale, offsetY = -120, rowHeight = 30,
         rowBackdrops = { PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_A, PvPAssistant.CONST.HISTORY_COLUMN_BACKDROP_B },
         selectionOptions = { noSelectionColor = true, hoverRGBA = PvPAssistant.CONST.FRAME_LIST_HOVER_RGBA },
         sizeY = 470, columnOptions = columnOptions, rowConstructor = function(columns)
@@ -402,7 +402,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:InitMatchHistoryTab()
 
     matchHistoryTab.content.characterDropdown = GGUI.CustomDropdown {
         parent = filterFrame.content, anchorParent = filterFrame.content,
-        anchorA = "BOTTOMLEFT", anchorB = "BOTTOMLEFT", width = 110, offsetX = 25, offsetY = 5,
+        anchorA = "LEFT", anchorB = "LEFT", width = 110, offsetX = 45, offsetY = -3,
         clickCallback = function(self, label, value)
             PvPAssistant.MATCH_HISTORY.FRAMES:UpdateSpecializationDropdown()
             PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMapDropdown()
@@ -548,16 +548,16 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
     local selectedSpecID = PvPAssistant.MATCH_HISTORY:GetSelectedSpecID()
     local selectedInstanceID = PvPAssistant.MATCH_HISTORY:GetSelectedMapInstanceID()
 
-    local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
-    local matchHistories = PvPAssistant.DB.MATCH_HISTORY:Get(playerUID)
+    local matchHistories = PvPAssistant.DB.MATCH_HISTORY:Get(selectedCharacterUID)
 
     local filteredHistory = GUTIL:Filter(matchHistories or {},
         function(matchHistory)
-            local isSelectedCharacter = (matchHistory.player.name .. "-" .. matchHistory.player.realm) ==
-                selectedCharacterUID
+            local matchHistoryCharacterUID = matchHistory.player.name .. "-" .. matchHistory.player.realm
+            local isSelectedCharacter = matchHistoryCharacterUID == selectedCharacterUID
             local isSelectedMode = pvpModeFilter == nil or matchHistory.pvpMode == pvpModeFilter
             local isSelectedSpec = selectedSpecID == nil or matchHistory.player.specID == selectedSpecID
             local isSelectedMap = selectedInstanceID == nil or matchHistory.mapInfo.instanceID == selectedInstanceID
+
             return isSelectedCharacter and isSelectedMode and isSelectedSpec and isSelectedMap
         end)
 
