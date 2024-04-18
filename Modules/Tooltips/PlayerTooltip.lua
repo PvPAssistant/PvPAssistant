@@ -8,10 +8,6 @@ local debug = PvPAssistant.DEBUG:GetDebugPrint()
 ---@class PvPAssistant.PLAYER_TOOLTIP : Frame
 PvPAssistant.PLAYER_TOOLTIP = {}
 
----@class PvPAssistant.PLAYER_TOOLTIP.BracketData
----@field ratings table<PvPAssistant.Const.PVPModes, number>
----@field shuffleSpecRatings table<number, number> specID -> rating
-
 function PvPAssistant.PLAYER_TOOLTIP:Init()
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, function(_, data)
         local tooltipEnabled = PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:IsEnabled()
@@ -29,61 +25,19 @@ function PvPAssistant.PLAYER_TOOLTIP:Init()
 end
 
 ---@param unit UnitId
----@return PvPAssistant.PLAYER_TOOLTIP.BracketData?
-function PvPAssistant.PLAYER_TOOLTIP:GetPlayerPVPData(unit)
-    if not unit then return nil end
-
-    local unitName, unitRealm = UnitNameUnmodified(unit)
-    unitRealm = unitRealm or GetNormalizedRealmName()
-    unitRealm = PvPAssistant.UTIL:CamelCaseToDashSeparated(unitRealm) -- temporary adaption to pvp data format
-
-    local pvpDataKey = unitName .. unitRealm
-
-    ---@diagnostic disable-next-line: undefined-field
-    local unitPvPData = PvPAssistant.PVP_DATA[pvpDataKey]
-
-    if not unitPvPData then
-        return
-    end
-
-    ---@type PvPAssistant.PLAYER_TOOLTIP.BracketData
-    local bracketPvPData = {
-        ratings = {},
-        shuffleSpecRatings = {},
-    }
-
-    --- 2v2,3v3,rbg,shuffle-1,shuffle-2,shuffle-3,shuffle-4
-    for index, mode in ipairs(PvPAssistant.CONST.PVP_DATA_BRACKET_ORDER) do
-        local rating = unitPvPData[index]
-        if index < 4 then
-            bracketPvPData.ratings[mode] = rating
-        else
-            local unitClassID = select(3, UnitClass(unit))
-            local specIndex = (3 - index) * -1
-            local specID = GetSpecializationInfoForClassID(unitClassID, specIndex)
-            if specID then
-                bracketPvPData.shuffleSpecRatings[specID] = rating
-            end
-        end
-    end
-
-    return bracketPvPData
-end
-
----@param unit UnitId
 ---@return boolean updated
 function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByPvPData(unit)
     if not unit then return false end
 
-    local bracketPvPData = self:GetPlayerPVPData(unit)
+    local playerPvPData = PvPAssistant.DB.PVP_DATA:GetByUnit(unit)
 
-    if not bracketPvPData then return false end
+    if not playerPvPData then return false end
 
     local headerTitle = "PvPAssistant - Rating"
 
     GameTooltip:AddLine(f.l(headerTitle))
 
-    for mode, rating in GUTIL:OrderedPairs(bracketPvPData.ratings, function(a, b) return a < b end) do
+    for mode, rating in GUTIL:OrderedPairs(playerPvPData.ratings, function(a, b) return a < b end) do
         local isEnabled = PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Get(mode)
 
         if isEnabled then
@@ -93,7 +47,7 @@ function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByPvPData(unit)
     end
 
     if PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Get(PvPAssistant.CONST.PVP_MODES.SOLO_SHUFFLE) then
-        for specID, rating in pairs(bracketPvPData.shuffleSpecRatings) do
+        for specID, rating in pairs(playerPvPData.shuffleSpecRatings) do
             local icon = select(4, GetSpecializationInfoByID(specID))
             local iconText = GUTIL:IconToText(icon, 15, 15)
             GameTooltip:AddDoubleLine(
