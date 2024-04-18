@@ -29,6 +29,7 @@ DB/TooltipOptionsDB.lua
 DB/CharactersDB.lua
 DB/GeneralOptionsDB.lua
 DB/RecommendationDB.lua
+DB/PvPDataDB.lua
 DB/DebugDB.lua
 
 Data/AbilityData.lua
@@ -57,8 +58,9 @@ Modules/MainFrame/Frames.lua
 
 Modules/PvPInfo/PvPInfo.lua
 Modules/PvPInfo/Frames.lua
-Modules/PlayerTooltip/PlayerTooltip.lua
-Modules/SpellTooltip/SpellTooltip.lua
+Modules/Tooltips/PlayerTooltip.lua
+Modules/Tooltips/SpellTooltip.lua
+Modules/Tooltips/LFGLeaderTooltip.lua
 Modules/ArenaGuide/ArenaGuide.lua
 Modules/ArenaGuide/Frames.lua
 Modules/AddonUpdateNotifier/AddonUpdateNotifier.lua
