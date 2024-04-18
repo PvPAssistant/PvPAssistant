@@ -63,3 +63,5 @@ Modules/ArenaGuide/ArenaGuide.lua
 Modules/ArenaGuide/Frames.lua
 Modules/AddonUpdateNotifier/AddonUpdateNotifier.lua
 Modules/ArenaQuickJoin/ArenaQuickJoin.lua
+Modules/PlayerRecommendation/PlayerRecommendation.lua
+Modules/PlayerRecommendation/Frames.lua
