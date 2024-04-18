@@ -28,6 +28,7 @@ DB/MatchHistoryDB.lua
 DB/TooltipOptionsDB.lua
 DB/CharactersDB.lua
 DB/GeneralOptionsDB.lua
+DB/RecommendationDB.lua
 DB/DebugDB.lua
 
 Data/AbilityData.lua
@@ -62,3 +63,5 @@ Modules/ArenaGuide/ArenaGuide.lua
 Modules/ArenaGuide/Frames.lua
 Modules/AddonUpdateNotifier/AddonUpdateNotifier.lua
 Modules/ArenaQuickJoin/ArenaQuickJoin.lua
+Modules/PlayerRecommendation/PlayerRecommendation.lua
+Modules/PlayerRecommendation/Frames.lua

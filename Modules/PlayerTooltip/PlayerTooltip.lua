@@ -19,9 +19,10 @@ function PvPAssistant.PLAYER_TOOLTIP:Init()
 
         local unit = select(2, GameTooltip:GetUnit())
         if unit and UnitIsPlayer(unit) then
-            local bracketPvPData = self:GetPlayerPVPData(unit)
-            if bracketPvPData then
-                self:UpdatePlayerTooltipByPvPData(unit, bracketPvPData)
+            local tooltipUpdates = { self:UpdatePlayerTooltipByPvPData(unit), self
+                :UpdatePlayerTooltipByRecommendationData(unit) }
+            if GUTIL:Some(tooltipUpdates, function(tU) return tU end) then
+                GameTooltip:Show()
             end
         end
     end)
@@ -70,9 +71,13 @@ function PvPAssistant.PLAYER_TOOLTIP:GetPlayerPVPData(unit)
 end
 
 ---@param unit UnitId
----@param bracketPvPData PvPAssistant.PLAYER_TOOLTIP.BracketData
-function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByPvPData(unit, bracketPvPData)
-    if not unit then return end
+---@return boolean updated
+function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByPvPData(unit)
+    if not unit then return false end
+
+    local bracketPvPData = self:GetPlayerPVPData(unit)
+
+    if not bracketPvPData then return false end
 
     local headerTitle = "PvPAssistant - Rating"
 
@@ -98,5 +103,21 @@ function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByPvPData(unit, bracketP
         end
     end
 
-    GameTooltip:Show()
+    return true
+end
+
+---@param unit UnitId
+---@return boolean updated
+function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByRecommendationData(unit)
+    -- TODO: Add player tooltip option
+    local unitGUID = UnitGUID(unit)
+    local recommendationData = PvPAssistant.DB.RECOMMENDATION_DATA:Get(unitGUID)
+
+    if not recommendationData then return false end
+
+    GameTooltip:AddDoubleLine(f.white("Your Rating"),
+        string.format("|A:Professions-ChatIcon-Quality-Tier%d:16:16|a", recommendationData.rating))
+    GameTooltip:AddDoubleLine(f.white("Note"), f.white(recommendationData.note))
+
+    return true
 end
