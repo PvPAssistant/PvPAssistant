@@ -10,7 +10,7 @@ PvPAssistant.DB.DEBUG = {}
 function PvPAssistant.DB.DEBUG:Init()
     if not PvPAssistantDB.debugData then
         PvPAssistantDB.debugData = {
-            version = 2,
+            version = 3,
             ---@type any
             data = {}
         }
@@ -29,8 +29,8 @@ end
 
 function PvPAssistant.DB.DEBUG:Migrate()
     -- 1 -> 2 wipe data
-    if PvPAssistantDB.debugData.version == 1 then
+    if PvPAssistantDB.debugData.version == 2 then
         wipe(PvPAssistantDB.debugData.data)
-        PvPAssistantDB.debugData.version = 2
+        PvPAssistantDB.debugData.version = 3
     end
 end

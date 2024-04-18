@@ -634,10 +634,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
 
             local matchHistory = PvPAssistant.MatchHistory:Deserialize(matchHistory)
 
-            local date = date("!*t", matchHistory.timestamp / 1000) -- use ! because it is already localized time and divide by 1000 because date constructor needs seconds
-            local formattedDate = string.format("%02d.%02d.%d %02d:%02d", date.day, date.month, date.year, date.hour,
-                date.min)
-            dateColumn.text:SetText(formattedDate)
+            dateColumn.text:SetText(matchHistory:GetDateFormatted())
             local mapAbbreviation = PvPAssistant.UTIL:GetMapAbbreviation(matchHistory.mapInfo.name)
             mapColumn.text:SetText(f.r(mapAbbreviation))
 
@@ -673,7 +670,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
 
                 row.subFrameList:Remove()
 
-                for i = 1, 6 do
+                for _, subMatchHistory in ipairs(matchHistory.soloShuffleMatches or {}) do
                     row.subFrameList:Add(function(row, columns)
                         local dateColumn = columns[1]
                         local playersColumn = columns[2]
@@ -681,18 +678,23 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
                         local healColumn = columns[4]
                         local resultColumn = columns[5]
 
-                        dateColumn.text:SetText(formattedDate)
-                        dmgColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(1234567))
-                        healColumn.text:SetText(PvPAssistant.UTIL:FormatDamageNumber(7654321))
-                        resultColumn.text:SetText(CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.CHECKMARK, 20,
+                        dateColumn.text:SetText(subMatchHistory:GetDateFormatted())
+                        dmgColumn.text:SetText(f.l("WIP"))
+                        healColumn.text:SetText(f.l("WIP"))
+                        resultColumn.text:SetText((subMatchHistory.win and CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.CHECKMARK, 20,
+                            20,
+                            0.5)) or CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.CROSS, 20,
                             20,
                             0.5))
 
                         playersColumn:SetPlayers(matchHistory)
                     end)
                 end
-
-                row.subFrameListEnabled = true
+                if matchHistory.soloShuffleMatches and #matchHistory.soloShuffleMatches > 0 then
+                    row.subFrameListEnabled = true
+                else
+                    row.subFrameListEnabled = false
+                end
 
                 row.subFrameList:UpdateDisplay()
             else
