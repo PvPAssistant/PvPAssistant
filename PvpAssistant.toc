@@ -28,7 +28,6 @@ DB/MatchHistoryDB.lua
 DB/TooltipOptionsDB.lua
 DB/CharactersDB.lua
 DB/GeneralOptionsDB.lua
-DB/RecommendationDB.lua
 DB/DebugDB.lua
 
 Data/AbilityData.lua
