@@ -2,134 +2,101 @@
 local PvPAssistant = select(2, ...)
 
 local GUTIL = PvPAssistant.GUTIL
-local GGUI = PvPAssistant.GGUI
 local f = GUTIL:GetFormatter()
 local debug = PvPAssistant.DEBUG:GetDebugPrint()
 
 ---@class PvPAssistant.PLAYER_TOOLTIP : Frame
-PvPAssistant.PLAYER_TOOLTIP = GUTIL:CreateRegistreeForEvents({ "INSPECT_HONOR_UPDATE" })
----@type PlayerUID
-PvPAssistant.PLAYER_TOOLTIP.inspectPlayerUID = nil
+PvPAssistant.PLAYER_TOOLTIP = {}
 
-PvPAssistant.PLAYER_TOOLTIP.cached = false
+---@class PvPAssistant.PLAYER_TOOLTIP.BracketData
+---@field ratings table<PvPAssistant.Const.PVPModes, number>
+---@field shuffleSpecRatings table<number, number> specID -> rating
+
 function PvPAssistant.PLAYER_TOOLTIP:Init()
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, function(_, data)
         local tooltipEnabled = PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:IsEnabled()
         if not tooltipEnabled then return end
 
-        local alreadyDisplayed = GUTIL:TooltipContains({
-            textLeft = "PvPAssistant"
-        })
-
-        if alreadyDisplayed then return end
-
         local unit = select(2, GameTooltip:GetUnit())
         if unit and UnitIsPlayer(unit) then
-            PvPAssistant.PLAYER_TOOLTIP.inspectPlayerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit(unit)
-            INSPECTED_UNIT = unit;
-            NotifyInspect(unit)
-
-            -- GUTIL:TooltipAddDoubleLineWithID({
-            --     gutilID = "test_gutilID",
-            --     textLeft = "Hello World",
-            --     textRight = f.r("non modified")
-            -- })
+            local bracketPvPData = self:GetPlayerPVPData(unit)
+            if bracketPvPData then
+                self:UpdatePlayerTooltipByPvPData(unit, bracketPvPData)
+            end
         end
     end)
 end
 
 ---@param unit UnitId
----@return table<PvPAssistant.Const.PVPModes, InspectArenaData>?
-function PvPAssistant.PLAYER_TOOLTIP:GetPlayerPVPDataFromInspect(unit)
+---@return PvPAssistant.PLAYER_TOOLTIP.BracketData?
+function PvPAssistant.PLAYER_TOOLTIP:GetPlayerPVPData(unit)
     if not unit then return nil end
-    ---@type table<PvPAssistant.Const.PVPModes, InspectArenaData | InspectPVPData>
-    local bracketPvPData = {}
 
-    for mode, bracketID in pairs(PvPAssistant.CONST.PVP_MODES_BRACKET_IDS) do
-        bracketPvPData[mode] = PvPAssistant.UTIL:ConvertInspectArenaData(
-            mode, { GetInspectArenaData(bracketID) })
+    local unitName, unitRealm = UnitNameUnmodified(unit)
+    unitRealm = unitRealm or GetNormalizedRealmName()
+    unitRealm = PvPAssistant.UTIL:CamelCaseToDashSeparated(unitRealm) -- temporary adaption to pvp data format
+
+    local pvpDataKey = unitName .. unitRealm
+
+    ---@diagnostic disable-next-line: undefined-field
+    local unitPvPData = PvPAssistant.PVP_DATA[pvpDataKey]
+
+    if not unitPvPData then
+        return
     end
 
-    -- cache
-    PvPAssistant.DB.PLAYER_DATA:Save(PvPAssistant.UTIL:GetPlayerUIDByUnit(unit), bracketPvPData)
+    ---@type PvPAssistant.PLAYER_TOOLTIP.BracketData
+    local bracketPvPData = {
+        ratings = {},
+        shuffleSpecRatings = {},
+    }
+
+    --- 2v2,3v3,rbg,shuffle-1,shuffle-2,shuffle-3,shuffle-4
+    for index, mode in ipairs(PvPAssistant.CONST.PVP_DATA_BRACKET_ORDER) do
+        local rating = unitPvPData[index]
+        if index < 4 then
+            bracketPvPData.ratings[mode] = rating
+        else
+            local unitClassID = select(3, UnitClass(unit))
+            local specIndex = (3 - index) * -1
+            local specID = GetSpecializationInfoForClassID(unitClassID, specIndex)
+            if specID then
+                bracketPvPData.shuffleSpecRatings[specID] = rating
+            end
+        end
+    end
 
     return bracketPvPData
 end
 
----@class InspectArenaData
----@field pvpMode PvPAssistant.Const.PVPModes
----@field rating number
----@field seasonPlayed number
----@field seasonWon number
----@field weeklyPlayed number
----@field weeklyWon number
-
 ---@param unit UnitId
----@param pvpData? table<PvPAssistant.Const.PVPModes, InspectArenaData>
-function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByInspectData(unit, pvpData)
+---@param bracketPvPData PvPAssistant.PLAYER_TOOLTIP.BracketData
+function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByPvPData(unit, bracketPvPData)
     if not unit then return end
-    --- fetches the data and updates cache
-    ---@type table<PvPAssistant.Const.PVPModes, InspectArenaData>
-    local bracketPvPData = pvpData or PvPAssistant.PLAYER_TOOLTIP:GetPlayerPVPDataFromInspect(unit)
-    local headerTitle = "PvPAssistant - Score"
+
+    local headerTitle = "PvPAssistant - Rating"
 
     GameTooltip:AddLine(f.l(headerTitle))
 
-    for mode, bracketData in GUTIL:OrderedPairs(bracketPvPData, function(a, b) return a > b end) do
-        local seasonWon = bracketData.seasonWon or 0
-        local seasonLost = (bracketData.seasonPlayed or 0) - seasonWon
-        local weeklyWon = bracketData.weeklyWon or 0
-        local weeklyLost = (bracketData.weeklyPlayed or 0) - weeklyWon
-        local rating = bracketData.rating or 0
-
+    for mode, rating in GUTIL:OrderedPairs(bracketPvPData.ratings, function(a, b) return a < b end) do
         local isEnabled = PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Get(mode)
+
         if isEnabled then
             GameTooltip:AddDoubleLine(f.white(tostring(PvPAssistant.CONST.PVP_MODES_NAMES[mode])),
                 PvPAssistant.UTIL:ColorByRating(tostring(rating), rating))
         end
     end
-    -- Does this need On / Off switch ? as it only displays after the player has set a note
-    local unitGUID = UnitGUID(unit)
-    local recommendationData = PvPAssistant.DB.RECOMMENDATION_DATA:Get(unitGUID)
-    if recommendationData then
-        GameTooltip:AddDoubleLine(f.white("Your Rating"),
-            string.format("|A:Professions-ChatIcon-Quality-Tier%d:16:16|a", recommendationData.rating))
-        GameTooltip:AddDoubleLine(f.white("Note"), f.white(recommendationData.note))
-    end
 
-    -- GUTIL:TooltipUpdateDoubleLineByID({
-    --     gutilID = "test_gutilID",
-    --     updateLine = function(leftLine, rightLine)
-    --         if rightLine then
-    --             rightLine:SetText(f.g("Now its updated"))
-    --         end
-    --     end
-    -- })
+    if PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Get(PvPAssistant.CONST.PVP_MODES.SOLO_SHUFFLE) then
+        for specID, rating in pairs(bracketPvPData.shuffleSpecRatings) do
+            local icon = select(4, GetSpecializationInfoByID(specID))
+            local iconText = GUTIL:IconToText(icon, 15, 15)
+            GameTooltip:AddDoubleLine(
+                f.white(PvPAssistant.CONST.PVP_MODES_NAMES[PvPAssistant.CONST.PVP_MODES.SOLO_SHUFFLE]) .. " " ..
+                iconText,
+                PvPAssistant.UTIL:ColorByRating(tostring(rating), rating))
+        end
+    end
 
     GameTooltip:Show()
-end
-
-function PvPAssistant.PLAYER_TOOLTIP:INSPECT_HONOR_UPDATE()
-    debug("INSPECT_HONOR_UPDATE")
-
-    if not PvPAssistant.PLAYER_TOOLTIP.inspectPlayerUID then return end
-
-    if GameTooltip:IsVisible() then
-        local _, gameTooltipUnit = GameTooltip:GetUnit()
-        if gameTooltipUnit then
-            if UnitIsPlayer(gameTooltipUnit) and CanInspect(gameTooltipUnit) and PvPAssistant.UTIL:GetPlayerUIDByUnit(gameTooltipUnit) == PvPAssistant.PLAYER_TOOLTIP.inspectPlayerUID then
-                debug(f.g("PvPAssistant: Update Player Tooltip"))
-                self:UpdatePlayerTooltipByInspectData(gameTooltipUnit)
-            else
-                debug(f.r("not updating, no other problem"))
-            end
-        else
-            debug(f.r("not updating, no tooltip unit"))
-        end
-    else
-        debug(f.r("not updating, tooltip not visible"))
-    end
-
-    PvPAssistant.PLAYER_TOOLTIP.inspectPlayerUID = nil
-    ClearInspectPlayer()
 end
