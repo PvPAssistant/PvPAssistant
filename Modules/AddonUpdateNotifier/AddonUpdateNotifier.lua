@@ -31,32 +31,8 @@ function PvPAssistant.ADDON_UPDATE_NOTIFIER:SendMessage()
     end
 end
 
---- Temporary Fix for the Compare till the new Version is in GUTIL
----@param versionA string
----@param versionB string
----@return number result 0 if same 1 if left is greater, -1 if left is smaller
-local function compareVersionStrings(versionA, versionB)
-    if GUTIL:CompareVersionStrings("1.0.0", "0.0.1") ~= 0 then
-        return GUTIL:CompareVersionStrings(versionA, versionB)
-    end
-    local function getSegments(version)
-        local segments = {}
-        for segment in version:gmatch("[^.]+") do
-            tinsert(segments, tonumber(segment))
-        end
-        return segments
-    end
-    local segmentsA, segmentsB = getSegments(versionA), getSegments(versionB)
-    for i = 1, math.max(#segmentsA, #segmentsB) do
-        local segA, segB = segmentsA[i] or 0, segmentsB[i] or 0
-        if segA < segB then return -1
-        elseif segA > segB then return 1 end
-    end
-    return 0
-end
-
 function PvPAssistant.ADDON_UPDATE_NOTIFIER:CheckVersion(otherVersion)
-    local updateAvailable = compareVersionStrings(self.ADDON_VERSION, otherVersion) < 0
+    local updateAvailable = GUTIL:CompareVersionStrings(self.ADDON_VERSION, otherVersion) < 0
 
     if not self.ReceivedUpdateNotification and updateAvailable then
         self.ReceivedUpdateNotification = true
