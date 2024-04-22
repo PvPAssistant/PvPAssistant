@@ -241,7 +241,7 @@ function PvPAssistant.DATA_COLLECTION:UpdateArenaGUIDs()
     -- only update list if its bigger than before!
     -- meaning do not update if someone leaves...
     local numOpponents = GetNumArenaOpponentSpecs()
-    if #PvPAssistant.DATA_COLLECTION.arenaSpecIDs.ENEMY_TEAM < numOpponents then
+    if #PvPAssistant.DATA_COLLECTION.arenaGUIDs.ENEMY_TEAM < numOpponents then
         for i = 1, numOpponents do
             local opponentGUID = UnitGUID("arena" .. i)
             PvPAssistant.DATA_COLLECTION.arenaGUIDs.ENEMY_TEAM[i] = opponentGUID
@@ -249,13 +249,13 @@ function PvPAssistant.DATA_COLLECTION:UpdateArenaGUIDs()
     end
 
     local numGroupMembers = GetNumGroupMembers()
-    if #PvPAssistant.DATA_COLLECTION.arenaSpecIDs.PLAYER_TEAM < numGroupMembers then
+    if #PvPAssistant.DATA_COLLECTION.arenaGUIDs.PLAYER_TEAM < numGroupMembers then
         -- player is not accessible with "partyX" UnitId
         local playerGUID = UnitGUID("player")
-        PvPAssistant.DATA_COLLECTION.arenaSpecIDs.PLAYER_TEAM[1] = playerGUID
+        PvPAssistant.DATA_COLLECTION.arenaGUIDs.PLAYER_TEAM[1] = playerGUID
         for i = 1, numGroupMembers - 1 do
             local unitGUID = UnitGUID("party" .. i)
-            PvPAssistant.DATA_COLLECTION.arenaSpecIDs.PLAYER_TEAM[i + 1] = unitGUID
+            PvPAssistant.DATA_COLLECTION.arenaGUIDs.PLAYER_TEAM[i + 1] = unitGUID
         end
     end
 
