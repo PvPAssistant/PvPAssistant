@@ -28,9 +28,13 @@ function PvPAssistant.DB.DEBUG:Get()
 end
 
 function PvPAssistant.DB.DEBUG:Migrate()
-    -- 1 -> 2 wipe data
-    if PvPAssistantDB.debugData.version == 2 then
+    -- <= 3 -> 4 wipe data
+    if PvPAssistantDB.debugData.version <= 3 then
         wipe(PvPAssistantDB.debugData.data)
-        PvPAssistantDB.debugData.version = 3
+        PvPAssistantDB.debugData.version = 4
     end
+end
+
+function PvPAssistant.DB.DEBUG:Clear()
+    wipe(PvPAssistantDB.debugData.data)
 end
