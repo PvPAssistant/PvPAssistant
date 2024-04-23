@@ -18,8 +18,13 @@ function PvPAssistant.DB.DEBUG:Init()
 end
 
 ---@param data table
-function PvPAssistant.DB.DEBUG:Save(data)
-    tinsert(PvPAssistantDB.debugData.data, data)
+---@param prefix string?
+function PvPAssistant.DB.DEBUG:Save(data, prefix)
+    if prefix then
+        PvPAssistantDB.debugData.data[prefix .. "_" .. #PvPAssistantDB.debugData.data] = data
+    else
+        tinsert(PvPAssistantDB.debugData.data, data)
+    end
 end
 
 ---@return table[]
