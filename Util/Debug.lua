@@ -247,6 +247,5 @@ function PvPAssistant.DEBUG:GatherDebugAPIDataFromMatchEnd()
         IsRatedMap = C_PvP.IsRatedMap(),
     }
 
-    PvPAssistant.DEBUG:DebugTable(apiData, "GatheredAPIData " .. (GetTimePreciseSec() * 1000))
-    PvPAssistant.DB.DEBUG:Save(apiData)
+    PvPAssistant.DB.DEBUG:Save(apiData, "APIDebugData")
 end
