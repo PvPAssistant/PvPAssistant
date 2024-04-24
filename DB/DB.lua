@@ -1,6 +1,12 @@
 ---@class PvPAssistant
 local PvPAssistant = select(2, ...)
 
+---@class PvPAssistant.DB.Repository
+---@field Init function
+---@field Migrate function
+---@field CleanUp function
+---@field ClearAll function
+
 ---@class PvPAssistantDB.Database
 ---@field version number
 ---@field data table
@@ -17,34 +23,25 @@ PvPAssistant.DB = {}
 ---@field recommendationData PvPAssistantDB.Database
 PvPAssistantDB = PvPAssistantDB or {}
 
+---@type PvPAssistant.DB.Repository[]
+PvPAssistant.DB.repositories = {}
+
+---@return PvPAssistant.DB.Repository repository
+function PvPAssistant.DB:RegisterRepository()
+    ---@type PvPAssistant.DB.Repository
+    local repository = {
+        Init = function() end,
+        Migrate = function() end,
+        CleanUp = function() end,
+        ClearAll = function() end,
+    }
+    return repository
+end
+
 function PvPAssistant.DB:Init()
-    self.MATCH_HISTORY:Init()
-    self.DEBUG:Init()
-    self.CHARACTERS:Init()
-    self.TOOLTIP_OPTIONS:Init()
-    self.GENERAL_OPTIONS:Init()
-    self.RECOMMENDATION_DATA:Init()
-
-    PvPAssistant.DB:Migrate()
-    PvPAssistant.DB:CleanUp()
-end
-
-function PvPAssistant.DB:Migrate()
-    self.MATCH_HISTORY:Migrate()
-    self.DEBUG:Migrate()
-    self.CHARACTERS:Migrate()
-    self.TOOLTIP_OPTIONS:Migrate()
-    self.GENERAL_OPTIONS:Migrate()
-    self.RECOMMENDATION_DATA:Migrate()
-end
-
---- Cleanup old unused DBs / Saved Variables
-function PvPAssistant.DB:CleanUp()
-    if PvPAssistantDB.playerData then
-        PvPAssistantDB.playerData = nil
-    end
-
-    if PvPAssistantOptions then
-        PvPAssistantOptions = nil
+    for _, repository in ipairs(self.repositories) do
+        repository:Init()
+        repository:Migrate()
+        repository:CleanUp()
     end
 end

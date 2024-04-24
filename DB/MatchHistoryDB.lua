@@ -4,8 +4,8 @@ local PvPAssistant = select(2, ...)
 ---@class PvPAssistant.DB
 PvPAssistant.DB = PvPAssistant.DB
 
----@class PvPAssistant.DB.MATCH_HISTORY
-PvPAssistant.DB.MATCH_HISTORY = {}
+---@class PvPAssistant.DB.MATCH_HISTORY : PvPAssistant.DB.Repository
+PvPAssistant.DB.MATCH_HISTORY = PvPAssistant.DB:RegisterRepository()
 
 function PvPAssistant.DB.MATCH_HISTORY:Init()
     if not PvPAssistantDB.matchHistory then
@@ -22,7 +22,7 @@ end
 function PvPAssistant.DB.MATCH_HISTORY:Migrate()
     -- 1 -> 2 Just wipe
     if PvPAssistantDB.matchHistory.version <= 1 then
-        self:Clear()
+        self:ClearAll()
         PvPAssistantDB.matchHistory.version = 2
     end
 
@@ -90,7 +90,7 @@ function PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(matchHistory, playerUID)
     tinsert(PvPAssistantDB.matchHistory.tempShuffleData[playerUID], matchHistory:Serialize())
 end
 
-function PvPAssistant.DB.MATCH_HISTORY:Clear()
+function PvPAssistant.DB.MATCH_HISTORY:ClearAll()
     wipe(PvPAssistantDB.matchHistory.data)
     self:ClearShuffleData()
 end

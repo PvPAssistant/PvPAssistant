@@ -4,8 +4,8 @@ local PvPAssistant = select(2, ...)
 ---@class PvPAssistant.DB
 PvPAssistant.DB = PvPAssistant.DB
 
----@class PvPAssistant.DB.DEBUG
-PvPAssistant.DB.DEBUG = {}
+---@class PvPAssistant.DB.DEBUG : PvPAssistant.DB.Repository
+PvPAssistant.DB.DEBUG = PvPAssistant.DB:RegisterRepository()
 
 function PvPAssistant.DB.DEBUG:Init()
     if not PvPAssistantDB.debugData then

@@ -25,7 +25,7 @@ function PvPAssistant.SLASH:Init()
 
         if command == "history" and rest == "clear" then
             print(f.l("PvPAssistant") .. ": Match History Cleared")
-            PvPAssistant.DB.MATCH_HISTORY:Clear()
+            PvPAssistant.DB.MATCH_HISTORY:ClearAll()
             PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
         end
 
@@ -50,8 +50,8 @@ function PvPAssistant.SLASH:Init()
             PvPAssistant.DB.GENERAL_OPTIONS:Save("DEBUG", not debugEnabled)
             print(f.l("PvPAssistant ") .. ": Toggle Debug Mode " .. tostring(debugEnabled))
         end
-        
- 
+
+
 
         if command == "" then
             PvPAssistant.MAIN_FRAME.frame:Show()
