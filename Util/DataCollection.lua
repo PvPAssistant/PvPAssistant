@@ -323,7 +323,7 @@ function PvPAssistant.DATA_COLLECTION:PVP_MATCH_STATE_CHANGED()
     if state == Enum.PvPMatchState.PostRound then
         debug("PVP_MATCH_STATE_CHANGED: PostRound")
         -- DEBUG TODO Remove after testing
-        if false and C_PvP.IsSoloShuffle() then
+        if C_PvP.IsSoloShuffle() then
             local intermediateShuffleMatchHistory = self:CreateMatchHistoryFromEndScore()
             if not intermediateShuffleMatchHistory then
                 return
