@@ -133,7 +133,11 @@ function PvPAssistant.MATCH_HISTORY:UpdateTooltipFrame(tFrame, matchHistory)
         else
             content.winText:SetText(f.r("0 Wins"))
         end
+        if matchHistory.soloShuffleMatches and #matchHistory.soloShuffleMatches > 0 then
+            content.expandHint:Show()
+        end
     else
+        content.expandHint:Hide()
         if matchHistory.win then
             content.winText:SetText(f.g("Win"))
         else

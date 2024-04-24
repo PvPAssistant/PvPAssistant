@@ -64,6 +64,15 @@ function PvPAssistant.MatchHistory:new()
     self.player = nil
     ---@type Enum.PvPMatchState
     self.pvpMatchState = nil
+    ---@type PvPAssistant.MatchHistory[]
+    self.soloShuffleMatches = nil
+end
+
+---@return string dateString DD.MM.YYYY HH:MM
+function PvPAssistant.MatchHistory:GetDateFormatted()
+    local date = date("!*t", self.timestamp / 1000) -- use ! because it is already localized time and divide by 1000 because date constructor needs seconds
+    return string.format("%02d.%02d.%d %02d:%02d", date.day, date.month, date.year, date.hour,
+        date.min)
 end
 
 ---@class PvPAssistant.MatchHistory.Serialized
@@ -81,6 +90,7 @@ end
 ---@field season number
 ---@field player PvPAssistant.Player
 ---@field pvpMatchState Enum.PvPMatchState
+---@field soloShuffleMatches PvPAssistant.MatchHistory.Serialized[]
 
 ---@return PvPAssistant.MatchHistory.Serialized
 function PvPAssistant.MatchHistory:Serialize()
@@ -100,6 +110,7 @@ function PvPAssistant.MatchHistory:Serialize()
         season = self.season,
         player = self.player,
         pvpMatchState = self.pvpMatchState,
+        soloShuffleMatches = self.soloShuffleMatches
     }
 
     return serialized
@@ -123,5 +134,8 @@ function PvPAssistant.MatchHistory:Deserialize(serializedData)
     matchHistory.season = serializedData.season
     matchHistory.player = serializedData.player
     matchHistory.pvpMatchState = serializedData.pvpMatchState
+    matchHistory.soloShuffleMatches = GUTIL:Map(serializedData.soloShuffleMatches or {}, function(ssM)
+        return PvPAssistant.MatchHistory:Deserialize(ssM)
+    end)
     return matchHistory
 end

@@ -48,7 +48,9 @@ function PvPAssistant.INIT:ADDON_LOADED(addon_name)
     PvPAssistant.INIT:Init()
 end
 
-function PvPAssistant.INIT:PLAYER_ENTERING_WORLD()
+---@param isLogin boolean
+---@param isReload boolean
+function PvPAssistant.INIT:PLAYER_ENTERING_WORLD(isLogin, isReload)
     PvPAssistant.DB.CHARACTERS:InitData()
     PvPAssistant.MAIN_FRAME.frame:RestoreSavedConfig(UIParent)
 

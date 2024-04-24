@@ -4,8 +4,8 @@ local PvPAssistant = select(2, ...)
 ---@class PvPAssistant.DB
 PvPAssistant.DB = PvPAssistant.DB
 
----@class PvPAssistant.DB.CHARACTERS
-PvPAssistant.DB.CHARACTERS = {}
+---@class PvPAssistant.DB.CHARACTERS : PvPAssistant.DB.Repository
+PvPAssistant.DB.CHARACTERS = PvPAssistant.DB:RegisterRepository()
 
 ---@alias PlayerUID string -- PlayerName-NormalizedServerName
 

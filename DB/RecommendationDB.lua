@@ -4,8 +4,8 @@ local PvPAssistant = select(2, ...)
 ---@class PvPAssistant.DB
 PvPAssistant.DB = PvPAssistant.DB
 
----@class PvPAssistant.DB.RECOMMENDATION_DATA
-PvPAssistant.DB.RECOMMENDATION_DATA = {}
+---@class PvPAssistant.DB.RECOMMENDATION_DATA : PvPAssistant.DB.Repository
+PvPAssistant.DB.RECOMMENDATION_DATA = PvPAssistant.DB:RegisterRepository()
 
 ---@alias UnitGUID string
 ---@class PvPAssistant.RecommendationData
@@ -22,7 +22,7 @@ function PvPAssistant.DB.RECOMMENDATION_DATA:Init()
     end
 end
 
-function PvPAssistant.DB.RECOMMENDATION_DATA:Clear()
+function PvPAssistant.DB.RECOMMENDATION_DATA:ClearAll()
     wipe(PvPAssistantDB.recommendationData.data)
 end
 
@@ -40,5 +40,3 @@ end
 function PvPAssistant.DB.RECOMMENDATION_DATA:GetAll()
     return PvPAssistantDB.recommendationData.data
 end
-
-function PvPAssistant.DB.RECOMMENDATION_DATA:Migrate() end
