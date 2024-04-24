@@ -353,7 +353,7 @@ function PvPAssistant.DATA_COLLECTION:PVP_MATCH_STATE_CHANGED()
             PvPAssistant.DB.DEBUG:Save({
                 shuffleMatchHistory = intermediateShuffleMatchHistory,
                 date = formattedDate,
-                arenaSpecIDs = CopyTable(arenaGUIDs)
+                arenaSpecGUIDs = CopyTable(arenaGUIDs)
             }, "ShuffleMatchTest_" .. formattedDate)
 
             PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
