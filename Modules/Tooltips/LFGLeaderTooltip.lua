@@ -18,10 +18,10 @@ function PvPAssistant.LFG_LEADER_TOOLTIP:Init()
         if not activityInfo.isPvpActivity then return end
 
         if searchResultInfo.leaderName then
-            local _, leaderRealm = strsplit("-", searchResultInfo.leaderName)
+            local leaderName, leaderRealm = strsplit("-", searchResultInfo.leaderName)
             leaderRealm = leaderRealm or GetNormalizedRealmName()
-            local leaderUIDDashSeparated = PvPAssistant.UTIL:CamelCaseToDashSeparated(leaderRealm)
-            local pvpData = PvPAssistant.DB.PVP_DATA:Get(leaderUIDDashSeparated) -- TODO: If possible forward leader classfile somehow as 2. arg
+            local leaderRealm = PvPAssistant.UTIL:CamelCaseToDashSeparated(leaderRealm)
+            local pvpData = PvPAssistant.DB.PVP_DATA:Get(leaderName, leaderRealm) -- TODO: If possible forward leader classfile somehow as 2. arg
 
 
 

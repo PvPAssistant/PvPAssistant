@@ -19,18 +19,20 @@ function PvPAssistant.DB.PVP_DATA:GetByUnit(unit)
     unitRealm = unitRealm or GetNormalizedRealmName()
     unitRealm = PvPAssistant.UTIL:CamelCaseToDashSeparated(unitRealm) -- temporary adaption to pvp data format
 
-    local playerUIDDashSeparated = unitName .. unitRealm
-
-    return self:Get(playerUIDDashSeparated)
+    return self:Get(unitName, unitRealm)
 end
 
----@param playerUIDDashSeparated string -- e.g. slarky-tarren-mill
+---@param characterName string -- e.g. Slarky
+---@param realmName string -- e.g. tarren-mill
 ---@param class? ClassFile
-function PvPAssistant.DB.PVP_DATA:Get(playerUIDDashSeparated, class)
-    ---@diagnostic disable-next-line: undefined-field
-    local unitPvPData = PvPAssistant.PVP_DATA[playerUIDDashSeparated]
+function PvPAssistant.DB.PVP_DATA:Get(characterName, realmName, class)
+    local realmPlayers = PvPAssistant.PVP_DATA[realmName]
+    if not realmPlayers then return end
 
-    if not unitPvPData then
+    ---@diagnostic disable-next-line: undefined-field
+    local playerPvPData = realmPlayers[characterName]
+
+    if not playerPvPData then
         return
     end
 
@@ -42,7 +44,7 @@ function PvPAssistant.DB.PVP_DATA:Get(playerUIDDashSeparated, class)
 
     --- 2v2,3v3,rbg,shuffle-1,shuffle-2,shuffle-3,shuffle-4
     for index, mode in ipairs(PvPAssistant.CONST.PVP_DATA_BRACKET_ORDER) do
-        local rating = unitPvPData[index]
+        local rating = playerPvPData[index]
         if index < 4 then
             playerPvPData.ratings[mode] = rating
         elseif class then
