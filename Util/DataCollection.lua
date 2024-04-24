@@ -309,12 +309,69 @@ function PvPAssistant.DATA_COLLECTION:GROUP_ROSTER_UPDATE()
     end
 end
 
+function PvPAssistant.DATA_COLLECTION:CollectIntermediateShuffleMatchHistory()
+    if C_PvP.IsSoloShuffle() then
+        local intermediateShuffleMatchHistory = self:CreateMatchHistoryFromEndScore()
+        if not intermediateShuffleMatchHistory then
+            return
+        end
+        local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
+        local arenaGUIDs = self:GetArenaGUIDs()
+        ---@type PvPAssistant.Player[]
+        local playerTeamPlayers = {}
+        ---@type PvPAssistant.Player[]
+        local enemyTeamPlayers = {}
+
+        -- map players to teams based on arenaGUIDS
+        for _, player in ipairs(intermediateShuffleMatchHistory.playerTeam.players) do
+            if tContains(arenaGUIDs.PLAYER_TEAM, player.scoreData.guid) then
+                tinsert(playerTeamPlayers, player)
+            else
+                tinsert(enemyTeamPlayers, player)
+            end
+        end
+
+        intermediateShuffleMatchHistory.playerTeam.players = playerTeamPlayers
+        intermediateShuffleMatchHistory.enemyTeam.players = enemyTeamPlayers
+
+        -- reset and sum up data
+        for _, team in ipairs({ intermediateShuffleMatchHistory.playerTeam, intermediateShuffleMatchHistory.enemyTeam }) do
+            team.damage = 0
+            team.healing = 0
+            team.kills = 0
+            for _, player in ipairs(team.players) do
+                team.damage = team.damage +
+                    player.scoreData.damageDone
+                team.healing = team.healing +
+                    player.scoreData.healingDone
+                team.kills = team.kills +
+                    player.scoreData.killingBlows
+            end
+        end
+
+        -- player has won if his team has more kills
+        intermediateShuffleMatchHistory.win = intermediateShuffleMatchHistory.playerTeam.kills >
+            intermediateShuffleMatchHistory.enemyTeam.kills
+
+        local date = date("!*t", intermediateShuffleMatchHistory.timestamp / 1000) -- use ! because it is already localized time and divide by 1000 because date constructor needs seconds
+        local formattedDate = string.format("%02d.%02d.%d %02d:%02d", date.day, date.month, date.year, date.hour,
+            date.min)
+        PvPAssistant.DB.DEBUG:Save({
+            shuffleMatchHistory = intermediateShuffleMatchHistory,
+            date = formattedDate,
+            arenaSpecGUIDs = CopyTable(arenaGUIDs)
+        }, "ShuffleMatchTest_" .. formattedDate)
+
+        PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
+    end
+end
+
 function PvPAssistant.DATA_COLLECTION:PVP_MATCH_STATE_CHANGED()
     local state = C_PvP.GetActiveMatchState()
 
     if state == Enum.PvPMatchState.StartUp then
         debug("PVP_MATCH_STATE_CHANGED: StartUp")
-        PvPAssistant.DATA_COLLECTION:ResetArenaIDs()
+        self:ResetArenaIDs()
     end
 
     if state == Enum.PvPMatchState.Waiting then
@@ -322,44 +379,8 @@ function PvPAssistant.DATA_COLLECTION:PVP_MATCH_STATE_CHANGED()
     end
     if state == Enum.PvPMatchState.PostRound then
         debug("PVP_MATCH_STATE_CHANGED: PostRound")
-        -- DEBUG TODO Remove after testing
-        if C_PvP.IsSoloShuffle() then
-            local intermediateShuffleMatchHistory = self:CreateMatchHistoryFromEndScore()
-            if not intermediateShuffleMatchHistory then
-                return
-            end
-            local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
-            local arenaGUIDs = self:GetArenaGUIDs()
-            ---@type PvPAssistant.Player[]
-            local playerTeamPlayers = {}
-            ---@type PvPAssistant.Player[]
-            local enemyTeamPlayers = {}
-
-            -- map players to teams based on arenaGUIDS
-            for _, player in ipairs(intermediateShuffleMatchHistory.playerTeam.players) do
-                if tContains(arenaGUIDs.PLAYER_TEAM, player.scoreData.guid) then
-                    tinsert(playerTeamPlayers, player)
-                else
-                    tinsert(enemyTeamPlayers, player)
-                end
-            end
-
-            intermediateShuffleMatchHistory.playerTeam.players = playerTeamPlayers
-            intermediateShuffleMatchHistory.enemyTeam.players = enemyTeamPlayers
-
-            local date = date("!*t", intermediateShuffleMatchHistory.timestamp / 1000) -- use ! because it is already localized time and divide by 1000 because date constructor needs seconds
-            local formattedDate = string.format("%02d.%02d.%d %02d:%02d", date.day, date.month, date.year, date.hour,
-                date.min)
-            PvPAssistant.DB.DEBUG:Save({
-                shuffleMatchHistory = intermediateShuffleMatchHistory,
-                date = formattedDate,
-                arenaSpecGUIDs = CopyTable(arenaGUIDs)
-            }, "ShuffleMatchTest_" .. formattedDate)
-
-            PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
-        end
-
-        PvPAssistant.DATA_COLLECTION:ResetArenaIDs()
+        self:CollectIntermediateShuffleMatchHistory()
+        self:ResetArenaIDs()
     end
     if state == Enum.PvPMatchState.Inactive then
         debug("PVP_MATCH_STATE_CHANGED: Inactive")
