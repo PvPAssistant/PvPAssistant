@@ -565,8 +565,8 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:CreatePlayersFrameListColumn(playersC
     playersColumn.iconsE = { playersColumn.iconE1, playersColumn.iconE2, playersColumn.iconE3 }
 
     ---@param matchHistory PvPAssistant.MatchHistory
-    playersColumn.SetPlayers = function(self, matchHistory)
-        self.vs:SetVisible(not matchHistory.isSoloShuffle)
+    playersColumn.SetPlayers = function(self, matchHistory, showAll)
+        self.vs:SetVisible(not showAll)
         local playerTeam = matchHistory.playerTeam
         local enemyTeam = matchHistory.enemyTeam
 
@@ -574,7 +574,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:CreatePlayersFrameListColumn(playersC
             icon:Hide()
         end
 
-        if matchHistory.isSoloShuffle then
+        if showAll then
             local sortedPlayers = GUTIL:Sort(GUTIL:Concat { playerTeam.players, enemyTeam.players },
                 PvPAssistant.MATCH_HISTORY.SortPlayerBySpecRole)
             for i, player in pairs(sortedPlayers) do
@@ -644,7 +644,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
             local mapAbbreviation = PvPAssistant.UTIL:GetMapAbbreviation(matchHistory.mapInfo.name)
             mapColumn.text:SetText(f.r(mapAbbreviation))
 
-            playersColumn:SetPlayers(matchHistory)
+            playersColumn:SetPlayers(matchHistory, matchHistory.isSoloShuffle)
             if matchHistory.isRated then
                 mmrColumn.text:SetText(matchHistory.playerTeam.ratingInfo.ratingMMR)
             else
@@ -693,7 +693,7 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:UpdateMatchHistory()
                             20,
                             0.5))
 
-                        playersColumn:SetPlayers(matchHistory)
+                        playersColumn:SetPlayers(matchHistory, false)
                     end)
                 end
                 if matchHistory.soloShuffleMatches and #matchHistory.soloShuffleMatches > 0 then
