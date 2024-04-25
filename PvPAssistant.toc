@@ -10,7 +10,7 @@
 ## IconTexture: Interface\Addons\PvPAssistant\Media\Images\icon1337
 ## SavedVariables: PvPAssistantDB, PvPAssistantGGUIConfig, PvPAssistantLibIconDB
 ## OptionalDeps: DevTool
-## Version: 4.0.0
+## Version: 4.1.0
 
 embeds.xml
 
