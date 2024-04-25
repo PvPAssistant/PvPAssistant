@@ -26,6 +26,7 @@ function PvPAssistant.INIT:Init()
     PvPAssistant.MAIN_FRAME.FRAMES:Init()
     PvPAssistant.MATCH_HISTORY.FRAMES:InitTooltipFrame()
     PvPAssistant.ARENA_QUICK_JOIN:Init()
+    PvPAssistant.DB.PVP_DATA:Init()
 
     GGUI:InitializePopup {
         backdropOptions = PvPAssistant.CONST.MAIN_FRAME_BACKDROP,

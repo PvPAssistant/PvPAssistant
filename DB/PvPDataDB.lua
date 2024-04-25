@@ -11,6 +11,18 @@ PvPAssistant.DB.PVP_DATA = {}
 ---@field ratings table<PvPAssistant.Const.PVPModes, number>
 ---@field shuffleSpecRatings table<number, number> specID -> rating
 
+function PvPAssistant.DB.PVP_DATA:Init()
+    PvPAssistant.DB.DEBUG:ClearAll()
+
+    local libCBOR = LibStub("LibCBOR-1.0")
+
+    local cborString = PvPAssistant.PVP_DATA
+    local luaTable = libCBOR:Deserialize(cborString)
+
+    print(tostring(luaTable))
+    DevTool:AddData(luaTable, "DeserializedTable")
+end
+
 ---@return PlayerPvPData? bracketData
 function PvPAssistant.DB.PVP_DATA:GetByUnit(unit)
     if not unit then return nil end
