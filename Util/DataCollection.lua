@@ -317,6 +317,7 @@ function PvPAssistant.DATA_COLLECTION:CollectIntermediateShuffleMatchHistory()
         end
         local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
         local arenaGUIDs = self:GetArenaGUIDs()
+        local arenaSpecIDs = self:GetArenaSpecIDs()
         ---@type PvPAssistant.Player[]
         local playerTeamPlayers = {}
         ---@type PvPAssistant.Player[]
@@ -359,7 +360,8 @@ function PvPAssistant.DATA_COLLECTION:CollectIntermediateShuffleMatchHistory()
         PvPAssistant.DB.DEBUG:Save({
             shuffleMatchHistory = intermediateShuffleMatchHistory,
             date = formattedDate,
-            arenaSpecGUIDs = CopyTable(arenaGUIDs)
+            arenaGUIDs = CopyTable(arenaGUIDs),
+            arenaSpecIDs = CopyTable(arenaSpecIDs)
         }, "ShuffleMatchTest_" .. formattedDate)
 
         PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
