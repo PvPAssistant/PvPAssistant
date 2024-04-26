@@ -41,7 +41,11 @@ function PvPAssistant.DATA_COLLECTION:PVP_MATCH_COMPLETE()
     debug("Gathered Match History: " .. tostring(matchHistory))
     PvPAssistant.DEBUG:DebugTable(matchHistory, "DebugMatchHistory")
 
+
     if C_PvP.IsSoloShuffle() then
+        -- fetch last shuffle intermediate match
+        self:UpdateArenaGUIDs()
+        self:CollectIntermediateShuffleMatchHistory()
         matchHistory.soloShuffleMatches = {}
         local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
         tAppendAll(matchHistory.soloShuffleMatches, PvPAssistant.DB.MATCH_HISTORY:GetShuffleMatches(playerUID) or {})
@@ -371,25 +375,30 @@ end
 function PvPAssistant.DATA_COLLECTION:PVP_MATCH_STATE_CHANGED()
     local state = C_PvP.GetActiveMatchState()
 
-    if state == Enum.PvPMatchState.StartUp then
-        debug("PVP_MATCH_STATE_CHANGED: StartUp")
-        self:ResetArenaIDs()
+    if state == Enum.PvPMatchState.Inactive then
+        debug("PVP_MATCH_STATE_CHANGED: Inactive")
     end
 
     if state == Enum.PvPMatchState.Waiting then
         debug("PVP_MATCH_STATE_CHANGED: Waiting")
-    end
-    if state == Enum.PvPMatchState.PostRound then
-        debug("PVP_MATCH_STATE_CHANGED: PostRound")
-        self:CollectIntermediateShuffleMatchHistory()
         self:ResetArenaIDs()
     end
-    if state == Enum.PvPMatchState.Inactive then
-        debug("PVP_MATCH_STATE_CHANGED: Inactive")
+
+    if state == Enum.PvPMatchState.StartUp then
+        debug("PVP_MATCH_STATE_CHANGED: StartUp")
     end
+
     if state == Enum.PvPMatchState.Engaged then
         debug("PVP_MATCH_STATE_CHANGED: Engaged")
     end
+
+    if state == Enum.PvPMatchState.PostRound then
+        debug("PVP_MATCH_STATE_CHANGED: PostRound")
+        self:UpdateArenaGUIDs()
+        self:CollectIntermediateShuffleMatchHistory()
+        self:ResetArenaIDs()
+    end
+
     if state == Enum.PvPMatchState.Complete then
         debug("PVP_MATCH_STATE_CHANGED: Complete")
     end
