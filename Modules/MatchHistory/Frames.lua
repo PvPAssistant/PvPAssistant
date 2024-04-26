@@ -587,13 +587,17 @@ function PvPAssistant.MATCH_HISTORY.FRAMES:CreatePlayersFrameListColumn(playersC
             local sortedEnemyTeam = GUTIL:Sort(enemyTeam.players, PvPAssistant.MATCH_HISTORY.SortPlayerBySpecRole)
             for i, player in ipairs(sortedPlayerTeam) do
                 local icon = playersColumn.iconsP[i]
-                icon:Show()
-                icon:SetClass(player.specID)
+                if icon then
+                    icon:Show()
+                    icon:SetClass(player.specID)
+                end
             end
             for i, player in ipairs(sortedEnemyTeam) do
                 local icon = playersColumn.iconsE[i]
-                icon:Show()
-                icon:SetClass(player.specID)
+                if icon then
+                    icon:Show()
+                    icon:SetClass(player.specID)
+                end
             end
         end
     end
