@@ -11,7 +11,7 @@ externals:
   Libs/GGUI: 
     url: https://github.com/derfloh205/GGUI.git
     tag: 2.1
-  Libs/LibCBOR:
+  Libs/LibCBOR-1.0:
     url: https://github.com/plusmouse/LibCBOR.git
     tag: 1.0
   PvPData: https://github.com/PvPAssistant/PvPData.git
