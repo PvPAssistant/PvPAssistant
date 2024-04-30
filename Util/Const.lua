@@ -15,6 +15,11 @@ PvPAssistant.CONST.NEWS =
 PvPAssistant.CONST.DISCORD_INVITE = "https://discord.gg/BvZzctWZZ3"
 PvPAssistant.CONST.DONATE_URL = "https://ko-fi.com/arenlogs"
 
+---@enum PvPAssistant.Const.DebugIDs
+PvPAssistant.CONST.DEBUG_IDS = {
+    PLAYER_TOOLTIP = "PLAYER_TOOLTIP",
+}
+
 ---@enum PvPAssistant.Const.Frames
 PvPAssistant.CONST.FRAMES = {
     NEWS = "NEWS",
