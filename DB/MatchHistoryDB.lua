@@ -4,13 +4,13 @@ local PvPAssistant = select(2, ...)
 ---@class PvPAssistant.DB
 PvPAssistant.DB = PvPAssistant.DB
 
----@class PvPAssistant.DB.MATCH_HISTORY
-PvPAssistant.DB.MATCH_HISTORY = {}
+---@class PvPAssistant.DB.MATCH_HISTORY : PvPAssistant.DB.Repository
+PvPAssistant.DB.MATCH_HISTORY = PvPAssistant.DB:RegisterRepository()
 
 function PvPAssistant.DB.MATCH_HISTORY:Init()
     if not PvPAssistantDB.matchHistory then
         PvPAssistantDB.matchHistory = {
-            version = 4,
+            version = 7,
             ---@type table<PlayerUID, PvPAssistant.MatchHistory.Serialized[]>
             data = {},
             ---@type table<PlayerUID, PvPAssistant.MatchHistory.Serialized[]>
@@ -22,16 +22,16 @@ end
 function PvPAssistant.DB.MATCH_HISTORY:Migrate()
     -- 1 -> 2 Just wipe
     if PvPAssistantDB.matchHistory.version <= 1 then
-        self:Clear()
+        self:ClearAll()
         PvPAssistantDB.matchHistory.version = 2
     end
 
-    -- 2 -> 3 Introduce tempShuffleData or wipe it
+    -- 2/3 -> 4 Introduce tempShuffleData or wipe it
     if PvPAssistantDB.matchHistory.version <= 3 then
         PvPAssistantDB.matchHistory.tempShuffleData = {}
         PvPAssistantDB.matchHistory.version = 4
     end
-
+    -- 4 -> 5
     if PvPAssistantDB.matchHistory.version <= 5 then
         wipe(PvPAssistantDB.matchHistory.tempShuffleData)
         PvPAssistantDB.matchHistory.version = 6
@@ -52,6 +52,11 @@ function PvPAssistant.DB.MATCH_HISTORY:Migrate()
                 end
             end
         end
+    end
+    -- 6 -> 7
+    if PvPAssistantDB.matchHistory.version == 6 then
+        PvPAssistant.DB.MATCH_HISTORY:ClearShuffleData()
+        PvPAssistantDB.matchHistory.version = 7
     end
 end
 
@@ -85,7 +90,7 @@ function PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(matchHistory, playerUID)
     tinsert(PvPAssistantDB.matchHistory.tempShuffleData[playerUID], matchHistory:Serialize())
 end
 
-function PvPAssistant.DB.MATCH_HISTORY:Clear()
+function PvPAssistant.DB.MATCH_HISTORY:ClearAll()
     wipe(PvPAssistantDB.matchHistory.data)
     self:ClearShuffleData()
 end

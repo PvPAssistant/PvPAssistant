@@ -40,11 +40,8 @@ function PvPAssistant.ADDON_UPDATE_NOTIFIER:CheckVersion(otherVersion)
     end
 end
 
-function PvPAssistant.ADDON_UPDATE_NOTIFIER:Init()
-    C_ChatInfo.RegisterAddonMessagePrefix(self.MSG_PREFIX)
-end
-
 function PvPAssistant.ADDON_UPDATE_NOTIFIER:PLAYER_ENTERING_WORLD()
+    C_ChatInfo.RegisterAddonMessagePrefix(self.MSG_PREFIX)
     self:SendMessage()
 end
 

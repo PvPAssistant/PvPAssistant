@@ -282,7 +282,11 @@ function PvPAssistant.UTIL:CamelCaseToDashSeparated(str)
         local char = string.sub(str, i, i)
         if char:match("%u") then -- Check if the character is uppercase
             if not prevCharWasUpperCase then
-                result = result .. "-" .. char:lower()
+                if i == 1 then
+                    result = result .. char:lower()
+                else
+                    result = result .. "-" .. char:lower()
+                end
             else
                 result = result .. char:lower()
             end

@@ -7,7 +7,7 @@ local debug = PvPAssistant.DEBUG:GetDebugPrint()
 
 ---@class PvPAssistant.DataCollection : Frame
 PvPAssistant.DATA_COLLECTION = GUTIL:CreateRegistreeForEvents { "PVP_MATCH_COMPLETE", "PLAYER_JOINED_PVP_MATCH", "GROUP_ROSTER_UPDATE", "ARENA_PREP_OPPONENT_SPECIALIZATIONS",
-    "PVP_MATCH_STATE_CHANGED" } -- "UPDATE_BATTLEFIELD_SCORE"
+    "PVP_MATCH_STATE_CHANGED" }
 
 ---@class PvPAssistant.DATA_COLLECTION.ArenaSpecIDs
 PvPAssistant.DATA_COLLECTION.arenaSpecIDs = {
@@ -15,10 +15,19 @@ PvPAssistant.DATA_COLLECTION.arenaSpecIDs = {
     ENEMY_TEAM = {},
 }
 
+---@class PvPAssistant.DATA_COLLECTION.ArenaGUIDs
+PvPAssistant.DATA_COLLECTION.arenaGUIDs = {
+    PLAYER_TEAM = {},
+    ENEMY_TEAM = {},
+}
+
+
 PvPAssistant.DATA_COLLECTION.enableCombatLog = false
 
 ---@type function[]
 PvPAssistant.DATA_COLLECTION.arenaSpecIDUpdateCallbacks = {}
+---@type function[]
+PvPAssistant.DATA_COLLECTION.arenaGUIDUpdateCallbacks = {}
 
 function PvPAssistant.DATA_COLLECTION:PVP_MATCH_COMPLETE()
     debug("PvPAssistant: PvP Match Completed")
@@ -27,8 +36,17 @@ function PvPAssistant.DATA_COLLECTION:PVP_MATCH_COMPLETE()
     debug("PvPAssistant: Saving Match Data...")
     local matchHistory = self:CreateMatchHistoryFromEndScore()
 
+    if not matchHistory then return end
+
     debug("Gathered Match History: " .. tostring(matchHistory))
     PvPAssistant.DEBUG:DebugTable(matchHistory, "DebugMatchHistory")
+
+    if C_PvP.IsSoloShuffle() then
+        matchHistory.soloShuffleMatches = {}
+        local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
+        tAppendAll(matchHistory.soloShuffleMatches, PvPAssistant.DB.MATCH_HISTORY:GetShuffleMatches(playerUID) or {})
+        PvPAssistant.DB.MATCH_HISTORY:ClearShuffleData()
+    end
 
     PvPAssistant.DB.MATCH_HISTORY:Save(matchHistory)
 
@@ -192,16 +210,59 @@ function PvPAssistant.DATA_COLLECTION:RegisterForArenaSpecIDUpdate(callback)
     tinsert(self.arenaSpecIDUpdateCallbacks, callback)
 end
 
+---@param callback function
+function PvPAssistant.DATA_COLLECTION:RegisterForArenaGUIDUpdate(callback)
+    tinsert(self.arenaGUIDUpdateCallbacks, callback)
+end
+
 ---@return PvPAssistant.DATA_COLLECTION.ArenaSpecIDs
 function PvPAssistant.DATA_COLLECTION:GetArenaSpecIDs()
     return self.arenaSpecIDs
 end
 
-function PvPAssistant.DATA_COLLECTION:ResetSpecIDs()
+---@return PvPAssistant.DATA_COLLECTION.ArenaGUIDs
+function PvPAssistant.DATA_COLLECTION:GetArenaGUIDs()
+    return self.arenaGUIDs
+end
+
+function PvPAssistant.DATA_COLLECTION:ResetArenaIDs()
+    -- not using wipe here is on purpose to preserve earlier table references
     PvPAssistant.DATA_COLLECTION.arenaSpecIDs = {
         PLAYER_TEAM = {},
         ENEMY_TEAM = {},
     }
+    PvPAssistant.DATA_COLLECTION.arenaGUIDs = {
+        PLAYER_TEAM = {},
+        ENEMY_TEAM = {},
+    }
+end
+
+function PvPAssistant.DATA_COLLECTION:UpdateArenaGUIDs()
+    -- only update list if its bigger than before!
+    -- meaning do not update if someone leaves...
+    local numOpponents = GetNumArenaOpponentSpecs()
+    if #PvPAssistant.DATA_COLLECTION.arenaGUIDs.ENEMY_TEAM < numOpponents then
+        for i = 1, numOpponents do
+            local opponentGUID = UnitGUID("arena" .. i)
+            PvPAssistant.DATA_COLLECTION.arenaGUIDs.ENEMY_TEAM[i] = opponentGUID
+        end
+    end
+
+    local numGroupMembers = GetNumGroupMembers()
+    if #PvPAssistant.DATA_COLLECTION.arenaGUIDs.PLAYER_TEAM < numGroupMembers then
+        -- player is not accessible with "partyX" UnitId
+        local playerGUID = UnitGUID("player")
+        PvPAssistant.DATA_COLLECTION.arenaGUIDs.PLAYER_TEAM[1] = playerGUID
+        for i = 1, numGroupMembers - 1 do
+            local unitGUID = UnitGUID("party" .. i)
+            PvPAssistant.DATA_COLLECTION.arenaGUIDs.PLAYER_TEAM[i + 1] = unitGUID
+        end
+    end
+
+    -- then call all registered callbacks
+    for _, callback in ipairs(self.arenaGUIDUpdateCallbacks) do
+        callback()
+    end
 end
 
 function PvPAssistant.DATA_COLLECTION:UpdateArenaSpecIDs()
@@ -236,6 +297,7 @@ function PvPAssistant.DATA_COLLECTION:ARENA_PREP_OPPONENT_SPECIALIZATIONS()
     if C_PvP.IsArena() then
         debug("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
         self:UpdateArenaSpecIDs()
+        self:UpdateArenaGUIDs()
     end
 end
 
@@ -243,16 +305,73 @@ function PvPAssistant.DATA_COLLECTION:GROUP_ROSTER_UPDATE()
     if C_PvP.IsArena() then
         debug("GROUP_ROSTER_UPDATE")
         self:UpdateArenaSpecIDs()
+        self:UpdateArenaGUIDs()
+    end
+end
+
+function PvPAssistant.DATA_COLLECTION:CollectIntermediateShuffleMatchHistory()
+    if C_PvP.IsSoloShuffle() then
+        local intermediateShuffleMatchHistory = self:CreateMatchHistoryFromEndScore()
+        if not intermediateShuffleMatchHistory then
+            return
+        end
+        local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
+        local arenaGUIDs = self:GetArenaGUIDs()
+        ---@type PvPAssistant.Player[]
+        local playerTeamPlayers = {}
+        ---@type PvPAssistant.Player[]
+        local enemyTeamPlayers = {}
+
+        -- map players to teams based on arenaGUIDS
+        for _, player in ipairs(intermediateShuffleMatchHistory.playerTeam.players) do
+            if tContains(arenaGUIDs.PLAYER_TEAM, player.scoreData.guid) then
+                tinsert(playerTeamPlayers, player)
+            else
+                tinsert(enemyTeamPlayers, player)
+            end
+        end
+
+        intermediateShuffleMatchHistory.playerTeam.players = playerTeamPlayers
+        intermediateShuffleMatchHistory.enemyTeam.players = enemyTeamPlayers
+
+        -- reset and sum up data
+        for _, team in ipairs({ intermediateShuffleMatchHistory.playerTeam, intermediateShuffleMatchHistory.enemyTeam }) do
+            team.damage = 0
+            team.healing = 0
+            team.kills = 0
+            for _, player in ipairs(team.players) do
+                team.damage = team.damage +
+                    player.scoreData.damageDone
+                team.healing = team.healing +
+                    player.scoreData.healingDone
+                team.kills = team.kills +
+                    player.scoreData.killingBlows
+            end
+        end
+
+        -- player has won if his team has more kills
+        intermediateShuffleMatchHistory.win = intermediateShuffleMatchHistory.playerTeam.kills >
+            intermediateShuffleMatchHistory.enemyTeam.kills
+
+        local date = date("!*t", intermediateShuffleMatchHistory.timestamp / 1000) -- use ! because it is already localized time and divide by 1000 because date constructor needs seconds
+        local formattedDate = string.format("%02d.%02d.%d %02d:%02d", date.day, date.month, date.year, date.hour,
+            date.min)
+        PvPAssistant.DB.DEBUG:Save({
+            shuffleMatchHistory = intermediateShuffleMatchHistory,
+            date = formattedDate,
+            arenaSpecGUIDs = CopyTable(arenaGUIDs)
+        }, "ShuffleMatchTest_" .. formattedDate)
+
+        PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
     end
 end
 
 function PvPAssistant.DATA_COLLECTION:PVP_MATCH_STATE_CHANGED()
     local state = C_PvP.GetActiveMatchState()
-    -- local isShuffle = C_PvP.IsSoloShuffle()
 
     if state == Enum.PvPMatchState.StartUp then
         debug("PVP_MATCH_STATE_CHANGED: StartUp")
-        PvPAssistant.DATA_COLLECTION:ResetSpecIDs()
+        self:ResetArenaIDs()
     end
 
     if state == Enum.PvPMatchState.Waiting then
@@ -260,14 +379,8 @@ function PvPAssistant.DATA_COLLECTION:PVP_MATCH_STATE_CHANGED()
     end
     if state == Enum.PvPMatchState.PostRound then
         debug("PVP_MATCH_STATE_CHANGED: PostRound")
-        -- DEBUG TODO Remove after testing
-        -- if C_PvP.IsSoloShuffle() then
-        --     local intermediateShuffleMatchHistory = self:CreateMatchHistoryFromEndScore()
-        --     local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
-        --     PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
-        -- end
-        --
-        PvPAssistant.DATA_COLLECTION:ResetSpecIDs()
+        self:CollectIntermediateShuffleMatchHistory()
+        self:ResetArenaIDs()
     end
     if state == Enum.PvPMatchState.Inactive then
         debug("PVP_MATCH_STATE_CHANGED: Inactive")
@@ -279,12 +392,3 @@ function PvPAssistant.DATA_COLLECTION:PVP_MATCH_STATE_CHANGED()
         debug("PVP_MATCH_STATE_CHANGED: Complete")
     end
 end
-
---- Test for shuffle intermediate match history data collection
--- function PvPAssistant.DATA_COLLECTION:UPDATE_BATTLEFIELD_SCORE()
---     if C_PvP.IsSoloShuffle() then
---         local intermediateShuffleMatchHistory = self:CreateMatchHistoryFromEndScore()
---         local playerUID = PvPAssistant.UTIL:GetPlayerUIDByUnit("player")
---         PvPAssistant.DB.MATCH_HISTORY:SaveShuffleMatch(intermediateShuffleMatchHistory, playerUID)
---     end
--- end

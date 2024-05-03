@@ -4,8 +4,8 @@ local PvPAssistant = select(2, ...)
 ---@class PvPAssistant.DB
 PvPAssistant.DB = PvPAssistant.DB
 
----@class PvPAssistant.DB.TOOLTIP_OPTIONS
-PvPAssistant.DB.TOOLTIP_OPTIONS = {}
+---@class PvPAssistant.DB.TOOLTIP_OPTIONS : PvPAssistant.DB.Repository
+PvPAssistant.DB.TOOLTIP_OPTIONS = PvPAssistant.DB:RegisterRepository()
 
 ---@class PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP
 PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP = {}
@@ -38,16 +38,16 @@ function PvPAssistant.DB.TOOLTIP_OPTIONS:Init()
     end
 end
 
-function PvPAssistant.DB.TOOLTIP_OPTIONS:Clear()
-    wipe(PvPAssistantDB.tooltipOptions.data.playerTooltip)
-    wipe(PvPAssistantDB.tooltipOptions.data.spellTooltip)
+function PvPAssistant.DB.TOOLTIP_OPTIONS:ClearAll()
+    self.PLAYER_TOOLTIP:ClearAll()
+    self.SPELL_TOOLTIP:ClearAll()
 end
 
-function PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:Clear()
+function PvPAssistant.DB.TOOLTIP_OPTIONS.PLAYER_TOOLTIP:ClearAll()
     wipe(PvPAssistantDB.tooltipOptions.data.playerTooltip)
 end
 
-function PvPAssistant.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:Clear()
+function PvPAssistant.DB.TOOLTIP_OPTIONS.SPELL_TOOLTIP:ClearAll()
     wipe(PvPAssistantDB.tooltipOptions.data.spellTooltip)
 end
 
