@@ -91,7 +91,7 @@ local function ShowTooltipStateInfo(self, selectedBracketButton)
     GameTooltip:ClearLines()
 
     if not self:IsActivated() then
-        GameTooltip:AddLine("Activate the quick join button by opening the PvP UI once.")
+        GameTooltip:AddLine("Click the button to open the PvP UI once to activate it.")
     else
         local isFrameVisible = PVEFrame:IsVisible()
         local groupSizeButton = GetGroupSizeButton()
@@ -103,7 +103,7 @@ local function ShowTooltipStateInfo(self, selectedBracketButton)
                 GameTooltip:AddLine("Open the PvP Quick Match tab.")
             end
         elseif isFrameVisible then
-            GameTooltip:AddLine(("Close the %s frame."):format(DUNGEONS_BUTTON))
+            GameTooltip:AddLine("Close the PvP UI.")
         elseif groupSizeButton ~= selectedBracketButton then
             if ConquestJoinButton:IsEnabled() then
                 GameTooltip:AddLine(RED_FONT_COLOR:WrapTextInColorCode(
@@ -174,10 +174,7 @@ frame:SetScript("OnEvent", function(_, eventName, ...)
                 else
                     -- NOTE: Can't be called during combat.
                     self:Show()
-                    local _, isLoaded = IsAddOnLoaded(PVPUI_ADDON_NAME)
-                    if isLoaded then
-                        self:Active("normal")
-                    end
+                    self:Active("normal")
                     if not isEventsRegistered then
                         RegisterEvents()
                     end
