@@ -35,6 +35,18 @@ function PvPAssistant.PLAYER_TOOLTIP:UpdatePlayerTooltipByPvPData(unit)
 
     local headerTitle = "PvPAssistant - Rating"
 
+    local alreadyUpdated = GUTIL:TooltipContains({
+        textLeft = "PvPAssistant",
+    })
+
+    if alreadyUpdated then
+        return false
+    end
+
+    if PvPAssistant.DB.DEBUG_IDS:Get("PLAYER_TOOLTIP") then
+        headerTitle = headerTitle .. " " .. f.r("(DEBUG)")
+    end
+
     GameTooltip:AddLine(f.l(headerTitle))
 
     for mode, rating in GUTIL:OrderedPairs(playerPvPData.ratings, function(a, b) return a < b end) do

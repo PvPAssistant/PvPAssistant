@@ -32,6 +32,12 @@ function PvPAssistant.DB.GENERAL_OPTIONS:Migrate()
         end
         PvPAssistantDB.generalOptions.version = 1
     end
+
+    -- 1 -> 2
+    if PvPAssistantDB.generalOptions.version == 1 then
+        PvPAssistantDB.generalOptions.data["DEBUG"] = nil
+        PvPAssistantDB.generalOptions.version = 2
+    end
 end
 
 ---@param option PvPAssistant.GENERAL_OPTION

@@ -42,13 +42,14 @@ function PvPAssistant.SLASH:Init()
                 print(f.l("PvPAssistant ") .. ": Arena Guide is only available in Arena Matches")
             end
         end
-        if command == "debug" and rest == "clear" then
+        if command == "debug" and tContains(PvPAssistant.CONST.DEBUG_IDS, rest) then
+            local active = not PvPAssistant.DB.DEBUG_IDS:Get(rest)
+            PvPAssistant.DB.DEBUG_IDS:Save(rest, active)
+            local boolText = active and f.g("true") or f.r("false")
+            print(f.l("PvPAssistant ") .. ": Toggle Debug ID: " .. f.e(tostring(rest)) .. ": " .. boolText)
+        elseif command == "debug" and rest == "clear" then
             PvPAssistant.DB.DEBUG:Clear()
             print(f.l("PvPAssistant ") .. ": DebugDB cleared!")
-        elseif command == "debug" then
-            local debugEnabled = PvPAssistant.DB.GENERAL_OPTIONS:Get("DEBUG")
-            PvPAssistant.DB.GENERAL_OPTIONS:Save("DEBUG", not debugEnabled)
-            print(f.l("PvPAssistant ") .. ": Toggle Debug Mode " .. tostring(debugEnabled))
         end
 
 

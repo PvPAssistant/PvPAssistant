@@ -35,6 +35,7 @@ function PvPAssistant.DB:RegisterRepository()
         CleanUp = function() end,
         ClearAll = function() end,
     }
+    tinsert(PvPAssistant.DB.repositories, repository)
     return repository
 end
 
