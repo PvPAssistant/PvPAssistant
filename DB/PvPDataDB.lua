@@ -26,6 +26,10 @@ end
 function PvPAssistant.DB.PVP_DATA:GetByUnit(unit)
     if not unit then return nil end
 
+    if PvPAssistant.DB.DEBUG_IDS:Get("PLAYER_TOOLTIP") then
+        return self:GetDebugPvPData(unit)
+    end
+
 
     local unitName, unitRealm = UnitNameUnmodified(unit)
     unitRealm = unitRealm or GetNormalizedRealmName()
@@ -68,6 +72,29 @@ function PvPAssistant.DB.PVP_DATA:Get(characterName, realmName, class)
             if specID then
                 playerPvPData.shuffleSpecRatings[specID] = rating
             end
+        end
+    end
+
+    return playerPvPData
+end
+
+---@return PlayerPvPData debugPvPData
+function PvPAssistant.DB.PVP_DATA:GetDebugPvPData(unit)
+    local class = select(2, UnitClass(unit))
+    local classID = PvPAssistant.CONST.CLASS_ID[class]
+    local playerPvPData = {
+        ratings = {
+            [PvPAssistant.CONST.PVP_MODES.BATTLEGROUND] = 1234,
+            [PvPAssistant.CONST.PVP_MODES.TWOS] = 2345,
+            [PvPAssistant.CONST.PVP_MODES.THREES] = 3456,
+        },
+        shuffleSpecRatings = {},
+    }
+
+    for i = 1, 4 do
+        local specID = GetSpecializationInfoForClassID(classID, i)
+        if specID then
+            playerPvPData.shuffleSpecRatings[specID] = 1234 * i
         end
     end
 

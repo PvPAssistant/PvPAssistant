@@ -31,6 +31,7 @@ DB/GeneralOptionsDB.lua
 DB/RecommendationDB.lua
 DB/PvPDataDB.lua
 DB/DebugDB.lua
+DB/debugIDsDB.lua
 
 Data/AbilityData.lua
 Data/ArenaStrategies.lua

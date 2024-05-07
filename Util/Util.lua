@@ -142,7 +142,6 @@ function PvPAssistant.UTIL:CreateClassFilterFrame(options)
             text = f.white("Toggle Class Filters off and on."
                 .. "\nshift+" .. CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.LEFT_MOUSE_BUTTON, 15, 20) .. ": Filter out everything else"
                 .. "\nalt+" .. CreateAtlasMarkup(PvPAssistant.CONST.ATLAS.LEFT_MOUSE_BUTTON, 15, 20) .. ": Filter in everything else"),
-            scale = 0.7,
         },
     }
 
